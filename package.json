@@ -3,15 +3,18 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "pnpm -r --parallel run dev",
+    "start": "pnpm -r --parallel run dev",
+    "build": "bash script/build.sh",
+    "preview": "pnpm dlx serve dist"
   },
-  "dependencies": {
-    "@astrojs/starlight": "^0.38.2",
-    "astro": "^6.0.1",
-    "sharp": "^0.34.2"
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
+  },
+  "devDependencies": {
+    "schema-dts": "^2.0.0"
   }
 }

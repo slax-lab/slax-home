@@ -1,0 +1,36 @@
+---
+title: 欢迎来到 Slax Note
+description: 开始使用 Slax Note 文档站。
+template: splash
+hero:
+  tagline: 欢迎来到 Slax Note — 您的智能笔记工具！
+  image:
+    html: '<img src="https://static-cdn.slax.com/2026/03/680796b540313f03d7e06ab64a3d1cbc.png" alt="hero" style="width:100%;height:auto;" />'
+  actions:
+    - text: 示例指南
+      link: ./guides/example/
+      icon: right-arrow
+    - text: 阅读 Starlight 文档
+      link: https://starlight.astro.build
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## 下一步
+
+<CardGrid stagger>
+	<Card title="更新内容" icon="pencil">
+		编辑 `src/content/docs/zh/index.mdx` 来修改此页面。
+	</Card>
+	<Card title="添加新内容" icon="add-document">
+		在 `src/content/docs/zh` 中添加 Markdown 或 MDX 文件来创建新页面。
+	</Card>
+	<Card title="配置站点" icon="setting">
+		在 `astro.config.mjs` 中编辑侧边栏和其他配置。
+	</Card>
+	<Card title="阅读文档" icon="open-book">
+		在 [Starlight 文档](https://starlight.astro.build/) 中了解更多。
+	</Card>
+</CardGrid>

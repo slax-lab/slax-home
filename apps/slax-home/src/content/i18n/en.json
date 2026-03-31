@@ -1,0 +1,12 @@
+{
+	"search.label": "Search docs",
+	"tableOfContents.onThisPage": "On this page",
+	"page.editLink": "Edit this page",
+	"pagination.previous": "Previous",
+	"pagination.next": "Next",
+	"404.text": "Page not found. Check the URL or try using the search bar.",
+	"skipLink.label": "Skip to content",
+	"themeSelect.dark": "Dark",
+	"themeSelect.light": "Light",
+	"themeSelect.auto": "Auto"
+}
