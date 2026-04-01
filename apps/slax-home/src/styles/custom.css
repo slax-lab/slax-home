@@ -1,7 +1,7 @@
 /* ===== Slax Home — Custom Starlight theme tokens ===== */
-/* Overrides Starlight's default gray palette with a branded indigo accent */
+/* Brand: indigo accent. Scoped via data-site to avoid Vite dev proxy CSS bleed */
 
-:root {
+html[data-site="home"] {
 	--sl-color-accent-low: #1a1a40;
 	--sl-color-accent: #4f5de6;
 	--sl-color-accent-high: #c5c9ff;
@@ -16,7 +16,7 @@
 	--sl-color-black: #12141f;
 }
 
-:root[data-theme='light'] {
+html[data-site="home"][data-theme='light'] {
 	--sl-color-accent-low: #dde0ff;
 	--sl-color-accent: #3d4bdb;
 	--sl-color-accent-high: #182068;

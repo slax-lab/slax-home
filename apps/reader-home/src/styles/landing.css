@@ -1,13 +1,13 @@
 /* ===== Slax Reader — Landing page visual polish ===== */
-/* Teal/cyan gradient theme for Reader */
+/* Brand color: #16b998 — hsl(163, 79%, 41%) */
 
 :root {
-	--brand-hsl: 175, 65%, 45%;
+	--brand-hsl: 163, 79%, 41%;
 	--overlay-brand: hsla(var(--brand-hsl), 0.2);
 }
 
 :root[data-theme='light'] {
-	--brand-hsl: 175, 75%, 40%;
+	--brand-hsl: 163, 85%, 36%;
 }
 
 /* ---- Gradient background on hero/splash pages ---- */

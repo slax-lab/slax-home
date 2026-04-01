@@ -1,32 +1,32 @@
 /* ===== Slax Reader — Custom Starlight theme tokens ===== */
-/* Teal/cyan accent palette for Reader */
+/* Brand: #16b998 green-teal. Scoped via data-site to avoid Vite dev proxy CSS bleed */
 
-:root {
-	--sl-color-accent-low: #0d2e2e;
-	--sl-color-accent: #2ab5a5;
-	--sl-color-accent-high: #b5f0e6;
+html[data-site="reader"] {
+	--sl-color-accent-low: #0a2e25;
+	--sl-color-accent: #16b998;
+	--sl-color-accent-high: #a3ede0;
 
 	--sl-color-white: #fff;
-	--sl-color-gray-1: #e0e8e7;
-	--sl-color-gray-2: #b5c4c2;
-	--sl-color-gray-3: #7d918f;
-	--sl-color-gray-4: #445655;
-	--sl-color-gray-5: #263635;
-	--sl-color-gray-6: #172524;
-	--sl-color-black: #101c1b;
+	--sl-color-gray-1: #dfe8e5;
+	--sl-color-gray-2: #b3c4bf;
+	--sl-color-gray-3: #7b918b;
+	--sl-color-gray-4: #445653;
+	--sl-color-gray-5: #263633;
+	--sl-color-gray-6: #172522;
+	--sl-color-black: #101c19;
 }
 
-:root[data-theme='light'] {
-	--sl-color-accent-low: #d5f5ef;
-	--sl-color-accent: #1a8a7d;
-	--sl-color-accent-high: #0c3d38;
+html[data-site="reader"][data-theme='light'] {
+	--sl-color-accent-low: #cff5eb;
+	--sl-color-accent: #0f9a7e;
+	--sl-color-accent-high: #0a3d32;
 
-	--sl-color-white: #101c1b;
-	--sl-color-gray-1: #263635;
-	--sl-color-gray-2: #445655;
-	--sl-color-gray-3: #7d918f;
-	--sl-color-gray-4: #b5c4c2;
-	--sl-color-gray-5: #e0e8e7;
-	--sl-color-gray-6: #eef3f2;
+	--sl-color-white: #101c19;
+	--sl-color-gray-1: #263633;
+	--sl-color-gray-2: #445653;
+	--sl-color-gray-3: #7b918b;
+	--sl-color-gray-4: #b3c4bf;
+	--sl-color-gray-5: #dfe8e5;
+	--sl-color-gray-6: #edf3f1;
 	--sl-color-black: #fff;
 }

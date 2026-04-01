@@ -1,32 +1,32 @@
 /* ===== Slax Note — Custom Starlight theme tokens ===== */
-/* Amber/warm accent palette for Note */
+/* Brand: #4ecacd cyan. Scoped via data-site to avoid Vite dev proxy CSS bleed */
 
-:root {
-	--sl-color-accent-low: #2e2210;
-	--sl-color-accent: #d4942a;
-	--sl-color-accent-high: #f5deb3;
+html[data-site="note"] {
+	--sl-color-accent-low: #0d2d2e;
+	--sl-color-accent: #4ecacd;
+	--sl-color-accent-high: #b8f0f2;
 
 	--sl-color-white: #fff;
-	--sl-color-gray-1: #e8e2da;
-	--sl-color-gray-2: #c4bab0;
-	--sl-color-gray-3: #918680;
-	--sl-color-gray-4: #564e46;
-	--sl-color-gray-5: #363028;
-	--sl-color-gray-6: #25201a;
-	--sl-color-black: #1a1610;
+	--sl-color-gray-1: #dfe8e8;
+	--sl-color-gray-2: #b3c5c5;
+	--sl-color-gray-3: #7b9192;
+	--sl-color-gray-4: #445657;
+	--sl-color-gray-5: #263636;
+	--sl-color-gray-6: #172525;
+	--sl-color-black: #101c1c;
 }
 
-:root[data-theme='light'] {
-	--sl-color-accent-low: #faecd0;
-	--sl-color-accent: #b07820;
-	--sl-color-accent-high: #4a3210;
+html[data-site="note"][data-theme='light'] {
+	--sl-color-accent-low: #d2f3f4;
+	--sl-color-accent: #2ea5a8;
+	--sl-color-accent-high: #0e3c3d;
 
-	--sl-color-white: #1a1610;
-	--sl-color-gray-1: #363028;
-	--sl-color-gray-2: #564e46;
-	--sl-color-gray-3: #918680;
-	--sl-color-gray-4: #c4bab0;
-	--sl-color-gray-5: #e8e2da;
-	--sl-color-gray-6: #f5f1ec;
+	--sl-color-white: #101c1c;
+	--sl-color-gray-1: #263636;
+	--sl-color-gray-2: #445657;
+	--sl-color-gray-3: #7b9192;
+	--sl-color-gray-4: #b3c5c5;
+	--sl-color-gray-5: #dfe8e8;
+	--sl-color-gray-6: #edf3f3;
 	--sl-color-black: #fff;
 }

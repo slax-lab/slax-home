@@ -1,13 +1,13 @@
 /* ===== Slax Note — Landing page visual polish ===== */
-/* Amber/warm gradient theme for Note */
+/* Brand color: #4ecacd — hsl(181, 53%, 55%) */
 
 :root {
-	--brand-hsl: 35, 80%, 50%;
+	--brand-hsl: 181, 53%, 55%;
 	--overlay-brand: hsla(var(--brand-hsl), 0.18);
 }
 
 :root[data-theme='light'] {
-	--brand-hsl: 35, 90%, 48%;
+	--brand-hsl: 181, 60%, 48%;
 }
 
 /* ---- Gradient background on hero/splash pages ---- */

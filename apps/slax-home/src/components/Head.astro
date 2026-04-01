@@ -57,6 +57,9 @@ const breadcrumbJsonLd = {
 };
 ---
 
+{/* Mark this page for CSS scoping (prevents cross-site theme bleeding via Vite dev proxy) */}
+<script is:inline>document.documentElement.setAttribute('data-site','home');</script>
+
 {
 	head.map(({ tag: Tag, attrs, content }) => (
 		<Tag {...attrs} set:html={content} />
