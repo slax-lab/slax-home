@@ -12,12 +12,61 @@
 	--brand-hsl: 163, 85%, 36%;
 }
 
-/* ---- Gradient background on hero/splash pages ---- */
+/* ---- Animated gradient background on hero/splash pages ---- */
 [data-has-hero] .page {
+	position: relative;
+	overflow: hidden;
 	background:
-		linear-gradient(215deg, var(--overlay-brand), transparent 40%),
-		radial-gradient(var(--overlay-brand), transparent 40%) no-repeat -60vw -40vh / 105vw 200vh,
-		radial-gradient(var(--overlay-brand), transparent 65%) no-repeat 50% calc(100% + 20rem) / 60rem 30rem;
+		linear-gradient(215deg, hsla(var(--brand-hsl), 0.12), transparent 45%);
+}
+
+[data-has-hero] .page::before,
+[data-has-hero] .page::after {
+	content: '';
+	position: fixed;
+	border-radius: 50%;
+	pointer-events: none;
+	will-change: transform;
+}
+
+[data-has-hero] .page::before {
+	width: 105vw;
+	height: 80vh;
+	top: -30vh;
+	left: -40vw;
+	background: radial-gradient(
+		ellipse at center,
+		hsla(var(--brand-hsl), 0.18) 0%,
+		transparent 60%
+	);
+	animation: orb-drift-1 18s ease-in-out infinite;
+}
+
+[data-has-hero] .page::after {
+	width: 60rem;
+	height: 30rem;
+	bottom: -8rem;
+	right: -10rem;
+	background: radial-gradient(
+		ellipse at center,
+		hsla(var(--brand-hsl), 0.14) 0%,
+		transparent 65%
+	);
+	animation: orb-drift-2 22s ease-in-out infinite;
+}
+
+@keyframes orb-drift-1 {
+	0%, 100% { transform: translate(0, 0) scale(1); }
+	25% { transform: translate(8vw, 6vh) scale(1.05); }
+	50% { transform: translate(3vw, 12vh) scale(0.97); }
+	75% { transform: translate(-5vw, 4vh) scale(1.03); }
+}
+
+@keyframes orb-drift-2 {
+	0%, 100% { transform: translate(0, 0) scale(1); }
+	30% { transform: translate(-6vw, -8vh) scale(1.06); }
+	60% { transform: translate(4vw, -4vh) scale(0.95); }
+	80% { transform: translate(-2vw, 6vh) scale(1.02); }
 }
 
 /* ---- Glassy translucent header on hero pages ---- */
@@ -198,6 +247,11 @@
 
 /* ===== Prefer reduced motion ===== */
 @media (prefers-reduced-motion: reduce) {
+	[data-has-hero] .page::before,
+	[data-has-hero] .page::after {
+		animation: none;
+	}
+
 	[data-has-hero] .hero,
 	[data-has-hero] .card-grid > .card {
 		animation: none;
