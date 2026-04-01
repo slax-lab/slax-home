@@ -2,6 +2,7 @@
 name: slax-home-developer
 description: Slax 官网开发技能。当开发、维护 Slax 官网（Astro + Starlight monorepo）时使用，包括博客编写、文档维护、组件开发、SEO 配置等。
 user-invocable: true
+disable-model-invocatio: false
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
