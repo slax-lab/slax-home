@@ -17,6 +17,12 @@ export default defineConfig({
 				'zh-CN': 'Slax 首页',
 			},
 
+			// --- Custom CSS ---
+			customCss: [
+				'./src/styles/custom.css',
+				'./src/styles/landing.css',
+			],
+
 			// --- i18n ---
 			locales: {
 				root: {
