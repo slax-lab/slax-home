@@ -1,0 +1,32 @@
+/* ===== Slax Reader — Custom Starlight theme tokens ===== */
+/* Teal/cyan accent palette for Reader */
+
+:root {
+	--sl-color-accent-low: #0d2e2e;
+	--sl-color-accent: #2ab5a5;
+	--sl-color-accent-high: #b5f0e6;
+
+	--sl-color-white: #fff;
+	--sl-color-gray-1: #e0e8e7;
+	--sl-color-gray-2: #b5c4c2;
+	--sl-color-gray-3: #7d918f;
+	--sl-color-gray-4: #445655;
+	--sl-color-gray-5: #263635;
+	--sl-color-gray-6: #172524;
+	--sl-color-black: #101c1b;
+}
+
+:root[data-theme='light'] {
+	--sl-color-accent-low: #d5f5ef;
+	--sl-color-accent: #1a8a7d;
+	--sl-color-accent-high: #0c3d38;
+
+	--sl-color-white: #101c1b;
+	--sl-color-gray-1: #263635;
+	--sl-color-gray-2: #445655;
+	--sl-color-gray-3: #7d918f;
+	--sl-color-gray-4: #b5c4c2;
+	--sl-color-gray-5: #e0e8e7;
+	--sl-color-gray-6: #eef3f2;
+	--sl-color-black: #fff;
+}

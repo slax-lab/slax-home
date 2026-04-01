@@ -1,0 +1,44 @@
+/* ===== Slax Note — Landing page visual polish ===== */
+/* Amber/warm gradient theme for Note */
+
+:root {
+	--brand-hsl: 35, 80%, 50%;
+	--overlay-brand: hsla(var(--brand-hsl), 0.18);
+}
+
+:root[data-theme='light'] {
+	--brand-hsl: 35, 90%, 48%;
+}
+
+/* ---- Gradient background on hero/splash pages ---- */
+[data-has-hero] .page {
+	background:
+		linear-gradient(215deg, var(--overlay-brand), transparent 40%),
+		radial-gradient(var(--overlay-brand), transparent 40%) no-repeat -60vw -40vh / 105vw 200vh,
+		radial-gradient(var(--overlay-brand), transparent 65%) no-repeat 50% calc(100% + 20rem) / 60rem 30rem;
+}
+
+/* ---- Glassy translucent header on hero pages ---- */
+[data-has-hero] header {
+	border-bottom: 1px solid transparent;
+	background-color: transparent;
+	-webkit-backdrop-filter: blur(16px);
+	backdrop-filter: blur(16px);
+}
+
+/* ---- Hero image glow ---- */
+[data-has-hero] .hero > img {
+	filter: drop-shadow(0 0 3rem var(--overlay-brand));
+}
+
+/* ---- Better hero title sizing ---- */
+[data-has-hero] .hero h1 {
+	font-size: clamp(2.5rem, 5vw + 1rem, 3.5rem);
+	line-height: 1.15;
+}
+
+/* ---- Tagline polish ---- */
+[data-has-hero] .hero .tagline {
+	font-size: clamp(1.05rem, 2vw + 0.25rem, 1.25rem);
+	max-width: 42ch;
+}

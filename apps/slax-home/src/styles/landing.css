@@ -1,0 +1,45 @@
+/* ===== Slax Home — Landing page visual polish ===== */
+/* Inspired by Starlight's own docs site approach:
+   one small global CSS file targeting [data-has-hero] for big visual impact. */
+
+:root {
+	--brand-hsl: 230, 70%, 58%;
+	--overlay-brand: hsla(var(--brand-hsl), 0.2);
+}
+
+:root[data-theme='light'] {
+	--brand-hsl: 230, 80%, 62%;
+}
+
+/* ---- Gradient background on hero/splash pages ---- */
+[data-has-hero] .page {
+	background:
+		linear-gradient(215deg, var(--overlay-brand), transparent 40%),
+		radial-gradient(var(--overlay-brand), transparent 40%) no-repeat -60vw -40vh / 105vw 200vh,
+		radial-gradient(var(--overlay-brand), transparent 65%) no-repeat 50% calc(100% + 20rem) / 60rem 30rem;
+}
+
+/* ---- Glassy translucent header on hero pages ---- */
+[data-has-hero] header {
+	border-bottom: 1px solid transparent;
+	background-color: transparent;
+	-webkit-backdrop-filter: blur(16px);
+	backdrop-filter: blur(16px);
+}
+
+/* ---- Hero image glow ---- */
+[data-has-hero] .hero > img {
+	filter: drop-shadow(0 0 3rem var(--overlay-brand));
+}
+
+/* ---- Better hero title sizing ---- */
+[data-has-hero] .hero h1 {
+	font-size: clamp(2.5rem, 5vw + 1rem, 3.5rem);
+	line-height: 1.15;
+}
+
+/* ---- Tagline polish ---- */
+[data-has-hero] .hero .tagline {
+	font-size: clamp(1.05rem, 2vw + 0.25rem, 1.25rem);
+	max-width: 42ch;
+}
