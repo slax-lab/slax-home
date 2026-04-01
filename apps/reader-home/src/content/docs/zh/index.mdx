@@ -1,36 +1,38 @@
 ---
-title: 欢迎来到 Slax Reader
-description: 开始使用 Slax Reader 文档站。
+title: Slax Reader — 您的智能阅读伴侣
+description: Slax Reader 帮助您保存、整理和标注来自网络各处的文章，实现深度阅读和知识获取。
 template: splash
 hero:
-  tagline: 欢迎来到 Slax Reader — 您的智能阅读伴侣！
+  title: 您的智能阅读伴侣
+  tagline: 保存、整理和标注来自网络各处的文章。专为深度阅读和轻松知识获取而打造。
   image:
-    html: '<img src="https://static-cdn.slax.com/2026/03/680796b540313f03d7e06ab64a3d1cbc.png" alt="hero" style="width:100%;height:auto;" />'
+    html: '<img src="https://static-cdn.slax.com/2026/03/680796b540313f03d7e06ab64a3d1cbc.png" alt="Slax Reader" style="width:100%;height:auto;border-radius:0.75rem;" />'
   actions:
-    - text: 示例指南
+    - text: 开始使用
       link: ./guides/example/
       icon: right-arrow
-    - text: 阅读 Starlight 文档
-      link: https://starlight.astro.build
+    - text: GitHub
       icon: external
       variant: minimal
+      link: https://github.com/slax-lab
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
-
-## 下一步
+import BackToHome from '~/components/BackToHome.astro';
 
 <CardGrid stagger>
-	<Card title="更新内容" icon="pencil">
-		编辑 `src/content/docs/zh/index.mdx` 来修改此页面。
+	<Card title="一键收藏" icon="open-book">
+		一键剪藏文章、网页和高亮内容。您的阅读库始终井然有序、随时可搜索。
 	</Card>
-	<Card title="添加新内容" icon="add-document">
-		在 `src/content/docs/zh` 中添加 Markdown 或 MDX 文件来创建新页面。
+	<Card title="标注与高亮" icon="pencil">
+		在文章上添加高亮和笔记。您的标注与原文一起保存，方便随时参考。
 	</Card>
-	<Card title="配置站点" icon="setting">
-		在 `astro.config.mjs` 中编辑侧边栏和其他配置。
+	<Card title="智能整理" icon="document">
+		自动标签、文件夹和全文搜索帮助您在需要时精准找到所需内容。
 	</Card>
-	<Card title="阅读文档" icon="open-book">
-		在 [Starlight 文档](https://starlight.astro.build/) 中了解更多。
+	<Card title="随时随地阅读" icon="rocket">
+		在任何设备上访问您的阅读库。简洁、无干扰的阅读模式让您专注于内容。
 	</Card>
 </CardGrid>
+
+<BackToHome label="返回 Slax 首页" />

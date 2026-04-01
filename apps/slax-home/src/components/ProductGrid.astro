@@ -1,0 +1,43 @@
+---
+/**
+ * ProductGrid — A responsive grid wrapper for ProductCard components.
+ * Used on the slax-home landing page.
+ */
+interface Props {
+	title?: string;
+}
+
+const { title } = Astro.props;
+---
+
+<section class="product-section not-content">
+	{title && <h2 class="product-section-title">{title}</h2>}
+	<div class="product-grid">
+		<slot />
+	</div>
+</section>
+
+<style>
+	.product-section {
+		margin-block: 4rem 2rem !important;
+	}
+
+	.product-section-title {
+		text-align: center;
+		font-size: var(--sl-text-h2);
+		font-weight: 700;
+		color: var(--sl-color-white);
+		line-height: var(--sl-line-height-headings);
+		margin-bottom: 2rem;
+	}
+
+	.product-grid {
+		display: grid;
+		gap: 1.5rem;
+	}
+	@media (min-width: 50rem) {
+		.product-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+</style>

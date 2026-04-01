@@ -1,36 +1,54 @@
 ---
-title: 欢迎来到 Slax
-description: 开始使用 Slax 文档站。
+title: Slax — 您的效率工具套件
+description: Slax 是一站式效率工具套件，包含智能阅读工具 Slax Reader 和智能笔记工具 Slax Note。
 template: splash
 hero:
-  tagline: 欢迎来到 Slax — 您的一站式效率工具套件！
+  title: 您的一站式效率工具套件
+  tagline: 更智能地阅读，更高效地写作，更有序地管理。Slax 将强大的阅读和笔记工具整合在一个无缝体验中。
   image:
-    html: '<img src="https://static-cdn.slax.com/2026/03/680796b540313f03d7e06ab64a3d1cbc.png" alt="hero" style="width:100%;height:auto;" />'
+    html: '<img src="https://static-cdn.slax.com/2026/03/680796b540313f03d7e06ab64a3d1cbc.png" alt="Slax 效率工具套件" style="width:100%;height:auto;border-radius:0.75rem;" />'
   actions:
-    - text: 示例指南
-      link: ./guides/example/
+    - text: 开始使用
+      link: /reader/zh/
       icon: right-arrow
-    - text: 阅读 Starlight 文档
-      link: https://starlight.astro.build
+    - text: GitHub
       icon: external
       variant: minimal
+      link: https://github.com/slax-lab
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
+import ProductGrid from '~/components/ProductGrid.astro';
+import ProductCard from '~/components/ProductCard.astro';
 
-## 下一步
+<ProductGrid title="产品">
+  <ProductCard
+    title="Slax Reader"
+    description="您的智能阅读伴侣。保存、整理和标注来自网络各处的文章。专为深度阅读和轻松知识获取而打造。"
+    href="/reader/zh/"
+    hue="175"
+    cta="探索 Reader"
+  />
+  <ProductCard
+    title="Slax Note"
+    description="您的智能笔记工具。捕捉灵感、连接思想，用优美的写作体验构建您的个人知识库。"
+    href="/note/zh/"
+    hue="35"
+    cta="探索 Note"
+  />
+</ProductGrid>
 
 <CardGrid stagger>
-	<Card title="更新内容" icon="pencil">
-		编辑 `src/content/docs/zh/index.mdx` 来修改此页面。
+	<Card title="阅读与收藏" icon="open-book">
+		将文章、高亮和网页内容保存在一个地方。Slax Reader 帮助您构建个人阅读库，提供强大的组织工具。
 	</Card>
-	<Card title="添加新内容" icon="add-document">
-		在 `src/content/docs/zh` 中添加 Markdown 或 MDX 文件来创建新页面。
+	<Card title="写作与思考" icon="pencil">
+		随时捕捉灵感。Slax Note 提供无干扰的写作环境，支持智能链接和标签，实现关联思考。
 	</Card>
-	<Card title="配置站点" icon="setting">
-		在 `astro.config.mjs` 中编辑侧边栏和其他配置。
+	<Card title="多语言支持" icon="translate">
+		全面支持英文和简体中文，界面为全球用户精心设计。
 	</Card>
-	<Card title="阅读文档" icon="open-book">
-		在 [Starlight 文档](https://starlight.astro.build/) 中了解更多。
+	<Card title="开放且可扩展" icon="puzzle">
+		基于现代 Web 技术构建。开源、可扩展，旨在与您现有的工作流程集成。
 	</Card>
 </CardGrid>

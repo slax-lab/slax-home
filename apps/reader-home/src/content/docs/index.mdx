@@ -1,36 +1,38 @@
 ---
-title: Welcome to Slax Reader
-description: Get started with the Slax Reader documentation.
+title: Slax Reader — Smart Reading Companion
+description: Slax Reader helps you save, organize, and annotate articles from across the web for deep reading and knowledge capture.
 template: splash
 hero:
-  tagline: Welcome to Slax Reader — your smart reading companion!
+  title: Your Smart Reading Companion
+  tagline: Save, organize, and annotate articles from across the web. Built for deep reading and effortless knowledge capture.
   image:
-    html: '<img src="https://static-cdn.slax.com/2026/03/680796b540313f03d7e06ab64a3d1cbc.png" alt="hero" style="width:100%;height:auto;" />'
+    html: '<img src="https://static-cdn.slax.com/2026/03/680796b540313f03d7e06ab64a3d1cbc.png" alt="Slax Reader" style="width:100%;height:auto;border-radius:0.75rem;" />'
   actions:
-    - text: Example Guide
+    - text: Getting Started
       link: ./guides/example/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
+    - text: View on GitHub
       icon: external
       variant: minimal
+      link: https://github.com/slax-lab
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
-
-## Next steps
+import BackToHome from '~/components/BackToHome.astro';
 
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/en/index.mdx` to see this page change.
+	<Card title="Save Anything" icon="open-book">
+		Clip articles, web pages, and highlights with one click. Your reading library is always organized and searchable.
 	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs/en` to create new pages.
+	<Card title="Annotate & Highlight" icon="pencil">
+		Mark up articles with highlights and notes. Your annotations are saved alongside the original content for easy reference.
 	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
+	<Card title="Smart Organization" icon="document">
+		Automatic tagging, folders, and full-text search help you find exactly what you need, when you need it.
 	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
+	<Card title="Read Anywhere" icon="rocket">
+		Access your reading library from any device. Clean, distraction-free reading mode for focused content consumption.
 	</Card>
 </CardGrid>
+
+<BackToHome label="Back to Slax Home" />

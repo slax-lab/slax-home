@@ -1,0 +1,89 @@
+---
+/**
+ * ProductCard — A polished card linking to a Slax product (Reader / Note).
+ * Used on the slax-home landing page to provide clear entry points.
+ */
+interface Props {
+	title: string;
+	description: string;
+	href: string;
+	/** Accent color hue for this product card (CSS hsl hue value) */
+	hue?: string;
+	/** Call-to-action label */
+	cta?: string;
+}
+
+const { title, description, href, hue = '230', cta = 'Learn more' } = Astro.props;
+---
+
+<a class="product-card" href={href} style={`--card-hue: ${hue};`}>
+	<div class="card-content">
+		<h3 class="card-title">{title}</h3>
+		<p class="card-description">{description}</p>
+		<span class="card-cta">
+			{cta}
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+		</span>
+	</div>
+</a>
+
+<style>
+	.product-card {
+		--card-accent: hsl(var(--card-hue), 65%, 55%);
+		--card-accent-dim: hsla(var(--card-hue), 65%, 55%, 0.15);
+
+		display: block;
+		padding: 1.75rem 2rem;
+		border-radius: 1rem;
+		border: 1px solid var(--sl-color-gray-5);
+		background: var(--card-accent-dim);
+		text-decoration: none;
+		color: inherit;
+		transition:
+			border-color 0.2s ease,
+			transform 0.2s ease,
+			box-shadow 0.2s ease;
+	}
+	.product-card:hover {
+		border-color: var(--card-accent);
+		transform: translateY(-3px);
+		box-shadow: 0 8px 24px hsla(var(--card-hue), 50%, 40%, 0.18);
+	}
+
+	.card-content {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+
+	.card-title {
+		font-size: var(--sl-text-h3);
+		font-weight: 700;
+		color: var(--sl-color-white);
+		line-height: var(--sl-line-height-headings);
+		margin: 0;
+	}
+
+	.card-description {
+		color: var(--sl-color-gray-2);
+		font-size: var(--sl-text-body);
+		line-height: 1.6;
+		margin: 0;
+	}
+
+	.card-cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-weight: 600;
+		font-size: var(--sl-text-sm);
+		color: var(--card-accent);
+		margin-top: 0.25rem;
+	}
+	.product-card:hover .card-cta svg {
+		transform: translateX(4px);
+	}
+	.card-cta svg {
+		transition: transform 0.2s ease;
+	}
+</style>

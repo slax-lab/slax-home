@@ -1,40 +1,54 @@
 ---
-title: Welcome to Slax
-description: Get started with the Slax documentation site.
+title: Slax — Your Productivity Suite
+description: Slax is an all-in-one productivity suite featuring Slax Reader for smart reading and Slax Note for intelligent note-taking.
 template: splash
 hero:
-  tagline: Welcome to Slax — your all-in-one productivity suite!
+  title: Your All-in-One Productivity Suite
+  tagline: Read smarter. Write better. Stay organized. Slax brings together powerful tools for reading and note-taking in one seamless experience.
   image:
-    html: '<img src="https://static-cdn.slax.com/2026/03/680796b540313f03d7e06ab64a3d1cbc.png" alt="hero" style="width:100%;height:auto;" />'
+    html: '<img src="https://static-cdn.slax.com/2026/03/680796b540313f03d7e06ab64a3d1cbc.png" alt="Slax productivity suite" style="width:100%;height:auto;border-radius:0.75rem;" />'
   actions:
-    - text: Example Guide
-      link: ./guides/example/
+    - text: Get Started
+      link: /reader/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
+    - text: View on GitHub
       icon: external
       variant: minimal
+      link: https://github.com/slax-lab
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
+import ProductGrid from '~/components/ProductGrid.astro';
+import ProductCard from '~/components/ProductCard.astro';
 
-## Next steps
+<ProductGrid title="Our Products">
+  <ProductCard
+    title="Slax Reader"
+    description="Your smart reading companion. Save, organize, and annotate articles from across the web. Built for deep reading and effortless knowledge capture."
+    href="/reader/"
+    hue="175"
+    cta="Explore Reader"
+  />
+  <ProductCard
+    title="Slax Note"
+    description="Your intelligent note-taking tool. Capture ideas, connect thoughts, and build your personal knowledge base with a beautiful writing experience."
+    href="/note/"
+    hue="35"
+    cta="Explore Note"
+  />
+</ProductGrid>
 
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/en/index.mdx` to see this page change.
+	<Card title="Read & Collect" icon="open-book">
+		Save articles, highlights, and web content in one place. Slax Reader helps you build a personal reading library with powerful organization tools.
 	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/en/index.mdx` to display a
-		sidebar on this page.
+	<Card title="Write & Think" icon="pencil">
+		Capture ideas as they come. Slax Note provides a distraction-free writing environment with smart linking and tagging for connected thinking.
 	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs/en` to create new pages.
+	<Card title="Multi-language Support" icon="translate">
+		Full support for English and Simplified Chinese, with an interface designed for a global audience.
 	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
+	<Card title="Open & Extensible" icon="puzzle">
+		Built on modern web technologies. Open-source, extensible, and designed to integrate with your existing workflow.
 	</Card>
 </CardGrid>
