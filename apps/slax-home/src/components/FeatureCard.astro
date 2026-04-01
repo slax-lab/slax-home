@@ -27,6 +27,11 @@ const { title, description, icon, layout = 'top', iconStyle = 'square' } = Astro
 </div>
 
 <style>
+	@keyframes icon-breathe {
+		0%, 100% { transform: scale(1); }
+		50% { transform: scale(1.06); }
+	}
+
 	.feature-card {
 		display: flex;
 		gap: 1.25rem;
@@ -77,6 +82,7 @@ const { title, description, icon, layout = 'top', iconStyle = 'square' } = Astro
 		border-radius: 0.625rem;
 		background: var(--sl-color-accent);
 		color: var(--sl-color-black);
+		animation: icon-breathe 3.5s ease-in-out infinite;
 	}
 
 	.feature-card__icon--square :global(svg) {

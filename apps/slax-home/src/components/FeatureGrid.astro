@@ -112,10 +112,18 @@ const { title, description, columns = 4 } = Astro.props;
 	.feature-grid > :global(*:nth-child(7)) { animation-delay: 0.47s; }
 	.feature-grid > :global(*:nth-child(8)) { animation-delay: 0.54s; }
 
+	/* Stagger icon breathing across cards so they don't pulse in unison */
+	.feature-grid > :global(*:nth-child(2) .feature-card__icon) { animation-delay: 0.8s; }
+	.feature-grid > :global(*:nth-child(3) .feature-card__icon) { animation-delay: 1.6s; }
+	.feature-grid > :global(*:nth-child(4) .feature-card__icon) { animation-delay: 2.4s; }
+
 	@media (prefers-reduced-motion: reduce) {
 		.feature-grid > :global(*) {
 			animation: none;
 			opacity: 1;
+		}
+		.feature-grid > :global(.feature-card__icon) {
+			animation: none;
 		}
 	}
 </style>

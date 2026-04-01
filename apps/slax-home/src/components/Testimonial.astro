@@ -105,10 +105,25 @@ const stars = typeof rating === 'number' ? Array.from({ length: 5 }, (_, i) => i
 			transparent 70%
 		);
 		pointer-events: none;
+		animation: glow-breathe 5s ease-in-out infinite;
 	}
 
-	/* Inner */
-	.testimonial__inner {
+	@keyframes glow-breathe {
+		0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+		50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+	}
+
+	/* Quote icon — gentle slow drift */
+	.testimonial__quote-icon {
+		color: color-mix(in srgb, var(--sl-color-accent) 25%, transparent);
+		flex-shrink: 0;
+		animation: quote-icon-float 7s ease-in-out infinite;
+	}
+
+	@keyframes quote-icon-float {
+		0%, 100% { transform: translateY(0) rotate(0deg); }
+		50% { transform: translateY(-4px) rotate(2deg); }
+	}
 		position: relative;
 		z-index: 1;
 		display: flex;
@@ -177,6 +192,12 @@ const stars = typeof rating === 'number' ? Array.from({ length: 5 }, (_, i) => i
 		.testimonial {
 			animation: none;
 			opacity: 1;
+		}
+		.testimonial__glow {
+			animation: none;
+		}
+		.testimonial__quote-icon {
+			animation: none;
 		}
 	}
 </style>

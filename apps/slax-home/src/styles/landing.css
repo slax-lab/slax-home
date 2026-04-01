@@ -106,9 +106,20 @@
 	backdrop-filter: blur(16px);
 }
 
-/* ---- Hero image glow ---- */
+/* ---- Hero image glow + gentle float ---- */
 [data-has-hero] .hero > img {
 	filter: drop-shadow(0 0 3rem var(--overlay-brand));
+	animation: hero-img-float 6s ease-in-out infinite;
+}
+
+/* Hero image wrapped in .hero-html by Starlight */
+[data-has-hero] .hero .hero-html {
+	animation: hero-img-float 6s ease-in-out infinite;
+}
+
+@keyframes hero-img-float {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-8px); }
 }
 
 /* ---- Better hero title sizing + gradient text ---- */
@@ -152,10 +163,16 @@
 	color: var(--sl-color-black);
 	position: relative;
 	overflow: hidden;
+	animation: btn-glow-pulse 3s ease-in-out infinite;
 	transition:
 		transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
 		box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
 		background 0.3s ease;
+}
+
+@keyframes btn-glow-pulse {
+	0%, 100% { box-shadow: 0 0 0 0 transparent; }
+	50% { box-shadow: 0 0 20px color-mix(in srgb, var(--sl-color-accent) 18%, transparent); }
 }
 
 /* Shine sweep on hover */
@@ -299,5 +316,14 @@
 	[data-has-hero] .hero h1 {
 		animation: none;
 		background-position: 0% 50%;
+	}
+
+	[data-has-hero] .hero > img,
+	[data-has-hero] .hero .hero-html {
+		animation: none;
+	}
+
+	[data-has-hero] .hero .sl-link-button.primary {
+		animation: none;
 	}
 }
