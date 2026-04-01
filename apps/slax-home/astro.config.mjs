@@ -21,6 +21,7 @@ export default defineConfig({
 			customCss: [
 				'./src/styles/custom.css',
 				'./src/styles/landing.css',
+				'./src/styles/blog.css',
 			],
 
 			// --- i18n ---
