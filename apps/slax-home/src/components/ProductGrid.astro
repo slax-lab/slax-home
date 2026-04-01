@@ -18,17 +18,39 @@ const { title } = Astro.props;
 </section>
 
 <style>
+	@keyframes section-enter {
+		from {
+			opacity: 0;
+			transform: translateY(1.5rem);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
 	.product-section {
 		margin-block: 4rem 2rem !important;
+		opacity: 0;
+		animation: section-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
 	}
 
 	.product-section-title {
 		text-align: center;
 		font-size: var(--sl-text-h2);
 		font-weight: 700;
-		color: var(--sl-color-white);
 		line-height: var(--sl-line-height-headings);
 		margin-bottom: 2rem;
+		/* gradient text — auto-adapts to page theme via Starlight tokens */
+		background: linear-gradient(
+			135deg,
+			var(--sl-color-accent-high) 0%,
+			var(--sl-color-accent) 50%,
+			var(--sl-color-accent-high) 100%
+		);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
 	}
 
 	.product-grid {
@@ -38,6 +60,13 @@ const { title } = Astro.props;
 	@media (min-width: 50rem) {
 		.product-grid {
 			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.product-section {
+			animation: none;
+			opacity: 1;
 		}
 	}
 </style>

@@ -28,40 +28,132 @@ const { title, description, href, hue = '230', cta = 'Learn more' } = Astro.prop
 </a>
 
 <style>
+	@keyframes card-enter {
+		from {
+			opacity: 0;
+			transform: translateY(2rem) scale(0.96);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0) scale(1);
+		}
+	}
+
+	@keyframes shimmer {
+		0% { background-position: -200% 0; }
+		100% { background-position: 200% 0; }
+	}
+
 	.product-card {
 		--card-accent: hsl(var(--card-hue), 65%, 55%);
-		--card-accent-dim: hsla(var(--card-hue), 65%, 55%, 0.15);
+		--card-accent-mid: hsl(calc(var(--card-hue) + 30), 60%, 50%);
+		--card-accent-dim: hsla(var(--card-hue), 65%, 55%, 0.08);
+		--card-accent-dim2: hsla(calc(var(--card-hue) + 30), 60%, 50%, 0.06);
 
 		display: block;
 		padding: 1.75rem 2rem;
 		border-radius: 1rem;
 		border: 1px solid var(--sl-color-gray-5);
-		background: var(--card-accent-dim);
+		background:
+			linear-gradient(
+				135deg,
+				var(--card-accent-dim) 0%,
+				var(--card-accent-dim2) 50%,
+				var(--card-accent-dim) 100%
+			);
 		text-decoration: none;
 		color: inherit;
+		position: relative;
+		overflow: hidden;
 		transition:
-			border-color 0.2s ease,
-			transform 0.2s ease,
-			box-shadow 0.2s ease;
+			border-color 0.3s ease,
+			transform 0.3s ease,
+			box-shadow 0.3s ease;
+
+		/* entrance animation */
+		opacity: 0;
+		animation: card-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 	}
+
+	.product-card:nth-child(1) { animation-delay: 0.1s; }
+	.product-card:nth-child(2) { animation-delay: 0.25s; }
+
+	/* Shimmer top-border effect on hover */
+	.product-card::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 3px;
+		background: linear-gradient(
+			90deg,
+			transparent,
+			var(--card-accent),
+			var(--card-accent-mid),
+			var(--card-accent),
+			transparent
+		);
+		background-size: 200% 100%;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	/* Radial glow behind card on hover */
+	.product-card::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background: radial-gradient(
+			ellipse at 50% 0%,
+			hsla(var(--card-hue), 60%, 55%, 0.12) 0%,
+			transparent 70%
+		);
+		opacity: 0;
+		transition: opacity 0.4s ease;
+		pointer-events: none;
+	}
+
 	.product-card:hover {
 		border-color: var(--card-accent);
-		transform: translateY(-3px);
-		box-shadow: 0 8px 24px hsla(var(--card-hue), 50%, 40%, 0.18);
+		transform: translateY(-5px);
+		box-shadow:
+			0 12px 32px hsla(var(--card-hue), 50%, 40%, 0.2),
+			0 0 60px hsla(var(--card-hue), 50%, 40%, 0.06);
+	}
+
+	.product-card:hover::before {
+		opacity: 1;
+		animation: shimmer 2s linear infinite;
+	}
+
+	.product-card:hover::after {
+		opacity: 1;
 	}
 
 	.card-content {
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
+		position: relative;
+		z-index: 1;
 	}
 
 	.card-title {
 		font-size: var(--sl-text-h3);
 		font-weight: 700;
-		color: var(--sl-color-white);
 		line-height: var(--sl-line-height-headings);
 		margin: 0;
+		/* gradient text */
+		background: linear-gradient(
+			135deg,
+			var(--card-accent) 0%,
+			var(--card-accent-mid) 100%
+		);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
 	}
 
 	.card-description {
@@ -79,11 +171,28 @@ const { title, description, href, hue = '230', cta = 'Learn more' } = Astro.prop
 		font-size: var(--sl-text-sm);
 		color: var(--card-accent);
 		margin-top: 0.25rem;
+		transition: gap 0.3s ease;
 	}
+
+	.product-card:hover .card-cta {
+		gap: 0.65rem;
+	}
+
 	.product-card:hover .card-cta svg {
 		transform: translateX(4px);
 	}
+
 	.card-cta svg {
-		transition: transform 0.2s ease;
+		transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.product-card {
+			animation: none;
+			opacity: 1;
+		}
+		.product-card::before {
+			animation: none;
+		}
 	}
 </style>
