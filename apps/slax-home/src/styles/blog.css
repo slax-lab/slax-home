@@ -127,18 +127,6 @@ html[data-site="home"] .sl-markdown-content pre {
 	box-shadow: 0 4px 24px color-mix(in srgb, var(--sl-color-accent) 8%, transparent);
 }
 
-/* ---- Blockquote — accent left border ---- */
-
-html[data-site="home"] .sl-markdown-content blockquote {
-	border-left: 3px solid var(--sl-color-accent);
-	background: color-mix(in srgb, var(--sl-color-accent) 6%, var(--sl-color-gray-6));
-	border-radius: 0 8px 8px 0;
-	padding: 1rem 1.5rem;
-	font-style: italic;
-	color: var(--sl-color-gray-2);
-	margin-inline: 0;
-}
-
 /* ---- Horizontal rule ---- */
 
 html[data-site="home"] .sl-markdown-content hr {
