@@ -1,20 +1,32 @@
 {
-  "name": "slax-home-page",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "pnpm -r --parallel run dev",
-    "start": "pnpm -r --parallel run dev",
-    "build": "bash script/build.sh",
-    "preview": "pnpm dlx serve dist"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "sharp"
-    ]
-  },
-  "devDependencies": {
-    "schema-dts": "^2.0.0"
-  }
+	"name": "slax-home-page",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "pnpm -r --parallel run dev",
+		"start": "pnpm -r --parallel run dev",
+		"build": "bash script/build.sh",
+		"preview": "pnpm dlx serve dist",
+		"lint": "biome check .",
+		"lint:fix": "biome check --write .",
+		"format": "biome format --write .",
+		"prepare": "husky"
+	},
+	"lint-staged": {
+		"*.{js,ts,mjs,cjs,json,astro}": [
+			"biome check --write --no-errors-on-unmatched"
+		]
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild",
+			"sharp"
+		]
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.10",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.4.0",
+		"schema-dts": "^2.0.0"
+	}
 }

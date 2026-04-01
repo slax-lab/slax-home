@@ -23,4 +23,5 @@ pnpm-debug.log*
 .vscode
 .vscode/*
 */.vscode
-.claude
+settings.local.json
+worktrees
