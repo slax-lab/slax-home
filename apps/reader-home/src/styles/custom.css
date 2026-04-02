@@ -1,0 +1,32 @@
+/* ===== Slax Reader — Custom Starlight theme tokens ===== */
+/* Brand: #16b998 green-teal. Scoped via data-site to avoid Vite dev proxy CSS bleed */
+
+html[data-site="reader"] {
+	--sl-color-accent-low: #0a2e25;
+	--sl-color-accent: #16b998;
+	--sl-color-accent-high: #a3ede0;
+
+	--sl-color-white: #fff;
+	--sl-color-gray-1: #dfe8e5;
+	--sl-color-gray-2: #b3c4bf;
+	--sl-color-gray-3: #7b918b;
+	--sl-color-gray-4: #445653;
+	--sl-color-gray-5: #263633;
+	--sl-color-gray-6: #172522;
+	--sl-color-black: #101c19;
+}
+
+html[data-site="reader"][data-theme='light'] {
+	--sl-color-accent-low: #cff5eb;
+	--sl-color-accent: #0f9a7e;
+	--sl-color-accent-high: #0a3d32;
+
+	--sl-color-white: #101c19;
+	--sl-color-gray-1: #263633;
+	--sl-color-gray-2: #445653;
+	--sl-color-gray-3: #7b918b;
+	--sl-color-gray-4: #b3c4bf;
+	--sl-color-gray-5: #dfe8e5;
+	--sl-color-gray-6: #edf3f1;
+	--sl-color-black: #fff;
+}

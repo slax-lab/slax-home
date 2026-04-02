@@ -1,0 +1,32 @@
+/* ===== Slax Home — Custom Starlight theme tokens ===== */
+/* Brand: indigo accent. Scoped via data-site to avoid Vite dev proxy CSS bleed */
+
+html[data-site="home"] {
+	--sl-color-accent-low: #1a1a40;
+	--sl-color-accent: #4f5de6;
+	--sl-color-accent-high: #c5c9ff;
+
+	--sl-color-white: #fff;
+	--sl-color-gray-1: #e2e4ea;
+	--sl-color-gray-2: #b8bcc8;
+	--sl-color-gray-3: #7e8494;
+	--sl-color-gray-4: #454b5e;
+	--sl-color-gray-5: #272c3c;
+	--sl-color-gray-6: #181c2a;
+	--sl-color-black: #12141f;
+}
+
+html[data-site="home"][data-theme='light'] {
+	--sl-color-accent-low: #dde0ff;
+	--sl-color-accent: #3d4bdb;
+	--sl-color-accent-high: #182068;
+
+	--sl-color-white: #12141f;
+	--sl-color-gray-1: #272c3c;
+	--sl-color-gray-2: #454b5e;
+	--sl-color-gray-3: #7e8494;
+	--sl-color-gray-4: #b8bcc8;
+	--sl-color-gray-5: #e2e4ea;
+	--sl-color-gray-6: #f0f1f5;
+	--sl-color-black: #fff;
+}

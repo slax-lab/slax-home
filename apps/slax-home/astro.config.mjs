@@ -17,6 +17,13 @@ export default defineConfig({
 				'zh-CN': 'Slax 首页',
 			},
 
+			// --- Custom CSS ---
+			customCss: [
+				'./src/styles/custom.css',
+				'./src/styles/landing.css',
+				'./src/styles/blog.css',
+			],
+
 			// --- i18n ---
 			locales: {
 				root: {
@@ -73,6 +80,7 @@ export default defineConfig({
 			],
 			components: {
 				Head: './src/components/Head.astro',
+				SkipLink: './src/components/SkipLink.astro',
 			},
 			plugins: [
 				starlightBlog({

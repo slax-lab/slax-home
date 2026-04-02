@@ -10,6 +10,14 @@ const siteName = "Slax";
 const isBlog = entry.id.startsWith("blog/");
 const schemaType = isBlog ? "BlogPosting" : "WebPage";
 
+// --- GTM ---
+const gtmId = import.meta.env.PUBLIC_GTM_ID;
+const pagePath = Astro.url.pathname;
+const isHomePage = pagePath === "/" || pagePath === "/zh/";
+const pageType = isHomePage ? "home" : isBlog ? "blog" : "doc";
+const locale = pagePath.startsWith("/zh") ? "zh-CN" : "en";
+const pageTitle = title || siteName;
+
 const jsonLd: WithContext<Article | WebPage | BlogPosting> = {
 	"@context": "https://schema.org",
 	"@type": schemaType,
@@ -49,6 +57,9 @@ const breadcrumbJsonLd = {
 };
 ---
 
+{/* Mark this page for CSS scoping (prevents cross-site theme bleeding via Vite dev proxy) */}
+<script is:inline>document.documentElement.setAttribute('data-site','home');</script>
+
 {
 	head.map(({ tag: Tag, attrs, content }) => (
 		<Tag {...attrs} set:html={content} />
@@ -70,3 +81,44 @@ const breadcrumbJsonLd = {
 		/>
 	)
 }
+
+{/* --- Google Tag Manager --- */}
+{gtmId && (
+	<script
+		is:inline
+		set:html={`
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  event: 'page_view',
+  site_name: '${siteName}',
+  locale: '${locale}',
+  page_type: '${pageType}',
+  page_path: '${pagePath}',
+  page_title: '${pageTitle.replace(/'/g, "\\'")}'
+});
+
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${gtmId}');
+
+document.addEventListener('click', function(e) {
+  var el = e.target.closest('[data-gtm-click]');
+  if (!el) return;
+  window.dataLayer.push({
+    event: 'ui_click',
+    site_name: '${siteName}',
+    locale: '${locale}',
+    page_type: '${pageType}',
+    page_path: '${pagePath}',
+    page_title: '${pageTitle.replace(/'/g, "\\'")}',
+    click_text: (el.textContent || '').trim().slice(0, 100),
+    click_label: el.getAttribute('data-gtm-label') || '',
+    click_href: el.getAttribute('href') || '',
+    click_location: el.getAttribute('data-gtm-location') || ''
+  });
+});
+`}
+	/>
+)}

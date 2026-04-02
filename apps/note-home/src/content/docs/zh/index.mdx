@@ -1,36 +1,38 @@
 ---
-title: 欢迎来到 Slax Note
-description: 开始使用 Slax Note 文档站。
+title: Slax Note — 您的智能笔记工具
+description: Slax Note 帮助您捕捉灵感、连接思想，用优美的写作体验构建个人知识库。
 template: splash
 hero:
-  tagline: 欢迎来到 Slax Note — 您的智能笔记工具！
+  title: 您的智能笔记工具
+  tagline: 捕捉灵感、连接思想，构建个人知识库。为创意思考者设计的优美写作体验。
   image:
-    html: '<img src="https://static-cdn.slax.com/2026/03/680796b540313f03d7e06ab64a3d1cbc.png" alt="hero" style="width:100%;height:auto;" />'
+    html: '<img src="https://static-cdn.slax.com/2026/03/680796b540313f03d7e06ab64a3d1cbc.png" alt="Slax Note" style="width:100%;height:auto;border-radius:0.75rem;" />'
   actions:
-    - text: 示例指南
+    - text: 开始使用
       link: ./guides/example/
       icon: right-arrow
-    - text: 阅读 Starlight 文档
-      link: https://starlight.astro.build
+    - text: GitHub
       icon: external
       variant: minimal
+      link: https://github.com/slax-lab
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
-
-## 下一步
+import BackToHome from '~/components/BackToHome.astro';
 
 <CardGrid stagger>
-	<Card title="更新内容" icon="pencil">
-		编辑 `src/content/docs/zh/index.mdx` 来修改此页面。
+	<Card title="即时捕捉灵感" icon="pencil">
+		快速记录想法、灵感和思绪。即时创建笔记，不再遗失任何好点子。
 	</Card>
-	<Card title="添加新内容" icon="add-document">
-		在 `src/content/docs/zh` 中添加 Markdown 或 MDX 文件来创建新页面。
+	<Card title="连接您的思想" icon="puzzle">
+		双向链接和智能标签帮助您从笔记中构建关联知识图谱。
 	</Card>
-	<Card title="配置站点" icon="setting">
-		在 `astro.config.mjs` 中编辑侧边栏和其他配置。
+	<Card title="优美的写作体验" icon="document">
+		无干扰编辑器支持丰富格式、代码块和媒体嵌入，提供高品质写作体验。
 	</Card>
-	<Card title="阅读文档" icon="open-book">
-		在 [Starlight 文档](https://starlight.astro.build/) 中了解更多。
+	<Card title="同步与访问" icon="rocket">
+		您的笔记在所有设备间安全同步。手机上写，电脑上编辑，平板上回顾。
 	</Card>
 </CardGrid>
+
+<BackToHome label="返回 Slax 首页" />

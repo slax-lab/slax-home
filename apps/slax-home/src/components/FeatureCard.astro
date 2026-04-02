@@ -1,0 +1,123 @@
+---
+/**
+ * FeatureCard — Foxi-inspired feature card with icon, title, description.
+ * Clean design with hover lift, gradient icon background, and entrance animation.
+ */
+interface Props {
+	title: string;
+	description: string;
+	icon: string;
+	/** Icon layout: 'top' stacks vertically, 'side' places icon beside text */
+	layout?: 'top' | 'side';
+	/** Icon visual style: 'square' uses filled bg, 'plain' uses just color */
+	iconStyle?: 'square' | 'plain';
+}
+
+const { title, description, icon, layout = 'top', iconStyle = 'square' } = Astro.props;
+---
+
+<div class:list={['feature-card', `feature-card--${layout}`]}>
+	<div class:list={['feature-card__icon', `feature-card__icon--${iconStyle}`]}>
+		<Fragment set:html={icon} />
+	</div>
+	<div class="feature-card__body">
+		<h3 class="feature-card__title">{title}</h3>
+		<p class="feature-card__desc">{description}</p>
+	</div>
+</div>
+
+<style>
+	@keyframes icon-breathe {
+		0%, 100% { transform: scale(1); }
+		50% { transform: scale(1.06); }
+	}
+
+	.feature-card {
+		display: flex;
+		gap: 1.25rem;
+		padding: 1.75rem;
+		border-radius: 1rem;
+		border: 1px solid var(--sl-color-gray-5);
+		background: var(--sl-color-black);
+		transition:
+			transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+			box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+			border-color 0.3s ease;
+	}
+
+	.feature-card--top {
+		flex-direction: column;
+	}
+
+	.feature-card--side {
+		flex-direction: row;
+		align-items: flex-start;
+	}
+
+	.feature-card:hover {
+		transform: translateY(-4px);
+		border-color: var(--sl-color-accent);
+		box-shadow:
+			0 12px 32px color-mix(in srgb, var(--sl-color-accent) 10%, transparent),
+			0 0 0 1px color-mix(in srgb, var(--sl-color-accent) 15%, transparent);
+	}
+
+	/* Icon styles */
+	.feature-card__icon {
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		line-height: 0;
+	}
+
+	.feature-card__icon :global(svg) {
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+
+	.feature-card__icon--square {
+		width: 2.75rem;
+		height: 2.75rem;
+		border-radius: 0.625rem;
+		background: var(--sl-color-accent);
+		color: var(--sl-color-black);
+		animation: icon-breathe 3.5s ease-in-out infinite;
+	}
+
+	.feature-card__icon--square :global(svg) {
+		width: 1.35rem;
+		height: 1.35rem;
+	}
+
+	.feature-card__icon--plain {
+		color: var(--sl-color-accent);
+	}
+
+	.feature-card__icon--plain :global(svg) {
+		width: 1.75rem;
+		height: 1.75rem;
+	}
+
+	/* Body */
+	.feature-card__body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.feature-card__title {
+		font-size: 1.125rem;
+		font-weight: 600;
+		color: var(--sl-color-white);
+		line-height: 1.3;
+		margin: 0;
+	}
+
+	.feature-card__desc {
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-gray-2);
+		line-height: 1.65;
+		margin: 0;
+	}
+</style>

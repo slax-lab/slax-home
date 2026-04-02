@@ -17,6 +17,12 @@ export default defineConfig({
 				'zh-CN': 'Slax Reader',
 			},
 
+			// --- Custom CSS ---
+			customCss: [
+				'./src/styles/custom.css',
+				'./src/styles/landing.css',
+			],
+
 			locales: {
 				root: {
 					label: 'English',
@@ -28,7 +34,10 @@ export default defineConfig({
 				},
 			},
 
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+			social: [
+				{ icon: 'github', label: 'GitHub', href: 'https://github.com/slax-lab' },
+				{ icon: 'twitter', label: 'Twitter', href: 'https://x.com/SlaxReader' },
+			],
 
 			sidebar: [
 				{
@@ -59,6 +68,7 @@ export default defineConfig({
 
 			components: {
 				Head: './src/components/Head.astro',
+				SkipLink: './src/components/SkipLink.astro',
 			},
 		}),
 		sitemap({
