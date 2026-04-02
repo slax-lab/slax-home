@@ -35,13 +35,7 @@ slax-home/
 │   │   │   ├── components/     # 自定义 Astro 组件
 │   │   │   │   ├── Head.astro          # 自定义 <head>（SEO/GTM）
 │   │   │   │   ├── SkipLink.astro      # 无障碍跳转链接
-│   │   │   │   ├── CallToAction.astro  # CTA 区块
-│   │   │   │   ├── FeatureCard.astro   # 功能特性卡片
-│   │   │   │   ├── FeatureGrid.astro   # 功能特性网格
-│   │   │   │   ├── Highlight.astro     # 高亮展示区块
-│   │   │   │   ├── ProductCard.astro   # 产品卡片
-│   │   │   │   ├── ProductGrid.astro   # 产品网格
-│   │   │   │   └── TextImage.astro     # 图文混排
+│   │   │   │   ├── ...
 │   │   │   ├── content/
 │   │   │   │   ├── docs/               # 英文页面 & 博客
 │   │   │   │   │   ├── blog/           # 英文博客文章
