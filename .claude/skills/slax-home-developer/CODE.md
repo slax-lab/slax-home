@@ -254,3 +254,67 @@ export const collections = {
 - [ ] JSON-LD 结构化数据有效（可用 Google Rich Results Test 验证）
 - [ ] 所有图片有 alt 属性
 - [ ] 页面 title 和 description 唯一且有意义
+
+## 11. 快速参考
+
+### 网页内容
+
+| 功能 | 方法 |
+|------|------|
+| 新建页面 | 在 `src/content/docs/` 下创建 `.md` 文件 |
+| 使用组件 | 文件改为 `.mdx`，然后 `import` |
+| 修改侧边栏 | 编辑 `astro.config.mjs` 中的 `sidebar` |
+| 自定义样式 | 创建 CSS 文件并在 `customCss` 中引入 |
+| 添加搜索 | 默认已内置 Pagefind，无需配置 |
+| 暗色模式 | 默认已内置，无需配置 |
+
+### 创建 Blog
+
+| 功能 | 方法 |
+|------|------|
+| 新建文章 | `src/content/docs/blog/` 下建 `.md` 文件 |
+| 使用组件 | 文件改为 `.mdx`，然后 `import` |
+| 必填字段 | `title` + `date` |
+| 设置标签 | frontmatter 中 `tags: [标签1, 标签2]` |
+| 设置作者 | frontmatter 中 `authors:` 或全局配置 |
+| 精选文章 | frontmatter 中 `featured: true` |
+| 草稿文章 | frontmatter 中 `draft: true` |
+| 封面图 | frontmatter 中 `cover: { alt, image }` |
+
+### 落地页 MDX 典型结构
+
+```mdx
+---
+title: 产品名称
+template: splash
+hero:
+  title: 智能信息管理工具
+  tagline: 让信息为你所用
+  actions:
+    - text: 免费开始
+      link: /start
+      variant: primary
+---
+
+import ProductGrid from '@/components/ProductGrid.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import FeatureGrid from '@/components/FeatureGrid.astro';
+import FeatureCard from '@/components/FeatureCard.astro';
+import CallToAction from '@/components/CallToAction.astro';
+import TextImage from '@/components/TextImage.astro';
+import Highlight from '@/components/Highlight.astro';
+
+<FeatureGrid title="为什么选择我们" columns={3}>
+  <FeatureCard title="功能一" description="..." icon="..." />
+  <FeatureCard title="功能二" description="..." icon="..." />
+</FeatureGrid>
+
+<ProductGrid title="产品矩阵">
+  <ProductCard title="产品A" description="..." href="..." hue={238} />
+  <ProductCard title="产品B" description="..." href="..." hue={163} />
+</ProductGrid>
+
+<TextImage title="核心优势" description="..." image="/images/preview.png" imagePosition="right" />
+
+<CallToAction title="立即开始" description="..." primaryText="免费试用" primaryLink="/start" />
+```

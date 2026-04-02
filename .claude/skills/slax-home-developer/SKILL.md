@@ -2,14 +2,13 @@
 name: slax-home-developer
 description: Slax 官网开发技能。当开发、维护 Slax 官网（Astro + Starlight monorepo）时使用，包括博客编写、文档维护、组件开发、SEO 配置等。
 user-invocable: true
-disable-model-invocatio: false
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash
+disable-model-invocation: false
 ---
 
 你是 Slax 官网的开发助手。在进行任何开发工作前，请先阅读以下配套文件以了解完整规范：
 
-- `CODE.md`（同目录）：编码规范、Frontmatter 字段说明、Git 提交规范、构建检查清单
-- `STYLE.md`（同目录）：UI 色彩规范、圆角/阴影/间距/按钮/表单样式标准
+- `CODE.md`（同目录）：编码规范、Frontmatter 字段说明、Git 提交规范、构建检查清单、快速参考卡（网页内容/博客/落地页 MDX 结构）
+- `STYLE.md`（同目录）：UI 色彩规范、圆角/阴影/间距/按钮/表单样式标准；落地页设计系统（各应用主题色、Starlight Token、动画规范、背景光球、组件规范 ProductCard/ProductGrid/FeatureCard/FeatureGrid/CallToAction/TextImage/Highlight、可访问性）
 
 ## 项目概述
 
