@@ -1,31 +1,22 @@
 ---
-import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
 import Search from 'virtual:starlight/components/Search';
 import SiteTitle from 'virtual:starlight/components/SiteTitle';
-import SocialIcons from 'virtual:starlight/components/SocialIcons';
-import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
-// apps/reader-home/src/components/NavHeader.astro
 import config from 'virtual:starlight/user-config';
-import { isNavDropdown, navItems } from '../config/nav';
+import { isNavDropdown, navActions, navItems } from '../config/nav';
 
 const shouldRenderSearch =
 	config.pagefind ||
 	config.components.Search !== '@astrojs/starlight/components/Search.astro';
 
-// 获取当前语言，用于翻译
 const lang = Astro.currentLocale ?? 'en';
 
-function getLabel(item: {
-	label: string;
-	translations?: Record<string, string>;
-}) {
+function getLabel(item: { label: string; translations?: Record<string, string> }) {
 	if (!item.translations) return item.label;
 	const langMap: Record<string, string> = { zh: 'zh-CN' };
 	const key = langMap[lang] ?? lang;
 	return item.translations[key] ?? item.label;
 }
 
-// 当前页路径，用于高亮
 const currentPath = Astro.url.pathname;
 ---
 
@@ -34,7 +25,6 @@ const currentPath = Astro.url.pathname;
     <SiteTitle />
   </div>
 
-  <!-- 自定义导航区域 -->
   <nav class="nav-items sl-hidden md:sl-flex" aria-label="Main navigation">
     {navItems.map((item) =>
       isNavDropdown(item) ? (
@@ -73,12 +63,16 @@ const currentPath = Astro.url.pathname;
   <div class="sl-flex print:hidden">
     {shouldRenderSearch && <Search />}
   </div>
+
   <div class="sl-hidden md:sl-flex print:hidden right-group">
-    <div class="sl-flex social-icons">
-      <SocialIcons />
-    </div>
-    <ThemeSelect />
-    <LanguageSelect />
+    {navActions.map((action) => (
+      <a
+        href={action.href}
+        class:list={['nav-action', `nav-action--${action.variant}`]}
+      >
+        {getLabel(action)}
+      </a>
+    ))}
   </div>
 </div>
 
@@ -133,16 +127,9 @@ const currentPath = Astro.url.pathname;
       min-width: 0;
     }
 
-    .right-group,
-    .social-icons {
-      gap: 1rem;
+    .right-group {
+      gap: 0.5rem;
       align-items: center;
-    }
-
-    .social-icons::after {
-      content: '';
-      height: 2rem;
-      border-inline-end: 1px solid var(--sl-color-gray-5);
     }
 
     @media (min-width: 50rem) {
@@ -264,5 +251,38 @@ const currentPath = Astro.url.pathname;
   .nav-dropdown-link.active {
     color: var(--sl-color-accent);
     background: color-mix(in srgb, var(--sl-color-accent) 10%, transparent);
+  }
+
+  /* ===== Action buttons ===== */
+  .nav-action {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.35rem 0.9rem;
+    border-radius: 6px;
+    transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .nav-action--ghost {
+    color: var(--sl-color-gray-2);
+    background: transparent;
+  }
+
+  .nav-action--ghost:hover {
+    color: var(--sl-color-accent);
+    background: color-mix(in srgb, var(--sl-color-accent) 10%, transparent);
+  }
+
+  .nav-action--primary {
+    color: #ffffff;
+    background: var(--sl-color-accent);
+  }
+
+  .nav-action--primary:hover {
+    background: color-mix(in srgb, var(--sl-color-accent) 85%, #000);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--sl-color-accent) 40%, transparent);
   }
 </style>
