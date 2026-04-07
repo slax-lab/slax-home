@@ -40,8 +40,8 @@ apps/reader-home/src/content/docs/index.mdx   ← 已存在，重写内容
 **布局：** 左文右图，两列
 
 **左侧文字：**
-- 主标题：`Read Smarter / Connect Deeper`（两行，大字）
-- 副标题：`Your permanent library that saves, understands, and networks your content with others.`
+- 主标题：`Read Smarter / Not Just Later`（两行，大字）
+- 副标题：`Save Forever, Learn faster. Your intelligent library for high efficiency and deep undersatanding.`
 - 按钮：`Start Reading Smarter - Free →`（主色渐变背景，跳转 `/reader/download`）
 - 信任标签（3 个横排）：
   - `🔒 Your content, forever safe`

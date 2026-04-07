@@ -1,0 +1,494 @@
+---
+interface Props {
+	lang?: 'en' | 'zh';
+}
+
+const { lang = 'en' } = Astro.props;
+
+const isZh = lang === 'zh';
+
+const t = {
+	badge: {
+		popular: isZh ? '最受欢迎' : 'Most Popular',
+		free: isZh ? '永久免费' : 'Free Forever',
+	},
+	plans: [
+		{
+			name: isZh ? '免费版' : 'Free',
+			price: '$0',
+			period: isZh ? '永久' : 'forever',
+			description: isZh ? '适合轻度阅读用户，随时开始。' : 'For casual readers. Get started anytime.',
+			badge: 'free',
+			highlight: false,
+			cta: {
+				label: isZh ? '免费开始' : 'Get Started Free',
+				href: 'https://slax.com/reader',
+			},
+			features: isZh
+				? [
+						'无限文章保存',
+						'全平台阅读（Web / iOS / Android）',
+						'基础高亮 & 笔记',
+						'RSS 订阅（最多 10 个）',
+						'7 天文章缓存',
+					]
+				: [
+						'Unlimited article saves',
+						'Read on Web / iOS / Android',
+						'Basic highlights & notes',
+						'RSS feeds (up to 10)',
+						'7-day article cache',
+					],
+		},
+		{
+			name: isZh ? '专业版' : 'Pro',
+			price: '$8',
+			period: isZh ? '每月' : '/month',
+			description: isZh
+				? '为深度阅读者解锁 AI 超能力。'
+				: 'Unlock AI superpowers for deep readers.',
+			badge: 'popular',
+			highlight: true,
+			cta: {
+				label: isZh ? '免费试用 14 天' : 'Try Free for 14 Days',
+				href: 'https://slax.com/reader/pro',
+			},
+			features: isZh
+				? [
+						'包含所有免费版功能',
+						'无限 RSS 订阅',
+						'AI 摘要 & 智能问答',
+						'AI 全文翻译',
+						'无限文章缓存',
+						'优先技术支持',
+						'抢先体验新功能',
+					]
+				: [
+						'Everything in Free',
+						'Unlimited RSS feeds',
+						'AI summaries & Q&A',
+						'AI full-text translation',
+						'Unlimited article cache',
+						'Priority support',
+						'Early access to new features',
+					],
+		},
+		{
+			name: isZh ? '团队版' : 'Team',
+			price: '$6',
+			period: isZh ? '每人/月' : '/user/month',
+			description: isZh
+				? '适合团队协作阅读，统一管理。'
+				: 'For teams that read and share knowledge together.',
+			badge: null,
+			highlight: false,
+			cta: {
+				label: isZh ? '联系我们' : 'Contact Us',
+				href: 'mailto:hi@slax.com',
+			},
+			features: isZh
+				? [
+						'包含所有专业版功能',
+						'团队共享文章 & 高亮',
+						'集中账单管理',
+						'团队用量报告',
+						'专属客户成功经理',
+						'最少 5 个席位',
+					]
+				: [
+						'Everything in Pro',
+						'Shared articles & highlights',
+						'Centralized billing',
+						'Team usage reports',
+						'Dedicated success manager',
+						'Minimum 5 seats',
+					],
+		},
+	],
+	faq: {
+		title: isZh ? '常见问题' : 'Frequently Asked Questions',
+		items: isZh
+			? [
+					{
+						q: '试用期结束后会自动扣费吗？',
+						a: '不会。14 天试用期结束后，我们会提醒您选择是否继续，不会自动扣费。',
+					},
+					{
+						q: '可以随时取消订阅吗？',
+						a: '可以。您可以随时在账户设置中取消订阅，取消后仍可使用至当前计费周期结束。',
+					},
+					{
+						q: '支持哪些支付方式？',
+						a: '支持信用卡、支付宝、微信支付。',
+					},
+					{
+						q: '学生或非营利组织有折扣吗？',
+						a: '有的！请发送邮件至 hi@slax.com，我们会为您提供专属优惠。',
+					},
+				]
+			: [
+					{
+						q: 'Will I be charged automatically after the trial?',
+						a: 'No. We will remind you at the end of the 14-day trial. You will never be charged without confirmation.',
+					},
+					{
+						q: 'Can I cancel anytime?',
+						a: 'Yes. Cancel anytime from your account settings. You keep access until the end of your billing period.',
+					},
+					{
+						q: 'What payment methods do you accept?',
+						a: 'We accept all major credit cards, PayPal, Alipay, and WeChat Pay.',
+					},
+					{
+						q: 'Do you offer discounts for students or nonprofits?',
+						a: 'Yes! Email us at hi@slax.com and we will set you up with a special rate.',
+					},
+				],
+	},
+};
+---
+
+<section class="pricing-section">
+	<!-- Header -->
+	<div class="pricing-header">
+		<h1 class="pricing-title">
+			{isZh ? '简单透明的定价' : 'Simple, Transparent Pricing'}
+		</h1>
+		<p class="pricing-subtitle">
+			{
+				isZh
+					? '免费开始，需要 AI 阅读超能力时再升级。无隐藏费用。'
+					: 'Start free. Upgrade when you need AI-powered reading superpowers. No hidden fees.'
+			}
+		</p>
+	</div>
+
+	<!-- Plans Grid -->
+	<div class="plans-grid">
+		{
+			t.plans.map((plan) => (
+				<div class:list={['plan-card', { 'plan-card--highlight': plan.highlight }]}>
+					{plan.badge && (
+						<div class:list={['plan-badge', `plan-badge--${plan.badge}`]}>
+							{plan.badge === 'popular' ? t.badge.popular : t.badge.free}
+						</div>
+					)}
+
+					<div class="plan-header">
+						<h2 class="plan-name">{plan.name}</h2>
+						<div class="plan-price">
+							<span class="plan-price-amount">{plan.price}</span>
+							<span class="plan-price-period">{plan.period}</span>
+						</div>
+						<p class="plan-description">{plan.description}</p>
+					</div>
+
+					<a
+						class:list={['plan-cta', { 'plan-cta--primary': plan.highlight }]}
+						href={plan.cta.href}
+					>
+						{plan.cta.label}
+					</a>
+
+					<ul class="plan-features">
+						{plan.features.map((feature) => (
+							<li class="plan-feature">
+								<svg
+									class="plan-feature-icon"
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									aria-hidden="true"
+								>
+									<polyline points="20 6 9 17 4 12" />
+								</svg>
+								{feature}
+							</li>
+						))}
+					</ul>
+				</div>
+			))
+		}
+	</div>
+
+	<!-- FAQ -->
+	<div class="faq-section">
+		<h2 class="faq-title">{t.faq.title}</h2>
+		<div class="faq-grid">
+			{
+				t.faq.items.map((item) => (
+					<div class="faq-item">
+						<h3 class="faq-question">{item.q}</h3>
+						<p class="faq-answer">{item.a}</p>
+					</div>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	/* ===== Section ===== */
+	.pricing-section {
+		max-width: 1100px;
+		margin: 0 auto;
+		padding: 48px 24px 100px;
+	}
+
+	/* ===== Header ===== */
+	.pricing-header {
+		text-align: center;
+		margin-bottom: 64px;
+	}
+
+	.pricing-title {
+		font-size: clamp(2rem, 4vw + 0.5rem, 3rem);
+		font-weight: 800;
+		line-height: 1.15;
+		color: var(--sl-color-white);
+		margin: 0 0 16px;
+	}
+
+	.pricing-subtitle {
+		font-size: clamp(1rem, 1.5vw + 0.25rem, 1.2rem);
+		color: var(--sl-color-gray-3);
+		max-width: 48ch;
+		margin: 0 auto;
+		line-height: 1.7;
+	}
+
+	/* ===== Plans Grid ===== */
+	.plans-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+		align-items: start;
+		margin-bottom: 80px;
+	}
+
+	@media (max-width: 900px) {
+		.plans-grid {
+			grid-template-columns: 1fr;
+			max-width: 480px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+
+	/* ===== Plan Card ===== */
+	.plan-card {
+		position: relative;
+		background: var(--sl-color-black);
+		border: 1px solid var(--sl-color-gray-6);
+		border-radius: 12px;
+		padding: 32px;
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+		transition:
+			box-shadow 0.3s ease,
+			transform 0.3s ease,
+			border-color 0.3s ease;
+	}
+
+	.plan-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.18);
+	}
+
+	.plan-card--highlight {
+		border-color: var(--sl-color-accent);
+		background: color-mix(in srgb, var(--sl-color-accent) 6%, var(--sl-color-black));
+		box-shadow: 0 0 0 1px var(--sl-color-accent), 0 20px 40px rgba(0, 0, 0, 0.2);
+	}
+
+	.plan-card--highlight:hover {
+		box-shadow: 0 0 0 1px var(--sl-color-accent),
+			0 30px 60px color-mix(in srgb, var(--sl-color-accent) 20%, transparent);
+	}
+
+	/* ===== Badge ===== */
+	.plan-badge {
+		position: absolute;
+		top: -14px;
+		left: 50%;
+		transform: translateX(-50%);
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		padding: 4px 14px;
+		border-radius: 999px;
+		white-space: nowrap;
+	}
+
+	.plan-badge--popular {
+		background: var(--sl-color-accent);
+		color: #fff;
+	}
+
+	.plan-badge--free {
+		background: var(--sl-color-gray-5);
+		color: var(--sl-color-gray-2);
+	}
+
+	/* ===== Plan Header ===== */
+	.plan-header {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.plan-name {
+		font-size: 1.1rem;
+		font-weight: 700;
+		color: var(--sl-color-white);
+		margin: 0;
+		border: none;
+		padding: 0;
+	}
+
+	.plan-price {
+		display: flex;
+		align-items: baseline;
+		gap: 4px;
+		margin-top: 4px;
+	}
+
+	.plan-price-amount {
+		font-size: 2.8rem;
+		font-weight: 800;
+		line-height: 1;
+		color: var(--sl-color-white);
+	}
+
+	.plan-price-period {
+		font-size: 0.9rem;
+		color: var(--sl-color-gray-3);
+	}
+
+	.plan-description {
+		font-size: 0.9rem;
+		color: var(--sl-color-gray-3);
+		line-height: 1.6;
+		margin: 0;
+	}
+
+	/* ===== CTA Button ===== */
+	.plan-cta {
+		display: block;
+		text-align: center;
+		padding: 12px 20px;
+		border-radius: 6px;
+		font-size: 0.95rem;
+		font-weight: 600;
+		text-decoration: none;
+		transition:
+			background 0.2s ease,
+			transform 0.2s ease,
+			box-shadow 0.2s ease;
+		border: 1px solid var(--sl-color-gray-5);
+		color: var(--sl-color-white);
+		background: transparent;
+	}
+
+	.plan-cta:hover {
+		border-color: var(--sl-color-accent);
+		color: var(--sl-color-accent);
+		transform: translateY(-1px);
+	}
+
+	.plan-cta--primary {
+		background: var(--sl-color-accent);
+		border-color: var(--sl-color-accent);
+		color: #fff;
+		box-shadow: 0 4px 16px color-mix(in srgb, var(--sl-color-accent) 30%, transparent);
+	}
+
+	.plan-cta--primary:hover {
+		background: color-mix(in srgb, var(--sl-color-accent) 85%, white);
+		border-color: transparent;
+		color: #fff;
+		box-shadow: 0 8px 24px color-mix(in srgb, var(--sl-color-accent) 40%, transparent);
+	}
+
+	/* ===== Features List ===== */
+	.plan-features {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.plan-feature {
+		display: flex;
+		align-items: flex-start;
+		gap: 10px;
+		font-size: 0.9rem;
+		color: var(--sl-color-gray-2);
+		line-height: 1.5;
+	}
+
+	.plan-feature-icon {
+		flex-shrink: 0;
+		margin-top: 2px;
+		color: var(--sl-color-accent);
+	}
+
+	/* ===== FAQ ===== */
+	.faq-section {
+		border-top: 1px solid var(--sl-color-gray-6);
+		padding-top: 64px;
+	}
+
+	.faq-title {
+		font-size: 1.6rem;
+		font-weight: 700;
+		color: var(--sl-color-white);
+		text-align: center;
+		margin: 0 0 40px;
+		border: none;
+		padding: 0;
+	}
+
+	.faq-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 32px;
+	}
+
+	@media (max-width: 640px) {
+		.faq-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.faq-item {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.faq-question {
+		font-size: 1rem;
+		font-weight: 600;
+		color: var(--sl-color-white);
+		margin: 0;
+		border: none;
+		padding: 0;
+	}
+
+	.faq-answer {
+		font-size: 0.9rem;
+		color: var(--sl-color-gray-3);
+		line-height: 1.7;
+		margin: 0;
+	}
+</style>
