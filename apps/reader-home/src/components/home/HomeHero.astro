@@ -1,0 +1,165 @@
+---
+const trustIndicators = [
+	'🔒 Your content, forever safe',
+	'🚀 5x faster understanding',
+	'⭐ Interactive reading community',
+];
+---
+
+<section class="home-hero">
+  <div class="home-hero__container">
+    <div class="home-hero__content">
+      <div class="home-hero__text">
+        <h1>Read Smarter<br />Not Just Later</h1>
+        <p>
+          Save Forever, Learn faster. Your intelligent library for high efficiency and deep
+          undersatanding.
+        </p>
+        <a class="home-hero__cta" href="/reader/download">
+          <span>Start Reading Smarter - Free</span>
+          <span aria-hidden="true">→</span>
+        </a>
+        <div class="home-hero__trust">
+          {trustIndicators.map((item) => <span>{item}</span>)}
+        </div>
+      </div>
+
+      <div class="home-hero__visual">
+        <div class="home-hero__preview">
+          <div class="home-hero__card">
+            <h4>🤖 AI Analysis</h4>
+            <p>
+              This article explains how knowledge workers can build a permanent reading
+              library. Key points: <br />1. Save content before it disappears. <br />2. Use AI
+              to summarize and surface key ideas. <br />3. Turn reading into reusable
+              knowledge.
+            </p>
+          </div>
+          <div class="home-hero__card">
+            <h4>💬 Ask AI</h4>
+            <p>
+              <strong>You:</strong> "What should I remember from this article?"<br />
+              <strong>AI:</strong> "Focus on the permanent archive, AI-assisted understanding,
+              and collaboration layer. Those are the main reasons users switch."
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .home-hero {
+    padding: 80px 0 100px;
+    background: linear-gradient(135deg, #f8fffc 0%, #e6fff3 100%);
+    overflow: hidden;
+  }
+
+  .home-hero__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .home-hero__content {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px;
+    align-items: center;
+  }
+
+  .home-hero__text h1 {
+    margin: 0 0 24px;
+    font-size: clamp(2.8rem, 5vw, 4rem);
+    line-height: 1.1;
+    font-weight: 800;
+    color: #1f1f1f;
+  }
+
+  .home-hero__text p {
+    margin: 0 0 32px;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #333333;
+    max-width: 34rem;
+  }
+
+  .home-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 56px;
+    padding: 0 28px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #25d4b0 0%, #1cb0b5 50%, #16b998 100%);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .home-hero__cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 30px 60px 0 rgba(22, 185, 152, 0.18);
+  }
+
+  .home-hero__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    margin-top: 24px;
+    color: #666666;
+    font-size: 0.95rem;
+  }
+
+  .home-hero__visual {
+    display: flex;
+    justify-content: center;
+  }
+
+  .home-hero__preview {
+    width: 100%;
+    max-width: 520px;
+    padding: 32px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.08);
+    transform: perspective(1000px) rotateY(-8deg);
+  }
+
+  .home-hero__card {
+    padding: 24px;
+    border-radius: 12px;
+    background: #f8f9fa;
+  }
+
+  .home-hero__card + .home-hero__card {
+    margin-top: 16px;
+  }
+
+  .home-hero__card h4 {
+    margin: 0 0 12px;
+    color: #16b998;
+    font-size: 1rem;
+  }
+
+  .home-hero__card p {
+    margin: 0;
+    color: #333333;
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 900px) {
+    .home-hero__content {
+      grid-template-columns: 1fr;
+    }
+
+    .home-hero__preview {
+      transform: none;
+    }
+  }
+</style>
