@@ -54,7 +54,12 @@ Slax 是一家生产力工具公司，旗下有两款产品：
 
 **顶栏（NavHeader）：**
 ```
-[Slax Reader logo] [Pricing] [Download] [Resources ▾] [GitHub] [Twitter] [语言] [主题]
+[Slax ▾]  [Pricing] [Download] [Resources ▾]  [Sign In]  [Start Free →]
+
+Slax 下拉：
+  - Slax Home
+  - Slax Reader  ← 当前页高亮
+  - Slax Note
 
 Resources 下拉：
   - Blog
@@ -62,12 +67,19 @@ Resources 下拉：
   - Tutorials
 ```
 
+- `[Sign In]`：文字按钮，低调，跳转到网页版登录页
+- `[Start Free →]`：主色高亮按钮，跳转到 Download 页
+- GitHub / Twitter / 语言 / 深色模式切换：移至底栏，顶栏不显示
+- 竞品对比文章：放在 Blog 内，通过首页和 Pricing 页引导，不单独放顶栏
+
 **底栏（Footer）：**
 ```
 Products          Resources         Legal
 - Slax Reader     - Blog            - Terms
 - Slax Note       - Guides          - Privacy
-                  - Tutorials       - Contact
+                  - Tutorials       - Contact Us
+
+[GitHub] [Twitter]  © 2026 Slax  [语言切换]
 ```
 
 ---
