@@ -36,10 +36,10 @@ const rows = [
       <table class="home-comparison__table">
         <thead>
           <tr>
-            <th>Feature</th>
-            <th class="home-comparison__table--accent">Slax Reader</th>
-            <th>Instapaper</th>
-            <th>Readwise</th>
+            <th scope="col">Feature</th>
+            <th scope="col" class="home-comparison__table--accent">Slax Reader</th>
+            <th scope="col">Instapaper</th>
+            <th scope="col">Readwise</th>
           </tr>
         </thead>
         <tbody>
@@ -114,5 +114,9 @@ const rows = [
 
   .home-comparison__table--accent {
     color: #16b998;
+  }
+
+  .home-comparison__table tbody td:nth-child(2) {
+    background: #f0fdf9;
   }
 </style>
