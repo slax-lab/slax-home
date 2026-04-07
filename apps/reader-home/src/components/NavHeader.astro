@@ -19,11 +19,10 @@ function getLabel(item: {
 	label: string;
 	translations?: Record<string, string>;
 }) {
-	if (lang !== 'en' && item.translations) {
-		// Starlight 中文 locale key 是 'zh-CN'
-		return item.translations['zh-CN'] ?? item.label;
-	}
-	return item.label;
+	if (!item.translations) return item.label;
+	const langMap: Record<string, string> = { zh: 'zh-CN' };
+	const key = langMap[lang] ?? lang;
+	return item.translations[key] ?? item.label;
 }
 
 // 当前页路径，用于高亮
@@ -52,7 +51,7 @@ const currentPath = Astro.url.pathname;
                 <a
                   href={child.href}
                   role="menuitem"
-                  class:list={['nav-dropdown-link', { active: currentPath.startsWith(child.href) }]}
+                  class:list={['nav-dropdown-link', { active: currentPath === child.href || currentPath.startsWith(child.href + '/') }]}
                 >
                   {getLabel(child)}
                 </a>
@@ -84,7 +83,6 @@ const currentPath = Astro.url.pathname;
 </div>
 
 <script>
-  // 下拉菜单交互：hover + click 外部关闭
   document.querySelectorAll<HTMLElement>('.nav-dropdown').forEach((dropdown) => {
     const btn = dropdown.querySelector<HTMLButtonElement>('.nav-btn');
     const panel = dropdown.querySelector<HTMLElement>('.nav-dropdown-panel');
@@ -104,8 +102,16 @@ const currentPath = Astro.url.pathname;
     btn.addEventListener('click', () => {
       panel.classList.contains('open') ? close() : open();
     });
-    document.addEventListener('click', (e) => {
-      if (!dropdown.contains(e.target as Node)) close();
+  });
+
+  document.addEventListener('click', (e) => {
+    document.querySelectorAll<HTMLElement>('.nav-dropdown').forEach((dropdown) => {
+      const btn = dropdown.querySelector<HTMLButtonElement>('.nav-btn');
+      const panel = dropdown.querySelector<HTMLElement>('.nav-dropdown-panel');
+      if (!dropdown.contains(e.target as Node) && panel && btn) {
+        panel.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
     });
   });
 </script>
