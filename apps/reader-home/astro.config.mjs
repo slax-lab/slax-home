@@ -81,6 +81,7 @@ export default defineConfig({
 				Head: './src/components/Head.astro',
 				SkipLink: './src/components/SkipLink.astro',
 				Header: './src/components/NavHeader.astro',
+				Footer: './src/components/Footer.astro',
 			},
 		}),
 		sitemap({
