@@ -82,19 +82,24 @@ const currentPath = Astro.url.pathname;
     const panel = dropdown.querySelector<HTMLElement>('.nav-dropdown-panel');
     if (!btn || !panel) return;
 
+    let closeTimer: ReturnType<typeof setTimeout>;
+
     const open = () => {
+      clearTimeout(closeTimer);
       panel.classList.add('open');
       btn.setAttribute('aria-expanded', 'true');
     };
-    const close = () => {
-      panel.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
+    const scheduleClose = () => {
+      closeTimer = setTimeout(() => {
+        panel.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }, 120);
     };
 
     dropdown.addEventListener('mouseenter', open);
-    dropdown.addEventListener('mouseleave', close);
+    dropdown.addEventListener('mouseleave', scheduleClose);
     btn.addEventListener('click', () => {
-      panel.classList.contains('open') ? close() : open();
+      panel.classList.contains('open') ? scheduleClose() : open();
     });
   });
 
@@ -187,6 +192,8 @@ const currentPath = Astro.url.pathname;
   /* ===== Dropdown ===== */
   .nav-dropdown {
     position: relative;
+    padding-bottom: 8px;
+    margin-bottom: -8px;
   }
 
   .nav-btn {
@@ -235,6 +242,16 @@ const currentPath = Astro.url.pathname;
 
   .nav-dropdown-panel.open {
     display: block;
+  }
+
+  .nav-dropdown-panel ul {
+    background: var(--sl-color-black);
+    border: 1px solid var(--sl-color-gray-6);
+    border-radius: 8px;
+    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.08);
+    padding: 6px;
+    list-style: none;
+    margin: 0;
   }
 
   .nav-dropdown-link {

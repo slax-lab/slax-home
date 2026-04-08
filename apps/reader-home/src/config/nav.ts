@@ -23,17 +23,8 @@ export function isNavDropdown(item: NavItem): item is NavDropdown {
 	return 'children' in item;
 }
 
-// Left-side nav items: product dropdown + main links + resources dropdown
+// Left-side nav items: main links + resources dropdown
 export const navItems: NavItem[] = [
-	{
-		label: 'Slax',
-		translations: { 'zh-CN': 'Slax' },
-		children: [
-			{ label: 'Slax Home', translations: { 'zh-CN': 'Slax 主站' }, href: '/' },
-			{ label: 'Slax Reader', translations: { 'zh-CN': 'Slax Reader' }, href: '/reader/' },
-			{ label: 'Slax Note', translations: { 'zh-CN': 'Slax Note' }, href: '/note/' },
-		],
-	},
 	{
 		label: 'Pricing',
 		translations: { 'zh-CN': '定价' },
@@ -58,15 +49,9 @@ export const navItems: NavItem[] = [
 // Right-side action buttons
 export const navActions: NavAction[] = [
 	{
-		label: 'Sign In',
-		translations: { 'zh-CN': '登录' },
-		href: '#',
-		variant: 'ghost',
-	},
-	{
 		label: 'Start Free →',
 		translations: { 'zh-CN': '免费开始 →' },
-		href: '/reader/download',
+		href: 'https://r.slax.com/login',
 		variant: 'primary',
 	},
 ];
