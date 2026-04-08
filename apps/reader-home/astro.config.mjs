@@ -43,20 +43,58 @@ export default defineConfig({
 
 			sidebar: [
 				{
-					label: 'Guides',
-					translations: { 'zh-CN': '指南' },
+					label: 'Get Started',
+					translations: { 'zh-CN': '快速上手' },
+					collapsed: true,
 					items: [
 						{
-							label: 'Example Guide',
-							translations: { 'zh-CN': '示例指南' },
-							slug: 'guides/example',
+							label: 'How to Save',
+							translations: { 'zh-CN': '如何保存' },
+							collapsed: true,
+							items: [
+								{ label: 'Overview', slug: 'get-started/how-to-save' },
+								{ label: '1. Browser Extension', slug: 'get-started/how-to-save/1-browser-extension' },
+								{ label: '2. Mobile App', slug: 'get-started/how-to-save/2-mobile-app' },
+							],
 						},
 					],
 				},
 				{
-					label: 'Reference',
-					translations: { 'zh-CN': '参考' },
-					autogenerate: { directory: 'reference' },
+					label: 'Blog',
+					translations: { 'zh-CN': '博客' },
+					collapsed: true,
+					items: [
+						{ label: 'All Posts', slug: 'blog' },
+						{
+							label: 'The Ultimate Read-It-Later Guide',
+							translations: { 'zh-CN': '终极稍后阅读指南' },
+							collapsed: true,
+							items: [
+								{ label: 'Overview', slug: 'blog/ultimate-read-it-later-guide' },
+								{ label: 'Save Web Pages Permanently', slug: 'blog/ultimate-read-it-later-guide/save-web-pages-permanently' },
+							],
+						},
+						{
+							label: 'AI-Powered Reading',
+							translations: { 'zh-CN': 'AI 智能阅读' },
+							collapsed: true,
+							items: [
+								{ label: 'Overview', slug: 'blog/ai-powered-reading' },
+								{ label: 'AI Summary for Articles', slug: 'blog/ai-powered-reading/ai-summary-for-articles' },
+								{ label: 'Interactive Outline for Reading', slug: 'blog/ai-powered-reading/interactive-outline-for-reading' },
+							],
+						},
+					],
+				},
+				{
+					label: 'Compare',
+					translations: { 'zh-CN': '对比' },
+					collapsed: true,
+					items: [
+						{ label: 'Overview', slug: 'compare' },
+						{ label: 'vs Instapaper', slug: 'compare/vs-instapaper' },
+						{ label: 'vs Readwise Reader', slug: 'compare/vs-readwise' },
+					],
 				},
 			],
 

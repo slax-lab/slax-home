@@ -39,9 +39,9 @@ export const navItems: NavItem[] = [
 		label: 'Resources',
 		translations: { 'zh-CN': '资源' },
 		children: [
-			{ label: 'Blog', translations: { 'zh-CN': '博客' }, href: '#' },
-			{ label: 'Guides', translations: { 'zh-CN': '指南' }, href: '#' },
-			{ label: 'Tutorials', translations: { 'zh-CN': '教程' }, href: '#' },
+			{ label: 'Blog', translations: { 'zh-CN': '博客' }, href: '/reader/blog' },
+			{ label: 'Compare', translations: { 'zh-CN': '对比' }, href: '/reader/compare' },
+			{ label: 'Get Started', translations: { 'zh-CN': '快速上手' }, href: '/reader/get-started/how-to-save' },
 		],
 	},
 ];
