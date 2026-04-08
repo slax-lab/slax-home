@@ -60,9 +60,7 @@ const currentPath = Astro.url.pathname;
     )}
   </nav>
 
-  <div class="sl-flex print:hidden">
-    {shouldRenderSearch && <Search />}
-  </div>
+  <div class="sl-hidden print:hidden">
 
   <div class="sl-hidden md:sl-flex print:hidden right-group">
     {navActions.map((action) => (
