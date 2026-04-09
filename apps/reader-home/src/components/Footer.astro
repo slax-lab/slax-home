@@ -1,5 +1,4 @@
 ---
-import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
 
 const { hasSidebar } = Astro.locals.starlightRoute;
 ---
@@ -14,16 +13,20 @@ const { hasSidebar } = Astro.locals.starlightRoute;
         <h4 class="site-footer__heading">Products</h4>
         <ul class="site-footer__list">
           <li><a href="/reader/" class="site-footer__link">Slax Reader</a></li>
-          <li><a href="#" class="site-footer__link">Slax Note</a></li>
         </ul>
       </div>
 
       <div class="site-footer__col">
         <h4 class="site-footer__heading">Resources</h4>
         <ul class="site-footer__list">
-          <li><a href="#" class="site-footer__link">Blog</a></li>
-          <li><a href="#" class="site-footer__link">Guides</a></li>
-          <li><a href="#" class="site-footer__link">Tutorials</a></li>
+          <li><a href="/reader/blog" class="site-footer__link">Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h4 class="site-footer__heading">Compare</h4>
+        <ul class="site-footer__list">
+          <li><a href="/reader/compare/slax-reader-vs-instapaper" class="site-footer__link">vs Instapaper</a></li>
         </ul>
       </div>
 
@@ -65,10 +68,6 @@ const { hasSidebar } = Astro.locals.starlightRoute;
       </div>
 
       <p class="site-footer__copy">© 2026 Slax. All rights reserved.</p>
-
-      <div class="site-footer__lang">
-        <LanguageSelect />
-      </div>
     </div>
   </div>
 </footer>
@@ -83,15 +82,15 @@ const { hasSidebar } = Astro.locals.starlightRoute;
   }
 
   .site-footer__container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 48px;
   }
 
   .site-footer__columns {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 48px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px;
     margin-bottom: 48px;
   }
 
