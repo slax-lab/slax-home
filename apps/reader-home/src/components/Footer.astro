@@ -1,6 +1,10 @@
 ---
 import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
+
+const { hasSidebar } = Astro.locals.starlightRoute;
 ---
+
+{!hasSidebar && (
 
 <footer class="site-footer">
   <div class="site-footer__container">
@@ -68,6 +72,7 @@ import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
     </div>
   </div>
 </footer>
+)}
 
 <style>
   .site-footer {

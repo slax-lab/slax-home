@@ -7,6 +7,13 @@ export type NavLink = {
 export type NavDropdown = {
 	label: string;
 	translations?: Record<string, string>;
+	children: (NavLink | NavGroup)[];
+};
+
+export type NavGroup = {
+	label: string;
+	href: string;
+	translations?: Record<string, string>;
 	children: NavLink[];
 };
 
@@ -20,6 +27,10 @@ export type NavAction = {
 };
 
 export function isNavDropdown(item: NavItem): item is NavDropdown {
+	return 'children' in item;
+}
+
+export function isNavGroup(item: NavLink | NavGroup): item is NavGroup {
 	return 'children' in item;
 }
 
@@ -40,8 +51,14 @@ export const navItems: NavItem[] = [
 		translations: { 'zh-CN': '资源' },
 		children: [
 			{ label: 'Blog', translations: { 'zh-CN': '博客' }, href: '/reader/blog' },
-			{ label: 'Compare', translations: { 'zh-CN': '对比' }, href: '/reader/compare' },
-			{ label: 'Get Started', translations: { 'zh-CN': '快速上手' }, href: '/reader/get-started/how-to-save' },
+			{
+				label: 'Compare',
+				translations: { 'zh-CN': '对比' },
+				href: '/reader/compare',
+				children: [
+					{ label: 'vs Instapaper', href: '/reader/compare/slax-reader-vs-instapaper' },
+				],
+			},
 		],
 	},
 ];

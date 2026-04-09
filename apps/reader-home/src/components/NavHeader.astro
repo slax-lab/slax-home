@@ -2,7 +2,7 @@
 import Search from 'virtual:starlight/components/Search';
 import SiteTitle from 'virtual:starlight/components/SiteTitle';
 import config from 'virtual:starlight/user-config';
-import { isNavDropdown, navActions, navItems } from '../config/nav';
+import { isNavDropdown, isNavGroup, navActions, navItems } from '../config/nav';
 
 const shouldRenderSearch =
 	config.pagefind ||
@@ -36,17 +36,42 @@ const currentPath = Astro.url.pathname;
             </svg>
           </button>
           <ul class="nav-dropdown-panel" role="menu">
-            {item.children.map((child) => (
-              <li role="none">
-                <a
-                  href={child.href}
-                  role="menuitem"
-                  class:list={['nav-dropdown-link', { active: currentPath === child.href || currentPath.startsWith(child.href + '/') }]}
-                >
-                  {getLabel(child)}
-                </a>
-              </li>
-            ))}
+            {item.children.map((child) =>
+              isNavGroup(child) ? (
+                <li role="none" class="nav-group">
+                  <a
+                    href={child.href}
+                    role="menuitem"
+                    class:list={['nav-dropdown-link nav-group-label', { active: currentPath === child.href || currentPath.startsWith(child.href + '/') }]}
+                  >
+                    {getLabel(child)}
+                  </a>
+                  <ul class="nav-submenu">
+                    {child.children.map((sub) => (
+                      <li role="none">
+                        <a
+                          href={sub.href}
+                          role="menuitem"
+                          class:list={['nav-dropdown-link nav-submenu-link', { active: currentPath === sub.href || currentPath.startsWith(sub.href + '/') }]}
+                        >
+                          {getLabel(sub)}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ) : (
+                <li role="none">
+                  <a
+                    href={child.href}
+                    role="menuitem"
+                    class:list={['nav-dropdown-link', { active: currentPath === child.href || currentPath.startsWith(child.href + '/') }]}
+                  >
+                    {getLabel(child)}
+                  </a>
+                </li>
+              )
+            )}
           </ul>
         </div>
       ) : (
@@ -101,7 +126,21 @@ const currentPath = Astro.url.pathname;
     });
   });
 
-  document.addEventListener('click', (e) => {
+  // Submenu hover
+  document.querySelectorAll<HTMLElement>('.nav-group').forEach((group) => {
+    const submenu = group.querySelector<HTMLElement>('.nav-submenu');
+    if (!submenu) return;
+
+    let closeTimer: ReturnType<typeof setTimeout>;
+
+    group.addEventListener('mouseenter', () => {
+      clearTimeout(closeTimer);
+      submenu.classList.add('open');
+    });
+    group.addEventListener('mouseleave', () => {
+      closeTimer = setTimeout(() => submenu.classList.remove('open'), 120);
+    });
+  });  document.addEventListener('click', (e) => {
     document.querySelectorAll<HTMLElement>('.nav-dropdown').forEach((dropdown) => {
       const btn = dropdown.querySelector<HTMLButtonElement>('.nav-btn');
       const panel = dropdown.querySelector<HTMLElement>('.nav-dropdown-panel');
@@ -242,16 +281,6 @@ const currentPath = Astro.url.pathname;
     display: block;
   }
 
-  .nav-dropdown-panel ul {
-    background: var(--sl-color-black);
-    border: 1px solid var(--sl-color-gray-6);
-    border-radius: 8px;
-    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.08);
-    padding: 6px;
-    list-style: none;
-    margin: 0;
-  }
-
   .nav-dropdown-link {
     display: block;
     font-size: 0.875rem;
@@ -266,6 +295,37 @@ const currentPath = Astro.url.pathname;
   .nav-dropdown-link.active {
     color: var(--sl-color-accent);
     background: color-mix(in srgb, var(--sl-color-accent) 10%, transparent);
+  }
+
+  /* ===== Submenu (third level — always visible inside dropdown) ===== */
+  .nav-group {
+    position: relative;
+  }
+
+  .nav-group-label {
+    font-weight: 600;
+    color: var(--sl-color-gray-3);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 0.75rem 0.25rem;
+    pointer-events: auto;
+  }
+
+  .nav-group-label:hover {
+    background: none;
+    color: var(--sl-color-accent);
+  }
+
+  .nav-submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 4px 0;
+  }
+
+  .nav-submenu-link {
+    padding-left: 1.25rem;
+    font-size: 0.875rem;
   }
 
   /* ===== Action buttons ===== */

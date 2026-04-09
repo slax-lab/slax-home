@@ -58,7 +58,7 @@ export default defineConfig({
 					translations: { 'zh-CN': '对比' },
 					collapsed: false,
 					items: [
-						{ label: 'Overview', slug: 'compare' },
+						{ label: 'Why Slax Reader', slug: 'compare' },
 						{ label: 'vs Instapaper', slug: 'compare/slax-reader-vs-instapaper' },
 					],
 				},
@@ -86,6 +86,7 @@ export default defineConfig({
 				SkipLink: './src/components/SkipLink.astro',
 				Header: './src/components/NavHeader.astro',
 				Footer: './src/components/Footer.astro',
+				Pagination: './src/components/Pagination.astro',
 			},
 		}),
 		sitemap({
