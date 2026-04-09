@@ -92,7 +92,7 @@ export default defineConfig({
 					collapsed: true,
 					items: [
 						{ label: 'Overview', slug: 'compare' },
-						{ label: 'vs Instapaper', slug: 'compare/vs-instapaper' },
+						{ label: 'vs Instapaper', slug: 'compare/slax-reader-vs-instapaper' },
 						{ label: 'vs Readwise Reader', slug: 'compare/vs-readwise' },
 					],
 				},
