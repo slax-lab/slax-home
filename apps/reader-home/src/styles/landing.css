@@ -71,10 +71,18 @@
 
 /* ---- Glassy translucent header on hero pages ---- */
 [data-has-hero] header {
-	border-bottom: 1px solid transparent;
+	border-bottom: none;
 	background-color: transparent;
 	-webkit-backdrop-filter: blur(16px);
 	backdrop-filter: blur(16px);
+}
+
+[data-has-hero] .main-pane {
+	padding-top: 0;
+}
+
+[data-has-hero] .content-panel {
+	border-top: none;
 }
 
 /* ---- Hero image glow + gentle float ---- */

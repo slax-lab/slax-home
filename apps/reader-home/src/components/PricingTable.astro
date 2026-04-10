@@ -13,10 +13,10 @@
     </p>
 
     <!-- Promo Banner -->
-    <div class="pricing-promo">
+    <a class="pricing-promo" href="https://r.slax.com/login">
       <span aria-hidden="true">🎉</span>
       Join today and get 1 Month of Pro Free
-    </div>
+    </a>
   </div>
 </header>
 
@@ -42,7 +42,7 @@
               <p class="pt-plan__desc">
                 Unlimited bookmarks &amp; backup forever — join now before limits apply!
               </p>
-              <a class="pt-plan__btn" href="/reader/download">Start Free</a>
+              <a class="pt-plan__btn" href="https://r.slax.com/login">Start Free</a>
             </div>
           </th>
 
@@ -58,7 +58,7 @@
               <p class="pt-plan__desc">
                 Unleash your reading superpowers with integrated AI analysis.
               </p>
-              <a class="pt-plan__btn pt-plan__btn--pro" href="/reader/download">
+              <a class="pt-plan__btn pt-plan__btn--pro" href="https://r.slax.com/login">
                 Try 1 Month Free
               </a>
             </div>
@@ -159,10 +159,11 @@
     </details>
 
     <details class="faq-item">
-      <summary class="faq-item__q">What AI features does Pro include?</summary>
+      <summary class="faq-item__q">Will Slax Reader really save me hours of reading every week?</summary>
       <p class="faq-item__a">
-        Pro unlocks smart auto-tagging, instant AI summaries, interactive article outlines, and a
-        full AI chatbot so you can ask questions about anything in your library.
+        That's what it's built for. Clickable AI outlines let you navigate long articles without
+        reading every word. Auto-tagging handles the organizing, so you can just read.
+        <a href="/reader/blog/a-smarter-more-efficient-ai-powered-way-to-save-and-read-forever" class="faq-item__link">Full Visual Tour →</a>
       </p>
     </details>
 
@@ -177,7 +178,7 @@
     <details class="faq-item">
       <summary class="faq-item__q">How does the 1 Month Free trial work?</summary>
       <p class="faq-item__a">
-        Download the app and start your trial — no credit card required. After 30 days you'll be
+        <a href="https://r.slax.com/login" class="faq-item__link">Sign in</a> and start your trial — no credit card required. After 30 days you'll be
         asked if you'd like to continue with Pro at $5.99 / month (regular price $9.99).
       </p>
     </details>
@@ -189,7 +190,7 @@
   <div class="pricing-cta__inner">
     <h2 class="pricing-cta__title">Start Your Intelligent Reading Journey Today</h2>
     <p class="pricing-cta__sub">Read smarter, learn faster, remember more</p>
-    <a class="pricing-cta__btn" href="/reader/download">
+    <a class="pricing-cta__btn" href="https://r.slax.com/login">
       <span>Get Started — It's Free</span>
       <span aria-hidden="true">→</span>
     </a>
@@ -240,6 +241,13 @@
     color: #ffffff;
     font-weight: 600;
     font-size: 0.95rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .pricing-promo:hover {
+    opacity: 0.88;
   }
 
   /* ── Table Wrapper ── */
@@ -465,6 +473,16 @@
     font-size: 0.925rem;
     line-height: 1.7;
     color: #555555;
+  }
+
+  .faq-item__link {
+    color: #16b998;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .faq-item__link:hover {
+    text-decoration: underline;
   }
 
   /* ── CTA ── */

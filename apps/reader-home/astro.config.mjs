@@ -47,7 +47,7 @@ export default defineConfig({
 					translations: { 'zh-CN': '博客' },
 					collapsed: false,
 					items: [
-						{ label: 'All Posts', slug: 'blog' },
+						{ label: 'Hi, Welcome', slug: 'blog' },
 						{ label: 'A Smarter Way to Save & Read Forever', slug: 'blog/a-smarter-more-efficient-ai-powered-way-to-save-and-read-forever' },
 						{ label: 'Open-Source Pocket Alternative', slug: 'blog/built-an-open-source-pocket-alternative' },
 						{ label: 'Save Content Permanently & Simplify Learning', slug: 'blog/built-an-open-source-tool-to-save-content-permanently-and-simplify-learning' },
@@ -86,7 +86,6 @@ export default defineConfig({
 				SkipLink: './src/components/SkipLink.astro',
 				Header: './src/components/NavHeader.astro',
 				Footer: './src/components/Footer.astro',
-				Pagination: './src/components/Pagination.astro',
 			},
 		}),
 		sitemap({
