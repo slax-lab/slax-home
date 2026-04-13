@@ -1,38 +1,20 @@
 ---
-title: Slax Reader — Smart Reading Companion
-description: Slax Reader helps you save, organize, and annotate articles from across the web for deep reading and knowledge capture.
+title: Slax Reader — Read Smarter, Not Just Later
+description: Save Forever, Learn faster. Your intelligent library for high efficiency and deep undersatanding.
 template: splash
-hero:
-  title: Your Smart Reading Companion
-  tagline: Save, organize, and annotate articles from across the web. Built for deep reading and effortless knowledge capture.
-  image:
-    html: '<img src="https://static-cdn.slax.com/2026/03/680796b540313f03d7e06ab64a3d1cbc.png" alt="Slax Reader" style="width:100%;height:auto;border-radius:0.75rem;" />'
-  actions:
-    - text: Getting Started
-      link: ./guides/example/
-      icon: right-arrow
-    - text: View on GitHub
-      icon: external
-      variant: minimal
-      link: https://github.com/slax-lab
+head:
+  - tag: style
+    content: '.main-pane { max-width: 100% !important; } .sl-container { max-width: 100% !important; padding-inline: 0 !important; } h1#_top { display: none !important; }'
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import BackToHome from '~/components/BackToHome.astro';
+import HomeCTA from '~/components/home/HomeCTA.astro';
+import HomeComparison from '~/components/home/HomeComparison.astro';
+import HomeFeatures from '~/components/home/HomeFeatures.astro';
+import HomeHero from '~/components/home/HomeHero.astro';
+import HomeHowItWorks from '~/components/home/HomeHowItWorks.astro';
 
-<CardGrid stagger>
-	<Card title="Save Anything" icon="open-book">
-		Clip articles, web pages, and highlights with one click. Your reading library is always organized and searchable.
-	</Card>
-	<Card title="Annotate & Highlight" icon="pencil">
-		Mark up articles with highlights and notes. Your annotations are saved alongside the original content for easy reference.
-	</Card>
-	<Card title="Smart Organization" icon="document">
-		Automatic tagging, folders, and full-text search help you find exactly what you need, when you need it.
-	</Card>
-	<Card title="Read Anywhere" icon="rocket">
-		Access your reading library from any device. Clean, distraction-free reading mode for focused content consumption.
-	</Card>
-</CardGrid>
-
-<BackToHome label="Back to Slax Home" />
+<HomeHero />
+<HomeFeatures />
+<HomeHowItWorks />
+<HomeComparison />
+<HomeCTA />

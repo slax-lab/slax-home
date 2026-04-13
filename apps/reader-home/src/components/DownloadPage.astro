@@ -1,0 +1,304 @@
+---
+// DownloadPage.astro — Download page, based on HTML reference
+---
+
+<!-- ===== Hero ===== -->
+<header class="dl-hero">
+  <div class="dl-hero__inner">
+    <h1 class="dl-hero__title">
+      Slax Reader — <span class="dl-hero__accent">Save Forever. Read Smarter.</span>
+    </h1>
+    <p class="dl-hero__sub">
+      Free to download, available on all your favorite platforms
+    </p>
+  </div>
+</header>
+
+<!-- ===== Platform Sections ===== -->
+<section class="dl-platforms">
+  <div class="dl-platforms__inner">
+
+    <!-- Mobile -->
+    <div class="dl-card">
+      <div class="dl-card__left">
+        <div class="dl-card__header">
+          <span class="dl-card__icon" aria-hidden="true">📱</span>
+          <h2 class="dl-card__title">iPhone, iPad, Android</h2>
+        </div>
+        <ul class="dl-card__list">
+          <li>Save forever, for free.</li>
+          <li>Save any article with one tap.</li>
+          <li>Get instant AI outlines and quick navigation.</li>
+          <li>Cross-platform sync.</li>
+        </ul>
+      </div>
+      <div class="dl-card__right">
+        <a
+          class="dl-btn dl-btn--dark"
+          href="https://apps.apple.com/cn/app/slax-reader-ai-read-it-later/id6596730998"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="dl-btn__icon" aria-hidden="true">🍎</span>
+          <span>
+            <span class="dl-btn__small">Download on the</span>
+            <span class="dl-btn__label">App Store</span>
+          </span>
+        </a>
+        <a
+          class="dl-btn dl-btn--green"
+          href="https://play.google.com/store/apps/details?id=com.slax.reader"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="dl-btn__icon" aria-hidden="true">▶</span>
+          <span>
+            <span class="dl-btn__small">GET IT ON</span>
+            <span class="dl-btn__label">Google Play</span>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Mac -->
+    <div class="dl-card">
+      <div class="dl-card__left">
+        <div class="dl-card__header">
+          <span class="dl-card__icon" aria-hidden="true">💻</span>
+          <h2 class="dl-card__title">Mac</h2>
+        </div>
+        <ul class="dl-card__list">
+          <li>Save, read and organize like a pro.</li>
+        </ul>
+      </div>
+      <div class="dl-card__right">
+        <a
+          class="dl-btn dl-btn--dark"
+          href="https://apps.apple.com/cn/app/slax-reader-ai-read-it-later/id6596730998"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="dl-btn__icon" aria-hidden="true">🍎</span>
+          <span>
+            <span class="dl-btn__small">Download on the</span>
+            <span class="dl-btn__label">Mac App Store</span>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Browser Extension -->
+    <div class="dl-card">
+      <div class="dl-card__left">
+        <div class="dl-card__header">
+          <span class="dl-card__icon" aria-hidden="true">🌐</span>
+          <h2 class="dl-card__title">Browser Extension</h2>
+        </div>
+        <ul class="dl-card__list">
+          <li>One tap to save and back up any web page — yours to keep forever.</li>
+          <li>AI chat with your articles — right on the same page.</li>
+          <li>Find what you need fast with powerful semantic search.</li>
+        </ul>
+      </div>
+      <div class="dl-card__right">
+        <a
+          class="dl-btn dl-btn--green"
+          href="https://chromewebstore.google.com/detail/gdnhaajlomjkhahnmiijphnodkcfikfd?utm_source=web_homepage"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="dl-btn__icon" aria-hidden="true">🔗</span>
+          <span>
+            <span class="dl-btn__label">Chrome Extension</span>
+          </span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* ── Hero ── */
+  .dl-hero {
+    padding: 72px 0 60px;
+    background: linear-gradient(135deg, #f8fffc 0%, #e6fff3 100%);
+    text-align: center;
+  }
+
+  .dl-hero__inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .dl-hero__title {
+    margin: 0 0 16px;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: #1f1f1f;
+  }
+
+  .dl-hero__accent {
+    color: #16b998;
+  }
+
+  .dl-hero__sub {
+    margin: 0;
+    font-size: 1.125rem;
+    color: #555555;
+  }
+
+  /* ── Platform Cards ── */
+  .dl-platforms {
+    padding: 60px 0 80px;
+    background: #ffffff;
+  }
+
+  .dl-platforms__inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .dl-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 32px 36px;
+    border-radius: 16px;
+    background: #f8f9fa;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .dl-card__left {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .dl-card__header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .dl-card__icon {
+    font-size: 2rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .dl-card__title {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1f1f1f;
+  }
+
+  .dl-card__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .dl-card__list li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 0.9375rem;
+    color: #444444;
+    line-height: 1.5;
+  }
+
+  .dl-card__list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #16b998;
+    font-weight: 700;
+  }
+
+  .dl-card__right {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  /* ── Buttons ── */
+  .dl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    min-width: 180px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .dl-btn:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  .dl-btn--dark {
+    background: #1a1a1a;
+    color: #ffffff;
+  }
+
+  .dl-btn--green {
+    background: linear-gradient(135deg, #25d4b0 0%, #16b998 100%);
+    color: #ffffff;
+  }
+
+  .dl-btn__icon {
+    font-size: 1.3rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .dl-btn__small {
+    display: block;
+    font-size: 0.65rem;
+    opacity: 0.8;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .dl-btn__label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 680px) {
+    .dl-card {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .dl-card__right {
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .dl-btn {
+      flex: 1;
+      min-width: 140px;
+      justify-content: center;
+    }
+  }
+</style>

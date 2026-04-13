@@ -1,0 +1,90 @@
+---
+date: 2026-03-28T00:00:00.000Z
+excerpt: 'A look at how Slax is built — the architecture decisions behind a product that works seamlessly on web, iOS, and desktop without sacrificing speed or reliability.'
+title: 'How Slax is Built: Architecture for Simplicity'
+pubDate: 2026-03-28T10:00:00.000Z
+tags:
+  - engineering
+  - architecture
+  - open-source
+authors:
+  - daguang
+draft: false
+---
+
+Products that feel simple are rarely simple to build. The less friction you want the user to experience, the more complexity you have to absorb in the engineering layer.
+
+Slax is a read-later + notes tool. It sounds straightforward. Fetch a URL, render it cleanly, let people annotate. But the details compound quickly:
+
+- Articles are fetched from thousands of different sites with wildly different HTML structures.
+- Highlights need to stay anchored to the right text even after the source article is edited.
+- Sync needs to be fast and conflict-free across web, iOS, and desktop.
+- Offline reading has to work, including for newly saved articles.
+
+Here's how we approach each of these.
+
+## Content Extraction: Parsing the Wild Web
+
+The first challenge is turning arbitrary HTML into clean, readable content. We use a combination of:
+
+1. **Readability-based extraction** — a technique inspired by Firefox Reader View that scores DOM nodes by content density and extracts the main body.
+2. **Custom parsers for high-value domains** — sites like Twitter, Substack, and major newspapers have consistent enough HTML that domain-specific rules give much better results.
+3. **Fallback rendering** — when extraction fails or produces low confidence output, we render a sandboxed iframe of the original page rather than showing garbled text.
+
+The hardest sites are paywalled publications. We extract what we can from the preview content and clearly indicate where the paywall begins, rather than pretending the article is complete.
+
+## Highlight Anchoring
+
+Highlights are anchored using a **text-position model** rather than raw DOM node paths. This means we record:
+
+- The first 32 characters before the selection
+- The selection text itself
+- The first 32 characters after the selection
+
+When you re-open an article, the highlight engine scans the text for this pattern and re-attaches the highlight, even if the article HTML has changed slightly.
+
+```typescript
+interface HighlightAnchor {
+  prefix: string;  // 32 chars before selection
+  exact: string;   // the highlighted text
+  suffix: string;  // 32 chars after selection
+  textOffset: number; // fallback character position
+}
+```
+
+This is more robust than DOM-based anchoring (which breaks when the page is re-rendered) and more resilient to minor edits than exact character offsets.
+
+## Sync Architecture
+
+Slax uses a **CRDT-inspired sync model** for notes. Rather than last-write-wins, each note operation is stored as an append-only event log:
+
+```
+[Create note]
+[Add paragraph: "Initial text"]
+[Edit paragraph 1: "Revised text"]
+[Add tag: "productivity"]
+```
+
+On sync, we merge these event logs deterministically. Two devices that made different changes offline will always produce the same final state after sync, with no conflicts and no data loss.
+
+For highlights and reading position, we use simpler LWW (last-write-wins) semantics since these are lower-stakes operations.
+
+## Offline First
+
+Every Slax client caches the full text of your last 200 articles locally. When you save a new article, it's queued for background download immediately.
+
+The result: opening Slax on an airplane feels the same as opening it on WiFi. You can read, highlight, and annotate with no connection. Everything syncs when you're back online.
+
+We use a service worker on web and native SQLite on mobile for local storage. The sync queue is durable — it survives app restarts and will keep retrying until the operation lands.
+
+## What's Open
+
+We believe in transparency about how your data is handled. Slax's core parsing library — the content extraction engine — is open source at [github.com/slax-lab](https://github.com/slax-lab). You can inspect exactly what we extract from any article and how.
+
+The highlight anchoring algorithm and CRDT sync protocol are also documented in our engineering wiki for anyone curious about the implementation details.
+
+---
+
+Building tools for thinking means caring deeply about reliability. A highlight that disappears, a note that doesn't sync, an article that renders as garbage — each of these breaks the trust that makes a second-brain tool worth using at all.
+
+That's the engineering problem we're solving every day.

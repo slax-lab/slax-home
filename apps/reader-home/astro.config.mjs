@@ -1,7 +1,8 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
-import starlight from '@astrojs/starlight';
+
 import sitemap from '@astrojs/sitemap';
+import starlight from '@astrojs/starlight';
+import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,10 +19,7 @@ export default defineConfig({
 			},
 
 			// --- Custom CSS ---
-			customCss: [
-				'./src/styles/custom.css',
-				'./src/styles/landing.css',
-			],
+			customCss: ['./src/styles/custom.css', './src/styles/landing.css'],
 
 			locales: {
 				root: {
@@ -35,40 +33,59 @@ export default defineConfig({
 			},
 
 			social: [
-				{ icon: 'github', label: 'GitHub', href: 'https://github.com/slax-lab' },
+				{
+					icon: 'github',
+					label: 'GitHub',
+					href: 'https://github.com/slax-lab',
+				},
 				{ icon: 'twitter', label: 'Twitter', href: 'https://x.com/SlaxReader' },
 			],
 
 			sidebar: [
 				{
-					label: 'Guides',
-					translations: { 'zh-CN': '指南' },
+					label: 'Blog',
+					translations: { 'zh-CN': '博客' },
+					collapsed: false,
 					items: [
-						{
-							label: 'Example Guide',
-							translations: { 'zh-CN': '示例指南' },
-							slug: 'guides/example',
-						},
+						{ label: 'Hi, Welcome', slug: 'blog' },
+						{ label: 'A Smarter Way to Save & Read Forever', slug: 'blog/a-smarter-more-efficient-ai-powered-way-to-save-and-read-forever' },
+						{ label: 'Open-Source Pocket Alternative', slug: 'blog/built-an-open-source-pocket-alternative' },
+						{ label: 'Save Content Permanently & Simplify Learning', slug: 'blog/built-an-open-source-tool-to-save-content-permanently-and-simplify-learning' },
 					],
 				},
 				{
-					label: 'Reference',
-					translations: { 'zh-CN': '参考' },
-					autogenerate: { directory: 'reference' },
+					label: 'Compare',
+					translations: { 'zh-CN': '对比' },
+					collapsed: false,
+					items: [
+						{ label: 'Why Slax Reader', slug: 'compare' },
+						{ label: 'vs Instapaper', slug: 'compare/slax-reader-vs-instapaper' },
+					],
 				},
 			],
 
 			head: [
 				{ tag: 'meta', attrs: { property: 'og:type', content: 'website' } },
-				{ tag: 'meta', attrs: { property: 'og:site_name', content: 'Slax Reader' } },
+				{
+					tag: 'meta',
+					attrs: { property: 'og:site_name', content: 'Slax Reader' },
+				},
 				{ tag: 'meta', attrs: { property: 'og:locale', content: 'en_US' } },
-				{ tag: 'meta', attrs: { property: 'og:locale:alternate', content: 'zh_CN' } },
-				{ tag: 'meta', attrs: { name: 'twitter:card', content: 'summary_large_image' } },
+				{
+					tag: 'meta',
+					attrs: { property: 'og:locale:alternate', content: 'zh_CN' },
+				},
+				{
+					tag: 'meta',
+					attrs: { name: 'twitter:card', content: 'summary_large_image' },
+				},
 			],
 
 			components: {
 				Head: './src/components/Head.astro',
 				SkipLink: './src/components/SkipLink.astro',
+				Header: './src/components/NavHeader.astro',
+				Footer: './src/components/Footer.astro',
 			},
 		}),
 		sitemap({

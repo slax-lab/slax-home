@@ -22,6 +22,7 @@ import ProductCard from '~/components/ProductCard.astro';
 import FeatureGrid from '~/components/FeatureGrid.astro';
 import FeatureCard from '~/components/FeatureCard.astro';
 import CallToAction from '~/components/CallToAction.astro';
+import Testimonial from '~/components/Testimonial.astro';
 import TextImage from '~/components/TextImage.astro';
 
 <ProductGrid title="Our Products">
@@ -67,6 +68,13 @@ import TextImage from '~/components/TextImage.astro';
     icon='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m7 10.5 2 2L13 8"/><path d="m16 8-4 4"/></svg>'
   />
 </FeatureGrid>
+
+<Testimonial
+  quote="Slax has completely transformed how I manage my reading and note-taking. The seamless integration between Reader and Note means I never lose track of an important idea."
+  author="Early Adopter"
+  role="Slax Community"
+  rating={5}
+/>
 
 <TextImage
   title="Save anything from the <strong>web</strong>"

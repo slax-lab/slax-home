@@ -244,7 +244,21 @@ export const collections = {
 🔧 Configure sitemap i18n hreflang settings
 ```
 
-## 10. 构建与部署检查清单
+## 10. 协作工作流（重要！必须遵守）
+
+### 修改 → 本地测试 → 再 commit
+
+**每次做完任何修改，流程必须是：**
+
+1. 写代码 / 改文件
+2. **停下来，等用户本地测试**
+3. 用户口头确认"可以 commit"后，才执行 `git add` + `git commit` + `git push`
+
+**严禁：** 改完代码自动 commit，用户没有明确说"commit"就提交。
+
+---
+
+## 11. 构建与部署检查清单
 
 - [ ] `pnpm build` 无错误
 - [ ] 三个子站 sitemap 正确生成

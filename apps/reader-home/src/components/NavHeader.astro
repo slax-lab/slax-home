@@ -1,0 +1,429 @@
+---
+import Search from 'virtual:starlight/components/Search';
+import SiteTitle from 'virtual:starlight/components/SiteTitle';
+import config from 'virtual:starlight/user-config';
+import { isNavDropdown, isNavGroup, navActions, navItems } from '../config/nav';
+
+const shouldRenderSearch =
+	config.pagefind ||
+	config.components.Search !== '@astrojs/starlight/components/Search.astro';
+
+const lang = Astro.currentLocale ?? 'en';
+
+function getLabel(item: { label: string; translations?: Record<string, string> }) {
+	if (!item.translations) return item.label;
+	const langMap: Record<string, string> = { zh: 'zh-CN' };
+	const key = langMap[lang] ?? lang;
+	return item.translations[key] ?? item.label;
+}
+
+const currentPath = Astro.url.pathname;
+---
+
+<div class="header">
+  <div class="title-wrapper sl-flex">
+    <a href="/reader/" class="logo-link" aria-label="Slax Reader home">
+      <img src="/reader/images/logo.png" alt="Slax Reader" class="nav-logo" width="28" height="28" />
+    </a>
+    <SiteTitle />
+  </div>
+
+  <nav class="nav-items sl-hidden md:sl-flex" aria-label="Main navigation">
+    {navItems.map((item) =>
+      isNavDropdown(item) ? (
+        <div class="nav-dropdown">
+          <button class="nav-btn" aria-haspopup="true" aria-expanded="false">
+            {getLabel(item)}
+            <svg class="nav-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+              <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <ul class="nav-dropdown-panel" role="menu">
+            {item.children.map((child) =>
+              isNavGroup(child) ? (
+                <li role="none" class="nav-group">
+                  <a
+                    href={child.href}
+                    role="menuitem"
+                    class:list={['nav-dropdown-link nav-group-label', { active: currentPath === child.href || currentPath.startsWith(child.href + '/') }]}
+                  >
+                    {getLabel(child)}
+                  </a>
+                  <ul class="nav-submenu">
+                    {child.children.map((sub) => (
+                      <li role="none">
+                        <a
+                          href={sub.href}
+                          role="menuitem"
+                          class:list={['nav-dropdown-link nav-submenu-link', { active: currentPath === sub.href || currentPath.startsWith(sub.href + '/') }]}
+                        >
+                          {getLabel(sub)}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ) : (
+                <li role="none">
+                  <a
+                    href={child.href}
+                    role="menuitem"
+                    class:list={['nav-dropdown-link', { active: currentPath === child.href || currentPath.startsWith(child.href + '/') }]}
+                  >
+                    {getLabel(child)}
+                  </a>
+                </li>
+              )
+            )}
+          </ul>
+        </div>
+      ) : (
+        <a
+          href={item.href}
+          class:list={['nav-link', { active: currentPath === item.href || currentPath === item.href + '/' }]}
+        >
+          {getLabel(item)}
+        </a>
+      )
+    )}
+  </nav>
+
+  <div class="sl-hidden md:sl-flex print:hidden right-group">
+    <a
+      href="https://github.com/slax-lab"
+      class="nav-icon-link"
+      aria-label="GitHub"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+      </svg>
+    </a>
+    {navActions.map((action) => (
+      <a
+        href={action.href}
+        class:list={['nav-action', `nav-action--${action.variant}`]}
+      >
+        {getLabel(action)}
+      </a>
+    ))}
+  </div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.nav-dropdown').forEach((dropdown) => {
+    const btn = dropdown.querySelector<HTMLButtonElement>('.nav-btn');
+    const panel = dropdown.querySelector<HTMLElement>('.nav-dropdown-panel');
+    if (!btn || !panel) return;
+
+    let closeTimer: ReturnType<typeof setTimeout>;
+
+    const open = () => {
+      clearTimeout(closeTimer);
+      panel.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    };
+    const scheduleClose = () => {
+      closeTimer = setTimeout(() => {
+        panel.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }, 120);
+    };
+
+    dropdown.addEventListener('mouseenter', open);
+    dropdown.addEventListener('mouseleave', scheduleClose);
+    btn.addEventListener('click', () => {
+      panel.classList.contains('open') ? scheduleClose() : open();
+    });
+  });
+
+  // Submenu hover
+  document.querySelectorAll<HTMLElement>('.nav-group').forEach((group) => {
+    const submenu = group.querySelector<HTMLElement>('.nav-submenu');
+    if (!submenu) return;
+
+    let closeTimer: ReturnType<typeof setTimeout>;
+
+    group.addEventListener('mouseenter', () => {
+      clearTimeout(closeTimer);
+      submenu.classList.add('open');
+    });
+    group.addEventListener('mouseleave', () => {
+      closeTimer = setTimeout(() => submenu.classList.remove('open'), 120);
+    });
+  });  document.addEventListener('click', (e) => {
+    document.querySelectorAll<HTMLElement>('.nav-dropdown').forEach((dropdown) => {
+      const btn = dropdown.querySelector<HTMLButtonElement>('.nav-btn');
+      const panel = dropdown.querySelector<HTMLElement>('.nav-dropdown-panel');
+      if (!dropdown.contains(e.target as Node) && panel && btn) {
+        panel.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+</script>
+
+<style>
+  @layer starlight.core {
+    .header {
+      display: flex;
+      gap: var(--sl-nav-gap);
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+      max-width: 1200px;
+      margin-inline: auto;
+      width: 100%;
+    }
+
+    .title-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      overflow: clip;
+      padding: 0.25rem;
+      margin: -0.25rem;
+      min-width: 0;
+    }
+
+    .logo-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border-radius: 0.6rem;
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(22, 185, 152, 0.14);
+      padding: 0.125rem;
+      overflow: hidden;
+    }
+
+    .nav-logo {
+      display: block;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 0.5rem;
+      object-fit: cover;
+    }
+
+    .right-group {
+      gap: 0.5rem;
+      align-items: center;
+      justify-self: end;
+    }
+
+    @media (min-width: 50rem) {
+      :global(:root[data-has-sidebar]) {
+        --__sidebar-pad: calc(2 * var(--sl-nav-pad-x));
+      }
+      :global(:root:not([data-has-toc])) {
+        --__toc-width: 0rem;
+      }
+      .header {
+        --__sidebar-width: max(0rem, var(--sl-content-inline-start, 0rem) - var(--sl-nav-pad-x));
+        --__main-column-fr: calc(
+          (
+            100% + var(--__sidebar-pad, 0rem) - var(--__toc-width, var(--sl-sidebar-width)) -
+            (2 * var(--__toc-width, var(--sl-nav-pad-x))) - var(--sl-content-inline-start, 0rem) -
+            var(--sl-content-width)
+          ) / 2
+        );
+        display: grid;
+        grid-template-columns:
+          minmax(
+            calc(var(--__sidebar-width) + max(0rem, var(--__main-column-fr) - var(--sl-nav-gap))),
+            auto
+          )
+          auto
+          1fr
+          auto;
+        align-content: center;
+      }
+    }
+  }
+
+  /* ===== Nav items ===== */
+  .nav-items {
+    align-items: center;
+    gap: 0.25rem;
+    justify-self: start;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--sl-color-gray-2);
+    text-decoration: none;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--sl-color-accent);
+    background: color-mix(in srgb, var(--sl-color-accent) 10%, transparent);
+  }
+
+  /* ===== Dropdown ===== */
+  .nav-dropdown {
+    position: relative;
+    padding-bottom: 8px;
+    margin-bottom: -8px;
+  }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--sl-color-gray-2);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+
+  .nav-btn:hover {
+    color: var(--sl-color-accent);
+    background: color-mix(in srgb, var(--sl-color-accent) 10%, transparent);
+  }
+
+  .nav-chevron {
+    transition: transform 0.2s ease;
+  }
+
+  .nav-btn[aria-expanded="true"] .nav-chevron {
+    transform: rotate(180deg);
+  }
+
+  .nav-dropdown-panel {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 160px;
+    background: var(--sl-color-black);
+    border: 1px solid var(--sl-color-gray-6);
+    border-radius: 8px;
+    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.08);
+    padding: 6px;
+    list-style: none;
+    margin: 0;
+    z-index: 100;
+  }
+
+  .nav-dropdown-panel.open {
+    display: block;
+  }
+
+  .nav-dropdown-link {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--sl-color-gray-2);
+    text-decoration: none;
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+
+  .nav-dropdown-link:hover,
+  .nav-dropdown-link.active {
+    color: var(--sl-color-accent);
+    background: color-mix(in srgb, var(--sl-color-accent) 10%, transparent);
+  }
+
+  /* ===== Submenu (third level — always visible inside dropdown) ===== */
+  .nav-group {
+    position: relative;
+  }
+
+  .nav-group-label {
+    font-weight: 600;
+    color: var(--sl-color-gray-3);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 0.75rem 0.25rem;
+    pointer-events: auto;
+  }
+
+  .nav-group-label:hover {
+    background: none;
+    color: var(--sl-color-accent);
+  }
+
+  .nav-submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 4px 0;
+  }
+
+  .nav-submenu-link {
+    padding-left: 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  /* ===== Action buttons ===== */
+  .nav-icon-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    color: var(--sl-color-gray-2);
+    text-decoration: none;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+
+  .nav-icon-link:hover {
+    color: var(--sl-color-accent);
+    background: color-mix(in srgb, var(--sl-color-accent) 10%, transparent);
+  }
+
+  .nav-icon-link:focus-visible {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: 2px;
+  }
+
+  .nav-action {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.35rem 0.9rem;
+    border-radius: 6px;
+    transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .nav-action:focus-visible {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: 2px;
+  }
+
+  .nav-action--ghost {
+    color: var(--sl-color-gray-2);
+    background: transparent;
+  }
+
+  .nav-action--ghost:hover {
+    color: var(--sl-color-accent);
+    background: color-mix(in srgb, var(--sl-color-accent) 10%, transparent);
+  }
+
+  .nav-action--primary {
+    color: #ffffff;
+    background: var(--sl-color-accent);
+  }
+
+  .nav-action--primary:hover {
+    background: color-mix(in srgb, var(--sl-color-accent) 85%, #000);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--sl-color-accent) 40%, transparent);
+  }
+</style>

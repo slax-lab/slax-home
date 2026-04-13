@@ -1,0 +1,535 @@
+---
+// PricingTable.astro — Pricing page, strictly based on HTML reference
+---
+
+<!-- ===== Hero ===== -->
+<header class="pricing-hero">
+  <div class="pricing-hero__inner">
+    <h1 class="pricing-hero__title">
+      Read Smarter, <span class="pricing-hero__accent">Not Just Later.</span>
+    </h1>
+    <p class="pricing-hero__sub">
+      Save Forever, Learn faster. Your intelligent library for high efficiency and deep undersatanding.
+    </p>
+
+    <!-- Promo Banner -->
+    <a class="pricing-promo" href="https://r.slax.com/login">
+      <span aria-hidden="true">🎉</span>
+      Join today and get 1 Month of Pro Free
+    </a>
+  </div>
+</header>
+
+<!-- ===== Pricing Table ===== -->
+<section class="pricing-wrap">
+  <div class="pricing-table-scroll">
+    <table class="pricing-table">
+      <thead>
+        <tr>
+          <!-- Col 1: label -->
+          <th class="pt-label-col">
+            <h2 class="pt-section-title">Pricing Plans</h2>
+          </th>
+
+          <!-- Col 2: Free -->
+          <th class="pt-plan-col">
+            <div class="pt-plan">
+              <h3 class="pt-plan__name">Free</h3>
+              <div class="pt-plan__price">
+                <span class="pt-plan__amount">$0</span>
+                <span class="pt-plan__period">/ Month</span>
+              </div>
+              <p class="pt-plan__desc">
+                Unlimited bookmarks &amp; backup forever — join now before limits apply!
+              </p>
+              <a class="pt-plan__btn" href="https://r.slax.com/login">Start Free</a>
+            </div>
+          </th>
+
+          <!-- Col 3: Pro Reader -->
+          <th class="pt-plan-col pt-plan-col--pro">
+            <div class="pt-plan">
+              <h3 class="pt-plan__name pt-plan__name--pro">Pro Reader</h3>
+              <div class="pt-plan__price">
+                <span class="pt-plan__amount">$5.99</span>
+                <span class="pt-plan__period">/ Month</span>
+                <span class="pt-plan__strike">($9.99)</span>
+              </div>
+              <p class="pt-plan__desc">
+                Unleash your reading superpowers with integrated AI analysis.
+              </p>
+              <a class="pt-plan__btn pt-plan__btn--pro" href="https://r.slax.com/login">
+                Try 1 Month Free
+              </a>
+            </div>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <!-- ── Free + Pro rows ── -->
+        <tr>
+          <td class="pt-feat">Save Unlimited Articles</td>
+          <td class="pt-check">✓</td>
+          <td class="pt-check">✓</td>
+        </tr>
+        <tr>
+          <td class="pt-feat">Permanent Snapshots (no broken links)</td>
+          <td class="pt-check">✓</td>
+          <td class="pt-check">✓</td>
+        </tr>
+        <tr>
+          <td class="pt-feat">Unlimited Highlights &amp; Comments</td>
+          <td class="pt-check">✓</td>
+          <td class="pt-check">✓</td>
+        </tr>
+        <tr>
+          <td class="pt-feat">Full-Text Search</td>
+          <td class="pt-check">✓</td>
+          <td class="pt-check">✓</td>
+        </tr>
+        <tr>
+          <td class="pt-feat">Sync Across All Devices</td>
+          <td class="pt-check">✓</td>
+          <td class="pt-check">✓</td>
+        </tr>
+        <tr>
+          <td class="pt-feat">Share Articles &amp; Join Discussions</td>
+          <td class="pt-check">✓</td>
+          <td class="pt-check">✓</td>
+        </tr>
+        <tr>
+          <td class="pt-feat">Open Source &amp; Privacy-First</td>
+          <td class="pt-check">✓</td>
+          <td class="pt-check">✓</td>
+        </tr>
+        <tr>
+          <td class="pt-feat">Create &amp; Manage Tags</td>
+          <td class="pt-check">✓</td>
+          <td class="pt-check">✓</td>
+        </tr>
+
+        <!-- ── AI / Pro-only rows ── -->
+        <tr>
+          <td class="pt-feat">Smart AI Auto-Tagging</td>
+          <td class="pt-cross">✕</td>
+          <td class="pt-ai">
+            <span class="pt-ai-badge">AI</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="pt-feat">Instant AI Summaries</td>
+          <td class="pt-cross">✕</td>
+          <td class="pt-ai">
+            <span class="pt-ai-badge">AI</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="pt-feat">Interactive AI Outlines</td>
+          <td class="pt-cross">✕</td>
+          <td class="pt-ai">
+            <span class="pt-ai-badge">AI</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="pt-feat">AI Chatbot — Ask Your Library Anything</td>
+          <td class="pt-cross">✕</td>
+          <td class="pt-ai">
+            <span class="pt-ai-badge">AI</span>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="pricing-faq">
+  <div class="pricing-faq__inner">
+    <h2 class="pricing-faq__title">Frequently Asked Questions</h2>
+
+    <details class="faq-item" open>
+      <summary class="faq-item__q">Is the Free plan really free forever?</summary>
+      <p class="faq-item__a">
+        Yes — for early users. We're offering unlimited bookmarks and permanent backups at no cost
+        while we're in early access. Lock in free usage now before limits apply.
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-item__q">Will Slax Reader really save me hours of reading every week?</summary>
+      <p class="faq-item__a">
+        That's what it's built for. Clickable AI outlines let you navigate long articles without
+        reading every word. Auto-tagging handles the organizing, so you can just read.
+        <a href="/reader/blog/a-smarter-more-efficient-ai-powered-way-to-save-and-read-forever" class="faq-item__link">Full Visual Tour →</a>
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-item__q">Can I cancel my Pro subscription anytime?</summary>
+      <p class="faq-item__a">
+        Absolutely. Cancel any time from your account settings with no penalties. Your saved
+        articles and highlights remain accessible on the Free plan.
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-item__q">How does the 1 Month Free trial work?</summary>
+      <p class="faq-item__a">
+        <a href="https://r.slax.com/login" class="faq-item__link">Sign in</a> and start your trial — no credit card required. After 30 days you'll be
+        asked if you'd like to continue with Pro at $5.99 / month (regular price $9.99).
+      </p>
+    </details>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="pricing-cta">
+  <div class="pricing-cta__inner">
+    <h2 class="pricing-cta__title">Start Your Intelligent Reading Journey Today</h2>
+    <p class="pricing-cta__sub">Read smarter, learn faster, remember more</p>
+    <a class="pricing-cta__btn" href="https://r.slax.com/login">
+      <span>Get Started — It's Free</span>
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  /* ── Hero ── */
+  .pricing-hero {
+    padding: 80px 0 72px;
+    background: linear-gradient(135deg, #f8fffc 0%, #e6fff3 100%);
+    text-align: center;
+  }
+
+  .pricing-hero__inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .pricing-hero__title {
+    margin: 0 0 20px;
+    font-size: clamp(2.4rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: #1f1f1f;
+  }
+
+  .pricing-hero__accent {
+    color: #16b998;
+  }
+
+  .pricing-hero__sub {
+    margin: 0 0 32px;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #333333;
+  }
+
+  /* ── Promo Banner ── */
+  .pricing-promo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #16b998 0%, #5edda8 100%);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .pricing-promo:hover {
+    opacity: 0.88;
+  }
+
+  /* ── Table Wrapper ── */
+  .pricing-wrap {
+    padding: 60px 0 80px;
+    background: #ffffff;
+  }
+
+  .pricing-table-scroll {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    overflow-x: auto;
+  }
+
+  /* ── Table ── */
+  .pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.08);
+  }
+
+  .pricing-table thead tr {
+    background: #f8f9fa;
+  }
+
+  .pricing-table th,
+  .pricing-table td {
+    padding: 18px 20px;
+    text-align: left;
+    border-bottom: 1px solid #ecf0f5;
+    vertical-align: top;
+  }
+
+  .pricing-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Label column */
+  .pt-label-col {
+    width: 46%;
+  }
+
+  .pt-section-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f1f1f;
+  }
+
+  /* Plan columns */
+  .pt-plan-col {
+    width: 27%;
+    background: #ffffff;
+  }
+
+  .pt-plan-col--pro {
+    background: linear-gradient(180deg, #f0fdf8 0%, #ffffff 100%);
+  }
+
+  .pt-plan__name {
+    margin: 0 0 10px;
+    font-size: 1.1rem;
+    color: #1f1f1f;
+  }
+
+  .pt-plan__name--pro {
+    color: #16b998;
+  }
+
+  .pt-plan__price {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    margin-bottom: 12px;
+  }
+
+  .pt-plan__amount {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #1f1f1f;
+  }
+
+  .pt-plan__period {
+    font-size: 0.875rem;
+    color: #666666;
+  }
+
+  .pt-plan__strike {
+    font-size: 0.8rem;
+    color: #999999;
+    text-decoration: line-through;
+  }
+
+  .pt-plan__desc {
+    margin: 0 0 16px;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #555555;
+  }
+
+  /* Buttons */
+  .pt-plan__btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 6px;
+    background: #f0f0f0;
+    color: #1f1f1f;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background 0.2s ease;
+  }
+
+  .pt-plan__btn:hover {
+    background: #e0e0e0;
+  }
+
+  .pt-plan__btn--pro {
+    background: linear-gradient(135deg, #25d4b0 0%, #1cb0b5 50%, #16b998 100%);
+    color: #ffffff;
+  }
+
+  .pt-plan__btn--pro:hover {
+    opacity: 0.9;
+  }
+
+  /* Feature rows */
+  .pt-feat {
+    font-size: 0.925rem;
+    color: #333333;
+  }
+
+  .pt-check {
+    text-align: center;
+    color: #16b998;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .pt-cross {
+    text-align: center;
+    color: #cccccc;
+    font-size: 1rem;
+  }
+
+  .pt-ai {
+    text-align: center;
+  }
+
+  .pt-ai-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #16b998 0%, #5edda8 100%);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── FAQ ── */
+  .pricing-faq {
+    padding: 60px 0 80px;
+    background: #f8f9fa;
+  }
+
+  .pricing-faq__inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .pricing-faq__title {
+    margin: 0 0 40px;
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    font-weight: 700;
+    color: #1f1f1f;
+    text-align: center;
+  }
+
+  .faq-item {
+    margin-bottom: 12px;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+  }
+
+  .faq-item__q {
+    display: block;
+    padding: 18px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f1f1f;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .faq-item__q::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item__q::after {
+    content: '+';
+    float: right;
+    color: #16b998;
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .faq-item[open] .faq-item__q::after {
+    content: '−';
+  }
+
+  .faq-item__a {
+    margin: 0;
+    padding: 0 20px 18px;
+    font-size: 0.925rem;
+    line-height: 1.7;
+    color: #555555;
+  }
+
+  .faq-item__link {
+    color: #16b998;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .faq-item__link:hover {
+    text-decoration: underline;
+  }
+
+  /* ── CTA ── */
+  .pricing-cta {
+    padding: 68px 0 80px;
+    background: linear-gradient(180deg, #2eb396 0%, #5edda8 100%);
+    text-align: center;
+  }
+
+  .pricing-cta__inner {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .pricing-cta__title {
+    margin: 0 0 16px;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 800;
+    color: #ffffff;
+  }
+
+  .pricing-cta__sub {
+    margin: 0 0 36px;
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .pricing-cta__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 56px;
+    padding: 0 32px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #1f1f1f;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .pricing-cta__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.18);
+  }
+</style>
+
