@@ -38,23 +38,24 @@ header.header {
 	box-shadow: none !important;
 }
 
-/* 去掉 social icons 左侧竖线分隔符 */
+/* 去掉 social icons 左侧竖线分隔符（右侧只剩 GitHub，不需要分隔线） */
 header .social-icons {
 	border-inline-start: none !important;
 	padding-inline-start: 0 !important;
 	margin-inline-start: 0 !important;
 }
+header .social-icons::after {
+	display: none !important;
+}
 
-	--sl-color-accent-low: #d0f5f3;
-	--sl-color-accent: #1fa39a;
-	--sl-color-accent-high: #0c3a38;
-
-	--sl-color-white: #101c1b;
-	--sl-color-gray-1: #263635;
-	--sl-color-gray-2: #445655;
-	--sl-color-gray-3: #7b9190;
-	--sl-color-gray-4: #b3c5c4;
-	--sl-color-gray-5: #dde8e7;
-	--sl-color-gray-6: #edf3f3;
-	--sl-color-black: #fff;
+/* ===== Header 宽度约束 =====
+   让导航栏内容区域与下方页面内容（max-width: 1200px）对齐，
+   不拉满到屏幕两端。 */
+header .header {
+	max-width: 1200px;
+	margin-inline: auto;
+	padding-inline: 40px;
+	width: 100%;
+	/* header 本身仍 full-width，只约束内部 flex 行 */
+	box-sizing: border-box;
 }

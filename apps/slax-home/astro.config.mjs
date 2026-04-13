@@ -165,6 +165,10 @@ export default defineConfig({
 				Search: './src/components/Empty.astro',
 				// ThemeSelect: 用 CSS 隐藏（starlight-blog 插件已占用此覆盖位）
 				LanguageSelect: './src/components/Empty.astro',
+				// 标题左侧：Slax Home + logo+Reader | logo+Note 产品导航
+				SiteTitle: './src/components/SlaxSiteTitle.astro',
+				// 标题右侧：只保留 GitHub 图标
+				SocialIcons: './src/components/SlaxSocialIcons.astro',
 			},
 			plugins: [
 				starlightBlog({
