@@ -2,27 +2,11 @@
 title: Slax — Your Productivity Suite
 description: Slax is an all-in-one productivity suite featuring Slax Reader for smart reading and Slax Note for intelligent note-taking.
 template: splash
-hero:
-  title: Your AI Productivity Suite
-  tagline: Read smarter. Write better. Stay organized.
+head:
+  - tag: style
+    content: 'h1#_top { display: none !important; } .main-pane > .content-panel:first-child { display: none !important; } .sl-container { max-width: 100% !important; padding-inline: 0 !important; } .main-pane { max-width: 100% !important; padding: 0 !important; } main { padding-block: 0 !important; }'
 ---
 
-import ProductGrid from '~/components/ProductGrid.astro';
-import ProductCard from '~/components/ProductCard.astro';
+import SlaxHomeHero from '~/components/SlaxHomeHero.astro';
 
-<ProductGrid>
-  <ProductCard
-    title="Slax Reader"
-    description="Your smart reading companion. Save, organize, and annotate articles from across the web. Built for deep reading and effortless knowledge capture."
-    href="/reader/"
-    hue="163"
-    cta="Explore Reader"
-  />
-  <ProductCard
-    title="Slax Note"
-    description="Your intelligent note-taking tool. Capture ideas, connect thoughts, and build your personal knowledge base with a beautiful writing experience."
-    href="/note/"
-    hue="181"
-    cta="Explore Note"
-  />
-</ProductGrid>
+<SlaxHomeHero />
