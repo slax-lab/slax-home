@@ -16,7 +16,35 @@ html[data-site="home"] {
 	--sl-color-black: #101c1b;
 }
 
-html[data-site="home"][data-theme='light'] {
+/* ===== 暂时隐藏的导航元素 =====
+   starlight-blog 插件已占用 ThemeSelect 组件覆盖位，改用 CSS 隐藏。
+   My Blog 链接同理。
+   要恢复某项：删掉对应的 display:none 行即可。 */
+
+/* 主题切换 (Auto) */
+header starlight-theme-select {
+	display: none !important;
+}
+
+/* My Blog 链接 */
+header .social-icons ~ * a[href*="/blog"],
+header a[href*="/blog"] {
+	display: none !important;
+}
+
+/* 去掉 header 底部横线 */
+header.header {
+	border-bottom: none !important;
+	box-shadow: none !important;
+}
+
+/* 去掉 social icons 左侧竖线分隔符 */
+header .social-icons {
+	border-inline-start: none !important;
+	padding-inline-start: 0 !important;
+	margin-inline-start: 0 !important;
+}
+
 	--sl-color-accent-low: #d0f5f3;
 	--sl-color-accent: #1fa39a;
 	--sl-color-accent-high: #0c3a38;

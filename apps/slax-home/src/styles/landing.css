@@ -13,6 +13,12 @@
 	--brand-hsl: 177, 68%, 38%;
 }
 
+/* ---- 全局页面底色：白色，覆盖 Starlight 暗色背景 ----
+   不依赖 [data-has-hero]，确保首页在无 hero frontmatter 时也有正确背景 */
+.page {
+	background: #ffffff;
+}
+
 /* ---- Animated gradient background on hero/splash pages ---- */
 /* Three floating radial-gradient orbs drift slowly on different paths,
    creating an organic, ambient glow behind the page content.

@@ -109,7 +109,7 @@ export default defineConfig({
 					label: 'GitHub',
 					href: 'https://github.com/slax-lab',
 				},
-				{ icon: 'twitter', label: 'Twitter', href: 'https://x.com/SlaxReader' },
+				// { icon: 'twitter', label: 'Twitter', href: 'https://x.com/SlaxReader' }, // 暂时隐藏
 			],
 
 			sidebar: [
@@ -161,6 +161,10 @@ export default defineConfig({
 			components: {
 				Head: './src/components/Head.astro',
 				SkipLink: './src/components/SkipLink.astro',
+				// 暂时隐藏以下导航元素，要恢复某项只需删掉对应行
+				Search: './src/components/Empty.astro',
+				// ThemeSelect: 用 CSS 隐藏（starlight-blog 插件已占用此覆盖位）
+				LanguageSelect: './src/components/Empty.astro',
 			},
 			plugins: [
 				starlightBlog({
