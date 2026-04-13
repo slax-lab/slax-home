@@ -1,32 +1,32 @@
 /* ===== Slax Home — Custom Starlight theme tokens ===== */
-/* Brand: indigo accent. Scoped via data-site to avoid Vite dev proxy CSS bleed */
+/* Brand: teal accent. Scoped via data-site to avoid Vite dev proxy CSS bleed */
 
 html[data-site="home"] {
-	--sl-color-accent-low: #1a1a40;
-	--sl-color-accent: #4f5de6;
-	--sl-color-accent-high: #c5c9ff;
+	--sl-color-accent-low: #0d2d2b;
+	--sl-color-accent: #29bdb2;
+	--sl-color-accent-high: #a8ebe7;
 
 	--sl-color-white: #fff;
-	--sl-color-gray-1: #e2e4ea;
-	--sl-color-gray-2: #b8bcc8;
-	--sl-color-gray-3: #7e8494;
-	--sl-color-gray-4: #454b5e;
-	--sl-color-gray-5: #272c3c;
-	--sl-color-gray-6: #181c2a;
-	--sl-color-black: #12141f;
+	--sl-color-gray-1: #dde8e7;
+	--sl-color-gray-2: #b3c5c4;
+	--sl-color-gray-3: #7b9190;
+	--sl-color-gray-4: #445655;
+	--sl-color-gray-5: #263635;
+	--sl-color-gray-6: #172524;
+	--sl-color-black: #101c1b;
 }
 
 html[data-site="home"][data-theme='light'] {
-	--sl-color-accent-low: #dde0ff;
-	--sl-color-accent: #3d4bdb;
-	--sl-color-accent-high: #182068;
+	--sl-color-accent-low: #d0f5f3;
+	--sl-color-accent: #1fa39a;
+	--sl-color-accent-high: #0c3a38;
 
-	--sl-color-white: #12141f;
-	--sl-color-gray-1: #272c3c;
-	--sl-color-gray-2: #454b5e;
-	--sl-color-gray-3: #7e8494;
-	--sl-color-gray-4: #b8bcc8;
-	--sl-color-gray-5: #e2e4ea;
-	--sl-color-gray-6: #f0f1f5;
+	--sl-color-white: #101c1b;
+	--sl-color-gray-1: #263635;
+	--sl-color-gray-2: #445655;
+	--sl-color-gray-3: #7b9190;
+	--sl-color-gray-4: #b3c5c4;
+	--sl-color-gray-5: #dde8e7;
+	--sl-color-gray-6: #edf3f3;
 	--sl-color-black: #fff;
 }
