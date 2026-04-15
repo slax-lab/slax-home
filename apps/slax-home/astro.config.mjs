@@ -114,6 +114,14 @@ export default defineConfig({
 
 			sidebar: [
 				{
+					label: 'Blog',
+					autogenerate: { directory: 'blog' },
+				},
+				{
+					label: 'Compare',
+					autogenerate: { directory: 'compare' },
+				},
+				{
 					label: 'Guides',
 					translations: { 'zh-CN': '指南' },
 					items: [
@@ -174,6 +182,7 @@ export default defineConfig({
 			},
 			plugins: [
 				starlightBlog({
+					prefix: 'blog2',
 					title: {
 						'zh-CN': '我的博客',
 						en: 'My Blog',
