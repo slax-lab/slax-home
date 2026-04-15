@@ -115,10 +115,12 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: 'Blog',
+					translations: { 'zh-CN': '博客' },
 					autogenerate: { directory: 'blog' },
 				},
 				{
 					label: 'Compare',
+					translations: { 'zh-CN': '对比' },
 					autogenerate: { directory: 'compare' },
 				},
 				{
