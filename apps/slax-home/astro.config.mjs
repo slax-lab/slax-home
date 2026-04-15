@@ -169,6 +169,8 @@ export default defineConfig({
 				SiteTitle: './src/components/SlaxSiteTitle.astro',
 				// 标题右侧：只保留 GitHub 图标
 				SocialIcons: './src/components/SlaxSocialIcons.astro',
+				// 全站底部导航栏
+				Footer: './src/components/SlaxFooter.astro',
 			},
 			plugins: [
 				starlightBlog({

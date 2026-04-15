@@ -83,10 +83,7 @@ const { siteTitle, siteTitleHref } = Astro.locals.starlightRoute;
     display: flex;
     align-items: center;
     gap: 2px;
-    /* 与标题之间稍微间隔，视觉分组 */
     margin-inline-start: 14px;
-    padding-inline-start: 14px;
-    border-inline-start: 1px solid var(--sl-color-gray-5);
     white-space: nowrap;
   }
 
@@ -118,9 +115,6 @@ const { siteTitle, siteTitleHref } = Astro.locals.starlightRoute;
   }
 
   .sst-divider {
-    color: var(--sl-color-gray-5);
-    font-size: 0.75rem;
-    padding-inline: 2px;
-    user-select: none;
+    display: none;
   }
 </style>

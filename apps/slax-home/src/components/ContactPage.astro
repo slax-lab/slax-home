@@ -48,16 +48,6 @@
 
   </section>
 
-  <!-- CTA -->
-  <section class="cp__cta">
-    <h2 class="cp__cta-title">Start Your Intelligent Reading Journey</h2>
-    <p class="cp__cta-sub">Free to get started. No credit card required.</p>
-    <a class="cp__cta-btn" href="https://r.slax.com/login">
-      Get Started — It's Free
-      <span aria-hidden="true">→</span>
-    </a>
-  </section>
-
 </div>
 
 <style>
@@ -74,6 +64,10 @@
   .cp__hero {
     text-align: center;
     margin-bottom: 56px;
+    padding: 56px 40px;
+    border-radius: 20px;
+    background: linear-gradient(160deg, #e6fff5 0%, #f0fffa 58%, #ffffff 100%);
+    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.05);
   }
 
   .cp__title {
@@ -81,12 +75,10 @@
     font-weight: 800;
     line-height: 1.15;
     margin: 0 0 16px !important;
-    background: linear-gradient(135deg, #16b998 0%, #4ecacd 60%, #16b998 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    background-size: 200% 200%;
-    animation: gradient-shift 6s ease infinite;
+    color: #0a2c2c !important;
+    -webkit-text-fill-color: #0a2c2c !important;
+    background: none !important;
+    letter-spacing: -0.02em;
   }
 
   .cp__sub {
@@ -95,11 +87,6 @@
     color: #4a6b68;
     max-width: 52ch;
     margin: 0 auto;
-  }
-
-  @keyframes gradient-shift {
-    0%, 100% { background-position: 0% 50%; }
-    50%       { background-position: 100% 50%; }
   }
 
   /* ── Contact cards ── */
@@ -191,67 +178,24 @@
     color: #16b998;
   }
 
-  /* ── CTA ── */
-  .cp__cta {
-    text-align: center;
-    padding: 48px 40px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #edfff8 0%, #d8fff5 50%, #e8fff9 100%);
-    border: 1.5px solid #b8ede4;
-  }
-
-  .cp__cta-title {
-    font-size: clamp(1.4rem, 3vw + 0.3rem, 2rem);
-    font-weight: 800;
-    color: #0a2c2c;
-    margin: 0 0 12px !important;
-    border: none !important;
-    padding: 0 !important;
-  }
-
-  .cp__cta-sub {
-    font-size: 1rem;
-    color: #4a6b68;
-    margin: 0 0 28px;
-  }
-
-  .cp__cta-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 32px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #25d4b0 0%, #1cb0b5 50%, #16b998 100%);
-    color: #fff;
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 700;
-    box-shadow: 0 8px 24px rgba(22, 185, 152, 0.28);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .cp__cta-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(22, 185, 152, 0.38);
-  }
-
   /* ── Responsive ── */
   @media (max-width: 640px) {
     .cp {
       padding: 40px 20px 56px;
     }
 
-    .cp__methods {
-      grid-template-columns: 1fr;
+    .cp__hero {
+      padding: 40px 24px;
+      border-radius: 16px;
     }
 
-    .cp__cta {
-      padding: 36px 24px;
+    .cp__methods {
+      grid-template-columns: 1fr;
     }
   }
 
   /* ── Reduced motion ── */
   @media (prefers-reduced-motion: reduce) {
-    .cp__title { animation: none; }
+    .cp__card { transition: none; }
   }
 </style>

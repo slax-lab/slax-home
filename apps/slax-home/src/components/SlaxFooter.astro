@@ -1,0 +1,223 @@
+---
+// SlaxFooter — 全站底部导航栏
+// 覆盖 Starlight 默认 Footer，保留原有 EditLink / Pagination 等逻辑页面内容
+// 在所有页面底部统一追加品牌 footer
+import EditLink from 'virtual:starlight/components/EditLink';
+import LastUpdated from 'virtual:starlight/components/LastUpdated';
+import Pagination from 'virtual:starlight/components/Pagination';
+---
+
+{/* Starlight 原有页内 footer（编辑链接、分页等） */}
+<footer class="sl-flex sf-page-footer">
+  <div class="meta sl-flex">
+    <EditLink />
+    <LastUpdated />
+  </div>
+  <Pagination />
+</footer>
+
+{/* 品牌底部导航栏 */}
+<footer class="sf">
+  <div class="sf__inner">
+
+    {/* Logo + slogan */}
+    <div class="sf__brand">
+      <span class="sf__logo">Slax</span>
+      <p class="sf__slogan">Your AI Productivity Suite</p>
+    </div>
+
+    {/* 导航列 */}
+    <nav class="sf__nav" aria-label="Footer navigation">
+
+      <div class="sf__col">
+        <h3 class="sf__col-title">Products</h3>
+        <ul class="sf__links">
+          <li>
+            <a class="sf__link" href="/reader/">
+              <img src="/images/reader-logo.png" alt="" class="sf__link-logo" width="16" height="16" />
+              Slax Reader
+            </a>
+          </li>
+          <li>
+            <a class="sf__link" href="https://note.slax.com/" target="_blank" rel="noopener noreferrer">
+              <img src="/images/note-logo.png" alt="" class="sf__link-logo" width="16" height="16" />
+              Slax Note
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sf__col">
+        <h3 class="sf__col-title">Contact Us</h3>
+        <ul class="sf__links">
+          <li>
+            <a class="sf__link" href="mailto:support@slax.com">
+              <svg class="sf__link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+              support@slax.com
+            </a>
+          </li>
+          <li>
+            <a class="sf__link" href="https://github.com/slax-lab" target="_blank" rel="noopener noreferrer">
+              <svg class="sf__link-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+              </svg>
+              GitHub
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </nav>
+  </div>
+
+  {/* 底部版权 */}
+  <div class="sf__bottom">
+    <span>© {new Date().getFullYear()} Slax. All rights reserved.</span>
+  </div>
+</footer>
+
+<style>
+  /* ── 保留原始 Starlight 页内 footer 样式 ── */
+  .sf-page-footer {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .meta {
+    gap: 0.75rem 3rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+
+  /* ── 品牌 footer 外壳 ── */
+  .sf {
+    width: 100%;
+    background: #f9fffe;
+    border-top: 1px solid #e0f5f0;
+    margin-top: 40px;
+    font-family: var(--sl-font);
+  }
+
+  .sf__inner {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 48px 40px 36px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Brand ── */
+  .sf__brand {
+    flex-shrink: 0;
+  }
+
+  .sf__logo {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #16b998;
+    letter-spacing: -0.02em;
+  }
+
+  .sf__slogan {
+    margin: 6px 0 0;
+    font-size: 0.82rem;
+    color: #7a9e9b;
+    max-width: 18ch;
+    line-height: 1.5;
+  }
+
+  /* ── Nav ── */
+  .sf__nav {
+    display: flex;
+    gap: 56px;
+    flex-wrap: wrap;
+  }
+
+  .sf__col {
+    min-width: 120px;
+  }
+
+  .sf__col-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #aac5c2;
+    margin: 0 0 14px !important;
+    padding: 0 !important;
+    border: none !important;
+  }
+
+  .sf__links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sf__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    color: #4a6b68;
+    text-decoration: none;
+    transition: color 0.18s ease;
+    -webkit-text-fill-color: #4a6b68;
+  }
+
+  .sf__link:hover {
+    color: #16b998;
+    -webkit-text-fill-color: #16b998;
+  }
+
+  .sf__link-logo {
+    border-radius: 4px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .sf__link-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    color: currentColor;
+  }
+
+  /* ── 版权行 ── */
+  .sf__bottom {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 16px 40px 24px;
+    border-top: 1px solid #e8f5f2;
+    font-size: 0.78rem;
+    color: #aac5c2;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .sf__inner {
+      flex-direction: column;
+      padding: 36px 24px 28px;
+      gap: 32px;
+    }
+
+    .sf__nav {
+      gap: 32px;
+    }
+
+    .sf__bottom {
+      padding: 14px 24px 20px;
+    }
+  }
+</style>

@@ -1,7 +1,9 @@
 /* ===== Slax Home — Custom Starlight theme tokens ===== */
 /* Brand: teal accent. Scoped via data-site to avoid Vite dev proxy CSS bleed */
 
-html[data-site="home"] {
+html[data-site="home"],
+html[data-site="home"][data-theme="light"],
+html[data-site="home"][data-theme="dark"] {
 	--sl-color-accent-low: #0d2d2b;
 	--sl-color-accent: #29bdb2;
 	--sl-color-accent-high: #a8ebe7;
@@ -14,6 +16,7 @@ html[data-site="home"] {
 	--sl-color-gray-5: #263635;
 	--sl-color-gray-6: #172524;
 	--sl-color-black: #101c1b;
+	color-scheme: light;
 }
 
 /* ===== 暂时隐藏的导航元素 =====
@@ -32,10 +35,15 @@ header a[href*="/blog"] {
 	display: none !important;
 }
 
-/* 去掉 header 底部横线 */
-header.header {
+/* 去掉 header 底部横线 + content-panel 顶部横线
+   PageFrame.astro 的 .header 和 ContentPanel.astro 的 .content-panel + .content-panel
+   都在 @layer starlight.core 里，用 !important 强制覆盖 */
+:is(header, header.header, .header) {
 	border-bottom: none !important;
 	box-shadow: none !important;
+}
+.content-panel + .content-panel {
+	border-top: none !important;
 }
 
 /* 去掉 social icons 左侧竖线分隔符（右侧只剩 GitHub，不需要分隔线） */

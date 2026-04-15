@@ -4,7 +4,7 @@ description: Get in touch with the Slax team. We're here to help with questions,
 template: splash
 head:
   - tag: style
-    content: 'h1#_top { display: none !important; } .main-pane > .content-panel:first-child { display: none !important; } .sl-container { max-width: 100% !important; padding-inline: 0 !important; } .content-panel { padding-block: 0 !important; }'
+    content: 'h1#_top { display: none !important; } .main-pane > .content-panel:first-child { display: none !important; } .main-pane > .content-panel:not(:first-child) { border-top: none !important; } .sl-container { max-width: 100% !important; padding-inline: 0 !important; } .content-panel { padding-block: 0 !important; } .page { background: #ffffff !important; }'
 ---
 
 import ContactPage from '~/components/ContactPage.astro';

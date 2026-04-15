@@ -58,7 +58,13 @@ const breadcrumbJsonLd = {
 ---
 
 {/* Mark this page for CSS scoping (prevents cross-site theme bleeding via Vite dev proxy) */}
-<script is:inline>document.documentElement.setAttribute('data-site','home');</script>
+{/* Force light theme — ThemeProvider runs after this, but we override data-theme here
+    and also clear any stored dark preference so it doesn't flash on reload */}
+<script is:inline>
+  document.documentElement.setAttribute('data-site', 'home');
+  document.documentElement.setAttribute('data-theme', 'light');
+  try { localStorage.setItem('starlight-theme', 'light'); } catch(e) {}
+</script>
 
 {
 	head.map(({ tag: Tag, attrs, content }) => (
