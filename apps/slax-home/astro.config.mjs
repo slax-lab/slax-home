@@ -123,22 +123,6 @@ export default defineConfig({
 					translations: { 'zh-CN': '对比' },
 					autogenerate: { directory: 'compare' },
 				},
-				{
-					label: 'Guides',
-					translations: { 'zh-CN': '指南' },
-					items: [
-						{
-							label: 'Example Guide',
-							translations: { 'zh-CN': '示例指南' },
-							slug: 'guides/example',
-						},
-					],
-				},
-				{
-					label: 'Reference',
-					translations: { 'zh-CN': '参考' },
-					autogenerate: { directory: 'reference' },
-				},
 			],
 			head: [
 				{ tag: 'meta', attrs: { property: 'og:type', content: 'website' } },

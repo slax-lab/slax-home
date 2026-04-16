@@ -1,27 +1,15 @@
 /* ===== Slax Home — Custom Starlight theme tokens ===== */
-/* Brand: teal accent. Scoped via data-site to avoid Vite dev proxy CSS bleed */
+/* 只覆盖品牌 accent 色，灰阶全部交给 Starlight light theme 默认值 */
 
-html[data-site="home"],
-html[data-site="home"][data-theme="light"],
-html[data-site="home"][data-theme="dark"] {
-	--sl-color-accent-low: #0d2d2b;
-	--sl-color-accent: #29bdb2;
-	--sl-color-accent-high: #a8ebe7;
-
-	--sl-color-white: #fff;
-	--sl-color-gray-1: #dde8e7;
-	--sl-color-gray-2: #b3c5c4;
-	--sl-color-gray-3: #7b9190;
-	--sl-color-gray-4: #445655;
-	--sl-color-gray-5: #263635;
-	--sl-color-gray-6: #172524;
-	--sl-color-black: #101c1b;
+html[data-site="home"] {
+	--sl-color-accent-low: #c8f5ec;
+	--sl-color-accent: #16b998;
+	--sl-color-accent-high: #0a8f72;
 	color-scheme: light;
 }
 
 /* ===== 暂时隐藏的导航元素 =====
    starlight-blog 插件已占用 ThemeSelect 组件覆盖位，改用 CSS 隐藏。
-   My Blog 链接同理。
    要恢复某项：删掉对应的 display:none 行即可。 */
 
 /* 主题切换 (Auto) */
@@ -29,9 +17,8 @@ header starlight-theme-select {
 	display: none !important;
 }
 
-/* My Blog 链接 */
-header .social-icons ~ * a[href*="/blog"],
-header a[href*="/blog"] {
+/* starlight-blog 自动注入的 "My Blog" 链接（指向 /blog2/），隐藏之 */
+header a[href*="/blog2"] {
 	display: none !important;
 }
 
@@ -66,4 +53,19 @@ header .header {
 	width: 100%;
 	/* header 本身仍 full-width，只约束内部 flex 行 */
 	box-sizing: border-box;
+}
+
+/* ===== 右侧 TOC 贴右定位 =====
+   Starlight 的 .right-sidebar 是 position:fixed 但没有 left/right，
+   依赖 flow 静态位置——改 CSS 变量无效。
+   直接用 inset-inline-end:0 钉到视口右侧，宽度 15rem。
+   调节宽度即可调 TOC 位置：越窄 → TOC 越靠右。*/
+html[data-site="home"] .right-sidebar-container {
+	width: 15rem !important;
+	flex-shrink: 0 !important;
+}
+html[data-site="home"] .right-sidebar {
+	inset-inline-start: auto !important;
+	inset-inline-end: 0 !important;
+	width: 15rem !important;
 }

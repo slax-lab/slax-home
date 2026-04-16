@@ -50,13 +50,13 @@ export const navItems: NavItem[] = [
 		label: 'Resources',
 		translations: { 'zh-CN': '资源' },
 		children: [
-			{ label: 'Blog', translations: { 'zh-CN': '博客' }, href: '/reader/blog' },
+			{ label: 'Blog', translations: { 'zh-CN': '博客' }, href: '/blog/' },
 			{
 				label: 'Compare',
 				translations: { 'zh-CN': '对比' },
-				href: '/reader/compare',
+				href: '/blog/',
 				children: [
-					{ label: 'vs Instapaper', href: '/reader/compare/slax-reader-vs-instapaper' },
+					{ label: 'vs Instapaper', href: '/compare/slax-reader-vs-instapaper/' },
 				],
 			},
 		],

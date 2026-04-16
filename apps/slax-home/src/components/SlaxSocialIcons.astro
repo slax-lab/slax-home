@@ -3,6 +3,12 @@
 // 要恢复默认：在 astro.config.mjs 的 components 里删掉 SocialIcons 那行
 ---
 
+<!-- Blog 导航项（预留 dropdown 扩展点） -->
+<div class="si-nav-item">
+  <a href="/blog/" class="si-nav-link">Blog</a>
+  {/* 未来在这里插入 <div class="si-dropdown">...</div> */}
+</div>
+
 <!-- GitHub 图标 -->
 <a
   href="https://github.com/slax-lab"
@@ -17,6 +23,33 @@
 </a>
 
 <style>
+  /* ── Blog 导航项 ── */
+  .si-nav-item {
+    position: relative; /* dropdown 以此为定位锚点 */
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .si-nav-link {
+    display: inline-flex;
+    align-items: center;
+    height: 2rem;
+    padding: 0 12px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--sl-color-gray-2);
+    text-decoration: none;
+    transition: color 0.18s ease, background 0.18s ease;
+    white-space: nowrap;
+  }
+
+  .si-nav-link:hover {
+    color: var(--sl-color-accent);
+    background: color-mix(in srgb, var(--sl-color-accent) 10%, transparent);
+  }
+
+  /* ── GitHub ── */
   .si-github {
     display: inline-flex;
     align-items: center;

@@ -1,391 +1,229 @@
-/* ===== Slax Home — Blog visual polish ===== */
-/* Inspired by Foxi/Starlight design language:
-   ambient glow, refined typography, elegant tag pills, reading-comfort layout.
-   All colors use --sl-color-* tokens for automatic dark/light adaptation. */
+/* ===== Slax Home — Blog styles ===== */
+/* 白底 / 黑字 / 灰线分栏 / 品牌绿 #16b998 做点缀 */
 
-/* ---- Ambient orb background on blog pages ---- */
-/* Lighter, more subdued than the hero — keeps focus on reading */
+/* ---- 正文排版 ---- */
 
-html[data-site="home"] .blog-page,
-html[data-site="home"] [data-pagefind-body],
-html[data-site="home"] .content-panel {
-	position: relative;
-}
-
-/* Subtle tinted background wash for the entire blog layout */
 html[data-site="home"] .sl-markdown-content {
-	--prose-accent: var(--sl-color-accent);
-}
-
-/* ---- Blog list page: ambient background ---- */
-html[data-site="home"] .main-pane {
-	position: relative;
-}
-
-html[data-site="home"] .main-pane::before {
-	content: '';
-	position: fixed;
-	top: -20vh;
-	right: -20vw;
-	width: 60vw;
-	height: 60vw;
-	border-radius: 50%;
-	background: radial-gradient(
-		ellipse at center,
-		hsla(var(--brand-hsl, 230 70% 58%), 0.07) 0%,
-		transparent 65%
-	);
-	pointer-events: none;
-	z-index: 0;
-}
-
-/* ---- Blog post article: refined reading layout ---- */
-
-/* Max-width and centered reading column */
-html[data-site="home"] .sl-markdown-content {
-	font-size: clamp(1rem, 1.5vw + 0.5rem, 1.125rem);
+	font-size: 1rem;
 	line-height: 1.8;
-	color: var(--sl-color-gray-1);
+	color: #222;
 }
 
-/* ---- Headings with accent gradient underline ---- */
+/* ---- 标题 ---- */
 
 html[data-site="home"] .sl-markdown-content h1,
 html[data-site="home"] .sl-markdown-content h2,
-html[data-site="home"] .sl-markdown-content h3 {
-	position: relative;
-	padding-bottom: 0.25em;
+html[data-site="home"] .sl-markdown-content h3,
+html[data-site="home"] .sl-markdown-content h4 {
+	color: #111;
+	-webkit-text-fill-color: #111;
+	background: none;
 	font-weight: 700;
+	letter-spacing: -0.01em;
+	line-height: 1.3;
+}
+
+html[data-site="home"] .sl-markdown-content h2 {
+	font-size: 1.25rem;
+	border-bottom: 1px solid #e8f5f2;
+	padding-bottom: 0.35em;
+	margin-top: 2em;
+}
+
+html[data-site="home"] .sl-markdown-content h3 {
+	font-size: 1.05rem;
+	color: #111;
+	-webkit-text-fill-color: #111;
+}
+
+/* 文章页 Starlight 自动生成的顶部 h1 */
+html[data-site="home"] .page-title,
+html[data-site="home"] .content-panel header h1 {
+	font-size: clamp(1.6rem, 3vw + 0.5rem, 2.25rem);
+	font-weight: 800;
+	color: #111;
+	-webkit-text-fill-color: #111;
+	background: none;
 	letter-spacing: -0.02em;
 	line-height: 1.25;
 }
 
-/* Gradient accent line under h2 */
-html[data-site="home"] .sl-markdown-content h2::after {
-	content: '';
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 3rem;
-	height: 3px;
-	border-radius: 2px;
-	background: linear-gradient(
-		90deg,
-		var(--sl-color-accent),
-		var(--sl-color-accent-high)
-	);
-	transition: width 0.4s ease;
-}
-
-html[data-site="home"] .sl-markdown-content h2:hover::after {
-	width: 100%;
-}
-
-/* h1 — gradient text (for post titles rendered inside content) */
-html[data-site="home"] .sl-markdown-content h1 {
-	font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem);
-	background: linear-gradient(
-		135deg,
-		var(--sl-color-white) 0%,
-		var(--sl-color-accent-high) 50%,
-		var(--sl-color-accent) 100%
-	);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
-}
-
-/* h3 — subtle accent color tint */
-html[data-site="home"] .sl-markdown-content h3 {
-	color: var(--sl-color-accent-high);
-	font-size: 1.15rem;
-}
-
-/* ---- Paragraph & lead text ---- */
+/* ---- 段落 ---- */
 
 html[data-site="home"] .sl-markdown-content p {
 	max-width: 72ch;
-	margin-block: 1.1em;
+	margin-block: 1em;
+	color: #333;
 }
 
-/* ---- Inline code ---- */
+/* ---- 链接 ---- */
 
-html[data-site="home"] .sl-markdown-content :not(pre) > code {
-	background: color-mix(in srgb, var(--sl-color-accent) 12%, var(--sl-color-gray-6));
-	color: var(--sl-color-accent-high);
-	border: 1px solid color-mix(in srgb, var(--sl-color-accent) 25%, transparent);
-	border-radius: 5px;
-	padding: 0.15em 0.45em;
-	font-size: 0.875em;
+html[data-site="home"] .sl-markdown-content a:not([class]) {
+	color: #16b998;
+	-webkit-text-fill-color: #16b998;
+	text-decoration: underline;
+	text-decoration-color: rgba(22, 185, 152, 0.35);
+	text-underline-offset: 3px;
+	transition: text-decoration-color 0.18s ease;
 }
 
-/* ---- Code blocks ---- */
-
-html[data-site="home"] .sl-markdown-content pre {
-	border: 1px solid color-mix(in srgb, var(--sl-color-accent) 20%, transparent);
-	border-radius: 10px;
-	box-shadow: 0 4px 24px color-mix(in srgb, var(--sl-color-accent) 8%, transparent);
+html[data-site="home"] .sl-markdown-content a:not([class]):hover {
+	text-decoration-color: #16b998;
 }
 
-/* ---- Horizontal rule ---- */
+/* ---- 分隔线 ---- */
 
 html[data-site="home"] .sl-markdown-content hr {
 	border: none;
 	height: 1px;
-	background: linear-gradient(
-		90deg,
-		transparent,
-		var(--sl-color-gray-4) 20%,
-		var(--sl-color-accent) 50%,
-		var(--sl-color-gray-4) 80%,
-		transparent
-	);
+	background: #e8f5f2;
 	margin-block: 2.5em;
 }
 
-/* ---- Images — rounded with soft glow ---- */
+/* ---- 内联代码 ---- */
+
+html[data-site="home"] .sl-markdown-content :not(pre) > code {
+	background: #f0fdfb;
+	color: #0e8f72;
+	border: 1px solid #c8ede7;
+	border-radius: 4px;
+	padding: 0.1em 0.4em;
+	font-size: 0.875em;
+}
+
+/* ---- 代码块 ---- */
+
+html[data-site="home"] .sl-markdown-content pre {
+	border: 1px solid #e0f0ec;
+	border-radius: 8px;
+}
+
+/* ---- 图片 ---- */
 
 html[data-site="home"] .sl-markdown-content img {
-	border-radius: 10px;
-	box-shadow:
-		0 4px 20px color-mix(in srgb, var(--sl-color-accent) 10%, transparent),
-		0 1px 4px rgba(0, 0, 0, 0.15);
-	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	border-radius: 8px;
+	border: 1px solid #e8f5f2;
 }
 
-html[data-site="home"] .sl-markdown-content img:hover {
-	transform: scale(1.01);
-	box-shadow:
-		0 8px 32px color-mix(in srgb, var(--sl-color-accent) 18%, transparent),
-		0 2px 8px rgba(0, 0, 0, 0.2);
-}
+/* ---- Tag pills ---- */
 
-/* ---- Links ---- */
-
-html[data-site="home"] .sl-markdown-content a:not([class]) {
-	color: var(--sl-color-accent-high);
-	text-decoration: underline;
-	text-decoration-color: color-mix(in srgb, var(--sl-color-accent) 40%, transparent);
-	text-underline-offset: 3px;
-	transition: color 0.2s ease, text-decoration-color 0.2s ease;
-}
-
-html[data-site="home"] .sl-markdown-content a:not([class]):hover {
-	color: var(--sl-color-accent);
-	text-decoration-color: var(--sl-color-accent);
-}
-
-/* ---- Tag pills — blog list & post header ---- */
-
-/* starlight-blog renders tags as <a> inside a .tags container */
 html[data-site="home"] a[data-tag],
 html[data-site="home"] .sl-tag,
 html[data-site="home"] [class*="tag"] a,
 html[data-site="home"] [class*="Tag"] a {
 	display: inline-flex;
 	align-items: center;
-	gap: 0.25rem;
 	padding: 0.2em 0.7em;
 	border-radius: 999px;
 	font-size: 0.78rem;
-	font-weight: 500;
-	letter-spacing: 0.02em;
-	background: color-mix(in srgb, var(--sl-color-accent) 15%, var(--sl-color-gray-6));
-	color: var(--sl-color-accent-high);
-	border: 1px solid color-mix(in srgb, var(--sl-color-accent) 30%, transparent);
+	font-weight: 600;
+	background: #e6faf5;
+	color: #16b998;
+	-webkit-text-fill-color: #16b998;
+	border: 1px solid #c0ede4;
 	text-decoration: none !important;
-	transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+	transition: background 0.18s ease, border-color 0.18s ease;
 }
 
 html[data-site="home"] a[data-tag]:hover,
 html[data-site="home"] .sl-tag:hover,
 html[data-site="home"] [class*="tag"] a:hover,
 html[data-site="home"] [class*="Tag"] a:hover {
-	background: color-mix(in srgb, var(--sl-color-accent) 28%, var(--sl-color-gray-5));
-	border-color: color-mix(in srgb, var(--sl-color-accent) 55%, transparent);
-	transform: translateY(-1px);
-	box-shadow: 0 2px 8px color-mix(in srgb, var(--sl-color-accent) 22%, transparent);
+	background: #d0f5ed;
+	border-color: #16b998;
 }
 
-/* ---- Blog post card (list view) — lift + glow on hover ---- */
+/* ---- Blog 列表卡片（starlight-blog /blog2/ 页面用） ---- */
 
-/* starlight-blog list page wraps each post in an <article> */
 html[data-site="home"] article.preview {
-	border: 1px solid var(--sl-color-gray-5);
-	border-radius: 12px;
-	padding: 1.5rem 1.75rem;
-	background: color-mix(in srgb, var(--sl-color-gray-6) 80%, transparent);
-	transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-	position: relative;
-	overflow: hidden;
-}
-
-/* Gradient accent bar on the left edge */
-html[data-site="home"] article.preview::before {
-	content: '';
-	position: absolute;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	width: 3px;
-	border-radius: 3px 0 0 3px;
-	background: linear-gradient(
-		180deg,
-		var(--sl-color-accent),
-		var(--sl-color-accent-high)
-	);
-	opacity: 0;
-	transition: opacity 0.3s ease;
+	border: 1px solid #e8f5f2;
+	border-radius: 10px;
+	padding: 1.25rem 1.5rem;
+	background: #fff;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 html[data-site="home"] article.preview:hover {
-	transform: translateY(-4px);
-	box-shadow: 0 12px 36px color-mix(in srgb, var(--sl-color-accent) 12%, transparent);
-	border-color: color-mix(in srgb, var(--sl-color-accent) 40%, transparent);
+	border-color: #a3ede0;
+	box-shadow: 0 4px 20px rgba(22, 185, 152, 0.08);
 }
 
-html[data-site="home"] article.preview:hover::before {
-	opacity: 1;
-}
-
-/* Post title in list view */
 html[data-site="home"] article.preview h2 {
-	font-size: 1.25rem;
+	font-size: 1.1rem;
 	font-weight: 700;
-	letter-spacing: -0.01em;
-	color: var(--sl-color-white);
+	color: #111;
+	-webkit-text-fill-color: #111;
+	background: none;
 }
 
-/* Remove the underline decoration from article.preview h2 */
 html[data-site="home"] article.preview h2::after {
 	display: none;
 }
 
-/* Post excerpt */
 html[data-site="home"] article.preview p {
-	font-size: 0.925rem;
-	color: var(--sl-color-gray-2);
-	margin-block: 0.5em;
-}
-
-/* ---- Post header (date, author, reading time) ---- */
-
-html[data-site="home"] .blog-meta,
-html[data-site="home"] time,
-html[data-site="home"] .post-meta {
-	font-size: 0.85rem;
-	color: var(--sl-color-gray-3);
-}
-
-/* ---- Blog post page title (the page's <h1> generated by Starlight) ---- */
-
-html[data-site="home"] .page-title,
-html[data-site="home"] .content-panel header h1 {
-	font-size: clamp(1.8rem, 3vw + 0.75rem, 2.75rem);
-	font-weight: 800;
-	letter-spacing: -0.025em;
-	line-height: 1.2;
-	background: linear-gradient(
-		135deg,
-		var(--sl-color-white) 0%,
-		var(--sl-color-accent-high) 55%,
-		var(--sl-color-accent) 100%
-	);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
-}
-
-/* ---- Table of contents — accent active link ---- */
-
-html[data-site="home"] starlight-toc a[aria-current="true"] {
-	color: var(--sl-color-accent-high);
-	font-weight: 600;
-	border-left-color: var(--sl-color-accent);
+	font-size: 0.9rem;
+	color: #555;
+	margin-block: 0.4em;
 }
 
 /* ---- Pagination nav ---- */
 
+html[data-site="home"] .pagination-links {
+	display: flex !important;
+	grid-template-columns: unset !important;
+	justify-content: space-between !important;
+	align-items: center !important;
+	gap: 12px;
+	margin-top: 2rem;
+}
+
 html[data-site="home"] .pagination-links a {
-	border: 1px solid var(--sl-color-gray-5);
-	border-radius: 10px;
-	transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 6px !important;
+	padding: 6px 14px !important;
+	border-radius: 999px !important;
+	border: 1.5px solid #d0ece8 !important;
+	background: #fff !important;
+	font-size: 0.83rem !important;
+	font-weight: 600 !important;
+	color: #4a6b68 !important;
+	-webkit-text-fill-color: #4a6b68 !important;
+	text-decoration: none !important;
+	line-height: 1 !important;
+	white-space: nowrap !important;
+	flex: 0 0 auto !important;
+	width: auto !important;
+	overflow-wrap: unset !important;
+	box-shadow: none !important;
+	transition: border-color 0.18s ease, color 0.18s ease !important;
 }
 
 html[data-site="home"] .pagination-links a:hover {
-	border-color: color-mix(in srgb, var(--sl-color-accent) 50%, transparent);
-	box-shadow: 0 4px 16px color-mix(in srgb, var(--sl-color-accent) 10%, transparent);
-	transform: translateY(-2px);
+	border-color: #16b998 !important;
+	color: #16b998 !important;
+	-webkit-text-fill-color: #16b998 !important;
 }
 
-/* ---- Post card entrance animation ---- */
-
-@keyframes blog-card-in {
-	from {
-		opacity: 0;
-		transform: translateY(1.5rem);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
+html[data-site="home"] .pagination-links .link-title {
+	display: none !important;
 }
 
-html[data-site="home"] article.preview {
-	animation: blog-card-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+html[data-site="home"] .pagination-links br {
+	display: none !important;
 }
 
-html[data-site="home"] article.preview:nth-child(1) { animation-delay: 0.05s; }
-html[data-site="home"] article.preview:nth-child(2) { animation-delay: 0.12s; }
-html[data-site="home"] article.preview:nth-child(3) { animation-delay: 0.19s; }
-html[data-site="home"] article.preview:nth-child(4) { animation-delay: 0.26s; }
-html[data-site="home"] article.preview:nth-child(5) { animation-delay: 0.33s; }
-
-/* ---- Reduced motion ---- */
-
-@media (prefers-reduced-motion: reduce) {
-	html[data-site="home"] article.preview {
-		animation: none;
-		opacity: 1;
-	}
-
-	html[data-site="home"] .sl-markdown-content h2::after {
-		transition: none;
-	}
-
-	html[data-site="home"] .sl-markdown-content img {
-		transition: none;
-	}
+html[data-site="home"] .pagination-links svg {
+	width: 14px !important;
+	height: 14px !important;
+	flex-shrink: 0 !important;
 }
 
-/* ---- Light theme adjustments ---- */
+/* ---- TOC 当前链接 ---- */
 
-html[data-site="home"][data-theme='light'] article.preview {
-	background: color-mix(in srgb, var(--sl-color-gray-6) 60%, transparent);
-	border-color: var(--sl-color-gray-4);
-}
-
-html[data-site="home"][data-theme='light'] .sl-markdown-content blockquote {
-	background: color-mix(in srgb, var(--sl-color-accent) 5%, var(--sl-color-gray-6));
-}
-
-html[data-site="home"][data-theme='light'] a[data-tag],
-html[data-site="home"][data-theme='light'] .sl-tag,
-html[data-site="home"][data-theme='light'] [class*="tag"] a,
-html[data-site="home"][data-theme='light'] [class*="Tag"] a {
-	background: color-mix(in srgb, var(--sl-color-accent) 10%, var(--sl-color-black));
-	color: var(--sl-color-accent-high);
-	border-color: color-mix(in srgb, var(--sl-color-accent) 25%, transparent);
-}
-
-html[data-site="home"][data-theme='light'] .sl-markdown-content h1 {
-	background: linear-gradient(
-		135deg,
-		var(--sl-color-white) 0%,
-		var(--sl-color-accent-high) 50%,
-		var(--sl-color-accent) 100%
-	);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
+html[data-site="home"] starlight-toc a[aria-current="true"] {
+	color: #16b998;
+	-webkit-text-fill-color: #16b998;
+	font-weight: 600;
+	border-left-color: #16b998;
 }
