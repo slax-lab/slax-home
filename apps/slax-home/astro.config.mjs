@@ -109,25 +109,19 @@ export default defineConfig({
 					label: 'GitHub',
 					href: 'https://github.com/slax-lab',
 				},
-				{ icon: 'twitter', label: 'Twitter', href: 'https://x.com/SlaxReader' },
+				// { icon: 'twitter', label: 'Twitter', href: 'https://x.com/SlaxReader' }, // 暂时隐藏
 			],
 
 			sidebar: [
 				{
-					label: 'Guides',
-					translations: { 'zh-CN': '指南' },
-					items: [
-						{
-							label: 'Example Guide',
-							translations: { 'zh-CN': '示例指南' },
-							slug: 'guides/example',
-						},
-					],
+					label: 'Blog',
+					translations: { 'zh-CN': '博客' },
+					autogenerate: { directory: 'blog' },
 				},
 				{
-					label: 'Reference',
-					translations: { 'zh-CN': '参考' },
-					autogenerate: { directory: 'reference' },
+					label: 'Compare',
+					translations: { 'zh-CN': '对比' },
+					autogenerate: { directory: 'compare' },
 				},
 			],
 			head: [
@@ -161,9 +155,20 @@ export default defineConfig({
 			components: {
 				Head: './src/components/Head.astro',
 				SkipLink: './src/components/SkipLink.astro',
+				// 暂时隐藏以下导航元素，要恢复某项只需删掉对应行
+				Search: './src/components/Empty.astro',
+				// ThemeSelect: 用 CSS 隐藏（starlight-blog 插件已占用此覆盖位）
+				LanguageSelect: './src/components/Empty.astro',
+				// 标题左侧：Slax Home + logo+Reader | logo+Note 产品导航
+				SiteTitle: './src/components/SlaxSiteTitle.astro',
+				// 标题右侧：只保留 GitHub 图标
+				SocialIcons: './src/components/SlaxSocialIcons.astro',
+				// 全站底部导航栏
+				Footer: './src/components/SlaxFooter.astro',
 			},
 			plugins: [
 				starlightBlog({
+					prefix: 'blog2',
 					title: {
 						'zh-CN': '我的博客',
 						en: 'My Blog',

@@ -5,12 +5,18 @@
    to each page/app theme. */
 
 :root {
-	--brand-hsl: 230, 70%, 58%;
+	--brand-hsl: 177, 63%, 45%;
 	--overlay-brand: hsla(var(--brand-hsl), 0.2);
 }
 
 :root[data-theme='light'] {
-	--brand-hsl: 230, 80%, 62%;
+	--brand-hsl: 177, 68%, 38%;
+}
+
+/* ---- 全局页面底色：白色，覆盖 Starlight 暗色背景 ----
+   不依赖 [data-has-hero]，确保首页在无 hero frontmatter 时也有正确背景 */
+.page {
+	background: #ffffff;
 }
 
 /* ---- Animated gradient background on hero/splash pages ---- */
@@ -65,7 +71,33 @@
 /* Orb 3 — subtle top-right accent, via box-shadow on .page (no extra element) */
 [data-has-hero] .page {
 	background:
-		linear-gradient(215deg, hsla(var(--brand-hsl), 0.12), transparent 45%);
+		radial-gradient(ellipse 80% 60% at 0% 0%, #e6faf6 0%, transparent 60%),
+		#ffffff;
+}
+
+/* ---- Hero: force centered layout even on wide screens (no image) ---- */
+[data-has-hero] .hero {
+	display: flex !important;
+	flex-direction: column;
+	align-items: center;
+	grid-template-columns: unset !important;
+}
+
+[data-has-hero] .hero .stack {
+	text-align: center !important;
+}
+
+[data-has-hero] .hero .copy {
+	align-items: center !important;
+}
+
+[data-has-hero] .hero .actions {
+	justify-content: center !important;
+}
+
+/* ---- Remove border line between hero and content below ---- */
+[data-has-hero] .main-pane > .content-panel:not(:first-child) {
+	border-top: none;
 }
 
 @keyframes orb-drift-1 {
@@ -123,15 +155,15 @@
 }
 
 /* ---- Better hero title sizing + gradient text ---- */
-/* Uses --sl-color-accent* tokens → auto-adapts to page theme */
 [data-has-hero] .hero h1 {
 	font-size: clamp(2.5rem, 5vw + 1rem, 3.5rem);
 	line-height: 1.15;
+	text-align: center;
 	background: linear-gradient(
 		135deg,
-		var(--sl-color-accent-high) 0%,
-		var(--sl-color-accent) 45%,
-		var(--sl-color-accent-high) 100%
+		#16b998 0%,
+		#4ecacd 60%,
+		#16b998 100%
 	);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -149,6 +181,8 @@
 [data-has-hero] .hero .tagline {
 	font-size: clamp(1.05rem, 2vw + 0.25rem, 1.25rem);
 	max-width: 42ch;
+	text-align: center;
+	color: #4a6b66;
 }
 
 /* ===== Primary action button — Glassmorphism ===== */

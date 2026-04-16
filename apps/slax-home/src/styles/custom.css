@@ -1,32 +1,71 @@
 /* ===== Slax Home — Custom Starlight theme tokens ===== */
-/* Brand: indigo accent. Scoped via data-site to avoid Vite dev proxy CSS bleed */
+/* 只覆盖品牌 accent 色，灰阶全部交给 Starlight light theme 默认值 */
 
 html[data-site="home"] {
-	--sl-color-accent-low: #1a1a40;
-	--sl-color-accent: #4f5de6;
-	--sl-color-accent-high: #c5c9ff;
-
-	--sl-color-white: #fff;
-	--sl-color-gray-1: #e2e4ea;
-	--sl-color-gray-2: #b8bcc8;
-	--sl-color-gray-3: #7e8494;
-	--sl-color-gray-4: #454b5e;
-	--sl-color-gray-5: #272c3c;
-	--sl-color-gray-6: #181c2a;
-	--sl-color-black: #12141f;
+	--sl-color-accent-low: #c8f5ec;
+	--sl-color-accent: #16b998;
+	--sl-color-accent-high: #0a8f72;
+	color-scheme: light;
 }
 
-html[data-site="home"][data-theme='light'] {
-	--sl-color-accent-low: #dde0ff;
-	--sl-color-accent: #3d4bdb;
-	--sl-color-accent-high: #182068;
+/* ===== 暂时隐藏的导航元素 =====
+   starlight-blog 插件已占用 ThemeSelect 组件覆盖位，改用 CSS 隐藏。
+   要恢复某项：删掉对应的 display:none 行即可。 */
 
-	--sl-color-white: #12141f;
-	--sl-color-gray-1: #272c3c;
-	--sl-color-gray-2: #454b5e;
-	--sl-color-gray-3: #7e8494;
-	--sl-color-gray-4: #b8bcc8;
-	--sl-color-gray-5: #e2e4ea;
-	--sl-color-gray-6: #f0f1f5;
-	--sl-color-black: #fff;
+/* 主题切换 (Auto) */
+header starlight-theme-select {
+	display: none !important;
+}
+
+/* starlight-blog 自动注入的 "My Blog" 链接（指向 /blog2/），隐藏之 */
+header a[href*="/blog2"] {
+	display: none !important;
+}
+
+/* 去掉 header 底部横线 + content-panel 顶部横线
+   PageFrame.astro 的 .header 和 ContentPanel.astro 的 .content-panel + .content-panel
+   都在 @layer starlight.core 里，用 !important 强制覆盖 */
+:is(header, header.header, .header) {
+	border-bottom: none !important;
+	box-shadow: none !important;
+}
+.content-panel + .content-panel {
+	border-top: none !important;
+}
+
+/* 去掉 social icons 左侧竖线分隔符（右侧只剩 GitHub，不需要分隔线） */
+header .social-icons {
+	border-inline-start: none !important;
+	padding-inline-start: 0 !important;
+	margin-inline-start: 0 !important;
+}
+header .social-icons::after {
+	display: none !important;
+}
+
+/* ===== Header 宽度约束 =====
+   让导航栏内容区域与下方页面内容（max-width: 1200px）对齐，
+   不拉满到屏幕两端。 */
+header .header {
+	max-width: 1200px;
+	margin-inline: auto;
+	padding-inline: 40px;
+	width: 100%;
+	/* header 本身仍 full-width，只约束内部 flex 行 */
+	box-sizing: border-box;
+}
+
+/* ===== 右侧 TOC 贴右定位 =====
+   Starlight 的 .right-sidebar 是 position:fixed 但没有 left/right，
+   依赖 flow 静态位置——改 CSS 变量无效。
+   直接用 inset-inline-end:0 钉到视口右侧，宽度 15rem。
+   调节宽度即可调 TOC 位置：越窄 → TOC 越靠右。*/
+html[data-site="home"] .right-sidebar-container {
+	width: 15rem !important;
+	flex-shrink: 0 !important;
+}
+html[data-site="home"] .right-sidebar {
+	inset-inline-start: auto !important;
+	inset-inline-end: 0 !important;
+	width: 15rem !important;
 }

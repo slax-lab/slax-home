@@ -1,0 +1,382 @@
+---
+// BlogIndex — 双列卡片 + tag 筛选 + Blog/Compare 分组 + more 折叠
+import { getCollection } from 'astro:content';
+
+const allDocs = await getCollection('docs');
+
+function formatDate(date: Date | string | undefined) {
+  if (!date) return '';
+  const d = date instanceof Date ? date : new Date(date);
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+function postUrl(id: string) {
+  // slax-home 文章 URL：直接 /blog/xxx/ 或 /compare/xxx/
+  return '/' + id.replace(/\.mdx?$/, '') + '/';
+}
+
+const blogPosts = allDocs
+  .filter(p => p.id.startsWith('blog/') && !p.id.endsWith('index.mdx'))
+  .sort((a, b) => new Date(b.data.date ?? 0).getTime() - new Date(a.data.date ?? 0).getTime());
+
+const comparePosts = allDocs
+  .filter(p => p.id.startsWith('compare/') && !p.id.endsWith('index.mdx'))
+  .sort((a, b) => new Date(b.data.date ?? 0).getTime() - new Date(a.data.date ?? 0).getTime());
+
+// 收集所有出现过的 tags（除 all）
+const allTags = [...new Set([
+  ...blogPosts.flatMap(p => p.data.tags ?? []),
+  ...comparePosts.flatMap(p => p.data.tags ?? []),
+])];
+---
+
+<div class="bi">
+
+  <!-- Tag 筛选栏 -->
+  <div class="bi__filters" role="group" aria-label="Filter by tag">
+    <button class="bi__tag bi__tag--active" data-tag="all">All</button>
+    {allTags.map(tag => (
+      <button class="bi__tag" data-tag={tag}>
+        {tag.charAt(0).toUpperCase() + tag.slice(1)}
+      </button>
+    ))}
+  </div>
+
+  <!-- Blog section -->
+  <section class="bi__section" data-section="blog">
+    <h2 class="bi__section-title">Blog</h2>
+    <div class="bi__grid" id="blog-grid">
+      {blogPosts.map((post, i) => (
+        <a
+          class="bi__card"
+          href={postUrl(post.id)}
+          data-tags={(post.data.tags ?? []).join(',')}
+          data-index={i}
+        >
+          <div class="bi__card-body">
+            {post.data.date && (
+              <time class="bi__card-date">
+                {formatDate(post.data.date)}
+              </time>
+            )}
+            <h3 class="bi__card-title">{post.data.title}</h3>
+            {post.data.description && (
+              <p class="bi__card-desc">{post.data.description}</p>
+            )}
+          </div>
+          <span class="bi__card-cta">Read more →</span>
+        </a>
+      ))}
+    </div>
+    <button class="bi__more" id="blog-more" style="display:none" data-target="blog-grid">
+      ↓ Show more
+    </button>
+  </section>
+
+  <!-- Compare section -->
+  <section class="bi__section" data-section="compare">
+    <h2 class="bi__section-title">Compare</h2>
+    <div class="bi__grid" id="compare-grid">
+      {comparePosts.map((post, i) => (
+        <a
+          class="bi__card"
+          href={postUrl(post.id)}
+          data-tags={(post.data.tags ?? []).join(',')}
+          data-index={i}
+        >
+          <div class="bi__card-body">
+            {post.data.date && (
+              <time class="bi__card-date">
+                {formatDate(post.data.date)}
+              </time>
+            )}
+            <h3 class="bi__card-title">{post.data.title}</h3>
+            {post.data.description && (
+              <p class="bi__card-desc">{post.data.description}</p>
+            )}
+          </div>
+          <span class="bi__card-cta">Read more →</span>
+        </a>
+      ))}
+    </div>
+    <button class="bi__more" id="compare-more" style="display:none" data-target="compare-grid">
+      ↓ Show more
+    </button>
+  </section>
+
+</div>
+
+<script>
+  const SHOW_LIMIT = 4;
+
+  function applyFilter(tag: string) {
+    document.querySelectorAll<HTMLButtonElement>('.bi__tag').forEach(btn => {
+      btn.classList.toggle('bi__tag--active', btn.dataset.tag === tag);
+    });
+
+    document.querySelectorAll<HTMLElement>('.bi__section').forEach(section => {
+      const grid = section.querySelector<HTMLElement>('.bi__grid');
+      const moreBtn = section.querySelector<HTMLButtonElement>('.bi__more');
+      if (!grid || !moreBtn) return;
+
+      const cards = Array.from(grid.querySelectorAll<HTMLElement>('.bi__card'));
+
+      const matched = cards.filter(card => {
+        if (tag === 'all') return true;
+        const tags = (card.dataset.tags ?? '').split(',').map(t => t.trim());
+        return tags.includes(tag);
+      });
+
+      cards.forEach(card => {
+        const isMatch = matched.includes(card);
+        if (isMatch) {
+          card.dataset.filtered = 'show';
+        } else {
+          card.dataset.filtered = 'hide';
+          card.style.display = 'none';
+        }
+      });
+
+      applyMore(grid, moreBtn, matched);
+
+      section.style.display = matched.length === 0 ? 'none' : '';
+    });
+  }
+
+  function applyMore(
+    grid: HTMLElement,
+    moreBtn: HTMLButtonElement,
+    matched: HTMLElement[]
+  ) {
+    const expanded = moreBtn.dataset.expanded === 'true';
+
+    matched.forEach((card, i) => {
+      card.style.display = (!expanded && i >= SHOW_LIMIT) ? 'none' : '';
+    });
+
+    if (matched.length > SHOW_LIMIT) {
+      moreBtn.style.display = '';
+      moreBtn.textContent = expanded ? '↑ Show less' : '↓ Show more';
+    } else {
+      moreBtn.style.display = 'none';
+    }
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.bi__more').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const gridId = btn.dataset.target!;
+      const grid = document.getElementById(gridId)!;
+      const expanded = btn.dataset.expanded === 'true';
+      btn.dataset.expanded = expanded ? 'false' : 'true';
+
+      const matched = Array.from(
+        grid.querySelectorAll<HTMLElement>('.bi__card[data-filtered="show"]')
+      );
+      applyMore(grid, btn, matched);
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('.bi__tag').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll<HTMLButtonElement>('.bi__more').forEach(m => {
+        m.dataset.expanded = 'false';
+      });
+      applyFilter(btn.dataset.tag!);
+    });
+  });
+
+  applyFilter('all');
+</script>
+
+<style>
+  .bi {
+    width: 100%;
+    max-width: 1100px;
+    margin-inline: auto;
+    padding: 48px 40px 80px;
+    font-family: var(--sl-font);
+  }
+
+  .bi__filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .bi__tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    padding: 0 20px;
+    border-radius: 999px;
+    border: 1.5px solid #d0ece8;
+    background: #fff;
+    color: #4a6b68;
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    white-space: nowrap;
+    appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
+    transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    font-family: var(--sl-font);
+  }
+
+  .bi__tag:hover {
+    border-color: #16b998;
+    color: #16b998;
+  }
+
+  .bi__tag--active {
+    background: #16b998;
+    border-color: #16b998;
+    color: #fff;
+  }
+
+  .bi__section {
+    margin-bottom: 56px;
+  }
+
+  .bi__section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111;
+    -webkit-text-fill-color: #111;
+    background: none !important;
+    margin: 0 0 20px !important;
+    padding: 0 !important;
+    border: none !important;
+    letter-spacing: -0.01em;
+  }
+
+  .bi__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .bi__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 28px 24px;
+    border-radius: 14px;
+    border: 1.5px solid #e8f5f2;
+    background: #fafffe;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    transition:
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bi__card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 1.2rem;
+    right: 1.2rem;
+    height: 3px;
+    border-radius: 3px 3px 0 0;
+    background: linear-gradient(90deg, #16b998, #4ecacd);
+    opacity: 0;
+    transform: scaleX(0);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .bi__card:hover {
+    transform: translateY(-3px);
+    border-color: #a3ede0;
+    box-shadow: 0 16px 40px rgba(22, 185, 152, 0.12);
+  }
+
+  .bi__card:hover::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .bi__card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .bi__card-date {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #16b998;
+    -webkit-text-fill-color: #16b998;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .bi__card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111;
+    -webkit-text-fill-color: #111;
+    background: none !important;
+    line-height: 1.45;
+    margin: 0 !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  .bi__card-desc {
+    font-size: 0.85rem;
+    color: #5a7a77;
+    line-height: 1.65;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .bi__card-cta {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #16b998;
+    -webkit-text-fill-color: #16b998;
+  }
+
+  .bi__more {
+    display: block;
+    margin: 16px auto 0;
+    padding: 8px 24px;
+    border-radius: 999px;
+    border: 1.5px solid #d0ece8;
+    background: #fff;
+    color: #16b998;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--sl-font);
+    transition: background 0.18s ease, border-color 0.18s ease;
+  }
+
+  .bi__more:hover {
+    background: #f0fff9;
+    border-color: #16b998;
+  }
+
+  @media (max-width: 720px) {
+    .bi {
+      padding: 32px 20px 56px;
+    }
+    .bi__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
