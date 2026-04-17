@@ -10,6 +10,7 @@
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",
 		"format": "biome format --write .",
+		"deploy:dev": "pnpm build && wrangler pages deploy dist --project-name=slax-home --branch=main",
 		"prepare": "husky"
 	},
 	"lint-staged": {
@@ -27,6 +28,7 @@
 		"@biomejs/biome": "^2.4.10",
 		"husky": "^9.1.7",
 		"lint-staged": "^16.4.0",
-		"schema-dts": "^2.0.0"
+		"schema-dts": "^2.0.0",
+		"wrangler": "^4.83.0"
 	}
 }

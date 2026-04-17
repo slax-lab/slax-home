@@ -20,8 +20,8 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
-.vscode
 .vscode/*
+!.vscode/launch.json
 */.vscode
 settings.local.json
 worktrees

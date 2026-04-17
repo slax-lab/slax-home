@@ -1,0 +1,23 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "启动开发服务器",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "pnpm dev"
+		},
+		{
+			"name": "打包并部署查看",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "pnpm deploy:dev"
+		},
+		{
+			"name": "打包项目",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "pnpm build"
+		}
+	]
+}
