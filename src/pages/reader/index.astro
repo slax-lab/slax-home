@@ -380,10 +380,10 @@ const schema = {
 			<div class="faq-inner">
 				<h2 class="faq-head">Frequently Asked Questions</h2>
 				{faqs.map((item) => (
-					<details class="faq-item">
-						<summary class="faq-q">{item.q}</summary>
+					<div class="faq-item">
+						<h3 class="faq-q">{item.q}</h3>
 						<p class="faq-a">{item.a}</p>
-					</details>
+					</div>
 				))}
 			</div>
 		</section>
@@ -981,7 +981,7 @@ const schema = {
 	}
 	.faq-item {
 		border-top: 1px solid var(--rule);
-		padding: 1.5rem 0;
+		padding: 2rem 0;
 	}
 	.faq-item:last-of-type {
 		border-bottom: 1px solid var(--rule);
@@ -989,33 +989,17 @@ const schema = {
 	.faq-q {
 		font-family: var(--serif);
 		font-weight: 500;
-		font-size: 1.15rem;
+		font-size: 1.2rem;
 		letter-spacing: -0.01em;
 		color: var(--ink);
-		cursor: pointer;
-		list-style: none;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-	.faq-q::-webkit-details-marker {
-		display: none;
-	}
-	.faq-q::after {
-		content: "+";
-		color: var(--accent);
-		font-size: 1.5rem;
-		line-height: 1;
-	}
-	.faq-item[open] .faq-q::after {
-		content: "−";
+		margin: 0 0 0.75rem;
 	}
 	.faq-a {
 		font-family: var(--serif);
-		font-size: 1.02rem;
-		line-height: 1.6;
+		font-size: 1.05rem;
+		line-height: 1.65;
 		color: var(--ink-soft);
-		margin: 0.8rem 0 0;
+		margin: 0;
 		max-width: 60ch;
 	}
 
