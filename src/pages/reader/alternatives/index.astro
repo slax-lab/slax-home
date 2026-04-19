@@ -1,0 +1,114 @@
+---
+import { getCollection } from 'astro:content';
+import Eyebrow from '~/components/Eyebrow.astro';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+
+const entries = (await getCollection('readerAlternatives')).sort((a, b) =>
+	a.data.competitor.localeCompare(b.data.competitor),
+);
+---
+<Base title="Slax Reader alternatives — comparisons to Readwise, Omnivore, Cubox & more">
+	<Nav active="reader" />
+	<main class="alts-index">
+		<header class="head">
+			<Eyebrow>Compare</Eyebrow>
+			<h1>Slax Reader vs. the read-later you know.</h1>
+			<p class="dek">
+				Straight comparisons. Where we're different, where they're better.
+				Pick the one that matches how you actually read.
+			</p>
+		</header>
+
+		{entries.length === 0 ? (
+			<p class="empty">
+				Comparison pieces land in stage 3 of the redesign.
+			</p>
+		) : (
+			<ul class="alt-list">
+				{entries.map((entry) => (
+					<li class="alt-item">
+						<a href={`/reader/alternatives/${entry.id}/`}>
+							<h2>vs. {entry.data.competitor}</h2>
+							<p>{entry.data.description}</p>
+						</a>
+					</li>
+				))}
+			</ul>
+		)}
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.alts-index {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: 6rem 2rem 4rem;
+	}
+	.head {
+		margin-bottom: 5rem;
+	}
+	h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 2.5rem 0 1.5rem;
+	}
+	.dek {
+		font-family: var(--serif);
+		font-size: 1.2rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 44ch;
+	}
+	.empty {
+		font-family: var(--mono);
+		font-size: 0.85rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		padding: 4rem 0;
+	}
+	.alt-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 2rem;
+	}
+	.alt-item a {
+		display: block;
+		padding: 2rem 0;
+		border-top: 1px solid var(--rule-soft);
+		text-decoration: none;
+		color: inherit;
+		transition: padding-left 0.2s;
+	}
+	.alt-item a:hover {
+		padding-left: 0.3rem;
+	}
+	.alt-item h2 {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.75rem;
+		line-height: 1.2;
+		letter-spacing: -0.015em;
+		margin: 0 0 0.6rem;
+		color: var(--ink);
+	}
+	.alt-item a:hover h2 {
+		color: var(--accent);
+	}
+	.alt-item p {
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 52ch;
+	}
+</style>

@@ -1,0 +1,77 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection, render } from 'astro:content';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: post,
+	}));
+}
+
+type Props = CollectionEntry<'blog'>;
+const post = Astro.props;
+const { Content } = await render(post);
+
+const dateFmt = new Intl.DateTimeFormat('en-US', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+});
+---
+<Base title={`${post.data.title} — Slax`} description={post.data.description}>
+	<Nav active="blog" />
+	<article class="article">
+		<header class="article-head">
+			<time datetime={post.data.pubDate.toISOString()}>
+				{dateFmt.format(post.data.pubDate)}
+			</time>
+			<h1>{post.data.title}</h1>
+			{post.data.description && <p class="dek">{post.data.description}</p>}
+		</header>
+		<div class="prose">
+			<Content />
+		</div>
+	</article>
+	<Footer />
+</Base>
+
+<style>
+	.article {
+		max-width: 680px;
+		margin: 0 auto;
+		padding: 5rem 2rem 6rem;
+	}
+	.article-head {
+		margin-bottom: 4rem;
+		text-align: center;
+	}
+	.article-head time {
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+	}
+	.article-head h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.2rem, 4vw, 3.4rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 1.25rem;
+	}
+	.article-head .dek {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1.25rem;
+		line-height: 1.4;
+		color: var(--ink-soft);
+		max-width: 42ch;
+		margin: 0 auto;
+	}
+</style>
