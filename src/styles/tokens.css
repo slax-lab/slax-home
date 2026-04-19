@@ -1,0 +1,24 @@
+:root {
+	/* Colors — warm editorial palette (Claude Design) */
+	--bg: #FAF7F2;
+	--bg-deep: #F2ECE2;
+	--bg-deeper: #EBE3D3;
+	--ink: #1B1A17;
+	--ink-soft: #4A443B;
+	--ink-mute: #8A8375;
+	--rule: #DDD4C4;
+	--rule-soft: #E8E1D2;
+	--accent: #3A5F4D;
+
+	/* Type — self-hosted via @fontsource-variable */
+	--serif: "Source Serif 4 Variable", "Source Serif 4", "Tiempos Text", Georgia, serif;
+	--sans: "Inter Variable", "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
+	--mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	/* Spacing */
+	--section-pad: 8rem;
+}
+
+body[data-density="compact"] {
+	--section-pad: 5.5rem;
+}
