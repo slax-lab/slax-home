@@ -1,451 +1,508 @@
 ---
-import Button from '~/components/Button.astro';
-import Eyebrow from '~/components/Eyebrow.astro';
 import Footer from '~/components/Footer.astro';
-import MastheadCard from '~/components/MastheadCard.astro';
 import Nav from '~/components/Nav.astro';
-import ProductCard from '~/components/ProductCard.astro';
-import Scene from '~/components/Scene.astro';
-import SectionLabel from '~/components/SectionLabel.astro';
 import Base from '~/layouts/Base.astro';
 
-const mastheadEntries = [
-	{ label: 'Maker', value: 'Slax Lab' },
-	{ label: 'Products', value: 'Reader · Note' },
-	{ label: 'Note', value: 'In private beta' },
-	{
-		label: 'Source',
-		value: 'github.com/slax-lab',
-		href: 'https://github.com/slax-lab',
-	},
-	{ label: 'Price', value: 'Free while we learn' },
-	{ label: 'Written in', value: 'Vue, Rust, Go' },
-];
+// Content sourced verbatim from original apps/slax-home SlaxHomeHero.astro
+// (archive/apps-backup), with visual system re-skinned to the editorial
+// warm palette (Source Serif 4 + forest accent) chosen for the redesign.
 
-const ossRepos = [
-	{ name: 'slax-lab/slax-reader', meta: 'The product' },
-	{ name: 'slax-lab/slax-reader-api', meta: 'Go service' },
-	{ name: 'slax-lab/readability', meta: 'Parser' },
-	{ name: 'slax-lab/jieba-rs', meta: 'Chinese tokenizer' },
+const readerTrust = [
+	'🔒 Your content, forever safe',
+	'🚀 5× faster understanding',
+	'⭐ Interactive reading community',
 ];
 ---
 <Base>
 	<Nav />
 
-	<main>
-		<!-- HERO -->
-		<section class="hero">
-			<div class="hero-inner">
-				<div>
-					<Eyebrow>Slax · Vol. 01</Eyebrow>
-					<h1 class="h1">
-						Tools for people who still <em>read</em><br />
-						and still <span class="accent-ink">write.</span>
-					</h1>
-					<p class="dek">
-						Slax makes a reader and a notebook for the work of paying attention.
-						Slow software, made for long-form.
+	<section class="shh">
+		<!-- 3-state hero, switched by hovering product cards below -->
+		<div class="shh-hero-wrap">
+			<!-- DEFAULT -->
+			<div class="shh-panel shh-panel-default is-active" data-panel="default">
+				<div class="shh-default-inner">
+					<h1 class="shh-default-title">Your AI Productivity Suite</h1>
+					<p class="shh-default-tagline">
+						Read smarter. Write better. Stay organized.
 					</p>
-					<div class="actions">
-						<Button variant="primary" href="/reader/" arrow>Start free</Button>
-						<Button variant="secondary" href="/blog/">Read the story</Button>
+				</div>
+			</div>
+
+			<!-- READER -->
+			<div class="shh-panel shh-panel-reader" data-panel="reader">
+				<div class="shh-reader-inner">
+					<div class="shh-reader-text">
+						<h2 class="shh-reader-title">Read Smarter<br />Not Just Later</h2>
+						<p class="shh-reader-sub">
+							Save Forever, Learn faster. Your intelligent library for high
+							efficiency and deep understanding.
+						</p>
+						<a class="btn-primary" href="https://r.slax.com/login">
+							Start Reading Smarter — Free <span class="arrow">→</span>
+						</a>
+						<div class="shh-reader-trust">
+							{readerTrust.map((t) => <span>{t}</span>)}
+						</div>
+					</div>
+					<div class="shh-reader-visual">
+						<div class="shh-reader-preview">
+							<div class="shh-reader-card">
+								<h4>🤖 AI Analysis</h4>
+								<p>
+									This article explains how knowledge workers can build a
+									permanent reading library. Key points:<br />1. Save content
+									before it disappears.<br />2. Use AI to summarize and surface
+									key ideas.<br />3. Turn reading into reusable knowledge.
+								</p>
+							</div>
+							<div class="shh-reader-card">
+								<h4>💬 Ask AI</h4>
+								<p>
+									<strong>You:</strong> "What should I remember from this
+									article?"<br />
+									<strong>AI:</strong> "Focus on the permanent archive,
+									AI-assisted understanding, and collaboration layer. Those are
+									the main reasons users switch."
+								</p>
+							</div>
+						</div>
 					</div>
 				</div>
-				<MastheadCard entries={mastheadEntries} />
 			</div>
-		</section>
 
-		<!-- MANIFESTO -->
-		<section class="manifesto">
-			<div class="manifesto-inner">
-				<SectionLabel number="01">What this is</SectionLabel>
-				<p class="manifesto-body">
-					Most reading apps help you save more. We'd rather help you
-					<em>finish</em> what you saved, and remember what you read.
+			<!-- NOTE -->
+			<div class="shh-panel shh-panel-note" data-panel="note">
+				<div class="shh-note-inner">
+					<div class="shh-note-text">
+						<h2 class="shh-note-title">
+							Your AI-powered<br />voice notes.<br />
+							<em>Turn voice into text</em><br />in seconds.
+						</h2>
+						<p class="shh-note-sub">
+							Record with Slax Note on the go. Let AI capture and refine your
+							thoughts into various text styles. Never lose an idea.
+						</p>
+						<div class="shh-note-stores">
+							<a
+								class="shh-store-btn"
+								href="https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<svg class="shh-store-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+									<path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+								</svg>
+								<div class="shh-store-text">
+									<span class="shh-store-small">Download on the</span>
+									<span class="shh-store-main">App Store</span>
+								</div>
+							</a>
+							<a
+								class="shh-store-btn"
+								href="https://play.google.com/store/apps/details?id=app.slax.notes"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<svg class="shh-store-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+									<path d="M3.18 23.76c.3.17.64.24.99.2L14.64 12 11 8.36 3.18 23.76zM20.9 10.49l-2.8-1.6-3.6 3.11 3.6 3.12 2.82-1.62c.8-.46.8-1.54-.02-2.01zM2.01 1.05C1.7 1.4 1.5 1.9 1.5 2.53v18.94c0 .63.2 1.13.52 1.48L2.13 23 13.06 12 2.13 1 2.01 1.05zM14.64 12L3.18.24c-.35-.04-.69.03-.99.2l7.82 15.4L14.64 12z"/>
+								</svg>
+								<div class="shh-store-text">
+									<span class="shh-store-small">GET IT ON</span>
+									<span class="shh-store-main">Google Play</span>
+								</div>
+							</a>
+						</div>
+					</div>
+					<div class="shh-note-visual">
+						<img
+							src="/images/note-hero.png"
+							alt="Slax Note — voice to text app"
+							class="shh-note-img"
+							loading="eager"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Product cards — hovering switches the hero above -->
+		<div class="shh-cards">
+			<a
+				class="shh-card shh-card-reader"
+				href="/reader/"
+				data-trigger="reader"
+			>
+				<div class="shh-card-header">
+					<img src="/images/reader-logo-new.png" alt="Slax Reader" class="shh-card-logo" />
+					<span class="shh-card-name">Slax Reader</span>
+				</div>
+				<p class="shh-card-desc">
+					Save, organize, and annotate articles from across the web. Built for
+					deep reading and effortless knowledge capture.
 				</p>
-			</div>
-		</section>
-
-		<!-- PRODUCTS -->
-		<section class="products">
-			<div class="products-head">
-				<div>
-					<SectionLabel number="02">The products</SectionLabel>
-					<h2 class="products-title">Two tools, one quiet habit.</h2>
-				</div>
-				<div class="products-meta">One reads in · one writes out</div>
-			</div>
-			<div class="products-grid">
-				<ProductCard
-					href="/reader/"
-					productNumber="Product 01 — Available now"
-					ctaText="Open Reader"
-					features={[
-						'One-click capture, on any platform',
-						'Clean reader view, highlights that last',
-						'Ask questions of any article, in context',
-						'Follow friends, share what you read',
-					]}
-				>
-					<Fragment slot="name">Slax <em>Reader</em></Fragment>
-					<Fragment slot="description">
-						A read-later that rewards finishing. Save a page, it stays readable
-						forever. AI sits beside the text when you want it, not in front of
-						it.
-					</Fragment>
-				</ProductCard>
-				<ProductCard
-					href="/note/"
-					productNumber="Product 02 — Launching 2026"
-					badge="Private beta"
-					ctaText="Request invite"
-					features={[
-						'Voice-first capture on the go',
-						'Polish once, reshape as needed',
-						'Pulls from Reader automatically',
-						'Private by default',
-					]}
-				>
-					<Fragment slot="name">Slax <em>Note</em></Fragment>
-					<Fragment slot="description">
-						A notebook that listens. Speak a thought, and AI reshapes it your
-						way — journal, summary, or whatever you ask for.
-					</Fragment>
-				</ProductCard>
-			</div>
-		</section>
-
-		<!-- SCENES -->
-		<section class="scenes">
-			<div class="scenes-head">
-				<SectionLabel number="03">How people use it</SectionLabel>
-				<h2 class="scenes-intro">Three afternoons, one way to work.</h2>
-			</div>
-			<Scene
-				number="Scene 01"
-				kind="Reading"
-				title="A long essay, caught on the subway."
+				<span class="shh-card-cta">Explore Reader →</span>
+			</a>
+			<a
+				class="shh-card shh-card-note"
+				href="/note/"
+				data-trigger="note"
 			>
-				You share a Paul Graham piece from your phone into Slax. On Monday,
-				between meetings, it's already waiting — no ads, no paywall, no blue
-				links. You highlight three paragraphs. One of them is the reason you'll
-				quit your job, eventually. <strong>It stays highlighted forever.</strong>
-			</Scene>
-			<Scene
-				number="Scene 02"
-				kind="Thinking"
-				title="A question you can't answer."
-			>
-				Halfway through a paper on attention, you stop. You highlight the
-				passage and ask the reader what it means in plainer terms. The answer
-				sits in the margin, with a link back to the sentence that prompted it.
-				<strong>No chat window. No new tab.</strong>
-			</Scene>
-			<Scene
-				number="Scene 03"
-				kind="Writing"
-				title="A Sunday, connecting the dots."
-			>
-				You open Slax Note. Last week's highlights are already there, grouped
-				by what you read. You start a note called
-				<em>Why soft power is eroding</em>. Two sentences in, Note surfaces a
-				quote from Wednesday you'd forgotten.
-				<strong>The essay writes itself. Almost.</strong>
-			</Scene>
-		</section>
-
-		<!-- OPEN SOURCE -->
-		<section class="oss" id="oss">
-			<div class="oss-inner">
-				<div>
-					<SectionLabel number="04">Open source</SectionLabel>
-					<h2 class="oss-head">
-						Our tools for <em>reading</em> are tools you can read.
-					</h2>
+				<div class="shh-card-header">
+					<img src="/images/note-logo-new.png" alt="Slax Note" class="shh-card-logo" />
+					<span class="shh-card-name">Slax Note</span>
 				</div>
-				<div>
-					<p class="oss-body">
-						Slax Reader is MIT-licensed. You can run the whole thing on your own
-						machine, inspect every line, send a patch. If that matters to you,
-						it matters to us too.
-					</p>
-					<ul class="oss-repos">
-						{ossRepos.map((repo) => (
-							<li>
-								<a href={`https://github.com/${repo.name}`}>
-									<span>{repo.name}</span>
-									<span class="repo-meta">{repo.meta} ⤷</span>
-								</a>
-							</li>
-						))}
-					</ul>
-				</div>
-			</div>
-		</section>
-
-		<!-- CLOSING -->
-		<section class="closing">
-			<div class="closing-inner">
-				<h2 class="closing-head">
-					Start with <em>one</em> article.<br />
-					See where it goes.
-				</h2>
-				<div class="actions actions-center">
-					<Button variant="primary" href="/reader/" arrow>Open Slax Reader</Button>
-					<Button variant="secondary" href="/reader/#download">Download apps</Button>
-				</div>
-			</div>
-		</section>
-	</main>
+				<p class="shh-card-desc">
+					Capture ideas with your voice, let AI refine them into notes, summaries,
+					or whatever form you need.
+				</p>
+				<span class="shh-card-cta">Explore Note →</span>
+			</a>
+		</div>
+	</section>
 
 	<Footer />
 </Base>
 
+<script>
+	const section = document.querySelector<HTMLElement>('.shh');
+	const panels = document.querySelectorAll<HTMLElement>('[data-panel]');
+	const triggers = document.querySelectorAll<HTMLElement>('[data-trigger]');
+
+	function activate(state: string) {
+		panels.forEach((p) =>
+			p.classList.toggle('is-active', p.dataset.panel === state),
+		);
+		triggers.forEach((t) =>
+			t.classList.toggle('is-hovered', t.dataset.trigger === state),
+		);
+	}
+
+	triggers.forEach((trigger) => {
+		const key = trigger.dataset.trigger!;
+		trigger.addEventListener('mouseenter', () => activate(key));
+		trigger.addEventListener('focus', () => activate(key));
+		trigger.addEventListener('blur', () => activate('default'));
+	});
+
+	section?.addEventListener('mouseleave', () => activate('default'));
+</script>
+
 <style>
-	/* HERO */
-	.hero {
-		padding: 7rem 0 6rem;
+	.shh {
+		width: 100%;
+		font-family: var(--sans);
 	}
-	.hero-inner {
-		max-width: 1180px;
-		margin: 0 auto;
-		padding: 0 2rem;
+
+	/* ─── Hero wrap: stacked panels ─── */
+	.shh-hero-wrap {
 		display: grid;
-		grid-template-columns: 1fr;
-		gap: 4rem;
+		grid-template-areas: 'hero';
+		min-height: 460px;
 	}
-	@media (min-width: 960px) {
-		.hero-inner {
-			grid-template-columns: 1.25fr 1fr;
-			align-items: end;
-		}
-	}
-	.h1 {
-		font-family: var(--serif);
-		font-weight: 400;
-		font-size: clamp(2.6rem, 5.5vw, 4.8rem);
-		line-height: 1.02;
-		letter-spacing: -0.025em;
-		margin: 2.5rem 0 1.75rem;
-		text-wrap: pretty;
-	}
-	.h1 :global(em) {
-		font-style: italic;
-		font-weight: 300;
-		color: var(--ink-soft);
-	}
-	.h1 .accent-ink {
-		color: var(--accent);
-		font-style: italic;
-		font-weight: 300;
-	}
-	.dek {
-		font-family: var(--serif);
-		font-size: clamp(1.1rem, 1.25vw, 1.3rem);
-		line-height: 1.5;
-		color: var(--ink-soft);
-		max-width: 34ch;
-		margin: 0 0 2.25rem;
-		text-wrap: pretty;
-	}
-	.actions {
+	.shh-panel {
+		grid-area: hero;
 		display: flex;
-		gap: 1rem;
-		flex-wrap: wrap;
 		align-items: center;
+		opacity: 0;
+		transform: translateY(14px);
+		transition:
+			opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+			transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+		pointer-events: none;
 	}
-	.actions-center {
+	.shh-panel.is-active {
+		opacity: 1;
+		transform: translateY(0);
+		pointer-events: auto;
+	}
+
+	/* ─── Default panel ─── */
+	.shh-panel-default {
+		background: var(--bg);
 		justify-content: center;
 	}
-
-	/* MANIFESTO */
-	.manifesto {
-		padding: var(--section-pad) 0;
-		border-top: 1px solid var(--rule-soft);
-	}
-	.manifesto-inner {
-		max-width: 1180px;
+	.shh-default-inner {
+		text-align: center;
+		padding: 6rem 2rem 4rem;
+		max-width: 760px;
 		margin: 0 auto;
-		padding: 0 2rem;
+	}
+	.shh-default-title {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+		line-height: 1.05;
+		letter-spacing: -0.025em;
+		margin: 0 0 1.5rem;
+		color: var(--ink);
+	}
+	.shh-default-tagline {
+		font-family: var(--serif);
+		font-size: clamp(1.15rem, 1.5vw, 1.4rem);
+		line-height: 1.5;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 44ch;
+		margin-inline: auto;
+	}
+
+	/* ─── Reader panel ─── */
+	.shh-panel-reader {
+		background: var(--bg);
+	}
+	.shh-reader-inner {
 		display: grid;
 		grid-template-columns: 1fr;
 		gap: 3rem;
+		align-items: center;
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 5rem 2rem 4rem;
 	}
-	@media (min-width: 960px) {
-		.manifesto-inner {
-			grid-template-columns: 200px 1fr;
-			gap: 5rem;
+	@media (min-width: 900px) {
+		.shh-reader-inner {
+			grid-template-columns: 1fr 1fr;
+			gap: 4rem;
 		}
 	}
-	.manifesto-body {
-		font-family: var(--serif);
-		font-size: clamp(1.35rem, 2vw, 1.75rem);
-		line-height: 1.4;
-		color: var(--ink);
-		max-width: 26ch;
-		margin: 0;
-	}
-	.manifesto-body :global(em) {
-		font-style: italic;
-		color: var(--accent);
-	}
-
-	/* PRODUCTS */
-	.products {
-		padding: var(--section-pad) 0;
-		border-top: 1px solid var(--rule-soft);
-	}
-	.products-head {
-		max-width: 1180px;
-		margin: 0 auto 4rem;
-		padding: 0 2rem;
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		flex-wrap: wrap;
-		gap: 1rem;
-	}
-	.products-title {
+	.shh-reader-title {
 		font-family: var(--serif);
 		font-weight: 400;
-		font-size: clamp(1.8rem, 3vw, 2.6rem);
-		letter-spacing: -0.02em;
-		line-height: 1.1;
-		margin: 0.8rem 0 0;
+		font-size: clamp(2.2rem, 4vw, 3.4rem);
+		line-height: 1.05;
+		letter-spacing: -0.025em;
+		color: var(--ink);
+		margin: 0 0 1.25rem;
 	}
-	.products-meta {
+	.shh-reader-sub {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0 0 2rem;
+		max-width: 34rem;
+	}
+	.shh-reader-trust {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem 1.5rem;
+		margin-top: 1.5rem;
+		color: var(--ink-mute);
+		font-family: var(--mono);
+		font-size: 0.82rem;
+	}
+	.shh-reader-preview {
+		width: 100%;
+		max-width: 480px;
+		padding: 1.75rem;
+		border: 1px solid var(--rule);
+		background: var(--bg-deep);
+		box-shadow: 0 6px 32px -16px rgba(27, 26, 23, 0.18);
+	}
+	.shh-reader-card {
+		padding: 1.1rem 1.25rem;
+		background: var(--bg);
+		border: 1px solid var(--rule-soft);
+	}
+	.shh-reader-card + .shh-reader-card {
+		margin-top: 0.9rem;
+	}
+	.shh-reader-card h4 {
 		font-family: var(--mono);
 		font-size: 0.78rem;
-		color: var(--ink-mute);
-		letter-spacing: 0.05em;
+		letter-spacing: 0.12em;
+		color: var(--accent);
+		margin: 0 0 0.6rem;
+		text-transform: uppercase;
 	}
-	.products-grid {
-		max-width: 1180px;
-		margin: 0 auto;
-		padding: 0 2rem;
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 2rem;
-	}
-	@media (min-width: 820px) {
-		.products-grid {
-			grid-template-columns: 1fr 1fr;
-		}
-	}
-
-	/* SCENES */
-	.scenes {
-		padding: var(--section-pad) 0;
-		border-top: 1px solid var(--rule-soft);
-	}
-	.scenes-head {
-		max-width: 1180px;
-		margin: 0 auto 5rem;
-		padding: 0 2rem;
-	}
-	.scenes-intro {
+	.shh-reader-card p {
 		font-family: var(--serif);
-		font-weight: 400;
-		font-size: clamp(1.8rem, 3vw, 2.6rem);
-		line-height: 1.2;
-		letter-spacing: -0.02em;
-		max-width: 22ch;
-		margin: 1.5rem 0 0;
+		font-size: 0.95rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+	}
+	.shh-reader-card :global(strong) {
+		color: var(--ink);
+		font-weight: 500;
 	}
 
-	/* OPEN SOURCE */
-	.oss {
-		padding: var(--section-pad) 0;
-		border-top: 1px solid var(--rule-soft);
+	/* ─── Note panel ─── */
+	.shh-panel-note {
 		background: var(--bg-deep);
 	}
-	.oss-inner {
-		max-width: 1180px;
-		margin: 0 auto;
-		padding: 0 2rem;
+	.shh-note-inner {
 		display: grid;
 		grid-template-columns: 1fr;
 		gap: 3rem;
+		align-items: center;
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 4.5rem 2rem 3.5rem;
 	}
-	@media (min-width: 960px) {
-		.oss-inner {
+	@media (min-width: 900px) {
+		.shh-note-inner {
 			grid-template-columns: 1fr 1fr;
-			gap: 6rem;
-			align-items: start;
+			gap: 4rem;
 		}
 	}
-	.oss-head {
+	.shh-note-title {
 		font-family: var(--serif);
 		font-weight: 400;
-		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		font-size: clamp(2rem, 3.5vw, 3rem);
+		line-height: 1.1;
 		letter-spacing: -0.02em;
-		line-height: 1.15;
-		margin: 1rem 0 0;
-	}
-	.oss-head :global(em) {
-		font-style: italic;
-		color: var(--accent);
-	}
-	.oss-body {
-		font-family: var(--serif);
-		font-size: 1.1rem;
-		line-height: 1.6;
-		color: var(--ink-soft);
-		max-width: 42ch;
-	}
-	.oss-repos {
-		list-style: none;
-		padding: 0;
-		margin: 1.5rem 0 0;
-		display: grid;
-		gap: 0;
-		font-family: var(--mono);
-		font-size: 0.85rem;
-	}
-	.oss-repos a {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		padding: 0.85rem 0;
-		border-bottom: 1px solid var(--rule);
-		text-decoration: none;
 		color: var(--ink);
-		transition:
-			color 0.2s,
-			padding-left 0.2s;
+		margin: 0 0 1.25rem;
 	}
-	.oss-repos a:hover {
-		color: var(--accent);
-		padding-left: 0.3rem;
-	}
-	.oss-repos .repo-meta {
-		color: var(--ink-mute);
-		font-size: 0.8rem;
-	}
-
-	/* CLOSING */
-	.closing {
-		padding: calc(var(--section-pad) * 1.1) 0;
-		border-top: 1px solid var(--rule-soft);
-		text-align: center;
-	}
-	.closing-inner {
-		max-width: 820px;
-		margin: 0 auto;
-		padding: 0 2rem;
-	}
-	.closing-head {
-		font-family: var(--serif);
-		font-weight: 400;
-		font-size: clamp(2.5rem, 5vw, 4.5rem);
-		letter-spacing: -0.025em;
-		line-height: 1.05;
-		margin: 0 auto 2.5rem;
-		max-width: 18ch;
-	}
-	.closing-head :global(em) {
-		color: var(--accent);
+	.shh-note-title :global(em) {
 		font-style: italic;
 		font-weight: 300;
+		color: var(--accent);
+	}
+	.shh-note-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0 0 2rem;
+		max-width: 38ch;
+	}
+	.shh-note-stores {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+	.shh-store-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		background: var(--ink);
+		color: var(--bg);
+		text-decoration: none;
+		padding: 0.7rem 1.1rem;
+		border-radius: 10px;
+		transition:
+			background 0.2s ease,
+			transform 0.2s ease;
+		min-width: 140px;
+	}
+	.shh-store-btn:hover {
+		background: var(--accent);
+		transform: translateY(-1px);
+	}
+	.shh-store-icon {
+		width: 22px;
+		height: 22px;
+		flex-shrink: 0;
+	}
+	.shh-store-text {
+		display: flex;
+		flex-direction: column;
+	}
+	.shh-store-small {
+		font-size: 0.62rem;
+		opacity: 0.72;
+		line-height: 1.2;
+		letter-spacing: 0.02em;
+	}
+	.shh-store-main {
+		font-size: 0.88rem;
+		font-weight: 600;
+		line-height: 1.3;
+	}
+	.shh-note-img {
+		width: 100%;
+		max-width: 480px;
+		height: auto;
+		display: block;
+	}
+
+	/* ─── Product cards ─── */
+	.shh-cards {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+		max-width: 1200px;
+		width: 100%;
+		margin-inline: auto;
+		padding: 1.5rem 2rem 3rem;
+		background: var(--bg);
+		border-top: 1px solid var(--rule-soft);
+	}
+	@media (min-width: 820px) {
+		.shh-cards {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.shh-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding: 1.5rem 1.75rem;
+		border: 1px solid var(--rule);
+		text-decoration: none;
+		background: var(--bg);
+		transition:
+			border-color 0.25s ease,
+			background 0.25s ease,
+			transform 0.25s ease;
+		position: relative;
+	}
+	.shh-card:hover,
+	.shh-card.is-hovered {
+		transform: translateY(-3px);
+		border-color: var(--accent);
+		background: var(--bg-deep);
+	}
+	.shh-card-header {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+	}
+	.shh-card-logo {
+		width: 22px;
+		height: 22px;
+		border-radius: 6px;
+		object-fit: cover;
+		flex-shrink: 0;
+	}
+	.shh-card-name {
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		font-weight: 500;
+		color: var(--ink);
+		letter-spacing: -0.01em;
+	}
+	.shh-card-desc {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		margin: 0.2rem 0 0;
+		max-width: 42ch;
+	}
+	.shh-card-cta {
+		margin-top: 0.6rem;
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.08em;
+		color: var(--accent);
+		align-self: flex-start;
+	}
+
+	@media (max-width: 900px) {
+		.shh-hero-wrap {
+			min-height: 380px;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.shh-panel {
+			transition: opacity 0.2s ease;
+			transform: none !important;
+		}
 	}
 </style>
