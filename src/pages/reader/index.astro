@@ -1,9 +1,7 @@
 ---
 import Button from '~/components/Button.astro';
-import Eyebrow from '~/components/Eyebrow.astro';
 import Footer from '~/components/Footer.astro';
 import Nav from '~/components/Nav.astro';
-import SectionLabel from '~/components/SectionLabel.astro';
 import Base from '~/layouts/Base.astro';
 
 // Content sourced verbatim from original apps/reader-home components
@@ -198,7 +196,6 @@ const schema = {
 		<section class="r-hero">
 			<div class="r-hero-inner">
 				<div>
-					<Eyebrow>Product 01 · Available now</Eyebrow>
 					<h1 class="r-h1">Read Smarter<br />Not Just Later</h1>
 					<p class="r-dek">
 						Save Forever, Learn faster. Your intelligent library for high
@@ -242,7 +239,6 @@ const schema = {
 		<section class="features" id="features">
 			<div class="features-inner">
 				<div class="features-head">
-					<SectionLabel number="01">What it does</SectionLabel>
 					<h2 class="features-title">Not Just Another Read-Later Tool</h2>
 					<p class="features-sub">
 						We're building the future of intelligent reading.
@@ -263,7 +259,6 @@ const schema = {
 		<!-- HOW IT WORKS -->
 		<section class="how">
 			<div class="how-inner">
-				<SectionLabel number="02">How it works</SectionLabel>
 				<h2 class="how-head">From Bookmark to Breakthrough.</h2>
 				<p class="how-sub">
 					Four simple steps to transform how you read and learn.
@@ -286,7 +281,6 @@ const schema = {
 		<!-- COMPARE -->
 		<section class="compare">
 			<div class="compare-inner">
-				<SectionLabel number="03">The alternatives</SectionLabel>
 				<h2 class="compare-head">Why Readers Are Switching to Slax</h2>
 				<p class="compare-sub">
 					See how we compare to traditional read-later tools.
@@ -318,7 +312,6 @@ const schema = {
 		<!-- PRICING -->
 		<section class="pricing" id="pricing">
 			<div class="pricing-inner">
-				<SectionLabel number="04">Pricing</SectionLabel>
 				<h2 class="pricing-head">Read Smarter, <em>Not Just Later.</em></h2>
 				<p class="pricing-dek">
 					Save Forever, Learn faster. Your intelligent library for high
@@ -377,7 +370,6 @@ const schema = {
 		<!-- FAQ -->
 		<section class="faq">
 			<div class="faq-inner">
-				<SectionLabel number="05">Questions, answered</SectionLabel>
 				<h2 class="faq-head">Frequently Asked Questions</h2>
 				{faqs.map((item) => (
 					<details class="faq-item">
@@ -391,7 +383,6 @@ const schema = {
 		<!-- DOWNLOAD -->
 		<section class="download" id="download">
 			<div class="download-inner">
-				<SectionLabel number="06">Download</SectionLabel>
 				<h2 class="download-head">
 					Slax Reader — <em>Save Forever. Read Smarter.</em>
 				</h2>
@@ -427,7 +418,6 @@ const schema = {
 		<!-- FINALE -->
 		<section class="finale">
 			<div class="finale-inner">
-				<SectionLabel>Start</SectionLabel>
 				<h2 class="finale-h">
 					Start Your <em>Intelligent</em> Reading Journey Today
 				</h2>

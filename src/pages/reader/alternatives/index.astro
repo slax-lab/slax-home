@@ -1,6 +1,5 @@
 ---
 import { getCollection } from 'astro:content';
-import Eyebrow from '~/components/Eyebrow.astro';
 import Footer from '~/components/Footer.astro';
 import Nav from '~/components/Nav.astro';
 import Base from '~/layouts/Base.astro';
@@ -13,7 +12,6 @@ const entries = (await getCollection('readerAlternatives')).sort((a, b) =>
 	<Nav active="reader" />
 	<main class="alts-index">
 		<header class="head">
-			<Eyebrow>Compare</Eyebrow>
 			<h1>Slax Reader vs. the read-later you know.</h1>
 			<p class="dek">
 				Straight comparisons. Where we're different, where they're better.

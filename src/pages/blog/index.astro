@@ -1,6 +1,5 @@
 ---
 import { getCollection } from 'astro:content';
-import Eyebrow from '~/components/Eyebrow.astro';
 import Footer from '~/components/Footer.astro';
 import Nav from '~/components/Nav.astro';
 import Base from '~/layouts/Base.astro';
@@ -19,7 +18,6 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
 	<Nav active="blog" />
 	<main class="blog-index">
 		<header class="head">
-			<Eyebrow>Writing</Eyebrow>
 			<h1>Notes from building Slax.</h1>
 			<p class="dek">
 				Essays about reading, writing, attention, and the quiet tools we make for them.
