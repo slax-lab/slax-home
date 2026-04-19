@@ -87,7 +87,7 @@ const schema = {
 			</div>
 
 			<footer class="article-footer">
-				<div class="article-end">End</div>
+				<div class="article-end" aria-label="End of article">◆</div>
 				<a class="article-back-bottom" href="/blog/">
 					Read more on the blog <span class="arrow">→</span>
 				</a>
@@ -185,11 +185,10 @@ const schema = {
 		gap: 1.25rem;
 	}
 	.article-end {
-		font-family: var(--mono);
-		font-size: 0.72rem;
-		letter-spacing: 0.3em;
-		text-transform: uppercase;
-		color: var(--ink-mute);
+		font-family: var(--serif);
+		font-size: 1.35rem;
+		color: var(--accent);
+		line-height: 1;
 	}
 	.article-back-bottom {
 		font-family: var(--serif);

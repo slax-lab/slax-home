@@ -277,6 +277,22 @@ a {
 	line-height: 1.7;
 	color: var(--ink);
 }
+/* Lede paragraph — slightly larger ink-colored first paragraph */
+.prose > p:first-of-type {
+	font-size: 1.18rem;
+	line-height: 1.55;
+	color: var(--ink);
+}
+/* Drop cap on the first letter of the opening paragraph */
+.prose > p:first-of-type::first-letter {
+	font-family: var(--serif);
+	font-weight: 400;
+	float: left;
+	font-size: 4.4em;
+	line-height: 0.85;
+	margin: 0.1em 0.12em -0.08em 0;
+	color: var(--accent);
+}
 .prose h2 {
 	font-family: var(--serif);
 	font-weight: 500;
@@ -284,6 +300,17 @@ a {
 	letter-spacing: -0.01em;
 	margin: 2.75rem 0 0.75rem;
 	line-height: 1.25;
+	padding-top: 0.75rem;
+	position: relative;
+}
+.prose h2::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 2rem;
+	height: 1px;
+	background: var(--accent);
 }
 .prose h3 {
 	font-family: var(--serif);
@@ -301,13 +328,21 @@ a {
 	font-weight: 500;
 }
 .prose blockquote {
-	margin: 2rem 0;
-	padding: 0.5rem 0 0.5rem 1.5rem;
-	border-left: 3px solid var(--accent);
+	margin: 2.5rem 0;
+	padding: 0.25rem 0 0.25rem 1.75rem;
+	border-left: 2px solid var(--accent);
+	font-family: var(--serif);
 	font-style: italic;
+	font-size: 1.15rem;
+	line-height: 1.55;
 	color: var(--ink);
-	font-size: 1.3rem;
-	line-height: 1.5;
+}
+.prose blockquote p {
+	color: var(--ink);
+	margin-bottom: 0.75rem;
+}
+.prose blockquote p:last-of-type {
+	margin-bottom: 0;
 }
 .prose ul,
 .prose ol {

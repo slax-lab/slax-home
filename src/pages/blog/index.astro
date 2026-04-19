@@ -20,23 +20,29 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
 		<header class="head">
 			<h1>Notes from building Slax.</h1>
 			<p class="dek">
-				Essays about reading, writing, attention, and the quiet tools we make for them.
+				Essays about reading, writing, attention, and the quiet tools we
+				make for them.
 			</p>
 		</header>
 
 		{posts.length === 0 ? (
-			<p class="empty">
-				No posts yet. Essays start landing in stage 3.
-			</p>
+			<p class="empty">No posts yet. Essays start landing in stage 3.</p>
 		) : (
 			<ul class="post-list">
 				{posts.map((post) => (
 					<li class="post-item">
-						<time datetime={post.data.pubDate.toISOString()}>
-							{dateFmt.format(post.data.pubDate)}
-						</time>
-						<h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2>
-						<p>{post.data.description}</p>
+						<a href={`/blog/${post.id}/`} class="post-link">
+							<time datetime={post.data.pubDate.toISOString()}>
+								{dateFmt.format(post.data.pubDate)}
+							</time>
+							<div class="post-body">
+								<h2>{post.data.title}</h2>
+								<p>{post.data.description}</p>
+								<span class="post-cta">
+									Read <span class="arrow">→</span>
+								</span>
+							</div>
+						</a>
 					</li>
 				))}
 			</ul>
@@ -47,27 +53,31 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
 
 <style>
 	.blog-index {
-		max-width: 720px;
+		max-width: 860px;
 		margin: 0 auto;
-		padding: 6rem 2rem 4rem;
+		padding: 5rem 2rem 4rem;
 	}
 	.head {
-		margin-bottom: 5rem;
+		margin-bottom: 4rem;
+		padding-bottom: 2.5rem;
+		border-bottom: 1px solid var(--rule);
 	}
 	h1 {
 		font-family: var(--serif);
-		font-weight: 400;
-		font-size: clamp(2.5rem, 4.5vw, 3.8rem);
-		line-height: 1.05;
-		letter-spacing: -0.025em;
-		margin: 2.5rem 0 1.5rem;
+		font-weight: 500;
+		font-size: clamp(1.9rem, 3vw, 2.5rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0 0 0.75rem;
 	}
 	.dek {
 		font-family: var(--serif);
-		font-size: 1.2rem;
+		font-style: italic;
+		font-size: 1.1rem;
 		line-height: 1.5;
 		color: var(--ink-soft);
-		max-width: 38ch;
+		max-width: 52ch;
+		margin: 0;
 	}
 
 	.empty {
@@ -83,38 +93,79 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
 		list-style: none;
 		padding: 0;
 		margin: 0;
-		display: grid;
-		gap: 4rem;
 	}
-	.post-item time {
+	.post-item {
+		border-bottom: 1px solid var(--rule-soft);
+	}
+	.post-item:last-child {
+		border-bottom: none;
+	}
+	.post-link {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.4rem;
+		padding: 2.25rem 0;
+		text-decoration: none;
+		color: inherit;
+		transition: padding-left 0.25s ease;
+	}
+	@media (min-width: 760px) {
+		.post-link {
+			grid-template-columns: 160px 1fr;
+			gap: 3rem;
+			align-items: baseline;
+		}
+	}
+	.post-link:hover {
+		padding-left: 0.5rem;
+	}
+	.post-link time {
 		font-family: var(--mono);
-		font-size: 0.78rem;
+		font-size: 0.76rem;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		color: var(--ink-mute);
+		padding-top: 0.15rem;
 	}
-	.post-item h2 {
+	.post-body h2 {
 		font-family: var(--serif);
 		font-weight: 500;
-		font-size: 1.85rem;
-		line-height: 1.2;
-		letter-spacing: -0.015em;
-		margin: 0.8rem 0 0.8rem;
-	}
-	.post-item h2 a {
+		font-size: 1.35rem;
+		line-height: 1.25;
+		letter-spacing: -0.01em;
+		margin: 0 0 0.5rem;
 		color: var(--ink);
-		text-decoration: none;
 		transition: color 0.2s;
 	}
-	.post-item h2 a:hover {
+	.post-link:hover .post-body h2 {
 		color: var(--accent);
 	}
-	.post-item p {
+	.post-body p {
 		font-family: var(--serif);
-		font-size: 1.1rem;
-		line-height: 1.5;
+		font-size: 1rem;
+		line-height: 1.55;
 		color: var(--ink-soft);
-		margin: 0;
-		max-width: 52ch;
+		margin: 0 0 0.75rem;
+		max-width: 60ch;
+	}
+	.post-cta {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		transition: color 0.2s;
+	}
+	.post-link:hover .post-cta {
+		color: var(--accent);
+	}
+	.post-cta .arrow {
+		transition: transform 0.25s ease;
+	}
+	.post-link:hover .post-cta .arrow {
+		transform: translateX(3px);
 	}
 </style>
