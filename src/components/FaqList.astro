@@ -1,0 +1,93 @@
+---
+interface FaqItem {
+	q: string;
+	a: string;
+}
+
+interface Props {
+	items: FaqItem[];
+}
+
+const { items } = Astro.props;
+---
+<dl class="faq-list">
+	{items.map((item, i) => (
+		<div class="faq-row">
+			<dt class="faq-q">
+				<span class="faq-num">{String(i + 1).padStart(2, '0')}</span>
+				<span class="faq-q-text">{item.q}</span>
+			</dt>
+			<dd class="faq-a" set:html={item.a} />
+		</div>
+	))}
+</dl>
+
+<style>
+	.faq-list {
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid var(--rule);
+	}
+	.faq-row {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.75rem;
+		padding: 1.75rem 0;
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 820px) {
+		.faq-row {
+			grid-template-columns: minmax(22ch, 1fr) 1.8fr;
+			gap: 3rem;
+			align-items: baseline;
+		}
+	}
+	.faq-q {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.15rem;
+		line-height: 1.35;
+		letter-spacing: -0.01em;
+		color: var(--ink);
+		margin: 0;
+		display: flex;
+		gap: 0.75rem;
+		align-items: baseline;
+	}
+	.faq-num {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.12em;
+		color: var(--ink-mute);
+		flex-shrink: 0;
+		padding-top: 0.2em;
+	}
+	.faq-q-text {
+		flex: 1;
+	}
+	.faq-a {
+		font-family: var(--serif);
+		font-size: 1.02rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+		margin: 0;
+		padding-left: calc(0.72rem + 0.75rem + 2ch);
+	}
+	@media (min-width: 820px) {
+		.faq-a {
+			padding-left: 0;
+		}
+	}
+	.faq-a :global(a) {
+		color: var(--ink);
+		text-decoration: none;
+		border-bottom: 1px dotted var(--ink-mute);
+		transition:
+			color 0.2s,
+			border-color 0.2s;
+	}
+	.faq-a :global(a:hover) {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+</style>
