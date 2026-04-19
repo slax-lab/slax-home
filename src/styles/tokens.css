@@ -9,6 +9,7 @@
 	--rule: #DDD4C4;
 	--rule-soft: #E8E1D2;
 	--accent: #3A5F4D;
+	--accent-hover: #2E4D3E;
 
 	/* Type — self-hosted via @fontsource-variable */
 	--serif: "Source Serif 4 Variable", "Source Serif 4", "Tiempos Text", Georgia, serif;

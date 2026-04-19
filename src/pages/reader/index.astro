@@ -844,6 +844,16 @@ const schema = {
 		flex-direction: column;
 		align-items: flex-start;
 	}
+	.plan > .btn-primary {
+		margin-top: auto;
+	}
+	.plan.featured > .btn-primary {
+		background: var(--accent);
+		color: #fff;
+	}
+	.plan.featured > .btn-primary:hover {
+		background: var(--accent-hover, #2E4D3E);
+	}
 	@media (min-width: 820px) {
 		.plan + .plan {
 			border-left: 1px solid var(--rule);
