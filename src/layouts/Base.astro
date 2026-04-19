@@ -57,7 +57,8 @@ const schemaList = schema
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={new URL(ogImage, Astro.site).toString()} />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" type="image/png" href="/images/slax-logo.png" sizes="any" />
+<link rel="apple-touch-icon" href="/images/slax-logo.png" />
 <link rel="alternate" type="application/rss+xml" title="Slax Blog" href="/rss.xml" />
 {schemaList.map((s) => (
 	<script type="application/ld+json" set:html={JSON.stringify(s)} />

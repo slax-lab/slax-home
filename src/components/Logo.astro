@@ -4,22 +4,17 @@ interface Props {
 	class?: string;
 }
 
-const { size = 22, class: className = '' } = Astro.props;
+const { size = 28, class: className = '' } = Astro.props;
 ---
-<svg
-	xmlns="http://www.w3.org/2000/svg"
-	viewBox="0 0 48 48"
+<img
+	src="/images/slax-logo.png"
+	alt="Slax"
 	width={size}
 	height={size}
 	class:list={['slax-logo', className]}
-	aria-hidden="true"
->
-	<circle cx="24" cy="24" r="23" fill="#EBE3D3" />
-	<path
-		d="M 24,1 A 23,23 0 0,0 24,47 A 11.5,11.5 0 0,1 24,24 A 11.5,11.5 0 0,0 24,1 Z"
-		fill="#3A5F4D"
-	/>
-</svg>
+	loading="eager"
+	decoding="async"
+/>
 
 <style>
 	.slax-logo {
