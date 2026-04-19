@@ -4,27 +4,29 @@ import Footer from '~/components/Footer.astro';
 import Nav from '~/components/Nav.astro';
 import Base from '~/layouts/Base.astro';
 
-// Content sourced from two real places (no invented copy):
-//   1. archive/apps-backup SlaxHomeHero.astro "note" panel —
-//      the only live-site landing copy for Slax Note
-//   2. ~/Dropbox/research/slax-note-web/src/i18n/locales/en.json —
-//      the product's own feature labels, prompts, and pricing
-//
-// Everything else (philosophy, "four opinions", fake UI preview) was
-// bundle draft and has been removed.
+// All Note strings below are copied verbatim from the live product at
+// n.slax.com. Sources: slax-note-web src/i18n/locales/en.json plus
+// SubscriptionModal / LoginModal component templates. No invented copy.
 
+// Polish prompt labels — i18n polish.prompts.*
 const polishModes = [
 	{
-		label: 'Intelligent polish',
+		label: 'Intelligent polishing',
 		desc: 'Cleaned-up prose, still in your voice.',
 	},
 	{ label: 'Summarize', desc: 'The gist of a recording, condensed.' },
 	{ label: 'Tweets (X.com)', desc: 'A short, postable version.' },
-	{ label: 'Custom prompt', desc: 'Whatever you ask for.' },
+	{ label: 'Custom Prompt', desc: 'Whatever you ask for.' },
 ];
 
-// Product i18n source: benefits listed inside the app's own
-// subscription modal (subscription.benefitsTitle: "Enjoying 4 Benefits")
+// Polish conversation actions — i18n polish.actions.*
+const polishActions = ['Copy', 'Edit', 'Retry', 'Other Styles'];
+
+// i18n subscription.plans.free.features.*
+const freeFeatures = ['5 notes', '10 polishes', '5 minutes per recording'];
+
+// i18n subscription.plans.monthly|annual.features.* — identical set,
+// also doubles as the "Enjoying 4 Benefits" list
 const proBenefits = [
 	'Unlimited notes',
 	'300 polishing times per day',
@@ -147,56 +149,92 @@ const schema = {
 						</div>
 					))}
 				</div>
+				<div class="polish-actions">
+					<p class="polish-actions-label">Each result is a conversation —</p>
+					<ul class="polish-actions-list">
+						{polishActions.map((a) => <li>{a}</li>)}
+					</ul>
+					<p class="polish-actions-note">
+						Copy what you like. Edit in place. Retry when the words aren't
+						right. Switch to another style with one tap.
+					</p>
+				</div>
 			</div>
 		</section>
 
 		<!-- PRICING -->
 		<section class="pricing" id="pricing">
 			<div class="pricing-inner">
-				<h2 class="pricing-head">Free to start. <em>Pro</em> when you go long.</h2>
-				<p class="pricing-dek">
-					The free plan handles short recordings and a daily polish budget. Pro
-					extends you to 30-minute sessions and 300 polishes a day.
-				</p>
+				<h2 class="pricing-head">
+					Become a <em>prestigious</em> member of Slax Note.
+				</h2>
+				<p class="pricing-dek">Enjoying 4 Benefits:</p>
+				<ul class="pricing-benefits">
+					{proBenefits.map((b) => <li>{b}</li>)}
+				</ul>
+
 				<div class="plans-grid">
+					<!-- FREE -->
 					<div class="plan">
 						<div class="plan-eyebrow">Free</div>
+						<div class="plan-tag">Lifetime</div>
 						<div class="plan-price">
-							<span class="num">$0</span><span class="unit">/ month</span>
+							<span class="num">$0</span>
 						</div>
 						<ul class="plan-list">
-							<li>5 notes</li>
-							<li>10 polishes</li>
-							<li>5 minutes per recording</li>
+							{freeFeatures.map((f) => <li>{f}</li>)}
 						</ul>
 						<a href="https://n.slax.com/" class="btn-primary">Open Note</a>
 					</div>
+
+					<!-- MONTHLY -->
 					<div class="plan featured">
-						<div class="plan-eyebrow">Pro (monthly)</div>
+						<div class="plan-eyebrow">Monthly</div>
+						<div class="plan-tag">Slax Note Pro for one month</div>
 						<div class="plan-price">
 							<span class="num">$4.99</span><span class="unit">/ month</span>
 						</div>
+						<p class="plan-note">Cancel anytime.</p>
 						<ul class="plan-list">
 							{proBenefits.map((b) => <li>{b}</li>)}
 						</ul>
-						<a href="https://n.slax.com/" class="btn-primary">Start Pro</a>
+						<a href="https://n.slax.com/" class="btn-primary">Subscribe monthly</a>
+						<p class="plan-renew">
+							Auto-renew monthly, cancel anytime. We will charge $4.99/month.
+						</p>
 					</div>
+
+					<!-- ANNUAL -->
 					<div class="plan">
-						<div class="plan-eyebrow">Pro (annual)</div>
+						<div class="plan-eyebrow">
+							Annual <span class="plan-badge">As low as $4.16/mo</span>
+						</div>
+						<div class="plan-tag">Slax Note Pro for one year</div>
 						<div class="plan-price">
 							<span class="num">$49.99</span><span class="unit">/ year</span>
-							<span class="was">≈ $4.16 / mo</span>
 						</div>
+						<p class="plan-note">Cancel anytime.</p>
 						<ul class="plan-list">
 							{proBenefits.map((b) => <li>{b}</li>)}
 						</ul>
-						<a href="https://n.slax.com/" class="btn-primary">Save annually</a>
+						<a href="https://n.slax.com/" class="btn-primary">Subscribe annually</a>
+						<p class="plan-renew">
+							Auto-renew annually, cancel anytime. We will charge $49.99/year.
+						</p>
 					</div>
 				</div>
-				<p class="pricing-note">
-					Manage or cancel any time from inside the app — pricing and billing
-					are handled at n.slax.com.
-				</p>
+
+				<div class="pricing-footer">
+					<span>
+						By subscribing, you authorize Slax Note to charge you according
+						to the terms until you cancel.
+					</span>
+					<span class="pricing-footer-links">
+						<a href="https://n.slax.com/">Agreement</a> ·
+						<a href="https://n.slax.com/">Redeem Membership</a> ·
+						<a href="https://n.slax.com/">Restore Purchases</a>
+					</span>
+				</div>
 			</div>
 		</section>
 
@@ -417,6 +455,44 @@ const schema = {
 		color: var(--ink-soft);
 		margin: 0;
 	}
+	.polish-actions {
+		margin-top: 3.5rem;
+		padding-top: 2.5rem;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.polish-actions-label {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1.15rem;
+		color: var(--ink);
+		margin: 0 0 1rem;
+	}
+	.polish-actions-list {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 1.25rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+	.polish-actions-list li {
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.08em;
+		padding: 0.35rem 0.8rem;
+		background: var(--bg);
+		border: 1px solid var(--rule);
+		border-radius: 999px;
+		color: var(--ink-soft);
+	}
+	.polish-actions-note {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 52ch;
+	}
 
 	/* PRICING */
 	.pricing {
@@ -443,12 +519,35 @@ const schema = {
 		font-weight: 300;
 	}
 	.pricing-dek {
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 1.5rem;
+	}
+	.pricing-benefits {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 3.5rem;
+		display: grid;
+		gap: 0.6rem;
 		font-family: var(--serif);
 		font-size: 1.1rem;
-		line-height: 1.5;
-		color: var(--ink-soft);
-		max-width: 50ch;
-		margin: 0 0 3.5rem;
+		color: var(--ink);
+		max-width: 42ch;
+	}
+	.pricing-benefits li {
+		padding-left: 1.5rem;
+		position: relative;
+	}
+	.pricing-benefits li::before {
+		content: "●";
+		position: absolute;
+		left: 0;
+		color: var(--accent);
+		font-size: 0.7em;
+		top: 0.25em;
 	}
 	.plans-grid {
 		display: grid;
@@ -499,9 +598,45 @@ const schema = {
 		font-size: 1.35rem;
 		font-weight: 500;
 		color: var(--ink);
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		flex-wrap: wrap;
 	}
 	.plan.featured .plan-eyebrow {
 		color: var(--accent);
+	}
+	.plan-badge {
+		font-family: var(--mono);
+		font-size: 0.68rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 12%, transparent);
+		padding: 0.2rem 0.55rem;
+		border-radius: 999px;
+	}
+	.plan-tag {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 0.92rem;
+		color: var(--ink-mute);
+		margin: 0.3rem 0 0.2rem;
+	}
+	.plan-note {
+		font-family: var(--serif);
+		font-size: 0.9rem;
+		color: var(--ink-mute);
+		margin: 0 0 1rem;
+	}
+	.plan-renew {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		line-height: 1.5;
+		color: var(--ink-mute);
+		letter-spacing: 0.02em;
+		margin: 1rem 0 0;
+		max-width: 44ch;
 	}
 	.plan-price {
 		display: flex;
@@ -548,13 +683,33 @@ const schema = {
 		left: 0;
 		color: var(--ink-mute);
 	}
-	.pricing-note {
+	.pricing-footer {
+		margin: 2.5rem 0 0;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--rule-soft);
+		display: grid;
+		gap: 0.6rem;
 		font-family: var(--mono);
-		font-size: 0.8rem;
+		font-size: 0.76rem;
+		line-height: 1.55;
+		letter-spacing: 0.02em;
 		color: var(--ink-mute);
-		letter-spacing: 0.04em;
-		margin: 2rem 0 0;
-		max-width: 60ch;
+		max-width: 64ch;
+	}
+	.pricing-footer a {
+		color: var(--ink-mute);
+		text-decoration: none;
+		border-bottom: 1px dotted var(--ink-mute);
+		transition:
+			color 0.2s,
+			border-color 0.2s;
+	}
+	.pricing-footer a:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+	.pricing-footer-links {
+		color: var(--ink-soft);
 	}
 
 	/* FINALE */
