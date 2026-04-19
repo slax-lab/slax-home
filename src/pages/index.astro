@@ -17,20 +17,11 @@ const readerTrust = [
 	<Nav />
 
 	<section class="shh">
-		<!-- 3-state hero, switched by hovering product cards below -->
+		<!-- Hero alternates between Reader and Note; product cards below lock
+		     the panel on hover -->
 		<div class="shh-hero-wrap">
-			<!-- DEFAULT -->
-			<div class="shh-panel shh-panel-default is-active" data-panel="default">
-				<div class="shh-default-inner">
-					<h1 class="shh-default-title">Your AI Productivity Suite</h1>
-					<p class="shh-default-tagline">
-						Read smarter. Write better. Stay organized.
-					</p>
-				</div>
-			</div>
-
 			<!-- READER -->
-			<div class="shh-panel shh-panel-reader" data-panel="reader">
+			<div class="shh-panel shh-panel-reader is-active" data-panel="reader">
 				<div class="shh-reader-inner">
 					<div class="shh-reader-text">
 						<h2 class="shh-reader-title">Read Smarter<br />Not Just Later</h2>
@@ -169,7 +160,14 @@ const readerTrust = [
 	const panels = document.querySelectorAll<HTMLElement>('[data-panel]');
 	const triggers = document.querySelectorAll<HTMLElement>('[data-trigger]');
 
+	const ROTATE_KEYS = ['reader', 'note'] as const;
+	const ROTATE_INTERVAL = 6000;
+
+	let current: string = 'reader';
+	let rotateTimer: ReturnType<typeof setInterval> | null = null;
+
 	function activate(state: string) {
+		current = state;
 		panels.forEach((p) =>
 			p.classList.toggle('is-active', p.dataset.panel === state),
 		);
@@ -178,14 +176,39 @@ const readerTrust = [
 		);
 	}
 
+	function startRotate() {
+		if (rotateTimer) return;
+		rotateTimer = setInterval(() => {
+			const i = ROTATE_KEYS.indexOf(current as (typeof ROTATE_KEYS)[number]);
+			const next = ROTATE_KEYS[(i + 1) % ROTATE_KEYS.length];
+			activate(next);
+		}, ROTATE_INTERVAL);
+	}
+
+	function stopRotate() {
+		if (rotateTimer) {
+			clearInterval(rotateTimer);
+			rotateTimer = null;
+		}
+	}
+
 	triggers.forEach((trigger) => {
 		const key = trigger.dataset.trigger!;
-		trigger.addEventListener('mouseenter', () => activate(key));
-		trigger.addEventListener('focus', () => activate(key));
-		trigger.addEventListener('blur', () => activate('default'));
+		trigger.addEventListener('mouseenter', () => {
+			stopRotate();
+			activate(key);
+		});
+		trigger.addEventListener('mouseleave', startRotate);
+		trigger.addEventListener('focus', () => {
+			stopRotate();
+			activate(key);
+		});
+		trigger.addEventListener('blur', startRotate);
 	});
 
-	section?.addEventListener('mouseleave', () => activate('default'));
+	// Respect users who prefer reduced motion
+	const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	if (!reduced) startRotate();
 </script>
 
 <style>
@@ -215,36 +238,6 @@ const readerTrust = [
 		opacity: 1;
 		transform: translateY(0);
 		pointer-events: auto;
-	}
-
-	/* ─── Default panel ─── */
-	.shh-panel-default {
-		background: var(--bg);
-		justify-content: center;
-	}
-	.shh-default-inner {
-		text-align: center;
-		padding: 6rem 2rem 4rem;
-		max-width: 760px;
-		margin: 0 auto;
-	}
-	.shh-default-title {
-		font-family: var(--serif);
-		font-weight: 400;
-		font-size: clamp(2.8rem, 5.5vw, 4.8rem);
-		line-height: 1.05;
-		letter-spacing: -0.025em;
-		margin: 0 0 1.5rem;
-		color: var(--ink);
-	}
-	.shh-default-tagline {
-		font-family: var(--serif);
-		font-size: clamp(1.15rem, 1.5vw, 1.4rem);
-		line-height: 1.5;
-		color: var(--ink-soft);
-		margin: 0;
-		max-width: 44ch;
-		margin-inline: auto;
 	}
 
 	/* ─── Reader panel ─── */
