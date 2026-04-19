@@ -48,19 +48,20 @@ const steps = [
 	},
 ];
 
+// Cell value: 'ok' → ● accent,   'no' → — muted,   any other string → inline text (muted italic)
 const compareRows: Array<[string, string, string, string]> = [
-	['Unlimited Free Bookmarks (for early users)', '✅', '✅', 'Paid service'],
-	['Permanent Content Backup', '✅', 'Paid service', 'Paid service'],
-	['AI Outline', 'Paid service', '✅', 'Paid service'],
-	['Chat with AI While Reading', 'Paid service', '❌', 'Paid service'],
+	['Unlimited free bookmarks (for early users)', 'ok', 'ok', 'Paid'],
+	['Permanent content backup', 'ok', 'Paid', 'Paid'],
+	['AI outline', 'Paid', 'ok', 'Paid'],
+	['Chat with AI while reading', 'Paid', 'no', 'Paid'],
 	[
-		'Highlight & Comment on Original Pages & Snapshots, Two-Way Synced',
-		'✅',
-		'❌',
-		'Paid service',
+		'Highlight & comment on original pages & snapshots, two-way synced',
+		'ok',
+		'no',
+		'Paid',
 	],
-	['Join Reader Discussions', '✅', '❌', '⚠ Shared highlights only'],
-	['AI Auto Tagging', 'Paid service', '⚠ Manual tags', '⚠ Manual tags'],
+	['Join reader discussions', 'ok', 'no', 'Shared only'],
+	['AI auto-tagging', 'Paid', 'Manual', 'Manual'],
 ];
 
 const matrixRows: Array<[string, string, string]> = [
@@ -288,9 +289,23 @@ const schema = {
 					{compareRows.map((row) => (
 						<div class="compare-row">
 							<div>{row[0]}</div>
-							<div class="highlight">{row[1]}</div>
-							<div>{row[2]}</div>
-							<div>{row[3]}</div>
+							{[1, 2, 3].map((i) => {
+								const v = row[i];
+								const isHighlight = i === 1;
+								let cls = 'cell';
+								let content: string = v;
+								if (v === 'ok') {
+									cls += ' cell-ok';
+									content = '●';
+								} else if (v === 'no') {
+									cls += ' cell-no';
+									content = '—';
+								} else {
+									cls += ' cell-text';
+								}
+								if (isHighlight) cls += ' highlight';
+								return <div class={cls}>{content}</div>;
+							})}
 						</div>
 					))}
 				</div>
@@ -727,6 +742,26 @@ const schema = {
 	.compare-row.head > div.highlight {
 		color: var(--accent);
 		font-weight: 500;
+	}
+	.compare-row .cell {
+		text-align: center;
+	}
+	.compare-row .cell-ok {
+		color: var(--accent);
+		font-size: 1.05rem;
+	}
+	.compare-row .cell-no {
+		color: var(--ink-mute);
+		font-size: 1.2rem;
+	}
+	.compare-row .cell-text {
+		color: var(--ink-mute);
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		letter-spacing: 0.04em;
+	}
+	.compare-row .cell-ok.highlight {
+		background: color-mix(in srgb, var(--accent) 5%, transparent);
 	}
 	.compare-more {
 		margin: 2rem 0 0;
