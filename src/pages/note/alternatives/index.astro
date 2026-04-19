@@ -27,9 +27,15 @@ const entries = (await getCollection('noteAlternatives')).sort((a, b) =>
 			<ul class="alt-list">
 				{entries.map((entry) => (
 					<li class="alt-item">
-						<a href={`/note/alternatives/${entry.id}/`}>
-							<h2>vs. {entry.data.competitor}</h2>
-							<p>{entry.data.description}</p>
+						<a href={`/note/alternatives/${entry.id}/`} class="alt-link">
+							<span class="alt-competitor">{entry.data.competitor}</span>
+							<div class="alt-body">
+								<h2>Slax Note vs. {entry.data.competitor}</h2>
+								<p>{entry.data.description}</p>
+								<span class="alt-cta">
+									Read comparison <span class="arrow">→</span>
+								</span>
+							</div>
 						</a>
 					</li>
 				))}
@@ -41,27 +47,31 @@ const entries = (await getCollection('noteAlternatives')).sort((a, b) =>
 
 <style>
 	.alts-index {
-		max-width: 720px;
+		max-width: 860px;
 		margin: 0 auto;
-		padding: 6rem 2rem 4rem;
+		padding: 5rem 2rem 4rem;
 	}
 	.head {
-		margin-bottom: 5rem;
+		margin-bottom: 4rem;
+		padding-bottom: 2.5rem;
+		border-bottom: 1px solid var(--rule);
 	}
 	h1 {
 		font-family: var(--serif);
-		font-weight: 400;
-		font-size: clamp(2.4rem, 4.5vw, 3.6rem);
-		line-height: 1.1;
-		letter-spacing: -0.025em;
-		margin: 2.5rem 0 1.5rem;
+		font-weight: 500;
+		font-size: clamp(1.9rem, 3vw, 2.5rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0 0 0.75rem;
 	}
 	.dek {
 		font-family: var(--serif);
-		font-size: 1.2rem;
+		font-style: italic;
+		font-size: 1.1rem;
 		line-height: 1.5;
 		color: var(--ink-soft);
-		max-width: 44ch;
+		max-width: 52ch;
+		margin: 0;
 	}
 	.empty {
 		font-family: var(--mono);
@@ -71,42 +81,84 @@ const entries = (await getCollection('noteAlternatives')).sort((a, b) =>
 		color: var(--ink-mute);
 		padding: 4rem 0;
 	}
+
 	.alt-list {
 		list-style: none;
 		padding: 0;
 		margin: 0;
-		display: grid;
-		gap: 2rem;
 	}
-	.alt-item a {
-		display: block;
-		padding: 2rem 0;
-		border-top: 1px solid var(--rule-soft);
+	.alt-item {
+		border-bottom: 1px solid var(--rule-soft);
+	}
+	.alt-item:last-child {
+		border-bottom: none;
+	}
+	.alt-link {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.6rem;
+		padding: 2.25rem 0;
 		text-decoration: none;
 		color: inherit;
-		transition: padding-left 0.2s;
+		transition: padding-left 0.25s ease;
 	}
-	.alt-item a:hover {
-		padding-left: 0.3rem;
+	@media (min-width: 760px) {
+		.alt-link {
+			grid-template-columns: 160px 1fr;
+			gap: 3rem;
+			align-items: baseline;
+		}
 	}
-	.alt-item h2 {
+	.alt-link:hover {
+		padding-left: 0.5rem;
+	}
+	.alt-competitor {
+		font-family: var(--mono);
+		font-size: 0.76rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		padding-top: 0.15rem;
+	}
+	.alt-body h2 {
 		font-family: var(--serif);
 		font-weight: 500;
-		font-size: 1.75rem;
-		line-height: 1.2;
-		letter-spacing: -0.015em;
-		margin: 0 0 0.6rem;
+		font-size: 1.35rem;
+		line-height: 1.25;
+		letter-spacing: -0.01em;
+		margin: 0 0 0.5rem;
 		color: var(--ink);
+		transition: color 0.2s;
 	}
-	.alt-item a:hover h2 {
+	.alt-link:hover .alt-body h2 {
 		color: var(--accent);
 	}
-	.alt-item p {
+	.alt-body p {
 		font-family: var(--serif);
-		font-size: 1.05rem;
-		line-height: 1.5;
+		font-size: 1rem;
+		line-height: 1.55;
 		color: var(--ink-soft);
-		margin: 0;
-		max-width: 52ch;
+		margin: 0 0 0.75rem;
+		max-width: 60ch;
+	}
+	.alt-cta {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		transition: color 0.2s;
+	}
+	.alt-link:hover .alt-cta {
+		color: var(--accent);
+	}
+	.alt-cta .arrow {
+		transition: transform 0.25s ease;
+	}
+	.alt-link:hover .alt-cta .arrow {
+		transform: translateX(3px);
 	}
 </style>
