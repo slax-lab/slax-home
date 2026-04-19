@@ -1,4 +1,6 @@
 ---
+import Logo from '~/components/Logo.astro';
+
 interface Props {
 	version?: string;
 	lastUpdated?: string;
@@ -10,7 +12,7 @@ const { version = '0.9.2', lastUpdated = '04/19/26' } = Astro.props;
 	<div class="footer-inner">
 		<div>
 			<a href="/" class="brand">
-				<span class="brand-mark"></span>
+				<Logo size={26} />
 				Slax
 			</a>
 			<p class="footer-colophon">

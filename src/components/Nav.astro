@@ -1,4 +1,6 @@
 ---
+import Logo from '~/components/Logo.astro';
+
 interface Props {
 	active?: 'reader' | 'note' | 'blog';
 }
@@ -14,7 +16,7 @@ const items = [
 <nav class="nav">
 	<div class="nav-inner">
 		<a href="/" class="brand">
-			<span class="brand-mark"></span>
+			<Logo size={26} />
 			Slax
 		</a>
 		<div class="nav-links">
@@ -27,9 +29,5 @@ const items = [
 				</a>
 			))}
 		</div>
-		<a href="/reader/" class="nav-cta">
-			Start free
-			<span class="arrow">→</span>
-		</a>
 	</div>
 </nav>
