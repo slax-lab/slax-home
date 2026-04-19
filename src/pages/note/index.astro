@@ -1,14 +1,604 @@
 ---
-import PlaceholderPage from '~/components/PlaceholderPage.astro';
+import Button from '~/components/Button.astro';
+import Eyebrow from '~/components/Eyebrow.astro';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import SectionLabel from '~/components/SectionLabel.astro';
+import Base from '~/layouts/Base.astro';
+
+// Note positioning (Luca 2026-04-19 confirmed):
+//   Voice input → AI polish (multi-prompt) → personal journal / ideas.
+//   NOT a notes-app. NOT meeting notes. Private, not public sharing.
+// Feature facts come from the product's i18n source — see
+//   docs/20260419-slax-redesign-plan.md "Note 落地页内容来源".
+
+const ideas = [
+	{
+		num: '01 · Voice',
+		title: "Speak. Don't type.",
+		body: "Thinking happens at the speed of speech, not typing. Hit record while you're walking, driving, lying in bed — and let the thought arrive the way it wanted to.",
+	},
+	{
+		num: '02 · Polish',
+		title: 'One recording. Many shapes.',
+		body: 'Intelligent polish, summary, a tidy list, a tweet, or your own custom prompt — the same voice note becomes whichever form you need today.',
+	},
+	{
+		num: '03 · Private',
+		title: 'Made for your own head.',
+		body: 'No followers. No feed. No sharing buttons by default. Note is a journal that happens to have AI in it — not a social product with voice.',
+	},
+	{
+		num: '04 · Pro',
+		title: 'Room to think out loud.',
+		body: 'Free gives you short recordings and a daily polish budget. Pro unlocks 30-minute sessions and 300 polishes a day — enough for the long monologues.',
+	},
+];
+
+const polishModes = [
+	{
+		label: 'Intelligent polish',
+		desc: 'Cleaned-up prose, still in your voice.',
+	},
+	{ label: 'Summarize', desc: 'The gist, three paragraphs, no padding.' },
+	{ label: 'Tweets', desc: 'A short, postable version — if you ever want it.' },
+	{
+		label: 'Custom prompt',
+		desc: 'Whatever you ask for. Journal entry, list, letter, outline.',
+	},
+];
 ---
-<PlaceholderPage
+<Base
 	title="Slax Note — Speak your mind, let AI shape it"
-	eyebrow="Product 02"
-	heading="Slax Note."
-	navActive="note"
+	description="A voice-first notebook for personal ideas and journaling. Record a thought, polish it with any prompt you like, keep the output private."
 >
-	<p>
-		Voice in. Text out. Your thoughts reshaped by whichever prompt you pick —
-		journal, summary, or anything in between. Real content arrives in stage 2.
-	</p>
-</PlaceholderPage>
+	<Nav active="note" />
+
+	<main>
+		<!-- HERO -->
+		<section class="n-hero">
+			<div class="n-hero-inner">
+				<div>
+					<Eyebrow>Product 02 · Live at note.slax.com</Eyebrow>
+					<h1 class="n-h1">
+						Speak what's on your mind.<br />
+						Let AI <em>reshape</em> it — your way.
+					</h1>
+					<p class="n-dek">
+						A voice-first notebook for the shower thoughts, the morning-walk
+						monologues, the before-sleep ramble. Record, polish, keep — or
+						throw away.
+					</p>
+					<div class="actions">
+						<Button variant="primary" href="https://note.slax.com/" arrow>Open Note</Button>
+						<Button variant="secondary" href="#ideas">How it works</Button>
+					</div>
+				</div>
+				<div class="try-card">
+					<div class="try-card-eyebrow">Live — no waitlist</div>
+					<h3>Start with one thought.</h3>
+					<p>
+						Sign in with Google or Apple, record up to 5 minutes on the free plan,
+						and get 10 polishes to play with. No credit card.
+					</p>
+					<a href="https://note.slax.com/" class="btn-primary">
+						Try Slax Note <span>→</span>
+					</a>
+					<div class="try-meta">
+						<span>Free · 5 min / session</span>
+						<span>Pro · 30 min / session</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- IDEAS -->
+		<section class="ideas" id="ideas">
+			<div class="ideas-inner">
+				<SectionLabel number="01">What Note believes</SectionLabel>
+				<h2 class="ideas-head">
+					Four opinions about how a <em>voice notebook</em> should feel.
+				</h2>
+				<div class="idea-grid">
+					{ideas.map((i) => (
+						<div class="idea">
+							<div class="idea-num">{i.num}</div>
+							<h3 class="idea-h">{i.title}</h3>
+							<p class="idea-p">{i.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- PREVIEW (CSS-only fake UI) -->
+		<section class="npreview">
+			<div class="npreview-inner">
+				<div>
+					<SectionLabel number="02">What the app looks like</SectionLabel>
+					<h2 class="npreview-head">
+						One voice note. <em>Four</em> ways to read it.
+					</h2>
+					<p class="npreview-body">
+						Tap a prompt, and the same recording becomes a different piece of
+						writing. Your words, just more readable. None of the outputs
+						overwrite each other — you keep them all.
+					</p>
+					<ul class="polish-list">
+						{polishModes.map((m) => (
+							<li>
+								<span class="mode">{m.label}</span>
+								<span class="sep">—</span>
+								<span class="desc">{m.desc}</span>
+							</li>
+						))}
+					</ul>
+				</div>
+				<div class="note-preview" aria-hidden="true">
+					<div class="np-rec">
+						<span class="np-rec-dot"></span>
+						<span class="np-rec-label">Voice · 02:14</span>
+						<span class="np-rec-date">This morning</span>
+					</div>
+					<div class="np-waveform">
+						<span></span><span></span><span></span><span></span><span></span>
+						<span></span><span></span><span></span><span></span><span></span>
+						<span></span><span></span><span></span><span></span><span></span>
+					</div>
+					<p class="np-transcript">
+						"...so I think the reason the product feels slow isn't that it <em>is</em>
+						slow, it's that the first screen asks me to decide something before
+						I've even sat down. Maybe the answer is just, nothing happens until
+						you tap — like a kitchen timer..."
+					</p>
+					<div class="np-prompt-row">
+						<span class="np-prompt-chip active">Intelligent polish</span>
+						<span class="np-prompt-chip">Summary</span>
+						<span class="np-prompt-chip">Tweet</span>
+						<span class="np-prompt-chip">Custom</span>
+					</div>
+					<div class="np-output">
+						<div class="np-output-label">Polished · 4 min ago</div>
+						<p>
+							The product doesn't feel slow because it's slow — it feels slow
+							because the first screen asks you to decide something before
+							you've sat down. The fix might be doing nothing until the user
+							taps. A kitchen-timer model, rather than a dashboard.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- PHILOSOPHY -->
+		<section class="philosophy">
+			<div class="philosophy-inner">
+				<SectionLabel number="03">Why it exists</SectionLabel>
+				<p class="philosophy-body">
+					Most voice tools are built for meetings and recaps. Note is built for
+					<em>you alone</em> — the thoughts that only make sense said out loud,
+					the days worth a journal entry, the ideas too messy for a keyboard.
+					AI helps you read them back later. That's all.
+				</p>
+			</div>
+		</section>
+
+		<!-- CTA -->
+		<section class="finale">
+			<div class="finale-inner">
+				<SectionLabel>Start</SectionLabel>
+				<h2 class="finale-h">
+					One voice note. <em>See</em> where it goes.
+				</h2>
+				<p class="finale-p">
+					Free forever, enough to find out if it fits you. Upgrade when you
+					start carrying longer thoughts.
+				</p>
+				<div class="actions actions-center">
+					<Button variant="primary" href="https://note.slax.com/" arrow>Open Slax Note</Button>
+					<Button variant="secondary" href="https://note.slax.com/#subscribe">See pricing in-app</Button>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+</Base>
+
+<style>
+	/* HERO */
+	.n-hero {
+		padding: 6rem 0 5rem;
+	}
+	.n-hero-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 4rem;
+	}
+	@media (min-width: 960px) {
+		.n-hero-inner {
+			grid-template-columns: 1.3fr 1fr;
+			align-items: end;
+		}
+	}
+	.n-h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.4rem, 5vw, 4.4rem);
+		line-height: 1.02;
+		letter-spacing: -0.025em;
+		margin: 2rem 0 1.5rem;
+		text-wrap: pretty;
+	}
+	.n-h1 :global(em) {
+		font-style: italic;
+		font-weight: 300;
+		color: var(--accent);
+	}
+	.n-dek {
+		font-family: var(--serif);
+		font-size: 1.25rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 40ch;
+		margin: 0 0 2.25rem;
+	}
+	.actions {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+	.actions-center {
+		justify-content: center;
+	}
+
+	/* TRY CARD (replaces Claude bundle's "beta waitlist" card — we are live) */
+	.try-card {
+		background: var(--bg-deep);
+		border: 1px solid var(--rule);
+		padding: 2.25rem;
+	}
+	.try-card-eyebrow {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--accent);
+		margin-bottom: 1rem;
+		font-weight: 500;
+	}
+	.try-card h3 {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.5rem;
+		letter-spacing: -0.02em;
+		margin: 0 0 0.8rem;
+		line-height: 1.2;
+	}
+	.try-card p {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		margin: 0 0 1.5rem;
+	}
+	.try-meta {
+		font-family: var(--mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.08em;
+		color: var(--ink-mute);
+		margin-top: 1.2rem;
+		padding-top: 1rem;
+		border-top: 1px solid var(--rule);
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	/* IDEAS */
+	.ideas {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.ideas-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.ideas-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.6rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 4rem;
+		max-width: 24ch;
+	}
+	.ideas-head :global(em) {
+		font-style: italic;
+		color: var(--accent);
+	}
+	.idea-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+	}
+	@media (min-width: 820px) {
+		.idea-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.idea {
+		padding: 3rem 2.5rem;
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 820px) {
+		.idea:nth-child(2n) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.idea-num {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.2em;
+		color: var(--ink-mute);
+		margin-bottom: 1.5rem;
+	}
+	.idea-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.5rem;
+		letter-spacing: -0.015em;
+		margin: 0 0 1rem;
+		line-height: 1.2;
+	}
+	.idea-p {
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 42ch;
+	}
+
+	/* PREVIEW */
+	.npreview {
+		padding: var(--section-pad) 0;
+		background: var(--bg-deep);
+		border-top: 1px solid var(--rule-soft);
+	}
+	.npreview-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 4rem;
+	}
+	@media (min-width: 960px) {
+		.npreview-inner {
+			grid-template-columns: 1fr 1.3fr;
+			align-items: start;
+			gap: 5rem;
+		}
+	}
+	.npreview-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 1.5rem;
+		max-width: 20ch;
+	}
+	.npreview-head :global(em) {
+		font-style: italic;
+		color: var(--accent);
+	}
+	.npreview-body {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		max-width: 40ch;
+		margin: 0 0 2rem;
+	}
+	.polish-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		font-family: var(--serif);
+		font-size: 1rem;
+		display: grid;
+		gap: 0.8rem;
+	}
+	.polish-list li {
+		display: grid;
+		grid-template-columns: auto auto 1fr;
+		gap: 0.75rem;
+		align-items: baseline;
+	}
+	.polish-list .mode {
+		font-weight: 500;
+		color: var(--ink);
+	}
+	.polish-list .sep {
+		color: var(--ink-mute);
+	}
+	.polish-list .desc {
+		color: var(--ink-soft);
+	}
+
+	/* NOTE PREVIEW — CSS-only fake UI */
+	.note-preview {
+		background: var(--bg);
+		border: 1px solid var(--rule);
+		padding: 1.75rem;
+		font-family: var(--serif);
+		box-shadow: 0 6px 32px -16px rgba(27, 26, 23, 0.18);
+	}
+	.np-rec {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		padding-bottom: 0.8rem;
+		border-bottom: 1px solid var(--rule);
+		margin-bottom: 0.8rem;
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.08em;
+		color: var(--ink-mute);
+		text-transform: uppercase;
+	}
+	.np-rec-dot {
+		width: 0.55rem;
+		height: 0.55rem;
+		border-radius: 50%;
+		background: var(--accent);
+	}
+	.np-rec-label {
+		color: var(--ink);
+	}
+	.np-rec-date {
+		margin-left: auto;
+	}
+	.np-waveform {
+		display: flex;
+		align-items: center;
+		gap: 3px;
+		height: 1.6rem;
+		margin-bottom: 0.9rem;
+	}
+	.np-waveform span {
+		flex: 1;
+		background: var(--accent);
+		opacity: 0.55;
+		border-radius: 2px;
+	}
+	.np-waveform span:nth-child(1) { height: 30%; }
+	.np-waveform span:nth-child(2) { height: 65%; }
+	.np-waveform span:nth-child(3) { height: 80%; }
+	.np-waveform span:nth-child(4) { height: 45%; }
+	.np-waveform span:nth-child(5) { height: 55%; }
+	.np-waveform span:nth-child(6) { height: 70%; }
+	.np-waveform span:nth-child(7) { height: 90%; }
+	.np-waveform span:nth-child(8) { height: 50%; }
+	.np-waveform span:nth-child(9) { height: 35%; }
+	.np-waveform span:nth-child(10) { height: 60%; }
+	.np-waveform span:nth-child(11) { height: 75%; }
+	.np-waveform span:nth-child(12) { height: 40%; }
+	.np-waveform span:nth-child(13) { height: 55%; }
+	.np-waveform span:nth-child(14) { height: 30%; }
+	.np-waveform span:nth-child(15) { height: 20%; }
+	.np-transcript {
+		font-size: 0.95rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		font-style: italic;
+		margin: 0 0 1.2rem;
+	}
+	.np-transcript :global(em) {
+		font-style: italic;
+		color: var(--accent);
+	}
+	.np-prompt-row {
+		display: flex;
+		gap: 0.4rem;
+		flex-wrap: wrap;
+		margin-bottom: 1.2rem;
+		padding-bottom: 1.2rem;
+		border-bottom: 1px dashed var(--rule);
+	}
+	.np-prompt-chip {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.06em;
+		padding: 0.35rem 0.7rem;
+		border: 1px solid var(--rule);
+		border-radius: 999px;
+		color: var(--ink-mute);
+		background: var(--bg-deep);
+	}
+	.np-prompt-chip.active {
+		color: var(--bg);
+		background: var(--accent);
+		border-color: var(--accent);
+	}
+	.np-output-label {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin-bottom: 0.6rem;
+	}
+	.np-output p {
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink);
+		margin: 0;
+	}
+
+	/* PHILOSOPHY */
+	.philosophy {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.philosophy-inner {
+		max-width: 820px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.philosophy-body {
+		font-family: var(--serif);
+		font-size: clamp(1.35rem, 2vw, 1.75rem);
+		line-height: 1.45;
+		color: var(--ink);
+		max-width: 36ch;
+		margin: 2rem 0 0;
+	}
+	.philosophy-body :global(em) {
+		font-style: italic;
+		color: var(--accent);
+	}
+
+	/* FINALE */
+	.finale {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		text-align: center;
+	}
+	.finale-inner {
+		max-width: 820px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.finale-h {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.2rem, 4vw, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 1.5rem auto 1.5rem;
+		max-width: 20ch;
+	}
+	.finale-h :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.finale-p {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 42ch;
+		margin: 0 auto 2.25rem;
+	}
+</style>
