@@ -391,6 +391,59 @@ a {
 	border-radius: 6px;
 	background: var(--bg-deep);
 }
+
+/* Tables — editorial hairline style, wrapped for horizontal scroll on mobile */
+.prose table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 2.5rem 0;
+	font-family: var(--serif);
+	font-size: 0.98rem;
+	display: block;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+.prose thead {
+	border-bottom: 1.5px solid var(--ink);
+}
+.prose th {
+	font-family: var(--mono);
+	font-size: 0.7rem;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--ink-mute);
+	font-weight: 500;
+	text-align: left;
+	padding: 0.85rem 1rem 0.85rem 0;
+	vertical-align: bottom;
+	white-space: nowrap;
+}
+.prose th:not(:last-child) {
+	padding-right: 1.25rem;
+}
+.prose td {
+	padding: 0.9rem 1rem 0.9rem 0;
+	border-bottom: 1px solid var(--rule-soft);
+	color: var(--ink-soft);
+	vertical-align: top;
+	line-height: 1.55;
+}
+.prose td:not(:last-child) {
+	padding-right: 1.25rem;
+}
+.prose td:first-child {
+	color: var(--ink);
+	font-weight: 400;
+	min-width: 14ch;
+}
+.prose tr:last-child td {
+	border-bottom: none;
+}
+.prose td strong,
+.prose th strong {
+	color: var(--ink);
+	font-weight: 500;
+}
 .prose figure {
 	margin: 2.25rem 0;
 }
