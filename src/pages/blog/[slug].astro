@@ -23,6 +23,10 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
 	day: 'numeric',
 });
 
+// Rough reading time — 200 wpm (industry average)
+const wordCount = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
+const readingMin = Math.max(1, Math.round(wordCount / 200));
+
 const schema = {
 	'@context': 'https://schema.org',
 	'@type': 'Article',
@@ -36,7 +40,7 @@ const schema = {
 		name: 'Slax Lab',
 		logo: {
 			'@type': 'ImageObject',
-			url: 'https://slax.com/favicon.svg',
+			url: 'https://slax.com/images/slax-logo.png',
 		},
 	},
 	mainEntityOfPage: {
@@ -53,15 +57,41 @@ const schema = {
 >
 	<Nav active="blog" />
 	<article class="article">
-		<header class="article-head">
-			<time datetime={post.data.pubDate.toISOString()}>
-				{dateFmt.format(post.data.pubDate)}
-			</time>
-			<h1>{post.data.title}</h1>
-			{post.data.description && <p class="dek">{post.data.description}</p>}
-		</header>
-		<div class="prose">
-			<Content />
+		<div class="article-inner">
+			<a class="article-back-top" href="/blog/">← Blog</a>
+
+			<header class="article-head">
+				<div class="article-meta">
+					<time datetime={post.data.pubDate.toISOString()}>
+						{dateFmt.format(post.data.pubDate)}
+					</time>
+					<span class="sep">·</span>
+					<span>{readingMin} min read</span>
+					{post.data.tags && post.data.tags.length > 0 && (
+						<>
+							<span class="sep">·</span>
+							<ul class="article-tags">
+								{post.data.tags.map((t) => <li>{t}</li>)}
+							</ul>
+						</>
+					)}
+				</div>
+				<h1>{post.data.title}</h1>
+				{post.data.description && (
+					<p class="dek">{post.data.description}</p>
+				)}
+			</header>
+
+			<div class="prose">
+				<Content />
+			</div>
+
+			<footer class="article-footer">
+				<div class="article-end">End</div>
+				<a class="article-back-bottom" href="/blog/">
+					Read more on the blog <span class="arrow">→</span>
+				</a>
+			</footer>
 		</div>
 	</article>
 	<Footer />
@@ -69,36 +99,121 @@ const schema = {
 
 <style>
 	.article {
+		padding: 3rem 2rem 5rem;
+	}
+	.article-inner {
 		max-width: 680px;
 		margin: 0 auto;
-		padding: 5rem 2rem 6rem;
 	}
+
+	/* Top breadcrumb */
+	.article-back-top {
+		display: inline-block;
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		letter-spacing: 0.06em;
+		color: var(--ink-mute);
+		text-decoration: none;
+		margin-bottom: 3rem;
+		transition: color 0.2s;
+	}
+	.article-back-top:hover {
+		color: var(--accent);
+	}
+
+	/* Head */
 	.article-head {
-		margin-bottom: 4rem;
-		text-align: center;
+		margin-bottom: 3rem;
 	}
-	.article-head time {
+	.article-meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.75rem;
 		font-family: var(--mono);
 		font-size: 0.78rem;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
+		letter-spacing: 0.06em;
 		color: var(--ink-mute);
+		margin-bottom: 1.5rem;
+	}
+	.article-meta time {
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+	}
+	.article-meta .sep {
+		color: var(--rule);
+	}
+	.article-tags {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+	.article-tags li {
+		text-transform: lowercase;
+		letter-spacing: 0.04em;
+		color: var(--accent);
 	}
 	.article-head h1 {
 		font-family: var(--serif);
-		font-weight: 400;
-		font-size: clamp(2.2rem, 4vw, 3.4rem);
-		line-height: 1.1;
-		letter-spacing: -0.02em;
-		margin: 1rem 0 1.25rem;
+		font-weight: 500;
+		font-size: clamp(1.7rem, 3vw, 2.3rem);
+		line-height: 1.15;
+		letter-spacing: -0.015em;
+		margin: 0 0 1rem;
+		color: var(--ink);
 	}
 	.article-head .dek {
 		font-family: var(--serif);
 		font-style: italic;
-		font-size: 1.25rem;
-		line-height: 1.4;
+		font-size: 1.2rem;
+		line-height: 1.5;
 		color: var(--ink-soft);
-		max-width: 42ch;
-		margin: 0 auto;
+		margin: 0;
+		max-width: 58ch;
+	}
+
+	/* Footer */
+	.article-footer {
+		margin-top: 4.5rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--rule-soft);
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+	.article-end {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.3em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+	}
+	.article-back-bottom {
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		color: var(--ink);
+		text-decoration: none;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		border-bottom: 1px dotted var(--ink-mute);
+		padding-bottom: 2px;
+		align-self: flex-start;
+		transition:
+			color 0.2s,
+			border-color 0.2s;
+	}
+	.article-back-bottom:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+	.article-back-bottom .arrow {
+		transition: transform 0.2s;
+	}
+	.article-back-bottom:hover .arrow {
+		transform: translateX(3px);
 	}
 </style>

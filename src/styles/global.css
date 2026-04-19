@@ -347,6 +347,28 @@ a {
 	background: var(--rule);
 	margin: 3rem 0;
 }
+.prose img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+	margin: 2.25rem auto;
+	border: 1px solid var(--rule-soft);
+	border-radius: 6px;
+	background: var(--bg-deep);
+}
+.prose figure {
+	margin: 2.25rem 0;
+}
+.prose figure img {
+	margin: 0 auto 0.75rem;
+}
+.prose figcaption {
+	font-family: var(--sans);
+	font-size: 0.88rem;
+	color: var(--ink-mute);
+	text-align: center;
+	line-height: 1.5;
+}
 .prose a {
 	color: var(--ink);
 	border-bottom: 1px solid var(--rule);
