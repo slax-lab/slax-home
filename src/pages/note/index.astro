@@ -47,10 +47,41 @@ const polishModes = [
 		desc: 'Whatever you ask for. Journal entry, list, letter, outline.',
 	},
 ];
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'SoftwareApplication',
+	name: 'Slax Note',
+	applicationCategory: 'ProductivityApplication',
+	operatingSystem: 'Web',
+	description:
+		'A voice-first notebook for personal ideas and journaling. Record a thought, polish it with any prompt you like, keep the output private.',
+	offers: [
+		{ '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
+		{
+			'@type': 'Offer',
+			name: 'Pro Monthly',
+			price: '4.99',
+			priceCurrency: 'USD',
+		},
+		{
+			'@type': 'Offer',
+			name: 'Pro Annual',
+			price: '49.99',
+			priceCurrency: 'USD',
+		},
+	],
+	publisher: {
+		'@type': 'Organization',
+		name: 'Slax Lab',
+		url: 'https://slax.com',
+	},
+};
 ---
 <Base
 	title="Slax Note — Speak your mind, let AI shape it"
 	description="A voice-first notebook for personal ideas and journaling. Record a thought, polish it with any prompt you like, keep the output private."
+	schema={schema}
 >
 	<Nav active="note" />
 

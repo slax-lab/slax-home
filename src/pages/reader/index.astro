@@ -140,10 +140,35 @@ const downloads = [
 		href: 'https://play.google.com/',
 	},
 ];
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'SoftwareApplication',
+	name: 'Slax Reader',
+	applicationCategory: 'ProductivityApplication',
+	operatingSystem: 'Web, iOS, iPadOS, Android, macOS',
+	description:
+		'A read-later that rewards finishing. Save anything you want to read, keep it readable forever, and ask AI for help when you need it.',
+	offers: [
+		{ '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
+		{
+			'@type': 'Offer',
+			name: 'Pro Reader',
+			price: '5.99',
+			priceCurrency: 'USD',
+		},
+	],
+	publisher: {
+		'@type': 'Organization',
+		name: 'Slax Lab',
+		url: 'https://slax.com',
+	},
+};
 ---
 <Base
 	title="Slax Reader — Read smarter, not just later"
 	description="A read-later that rewards finishing. Save anything you want to read, keep it readable forever, and ask AI for help when you need it."
+	schema={schema}
 >
 	<Nav active="reader" />
 
