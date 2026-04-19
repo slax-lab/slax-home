@@ -31,22 +31,18 @@ const features = [
 
 const steps = [
 	{
-		icon: '📥',
 		title: 'Save Anything',
 		body: 'One click to save articles, papers, or blog posts from anywhere on the web.',
 	},
 	{
-		icon: '🧠',
 		title: 'AI Analyzes',
 		body: 'Instant AI overviews help you decide what deserves deep reading and what to skim. Save time for the best content.',
 	},
 	{
-		icon: '💬',
 		title: 'Ask Questions',
 		body: 'Chat with AI about your saved content to deepen understanding.',
 	},
 	{
-		icon: '✨',
 		title: 'Engage with Your Content',
 		body: 'Highlight, comment & discuss with others. What you write is more valuable than what you read.',
 	},
@@ -266,10 +262,7 @@ const schema = {
 				<div class="how-steps">
 					{steps.map((s, i) => (
 						<div class="how-step">
-							<div class="how-step-num">
-								<span class="how-step-idx">{String(i + 1).padStart(2, '0')}</span>
-								<span class="how-step-icon">{s.icon}</span>
-							</div>
+							<div class="how-step-num">{String(i + 1).padStart(2, '0')}</div>
 							<h3 class="how-step-h">{s.title}</h3>
 							<p class="how-step-body">{s.body}</p>
 						</div>
@@ -647,21 +640,17 @@ const schema = {
 	}
 	.how-step {
 		text-align: left;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--rule);
 	}
 	.how-step-num {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		margin-bottom: 1.25rem;
-	}
-	.how-step-idx {
-		font-family: var(--mono);
-		font-size: 0.72rem;
-		letter-spacing: 0.18em;
-		color: var(--ink-mute);
-	}
-	.how-step-icon {
-		font-size: 1.5rem;
+		font-family: var(--serif);
+		font-weight: 300;
+		font-size: 2.75rem;
+		line-height: 1;
+		letter-spacing: -0.03em;
+		color: var(--accent);
+		margin: 0 0 1.5rem;
 	}
 	.how-step-h {
 		font-family: var(--serif);
