@@ -1,14 +1,1106 @@
 ---
-import PlaceholderPage from '~/components/PlaceholderPage.astro';
+import Button from '~/components/Button.astro';
+import Eyebrow from '~/components/Eyebrow.astro';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import SectionLabel from '~/components/SectionLabel.astro';
+import Base from '~/layouts/Base.astro';
+
+const features = [
+	{
+		num: '01 · Capture',
+		title: 'Save from anywhere.',
+		body: 'Browser extension, iOS share sheet, Telegram bot, a plain email address. If you can see the article, you can send it to Slax in two seconds.',
+	},
+	{
+		num: '02 · Parse',
+		title: 'Clean reading, always.',
+		body: 'Ads, paywalls, pop-ups, related-content chumboxes — gone. One typographic article, the way the author probably wished it looked.',
+	},
+	{
+		num: '03 · Highlight',
+		title: 'Annotations that outlive the source.',
+		body: "Highlights anchor to the text itself, not the page's HTML. They survive redesigns, edits, and the occasional website shutdown.",
+	},
+	{
+		num: '04 · Ask',
+		title: 'AI in the margin.',
+		body: 'Select a passage, ask a question. The answer arrives inline, with a line back to the sentence that started it. Off by default.',
+	},
+	{
+		num: '05 · Share',
+		title: 'Follow friends who read.',
+		body: 'A private timeline of what the people whose taste you trust are reading. Optional, quiet, and without the engagement metrics.',
+	},
+	{
+		num: '06 · Keep',
+		title: 'Offline, forever.',
+		body: "Every article you save is cached locally. Read on an airplane, a subway, or a site that's since gone dark. Export to Markdown any time.",
+	},
+];
+
+const howSteps = [
+	{
+		num: '01',
+		kw: 'Save',
+		kwSuffix: ' without thinking.',
+		body: "You're mid-scroll. You hit the keyboard shortcut. The page lands in Slax, parsed and waiting. You keep scrolling. This should take less than a second.",
+	},
+	{
+		num: '02',
+		kw: 'Read',
+		kwSuffix: ' when you mean to.',
+		body: 'Later — on a subway, in a coffee shop — you open Slax. Your queue is ready. You pick something, you read it to the end, you highlight what matters.',
+	},
+	{
+		num: '03',
+		kw: 'Ask',
+		kwSuffix: " if you're stuck.",
+		body: 'A paragraph loses you. You highlight it, type a question in plain language, and the AI answers — in the margin, with a citation. You keep reading.',
+	},
+	{
+		num: '04',
+		kw: 'Return',
+		kwSuffix: ' and remember.',
+		body: "Weekly, your highlights reappear — grouped, searchable, linkable. They become the starting material for Slax Note, if you want. They're yours forever either way.",
+	},
+];
+
+const compareRows = [
+	['Permanent, parsed archive', 'yes', 'no', 'yes'],
+	['In-context AI Q&A', 'yes', 'no', 'no'],
+	['Highlights anchored to text, not DOM', 'yes', 'no', 'no'],
+	['Follow friends, not algorithms', 'yes', 'no', 'no'],
+	['Open source & self-hostable', 'yes', 'no', 'no'],
+	['Markdown export, no lock-in', 'yes', 'no', 'no'],
+	['Monthly price, base tier', 'Free', '$4.99', '$5.99'],
+];
+
+const matrixRows: Array<[string, string, string]> = [
+	['Save unlimited articles', 'ok', 'ok'],
+	['Permanent snapshots, no broken links', 'ok', 'ok'],
+	['Unlimited highlights & comments', 'ok', 'ok'],
+	['Full-text search', 'ok', 'ok'],
+	['Sync across all devices', 'ok', 'ok'],
+	['Share articles & join discussions', 'ok', 'ok'],
+	['Open source & privacy-first', 'ok', 'ok'],
+	['Create & manage tags', 'ok', 'ok'],
+	['Smart AI auto-tagging', 'no', 'ai'],
+	['Instant AI summaries', 'no', 'ai'],
+	['Interactive AI outlines', 'no', 'ai'],
+	['AI chatbot — ask your library anything', 'no', 'ai'],
+];
+
+const faqs = [
+	{
+		q: 'Is the Free plan really free forever?',
+		a: "For early users, yes. We're offering unlimited bookmarks and permanent backups at no cost while we're in early access. Lock in free usage now before limits apply.",
+	},
+	{
+		q: 'Will Slax Reader really save me hours of reading every week?',
+		a: "That's what it's built for. Clickable AI outlines let you navigate long articles without reading every word. Auto-tagging handles the organizing, so you can just read.",
+	},
+	{
+		q: 'Can I cancel my Pro subscription anytime?',
+		a: 'Absolutely. Cancel any time from your account settings with no penalties. Your saved articles and highlights remain accessible on the Free plan.',
+	},
+	{
+		q: 'How does the 1-month free trial work?',
+		a: "Sign in and start your trial — no credit card required. After 30 days you'll be asked if you'd like to continue with Pro at $5.99 / month (regular price $9.99).",
+	},
+];
+
+const downloads = [
+	{
+		kind: '◐ Web',
+		name: 'Open in browser',
+		meta: 'No install. Works on any modern browser — Chrome, Safari, Firefox, Arc.',
+		cta: 'slax.com/reader',
+		href: 'https://slax.com/reader/',
+	},
+	{
+		kind: '◐ Browser extension',
+		name: 'Chrome & Edge',
+		meta: 'One-click to save any page, with keyboard shortcut.',
+		cta: 'Chrome Web Store',
+		href: 'https://chromewebstore.google.com/',
+	},
+	{
+		kind: '◐ iOS · iPadOS',
+		name: 'iPhone & iPad',
+		meta: 'Share-sheet integration, offline reading, Handoff across Apple devices.',
+		cta: 'App Store',
+		href: 'https://apps.apple.com/',
+	},
+	{
+		kind: '◐ Android',
+		name: 'Android',
+		meta: 'System share target, background sync, Material You theming.',
+		cta: 'Google Play',
+		href: 'https://play.google.com/',
+	},
+];
 ---
-<PlaceholderPage
-	title="Slax Reader — Save what you want to read"
-	eyebrow="Product 01"
-	heading="Slax Reader."
-	navActive="reader"
+<Base
+	title="Slax Reader — Read smarter, not just later"
+	description="A read-later that rewards finishing. Save anything you want to read, keep it readable forever, and ask AI for help when you need it."
 >
-	<p>
-		A read-later that rewards finishing. Features, pricing, and download all live
-		on this page — arriving in stage 2.
-	</p>
-</PlaceholderPage>
+	<Nav active="reader" />
+
+	<main>
+		<!-- HERO -->
+		<section class="r-hero">
+			<div class="r-hero-inner">
+				<div>
+					<Eyebrow>Product 01 · Available now</Eyebrow>
+					<h1 class="r-h1">Read <em>smarter.</em><br />Not just later.</h1>
+					<p class="r-dek">
+						A read-later that rewards finishing. Save anything you want to read,
+						keep it readable forever, and ask the AI for help when you need it —
+						never when you don't.
+					</p>
+					<div class="actions">
+						<Button variant="primary" href="#pricing" arrow>Save your first article</Button>
+						<Button variant="secondary" href="https://github.com/slax-lab/slax-reader">View on GitHub</Button>
+					</div>
+				</div>
+				<div class="reader-preview" aria-hidden="true">
+					<h4 class="rp-title">The Quiet Industrialization of Everything</h4>
+					<p class="rp-p">
+						Every generation of technology promises to give people back their
+						time. Almost none of them do. The pattern is consistent enough to be
+						a law: the tools
+						<mark>save us from the labor we used to do</mark>
+						by creating new labor we didn't know we needed.
+					</p>
+					<div class="rp-margin">
+						Is this the Jevons paradox for attention? Check against Odell's book.
+					</div>
+					<p class="rp-p">
+						The printing press didn't reduce writing; it expanded it. Email
+						didn't shorten correspondence; it multiplied it.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- FEATURES -->
+		<section class="features">
+			<div class="features-inner">
+				<div class="features-head">
+					<SectionLabel number="01">What it does</SectionLabel>
+					<h2 class="features-title">
+						Six things Reader does <em>well,</em> and nothing it does poorly.
+					</h2>
+				</div>
+				<div class="feat-grid">
+					{features.map((f) => (
+						<div class="feat">
+							<div class="feat-num">{f.num}</div>
+							<h3 class="feat-h">{f.title}</h3>
+							<p class="feat-p">{f.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- HOW IT WORKS -->
+		<section class="how">
+			<div class="how-inner">
+				<SectionLabel number="02">How it works</SectionLabel>
+				<h2 class="how-head">The loop we're trying to make <em>pleasant.</em></h2>
+				<div class="how-steps">
+					{howSteps.map((s) => (
+						<div class="how-step">
+							<div class="how-step-num">{s.num}</div>
+							<div class="how-step-kw"><em>{s.kw}</em>{s.kwSuffix}</div>
+							<p class="how-step-body">{s.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- COMPARE -->
+		<section class="compare">
+			<div class="compare-inner">
+				<SectionLabel number="03">The alternatives</SectionLabel>
+				<h2 class="compare-head">What we do, that <em>most others</em> don't.</h2>
+				<div class="compare-table">
+					<div class="compare-row head">
+						<div>Capability</div>
+						<div>Slax Reader</div>
+						<div>Pocket</div>
+						<div>Instapaper</div>
+					</div>
+					{compareRows.map((row) => (
+						<div class="compare-row">
+							<div>{row[0]}</div>
+							{[1, 2, 3].map((i) => {
+								const v = row[i];
+								if (v === 'yes') return <div class="yes">●</div>;
+								if (v === 'no') return <div class="no">○</div>;
+								return <div>{v}</div>;
+							})}
+						</div>
+					))}
+				</div>
+				<p class="compare-more">
+					<a href="/reader/alternatives/">Full comparisons — Readwise, Omnivore, Cubox & more →</a>
+				</p>
+			</div>
+		</section>
+
+		<!-- PRICING -->
+		<section class="pricing" id="pricing">
+			<div class="pricing-inner">
+				<SectionLabel number="04">Pricing</SectionLabel>
+				<div class="pricing-banner">
+					Early access · 1 month of Pro free, on us
+				</div>
+				<h2 class="pricing-head">Save forever, <em>learn faster.</em></h2>
+				<p class="pricing-dek">
+					Your intelligent library for high efficiency and deep understanding.
+					Free while we're small; Pro when you want the AI to do more of the
+					lifting.
+				</p>
+				<div class="plans-grid">
+					<div class="plan">
+						<div class="plan-eyebrow">Plan A</div>
+						<h3 class="plan-name">Free</h3>
+						<div class="plan-price">
+							<span class="num">$0</span><span class="unit">/ month</span>
+						</div>
+						<p class="plan-tag">
+							Unlimited bookmarks & permanent backup. Lock in free usage while
+							early access lasts.
+						</p>
+						<Button variant="primary" href="https://github.com/slax-lab/slax-reader" arrow>Start Free</Button>
+					</div>
+					<div class="plan featured">
+						<div class="plan-eyebrow">Plan B</div>
+						<h3 class="plan-name">Pro Reader</h3>
+						<div class="plan-price">
+							<span class="num">$5.99</span><span class="unit">/ month</span><span class="was">$9.99</span>
+						</div>
+						<p class="plan-tag">
+							Reading superpowers — AI summaries, outlines, auto-tagging, and a
+							chatbot that knows your library.
+						</p>
+						<Button variant="primary" href="https://github.com/slax-lab/slax-reader" arrow>Try 1 Month Free</Button>
+					</div>
+				</div>
+				<div class="matrix" aria-label="Feature matrix">
+					<div class="matrix-row head">
+						<div class="cell-feat">Feature</div>
+						<div class="cell">Free</div>
+						<div class="cell">Pro</div>
+					</div>
+					{matrixRows.map((row) => (
+						<div class="matrix-row">
+							<div class="cell-feat">{row[0]}</div>
+							{[1, 2].map((i) => {
+								const v = row[i];
+								if (v === 'ok') return <div class="cell ok">●</div>;
+								if (v === 'ai') return <div class="cell ai">AI</div>;
+								return <div class="cell no">—</div>;
+							})}
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- FAQ -->
+		<section class="faq">
+			<div class="faq-inner">
+				<SectionLabel number="05">Questions, answered</SectionLabel>
+				<h2 class="faq-head">Small print, <em>plainly.</em></h2>
+				{faqs.map((item) => (
+					<div class="faq-item">
+						<h3 class="faq-q">{item.q}</h3>
+						<p class="faq-a">{item.a}</p>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- DOWNLOAD -->
+		<section class="download" id="download">
+			<div class="download-inner">
+				<SectionLabel number="06">Download</SectionLabel>
+				<h2 class="download-head">
+					Read <em>anywhere</em> you already are.
+				</h2>
+				<p class="download-dek">
+					Slax Reader runs on the web and as native apps. Your library,
+					highlights, and reading position sync across every device,
+					automatically.
+				</p>
+				<div class="dl-grid">
+					{downloads.map((d) => (
+						<a href={d.href} class="dl">
+							<div class="dl-eyebrow">{d.kind}</div>
+							<h3 class="dl-name">{d.name}</h3>
+							<p class="dl-meta">{d.meta}</p>
+							<span class="dl-cta">
+								{d.cta}
+								<span class="arrow">→</span>
+							</span>
+						</a>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- FINALE -->
+		<section class="finale">
+			<div class="finale-inner">
+				<SectionLabel>Start</SectionLabel>
+				<h2 class="finale-h">
+					Your <em>intelligent</em> reading journey, today.
+				</h2>
+				<p class="finale-p">
+					Read smarter, learn faster, remember more. Free while we're still
+					figuring out what Reader should be.
+				</p>
+				<div class="actions actions-center">
+					<Button variant="primary" href="#pricing" arrow>Get started — it's free</Button>
+					<Button variant="secondary" href="https://github.com/slax-lab/slax-reader">Read the code</Button>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+</Base>
+
+<style>
+	/* HERO */
+	.r-hero {
+		padding: 6rem 0 5rem;
+	}
+	.r-hero-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 4rem;
+	}
+	@media (min-width: 960px) {
+		.r-hero-inner {
+			grid-template-columns: 1.3fr 1fr;
+			align-items: end;
+		}
+	}
+	.r-h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.4rem, 5vw, 4.4rem);
+		line-height: 1.02;
+		letter-spacing: -0.025em;
+		margin: 2rem 0 1.5rem;
+		text-wrap: pretty;
+	}
+	.r-h1 :global(em) {
+		font-style: italic;
+		font-weight: 300;
+		color: var(--accent);
+	}
+	.r-dek {
+		font-family: var(--serif);
+		font-size: 1.25rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 40ch;
+		margin: 0 0 2.25rem;
+	}
+	.actions {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+	.actions-center {
+		justify-content: center;
+	}
+
+	/* READER PREVIEW — CSS-only fake UI */
+	.reader-preview {
+		background: var(--bg-deep);
+		border: 1px solid var(--rule);
+		padding: 1.75rem;
+		font-family: var(--serif);
+		line-height: 1.5;
+		position: relative;
+		box-shadow: 0 6px 32px -16px rgba(27, 26, 23, 0.18);
+	}
+	.reader-preview::before {
+		content: "Saved from stratechery.com · 11 min read";
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.12em;
+		color: var(--ink-mute);
+		text-transform: uppercase;
+		display: block;
+		margin-bottom: 0.8rem;
+		padding-bottom: 0.8rem;
+		border-bottom: 1px solid var(--rule);
+	}
+	.rp-title {
+		font-weight: 500;
+		font-size: 1.25rem;
+		letter-spacing: -0.015em;
+		margin: 0 0 0.75rem;
+		line-height: 1.2;
+	}
+	.rp-p {
+		font-size: 0.98rem;
+		color: var(--ink-soft);
+		margin: 0 0 0.8rem;
+	}
+	.rp-p :global(mark) {
+		background: color-mix(in srgb, var(--accent) 20%, transparent);
+		color: var(--ink);
+		padding: 0 0.15rem;
+	}
+	.rp-margin {
+		border-left: 2px solid var(--accent);
+		padding: 0.5rem 0.8rem;
+		margin: 0.8rem 0 0.8rem 0.6rem;
+		font-size: 0.88rem;
+		font-style: italic;
+		color: var(--ink-soft);
+		background: color-mix(in srgb, var(--accent) 6%, transparent);
+	}
+	.rp-margin::before {
+		content: "Margin note · You, Wed";
+		display: block;
+		font-family: var(--mono);
+		font-style: normal;
+		font-size: 0.68rem;
+		letter-spacing: 0.1em;
+		color: var(--ink-mute);
+		margin-bottom: 0.35rem;
+		text-transform: uppercase;
+	}
+
+	/* FEATURES */
+	.features {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.features-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.features-head {
+		display: grid;
+		gap: 1.5rem;
+		grid-template-columns: 1fr;
+		margin-bottom: 5rem;
+	}
+	@media (min-width: 760px) {
+		.features-head {
+			grid-template-columns: 220px 1fr;
+			gap: 4rem;
+		}
+	}
+	.features-title {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0;
+		max-width: 22ch;
+	}
+	.features-title :global(em) {
+		font-style: italic;
+		color: var(--accent);
+	}
+	.feat-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.feat-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@media (min-width: 1040px) {
+		.feat-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+	.feat {
+		padding: 2.5rem 2rem;
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.feat:nth-child(2n) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	@media (min-width: 1040px) {
+		.feat:nth-child(2n) {
+			border-left: 0;
+		}
+		.feat:not(:nth-child(3n + 1)) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.feat-num {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.2em;
+		color: var(--ink-mute);
+		margin-bottom: 1.5rem;
+	}
+	.feat-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.35rem;
+		letter-spacing: -0.015em;
+		margin: 0 0 0.75rem;
+		line-height: 1.2;
+	}
+	.feat-p {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 40ch;
+	}
+
+	/* HOW */
+	.how {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		background: var(--bg-deep);
+	}
+	.how-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.how-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.6rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 4rem;
+		max-width: 22ch;
+	}
+	.how-head :global(em) {
+		font-style: italic;
+		color: var(--accent);
+	}
+	.how-steps {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+	.how-step {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+		padding: 3rem 0;
+		border-top: 1px solid var(--rule);
+	}
+	@media (min-width: 820px) {
+		.how-step {
+			grid-template-columns: 120px 220px 1fr;
+			gap: 4rem;
+			align-items: baseline;
+		}
+	}
+	.how-step:last-child {
+		border-bottom: 1px solid var(--rule);
+	}
+	.how-step-num {
+		font-family: var(--mono);
+		font-size: 2rem;
+		color: var(--ink-mute);
+		font-weight: 300;
+		letter-spacing: -0.02em;
+	}
+	.how-step-kw {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.5rem;
+		letter-spacing: -0.02em;
+	}
+	.how-step-kw :global(em) {
+		color: var(--accent);
+		font-style: italic;
+		font-weight: 300;
+	}
+	.how-step-body {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+		max-width: 50ch;
+	}
+
+	/* COMPARE */
+	.compare {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.compare-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.compare-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 3rem;
+		max-width: 24ch;
+	}
+	.compare-head :global(em) {
+		font-style: italic;
+		color: var(--accent);
+	}
+	.compare-table {
+		border-top: 1px solid var(--rule);
+		font-family: var(--serif);
+		font-size: 1.05rem;
+	}
+	.compare-row {
+		display: grid;
+		grid-template-columns: 1.3fr 1fr 1fr 1fr;
+		border-bottom: 1px solid var(--rule);
+	}
+	.compare-row > div {
+		padding: 1.1rem 1rem;
+		color: var(--ink-soft);
+	}
+	.compare-row > div:first-child {
+		color: var(--ink);
+		font-weight: 400;
+	}
+	.compare-row.head > div {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		padding: 0.8rem 1rem;
+	}
+	.compare-row.head > div:nth-child(2) {
+		color: var(--accent);
+		font-weight: 500;
+	}
+	.compare-row > div.yes {
+		color: var(--accent);
+	}
+	.compare-row > div.no {
+		color: var(--ink-mute);
+	}
+	.compare-more {
+		margin: 2rem 0 0;
+		font-family: var(--mono);
+		font-size: 0.85rem;
+		letter-spacing: 0.05em;
+	}
+	.compare-more a {
+		color: var(--ink);
+		text-decoration: none;
+		border-bottom: 1px dotted var(--ink-mute);
+		transition: color 0.2s, border-color 0.2s;
+	}
+	.compare-more a:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+
+	/* PRICING */
+	.pricing {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		background: var(--bg-deep);
+		scroll-margin-top: 5rem;
+	}
+	.pricing-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.pricing-banner {
+		display: inline-block;
+		margin-top: 1rem;
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.08em;
+		color: var(--accent);
+		padding: 0.3rem 0.8rem;
+		border: 1px solid var(--accent);
+		border-radius: 999px;
+	}
+	.pricing-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 3.5vw, 3rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 1.5rem 0 1rem;
+		max-width: 20ch;
+	}
+	.pricing-head :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.pricing-dek {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 48ch;
+		margin: 0 0 3.5rem;
+	}
+	.plans-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 820px) {
+		.plans-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.plan {
+		padding: 2.75rem 2.5rem;
+		background: var(--bg);
+		display: flex;
+		flex-direction: column;
+	}
+	@media (min-width: 820px) {
+		.plan + .plan {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	@media (max-width: 819px) {
+		.plan + .plan {
+			border-top: 1px solid var(--rule);
+		}
+	}
+	.plan.featured {
+		background: var(--bg-deeper);
+		position: relative;
+	}
+	.plan.featured::before {
+		content: "Recommended";
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		font-family: var(--mono);
+		font-size: 0.68rem;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+	.plan-eyebrow {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+	}
+	.plan-name {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.6rem;
+		letter-spacing: -0.015em;
+		margin: 1rem 0 0.5rem;
+	}
+	.plan-price {
+		display: flex;
+		align-items: baseline;
+		gap: 0.5rem;
+		margin: 0.5rem 0 1rem;
+	}
+	.plan-price .num {
+		font-family: var(--serif);
+		font-size: 3rem;
+		font-weight: 400;
+		color: var(--ink);
+		letter-spacing: -0.03em;
+	}
+	.plan-price .unit {
+		font-family: var(--sans);
+		font-size: 0.92rem;
+		color: var(--ink-mute);
+	}
+	.plan-price .was {
+		font-family: var(--mono);
+		font-size: 0.85rem;
+		color: var(--ink-mute);
+		text-decoration: line-through;
+		margin-left: 0.4rem;
+	}
+	.plan-tag {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1.05rem;
+		color: var(--ink-soft);
+		margin: 0 0 1.75rem;
+		max-width: 38ch;
+		line-height: 1.45;
+	}
+
+	/* MATRIX */
+	.matrix {
+		margin-top: 3rem;
+		font-family: var(--serif);
+		font-size: 1rem;
+	}
+	.matrix-row {
+		display: grid;
+		grid-template-columns: 1.6fr 0.6fr 0.6fr;
+		padding: 0.9rem 1rem;
+		border-bottom: 1px solid var(--rule);
+		align-items: baseline;
+	}
+	.matrix-row.head {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		border-bottom: 1px solid var(--ink);
+		padding: 0.6rem 1rem;
+	}
+	.matrix-row .cell-feat {
+		color: var(--ink);
+	}
+	.matrix-row .cell {
+		text-align: center;
+		color: var(--ink-soft);
+	}
+	.matrix-row .cell.ok {
+		color: var(--accent);
+	}
+	.matrix-row .cell.ai {
+		color: var(--accent);
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.05em;
+	}
+	.matrix-row .cell.no {
+		color: var(--ink-mute);
+	}
+
+	/* FAQ */
+	.faq {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.faq-inner {
+		max-width: 820px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.faq-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		letter-spacing: -0.02em;
+		margin: 1rem 0 3rem;
+	}
+	.faq-head :global(em) {
+		font-style: italic;
+		color: var(--accent);
+	}
+	.faq-item {
+		border-top: 1px solid var(--rule);
+		padding: 2rem 0;
+	}
+	.faq-item:last-child {
+		border-bottom: 1px solid var(--rule);
+	}
+	.faq-q {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.25rem;
+		letter-spacing: -0.01em;
+		margin: 0 0 0.75rem;
+		color: var(--ink);
+	}
+	.faq-a {
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0 0 0.5rem;
+		max-width: 60ch;
+	}
+
+	/* DOWNLOAD */
+	.download {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		background: var(--bg-deep);
+		scroll-margin-top: 5rem;
+	}
+	.download-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.download-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 3.5vw, 3rem);
+		letter-spacing: -0.025em;
+		line-height: 1.1;
+		margin: 1rem 0 1rem;
+		max-width: 18ch;
+	}
+	.download-head :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.download-dek {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 46ch;
+		margin: 0 0 3rem;
+	}
+	.dl-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.dl-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@media (min-width: 1040px) {
+		.dl-grid {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+	.dl {
+		padding: 2.25rem 2rem;
+		background: var(--bg);
+		border-bottom: 1px solid var(--rule);
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		text-decoration: none;
+		color: inherit;
+		transition:
+			background 0.2s,
+			border-color 0.2s;
+	}
+	@media (min-width: 760px) {
+		.dl:nth-child(2n) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	@media (min-width: 1040px) {
+		.dl:nth-child(2n) {
+			border-left: 0;
+		}
+		.dl:not(:nth-child(4n + 1)) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.dl:hover {
+		background: var(--bg-deeper);
+	}
+	.dl-eyebrow {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+	}
+	.dl-name {
+		font-family: var(--serif);
+		font-size: 1.4rem;
+		font-weight: 500;
+		letter-spacing: -0.015em;
+		margin: 0;
+	}
+	.dl-meta {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		color: var(--ink-soft);
+		margin: 0;
+		line-height: 1.45;
+		max-width: 28ch;
+	}
+	.dl-cta {
+		margin-top: auto;
+		padding-top: 0.5rem;
+		font-family: var(--sans);
+		font-size: 0.88rem;
+		color: var(--ink);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+	}
+	.dl-cta .arrow {
+		transition: transform 0.2s;
+	}
+	.dl:hover .dl-cta .arrow {
+		transform: translateX(4px);
+		color: var(--accent);
+	}
+
+	/* FINALE */
+	.finale {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		text-align: center;
+	}
+	.finale-inner {
+		max-width: 820px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.finale-h {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.2rem, 4vw, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 1.5rem auto 1.5rem;
+		max-width: 20ch;
+	}
+	.finale-h :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.finale-p {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 42ch;
+		margin: 0 auto 2.25rem;
+	}
+</style>
