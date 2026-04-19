@@ -1,0 +1,66 @@
+---
+interface Props {
+	number: string;
+	kind: string;
+	title: string;
+}
+
+const { number, kind, title } = Astro.props;
+---
+<article class="scene">
+	<div class="scene-num">{number}<br />{kind}</div>
+	<div><h3 class="scene-title">{title}</h3></div>
+	<p class="scene-story"><slot /></p>
+</article>
+
+<style>
+	.scene {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 4rem 2rem;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+		border-top: 1px solid var(--rule-soft);
+	}
+	@media (min-width: 960px) {
+		.scene {
+			grid-template-columns: 180px 1fr 1fr;
+			gap: 4rem;
+			align-items: start;
+		}
+	}
+	.scene:last-of-type {
+		border-bottom: 1px solid var(--rule-soft);
+	}
+	.scene-num {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		color: var(--ink-mute);
+		line-height: 1.7;
+	}
+	.scene-title {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.35rem, 2vw, 1.75rem);
+		letter-spacing: -0.015em;
+		line-height: 1.2;
+		margin: 0 0 1rem;
+	}
+	.scene-story {
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		line-height: 1.65;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 55ch;
+	}
+	.scene-story :global(strong) {
+		font-weight: 500;
+		color: var(--ink);
+	}
+	.scene-story :global(em) {
+		font-style: italic;
+	}
+</style>

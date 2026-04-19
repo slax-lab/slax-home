@@ -1,0 +1,53 @@
+---
+interface Props {
+	version?: string;
+	lastUpdated?: string;
+}
+
+const { version = '0.9.2', lastUpdated = '04/19/26' } = Astro.props;
+---
+<footer class="footer">
+	<div class="footer-inner">
+		<div>
+			<a href="/" class="brand">
+				<span class="brand-mark"></span>
+				Slax
+			</a>
+			<p class="footer-colophon">
+				Slax Lab makes quiet software for the work of attention.
+				From Singapore, with correspondents elsewhere.
+			</p>
+		</div>
+		<div>
+			<h4>Products</h4>
+			<ul>
+				<li><a href="/reader/">Slax Reader</a></li>
+				<li><a href="/note/">Slax Note</a></li>
+				<li><a href="/reader/#download">Download</a></li>
+				<li><a href="/reader/#pricing">Pricing</a></li>
+			</ul>
+		</div>
+		<div>
+			<h4>Read</h4>
+			<ul>
+				<li><a href="/blog/">Blog</a></li>
+				<li><a href="/reader/alternatives/">Compare Reader</a></li>
+				<li><a href="/note/alternatives/">Compare Note</a></li>
+			</ul>
+		</div>
+		<div>
+			<h4>Company</h4>
+			<ul>
+				<li><a href="https://github.com/slax-lab">GitHub</a></li>
+				<li><a href="https://x.com/SlaxReader">X / Twitter</a></li>
+				<li><a href="mailto:hello@slax.com">Contact</a></li>
+				<li><a href="/about/">About</a></li>
+			</ul>
+		</div>
+		<div class="footer-meta">
+			<span>© 2026 Slax Lab Pte. Ltd.</span>
+			<span>English</span>
+			<span>v{version} · Last updated {lastUpdated}</span>
+		</div>
+	</div>
+</footer>

@@ -1,0 +1,35 @@
+---
+interface Props {
+	active?: 'reader' | 'note' | 'blog';
+}
+
+const { active } = Astro.props;
+
+const items = [
+	{ label: 'Reader', href: '/reader/', key: 'reader' as const },
+	{ label: 'Note', href: '/note/', key: 'note' as const },
+	{ label: 'Blog', href: '/blog/', key: 'blog' as const },
+];
+---
+<nav class="nav">
+	<div class="nav-inner">
+		<a href="/" class="brand">
+			<span class="brand-mark"></span>
+			Slax
+		</a>
+		<div class="nav-links">
+			{items.map((item) => (
+				<a
+					href={item.href}
+					class:list={[{ active: active === item.key }]}
+				>
+					{item.label}
+				</a>
+			))}
+		</div>
+		<a href="/reader/" class="nav-cta">
+			Start free
+			<span class="arrow">→</span>
+		</a>
+	</div>
+</nav>
