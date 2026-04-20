@@ -1,0 +1,171 @@
+---
+import { getCollection } from 'astro:content';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const dateFmt = new Intl.DateTimeFormat('en-US', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+});
+---
+<Base title="Blog — Slax">
+	<Nav active="blog" />
+	<main class="blog-index">
+		<header class="head">
+			<h1>Notes from building Slax.</h1>
+			<p class="dek">
+				Essays about reading, writing, attention, and the quiet tools we
+				make for them.
+			</p>
+		</header>
+
+		{posts.length === 0 ? (
+			<p class="empty">No posts yet. Essays start landing in stage 3.</p>
+		) : (
+			<ul class="post-list">
+				{posts.map((post) => (
+					<li class="post-item">
+						<a href={`/blog/${post.id}/`} class="post-link">
+							<time datetime={post.data.pubDate.toISOString()}>
+								{dateFmt.format(post.data.pubDate)}
+							</time>
+							<div class="post-body">
+								<h2>{post.data.title}</h2>
+								<p>{post.data.description}</p>
+								<span class="post-cta">
+									Read <span class="arrow">→</span>
+								</span>
+							</div>
+						</a>
+					</li>
+				))}
+			</ul>
+		)}
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.blog-index {
+		max-width: 860px;
+		margin: 0 auto;
+		padding: 5rem 2rem 4rem;
+	}
+	.head {
+		margin-bottom: 4rem;
+		padding-bottom: 2.5rem;
+		border-bottom: 1px solid var(--rule);
+	}
+	h1 {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: clamp(1.9rem, 3vw, 2.5rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0 0 0.75rem;
+	}
+	.dek {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1.1rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 52ch;
+		margin: 0;
+	}
+
+	.empty {
+		font-family: var(--mono);
+		font-size: 0.85rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		padding: 4rem 0;
+	}
+
+	.post-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	.post-item {
+		border-bottom: 1px solid var(--rule-soft);
+	}
+	.post-item:last-child {
+		border-bottom: none;
+	}
+	.post-link {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.4rem;
+		padding: 2.25rem 0;
+		text-decoration: none;
+		color: inherit;
+		transition: padding-left 0.25s ease;
+	}
+	@media (min-width: 760px) {
+		.post-link {
+			grid-template-columns: 160px 1fr;
+			gap: 3rem;
+			align-items: baseline;
+		}
+	}
+	.post-link:hover {
+		padding-left: 0.5rem;
+	}
+	.post-link time {
+		font-family: var(--mono);
+		font-size: 0.76rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		padding-top: 0.15rem;
+	}
+	.post-body h2 {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.35rem;
+		line-height: 1.25;
+		letter-spacing: -0.01em;
+		margin: 0 0 0.5rem;
+		color: var(--ink);
+		transition: color 0.2s;
+	}
+	.post-link:hover .post-body h2 {
+		color: var(--accent);
+	}
+	.post-body p {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0 0 0.75rem;
+		max-width: 60ch;
+	}
+	.post-cta {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		transition: color 0.2s;
+	}
+	.post-link:hover .post-cta {
+		color: var(--accent);
+	}
+	.post-cta .arrow {
+		transition: transform 0.25s ease;
+	}
+	.post-link:hover .post-cta .arrow {
+		transform: translateX(3px);
+	}
+</style>

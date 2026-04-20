@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Slax — Reading &amp; writing, taken seriously</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   SLAX — Shared design system (Direction A, warm editorial)
+   Used across home, reader, note, blog
+============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+:root {
+  --bg: #FAF7F2;
+  --bg-deep: #F2ECE2;
+  --bg-deeper: #EBE3D3;
+  --ink: #1B1A17;
+  --ink-soft: #4A443B;
+  --ink-mute: #8A8375;
+  --rule: #DDD4C4;
+  --rule-soft: #E8E1D2;
+  --serif: "Source Serif 4", "Tiempos Text", Georgia, serif;
+  --sans: "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --accent: #3A5F4D;
+  --section-pad: 8rem;
+}
+
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection { background: var(--accent); color: #fff; }
+a { color: inherit; }
+
+/* ================ NAV ================ */
+.nav {
+  position: sticky; top: 0; z-index: 40;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  border-bottom: 1px solid var(--rule-soft);
+}
+.nav-inner {
+  max-width: 1280px; margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 2rem;
+}
+.brand {
+  display: flex; align-items: center; gap: 0.55rem;
+  font-family: var(--serif); font-weight: 500;
+  font-size: 1.1rem; letter-spacing: -0.01em;
+  text-decoration: none; color: inherit;
+}
+.brand-mark {
+  width: 1.35rem; height: 1.35rem; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+}
+.nav-links { display: flex; gap: 2rem; font-size: 0.92rem; }
+.nav-links a { text-decoration: none; opacity: 0.72; transition: opacity 0.2s; position: relative; }
+.nav-links a:hover, .nav-links a.active { opacity: 1; }
+.nav-links a.active::after {
+  content: ""; position: absolute;
+  bottom: -1.15rem; left: 0; right: 0;
+  height: 2px; background: var(--accent);
+}
+.nav-cta {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.92rem;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  background: var(--ink); color: var(--bg);
+  transition: background 0.2s, transform 0.2s;
+}
+.nav-cta:hover { background: var(--accent); transform: translateY(-1px); }
+.nav-cta .arrow { transition: transform 0.2s; }
+.nav-cta:hover .arrow { transform: translateX(3px); }
+
+/* ================ PRIMITIVES ================ */
+.col { max-width: 1180px; margin: 0 auto; padding: 0 2rem; }
+.col-narrow { max-width: 820px; margin: 0 auto; padding: 0 2rem; }
+.col-prose { max-width: 680px; margin: 0 auto; padding: 0 2rem; }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.72rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--ink-mute);
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.eyebrow::before { content: ""; width: 1.5rem; height: 1px; background: var(--ink-mute); }
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.72rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--ink-mute);
+}
+
+.btn-primary {
+  background: var(--ink); color: var(--bg);
+  padding: 0.85rem 1.5rem; border-radius: 999px;
+  font-size: 0.95rem; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+.btn-secondary {
+  color: var(--ink); padding: 0.85rem 0.2rem;
+  font-size: 0.95rem; text-decoration: none;
+  position: relative;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+}
+.btn-secondary::after {
+  content: ""; position: absolute;
+  left: 0.2rem; right: 0.2rem; bottom: 0.55rem;
+  height: 1px; background: var(--ink);
+  transform-origin: left; transition: transform 0.3s ease;
+}
+.btn-secondary:hover::after { transform: scaleX(0.7); }
+
+/* ================ FOOTER ================ */
+.footer {
+  border-top: 1px solid var(--rule-soft);
+  padding: 4rem 0 3rem;
+  font-size: 0.88rem; color: var(--ink-soft);
+  margin-top: 6rem;
+}
+.footer-inner {
+  max-width: 1180px; margin: 0 auto; padding: 0 2rem;
+  display: grid; gap: 3rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 760px) {
+  .footer-inner { grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
+}
+.footer h4 {
+  font-family: var(--mono);
+  font-size: 0.7rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ink-mute);
+  margin: 0 0 1rem; font-weight: 500;
+}
+.footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.55rem; }
+.footer a { text-decoration: none; color: var(--ink); opacity: 0.72; }
+.footer a:hover { opacity: 1; color: var(--accent); }
+.footer-meta {
+  grid-column: 1 / -1;
+  margin-top: 2rem; padding-top: 2rem;
+  border-top: 1px solid var(--rule-soft);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  font-family: var(--mono);
+  font-size: 0.78rem; color: var(--ink-mute);
+}
+.footer-colophon {
+  font-family: var(--serif); font-style: italic;
+  max-width: 40ch; line-height: 1.5;
+  color: var(--ink-soft); font-size: 0.95rem;
+  margin-top: 1rem;
+}
+
+/* ================ HOME-SPECIFIC ================ */
+.hero { padding: 7rem 0 6rem; }
+.hero-inner {
+  max-width: 1180px; margin: 0 auto; padding: 0 2rem;
+  display: grid; grid-template-columns: 1fr; gap: 4rem;
+}
+@media (min-width: 960px) { .hero-inner { grid-template-columns: 1.25fr 1fr; align-items: end; } }
+.eyebrow { margin-bottom: 2.5rem; }
+.h1 {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(2.6rem, 5.5vw, 4.8rem);
+  line-height: 1.02; letter-spacing: -0.025em;
+  margin: 0 0 1.75rem; text-wrap: pretty;
+}
+.h1 em { font-style: italic; font-weight: 300; color: var(--ink-soft); }
+.h1 .accent-ink { color: var(--accent); font-style: italic; font-weight: 300; }
+.dek {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 1.25vw, 1.3rem);
+  line-height: 1.5; color: var(--ink-soft);
+  max-width: 34ch; margin: 0 0 2.25rem; text-wrap: pretty;
+}
+.actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+
+.masthead {
+  border: 1px solid var(--rule);
+  background: var(--bg-deep);
+  padding: 2rem;
+  font-family: var(--mono); font-size: 0.8rem; line-height: 1.7;
+  color: var(--ink-soft);
+}
+.masthead-title {
+  font-family: var(--mono);
+  font-size: 0.7rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ink-mute);
+  margin-bottom: 1.2rem; padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--rule);
+}
+.masthead dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 0.4rem 1.2rem; }
+.masthead dt { color: var(--ink-mute); }
+.masthead dd { margin: 0; color: var(--ink); }
+.masthead dd a { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--ink-mute); }
+
+.manifesto { padding: var(--section-pad) 0; border-top: 1px solid var(--rule-soft); }
+.manifesto-inner {
+  max-width: 1180px; margin: 0 auto; padding: 0 2rem;
+  display: grid; grid-template-columns: 1fr; gap: 3rem;
+}
+@media (min-width: 960px) { .manifesto-inner { grid-template-columns: 200px 1fr; gap: 5rem; } }
+.manifesto-body {
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  line-height: 1.4; color: var(--ink); max-width: 26ch; margin: 0;
+}
+.manifesto-body em { font-style: italic; color: var(--accent); }
+
+.products { padding: var(--section-pad) 0; border-top: 1px solid var(--rule-soft); }
+.products-head {
+  max-width: 1180px; margin: 0 auto 4rem; padding: 0 2rem;
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 1rem;
+}
+.products-title {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  letter-spacing: -0.02em; line-height: 1.1; margin: 0.8rem 0 0;
+}
+.products-grid {
+  max-width: 1180px; margin: 0 auto; padding: 0 2rem;
+  display: grid; grid-template-columns: 1fr; gap: 2rem;
+}
+@media (min-width: 820px) { .products-grid { grid-template-columns: 1fr 1fr; } }
+.product {
+  background: var(--bg-deep); border: 1px solid var(--rule);
+  padding: 3rem 2.5rem 2.5rem;
+  display: flex; flex-direction: column; min-height: 460px;
+  text-decoration: none; color: inherit;
+  transition: border-color 0.2s, transform 0.2s, background 0.2s;
+  position: relative;
+}
+.product:hover { border-color: var(--accent); transform: translateY(-2px); background: var(--bg-deeper); }
+.product-num {
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em;
+  color: var(--ink-mute); margin-bottom: 2rem;
+}
+.product-name {
+  font-family: var(--serif); font-weight: 400;
+  font-size: 2.2rem; letter-spacing: -0.02em;
+  line-height: 1.05; margin: 0 0 1.25rem;
+}
+.product-name em { color: var(--accent); font-style: italic; font-weight: 300; }
+.product-desc {
+  font-family: var(--serif); font-size: 1.1rem; line-height: 1.5;
+  color: var(--ink-soft); margin: 0 0 2rem; max-width: 32ch;
+}
+.product-feats {
+  list-style: none; padding: 0; margin: 0 0 2.5rem;
+  display: grid; gap: 0.6rem;
+  font-size: 0.9rem; color: var(--ink-soft);
+}
+.product-feats li { display: flex; align-items: baseline; gap: 0.75rem; }
+.product-feats li::before { content: "—"; color: var(--ink-mute); flex-shrink: 0; }
+.product-cta {
+  margin-top: auto; font-size: 0.95rem;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  color: var(--ink); align-self: flex-start;
+}
+.product-cta .arrow { transition: transform 0.2s; }
+.product:hover .product-cta .arrow { transform: translateX(4px); }
+.badge {
+  position: absolute; top: 2rem; right: 2rem;
+  font-family: var(--mono);
+  font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--ink-mute);
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--rule); border-radius: 999px;
+}
+
+.scenes { padding: var(--section-pad) 0; border-top: 1px solid var(--rule-soft); }
+.scenes-head { max-width: 1180px; margin: 0 auto 5rem; padding: 0 2rem; }
+.scenes-intro {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.2; letter-spacing: -0.02em;
+  max-width: 22ch; margin: 1.5rem 0 0;
+}
+.scene {
+  max-width: 1180px; margin: 0 auto; padding: 4rem 2rem;
+  display: grid; grid-template-columns: 1fr; gap: 2.5rem;
+  border-top: 1px solid var(--rule-soft);
+}
+@media (min-width: 960px) {
+  .scene { grid-template-columns: 180px 1fr 1fr; gap: 4rem; align-items: start; }
+}
+.scene:last-of-type { border-bottom: 1px solid var(--rule-soft); }
+.scene-num { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.18em; color: var(--ink-mute); line-height: 1.7; }
+.scene-title {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  letter-spacing: -0.015em; line-height: 1.2; margin: 0 0 1rem;
+}
+.scene-story {
+  font-family: var(--serif); font-size: 1.05rem; line-height: 1.65;
+  color: var(--ink-soft); margin: 0; max-width: 55ch;
+}
+.scene-story strong { font-weight: 500; color: var(--ink); }
+
+.oss { padding: var(--section-pad) 0; border-top: 1px solid var(--rule-soft); background: var(--bg-deep); }
+.oss-inner {
+  max-width: 1180px; margin: 0 auto; padding: 0 2rem;
+  display: grid; grid-template-columns: 1fr; gap: 3rem;
+}
+@media (min-width: 960px) { .oss-inner { grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; } }
+.oss-head {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  letter-spacing: -0.02em; line-height: 1.15; margin: 1rem 0 0;
+}
+.oss-head em { font-style: italic; color: var(--accent); }
+.oss-body { font-family: var(--serif); font-size: 1.1rem; line-height: 1.6; color: var(--ink-soft); max-width: 42ch; }
+.oss-repos { list-style: none; padding: 0; margin: 1.5rem 0 0;
+  display: grid; gap: 0; font-family: var(--mono); font-size: 0.85rem;
+}
+.oss-repos a {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 0.85rem 0; border-bottom: 1px solid var(--rule);
+  text-decoration: none; color: var(--ink);
+  transition: color 0.2s, padding-left 0.2s;
+}
+.oss-repos a:hover { color: var(--accent); padding-left: 0.3rem; }
+.oss-repos .repo-meta { color: var(--ink-mute); font-size: 0.8rem; }
+
+.closing { padding: calc(var(--section-pad) * 1.1) 0; border-top: 1px solid var(--rule-soft); text-align: center; }
+.closing-head {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  letter-spacing: -0.025em; line-height: 1.05;
+  margin: 0 auto 2.5rem; max-width: 18ch;
+}
+.closing-head em { color: var(--accent); font-style: italic; font-weight: 300; }
+
+body[data-density="compact"] { --section-pad: 5.5rem; }
+</style>
+</head>
+
+<body data-density="airy">
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="brand"><span class="brand-mark"></span> Slax</a>
+    <div class="nav-links">
+      <a href="#">Reader</a>
+      <a href="#">Note</a>
+      <a href="#">Blog</a>
+    </div>
+    <a href="#" class="nav-cta">Start free <span class="arrow">→</span></a>
+  </div>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">Slax &middot; Vol. 01</div>
+        <h1 class="h1">Tools for people who still <em>read</em><br>and still <span class="accent-ink">write.</span></h1>
+        <p class="dek">Slax makes a reader and a notebook for the work of paying attention. Slow software, made for long-form.</p>
+        <div class="actions">
+          <a href="#" class="btn-primary">Start free <span>→</span></a>
+          <a href="#" class="btn-secondary">Read the story</a>
+        </div>
+      </div>
+      <aside class="masthead" aria-label="At a glance">
+        <div class="masthead-title">At a glance</div>
+        <dl>
+          <dt>Maker</dt><dd>Slax Lab</dd>
+          <dt>Products</dt><dd>Reader &middot; Note</dd>
+          <dt>Note</dt><dd>In private beta</dd>
+          <dt>Source</dt><dd><a href="https://github.com/slax-lab">github.com/slax-lab</a></dd>
+          <dt>Price</dt><dd>Free while we learn</dd>
+          <dt>Written in</dt><dd>Vue, Rust, Go</dd>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section class="manifesto">
+    <div class="manifesto-inner">
+      <div class="section-label">01 &nbsp; What this is</div>
+      <p class="manifesto-body">Most reading apps help you save more. We'd rather help you <em>finish</em> what you saved, and remember what you read.</p>
+    </div>
+  </section>
+
+  <section class="products">
+    <div class="products-head">
+      <div>
+        <div class="section-label">02 &nbsp; The products</div>
+        <h2 class="products-title">Two tools, one quiet habit.</h2>
+      </div>
+      <div style="font-family: var(--mono); font-size: 0.78rem; color: var(--ink-mute); letter-spacing: 0.05em;">One reads in &middot; one writes out</div>
+    </div>
+    <div class="products-grid">
+      <a href="#" class="product">
+        <div class="product-num">Product 01 &mdash; Available now</div>
+        <h3 class="product-name">Slax <em>Reader</em></h3>
+        <p class="product-desc">A read-later that rewards finishing. Save a page, it stays readable forever. AI sits beside the text when you want it, not in front of it.</p>
+        <ul class="product-feats">
+          <li>One-click capture, on any platform</li>
+          <li>Clean reader view, highlights that last</li>
+          <li>Ask questions of any article, in context</li>
+          <li>Follow friends, share what you read</li>
+        </ul>
+        <span class="product-cta">Open Reader <span class="arrow">→</span></span>
+      </a>
+      <a href="#" class="product">
+        <span class="badge">Private beta</span>
+        <div class="product-num">Product 02 &mdash; Launching 2026</div>
+        <h3 class="product-name">Slax <em>Note</em></h3>
+        <p class="product-desc">A notebook that notices what you read. Notes link themselves to the highlights that started them, so your thinking has a spine.</p>
+        <ul class="product-feats">
+          <li>Daily notes, plain-text first</li>
+          <li>Backlinks the moment you type</li>
+          <li>Pulls from Reader automatically</li>
+          <li>Local-first, syncs when online</li>
+        </ul>
+        <span class="product-cta">Request invite <span class="arrow">→</span></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="scenes">
+    <div class="scenes-head">
+      <div class="section-label">03 &nbsp; How people use it</div>
+      <h2 class="scenes-intro">Three afternoons, one way to work.</h2>
+    </div>
+    <article class="scene">
+      <div class="scene-num">Scene 01<br>Reading</div>
+      <div><h3 class="scene-title">A long essay, caught on the subway.</h3></div>
+      <p class="scene-story">You share a Paul Graham piece from your phone into Slax. On Monday, between meetings, it's already waiting — no ads, no paywall, no blue links. You highlight three paragraphs. One of them is the reason you'll quit your job, eventually. <strong>It stays highlighted forever.</strong></p>
+    </article>
+    <article class="scene">
+      <div class="scene-num">Scene 02<br>Thinking</div>
+      <div><h3 class="scene-title">A question you can't answer.</h3></div>
+      <p class="scene-story">Halfway through a paper on attention, you stop. You highlight the passage and ask the reader what it means in plainer terms. The answer sits in the margin, with a link back to the sentence that prompted it. <strong>No chat window. No new tab.</strong></p>
+    </article>
+    <article class="scene">
+      <div class="scene-num">Scene 03<br>Writing</div>
+      <div><h3 class="scene-title">A Sunday, connecting the dots.</h3></div>
+      <p class="scene-story">You open Slax Note. Last week's highlights are already there, grouped by what you read. You start a note called <em>Why soft power is eroding</em>. Two sentences in, Note surfaces a quote from Wednesday you'd forgotten. <strong>The essay writes itself. Almost.</strong></p>
+    </article>
+  </section>
+
+  <section class="oss" id="oss">
+    <div class="oss-inner">
+      <div>
+        <div class="section-label">04 &nbsp; Open source</div>
+        <h2 class="oss-head">Our tools for <em>reading</em> are tools you can read.</h2>
+      </div>
+      <div>
+        <p class="oss-body">Slax Reader is MIT-licensed. You can run the whole thing on your own machine, inspect every line, send a patch. If that matters to you, it matters to us too.</p>
+        <ul class="oss-repos">
+          <li><a href="https://github.com/slax-lab/slax-reader"><span>slax-lab/slax-reader</span><span class="repo-meta">The product &nbsp;⤷</span></a></li>
+          <li><a href="https://github.com/slax-lab/slax-reader-api"><span>slax-lab/slax-reader-api</span><span class="repo-meta">Go service &nbsp;⤷</span></a></li>
+          <li><a href="https://github.com/slax-lab/readability"><span>slax-lab/readability</span><span class="repo-meta">Parser &nbsp;⤷</span></a></li>
+          <li><a href="https://github.com/slax-lab/jieba-rs"><span>slax-lab/jieba-rs</span><span class="repo-meta">Chinese tokenizer &nbsp;⤷</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="col-narrow">
+      <h2 class="closing-head">Start with <em>one</em> article.<br>See where it goes.</h2>
+      <div class="actions" style="justify-content: center;">
+        <a href="#" class="btn-primary">Open Slax Reader <span>→</span></a>
+        <a href="#" class="btn-secondary">Download apps</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <a href="#" class="brand"><span class="brand-mark"></span> Slax</a>
+      <p class="footer-colophon">Slax Lab makes quiet software for the work of attention. From Singapore, with correspondents elsewhere.</p>
+    </div>
+    <div><h4>Products</h4><ul>
+      <li><a href="#">Slax Reader</a></li><li><a href="#">Slax Note</a></li>
+      <li><a href="#">Download</a></li><li><a href="#">Pricing</a></li>
+    </ul></div>
+    <div><h4>Read</h4><ul>
+      <li><a href="#">Blog</a></li><li><a href="#">vs. Instapaper</a></li>
+      <li><a href="#">Changelog</a></li><li><a href="#">Guides</a></li>
+    </ul></div>
+    <div><h4>Company</h4><ul>
+      <li><a href="https://github.com/slax-lab">GitHub</a></li><li><a href="https://x.com/SlaxReader">X / Twitter</a></li>
+      <li><a href="mailto:hello@slax.com">Contact</a></li><li><a href="#">Privacy &middot; Terms</a></li>
+    </ul></div>
+    <div class="footer-meta">
+      <span>© 2026 Slax Lab Pte. Ltd.</span>
+      <span>English</span>
+      <span>v0.9.2 &middot; Last updated 04/19/26</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

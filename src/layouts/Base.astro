@@ -1,0 +1,70 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/source-serif-4';
+import '@fontsource-variable/jetbrains-mono';
+import '~/styles/tokens.css';
+import '~/styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+	ogImage?: string;
+	ogType?: 'website' | 'article';
+	schema?: object | object[];
+}
+
+const {
+	title = 'Slax — Reading & writing, taken seriously',
+	description = 'Slax makes a reader and a notebook for the work of paying attention. Slow software, made for long-form.',
+	ogImage = '/og-default.svg',
+	ogType = 'website',
+	schema,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+
+const defaultSiteSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'WebSite',
+	name: 'Slax',
+	url: 'https://slax.com',
+	publisher: {
+		'@type': 'Organization',
+		name: 'Slax Lab',
+		url: 'https://slax.com',
+		logo: 'https://slax.com/favicon.svg',
+	},
+};
+
+const schemaList = schema
+	? Array.isArray(schema)
+		? [defaultSiteSchema, ...schema]
+		: [defaultSiteSchema, schema]
+	: [defaultSiteSchema];
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content="Slax" />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={new URL(ogImage, Astro.site).toString()} />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/png" href="/images/slax-logo.png" sizes="any" />
+<link rel="apple-touch-icon" href="/images/slax-logo.png" />
+<link rel="alternate" type="application/rss+xml" title="Slax Blog" href="/rss.xml" />
+{schemaList.map((s) => (
+	<script type="application/ld+json" set:html={JSON.stringify(s)} />
+))}
+</head>
+<body data-density="airy">
+<slot />
+</body>
+</html>

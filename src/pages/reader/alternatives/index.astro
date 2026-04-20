@@ -1,0 +1,164 @@
+---
+import { getCollection } from 'astro:content';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+
+const entries = (await getCollection('readerAlternatives')).sort((a, b) =>
+	a.data.competitor.localeCompare(b.data.competitor),
+);
+---
+<Base title="Slax Reader alternatives — comparisons to Readwise, Omnivore, Cubox & more">
+	<Nav active="reader" />
+	<main class="alts-index">
+		<header class="head">
+			<h1>Slax Reader vs. the read-later you know.</h1>
+			<p class="dek">
+				Honest, side-by-side comparisons. Where we're different, where
+				they're better. Pick the one that matches how you actually read.
+			</p>
+		</header>
+
+		{entries.length === 0 ? (
+			<p class="empty">
+				Comparison pieces land in stage 3 of the redesign.
+			</p>
+		) : (
+			<ul class="alt-list">
+				{entries.map((entry) => (
+					<li class="alt-item">
+						<a href={`/reader/alternatives/${entry.id}/`} class="alt-link">
+							<span class="alt-competitor">{entry.data.competitor}</span>
+							<div class="alt-body">
+								<h2>Slax Reader vs. {entry.data.competitor}</h2>
+								<p>{entry.data.description}</p>
+								<span class="alt-cta">
+									Read comparison <span class="arrow">→</span>
+								</span>
+							</div>
+						</a>
+					</li>
+				))}
+			</ul>
+		)}
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.alts-index {
+		max-width: 860px;
+		margin: 0 auto;
+		padding: 5rem 2rem 4rem;
+	}
+	.head {
+		margin-bottom: 4rem;
+		padding-bottom: 2.5rem;
+		border-bottom: 1px solid var(--rule);
+	}
+	h1 {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: clamp(1.9rem, 3vw, 2.5rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0 0 0.75rem;
+	}
+	.dek {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1.1rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 52ch;
+		margin: 0;
+	}
+	.empty {
+		font-family: var(--mono);
+		font-size: 0.85rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		padding: 4rem 0;
+	}
+
+	.alt-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	.alt-item {
+		border-bottom: 1px solid var(--rule-soft);
+	}
+	.alt-item:last-child {
+		border-bottom: none;
+	}
+	.alt-link {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.6rem;
+		padding: 2.25rem 0;
+		text-decoration: none;
+		color: inherit;
+		transition: padding-left 0.25s ease;
+	}
+	@media (min-width: 760px) {
+		.alt-link {
+			grid-template-columns: 160px 1fr;
+			gap: 3rem;
+			align-items: baseline;
+		}
+	}
+	.alt-link:hover {
+		padding-left: 0.5rem;
+	}
+	.alt-competitor {
+		font-family: var(--mono);
+		font-size: 0.76rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		padding-top: 0.15rem;
+	}
+	.alt-body h2 {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.35rem;
+		line-height: 1.25;
+		letter-spacing: -0.01em;
+		margin: 0 0 0.5rem;
+		color: var(--ink);
+		transition: color 0.2s;
+	}
+	.alt-link:hover .alt-body h2 {
+		color: var(--accent);
+	}
+	.alt-body p {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0 0 0.75rem;
+		max-width: 60ch;
+	}
+	.alt-cta {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		transition: color 0.2s;
+	}
+	.alt-link:hover .alt-cta {
+		color: var(--accent);
+	}
+	.alt-cta .arrow {
+		transition: transform 0.25s ease;
+	}
+	.alt-link:hover .alt-cta .arrow {
+		transform: translateX(3px);
+	}
+</style>

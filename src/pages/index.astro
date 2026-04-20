@@ -1,0 +1,484 @@
+---
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+
+// Content sourced verbatim from original apps/slax-home SlaxHomeHero.astro
+// (archive/apps-backup), with visual system re-skinned to the editorial
+// warm palette (Source Serif 4 + forest accent) chosen for the redesign.
+
+const readerTrust = [
+	'🔒 Your content, forever safe',
+	'🚀 5× faster understanding',
+	'⭐ Interactive reading community',
+];
+---
+<Base>
+	<Nav />
+
+	<section class="shh">
+		<!-- Hero alternates between Reader and Note; product cards below lock
+		     the panel on hover -->
+		<div class="shh-hero-wrap">
+			<!-- READER -->
+			<div class="shh-panel shh-panel-reader is-active" data-panel="reader">
+				<div class="shh-reader-inner">
+					<div class="shh-reader-text">
+						<h2 class="shh-reader-title">Read Smarter<br />Not Just Later</h2>
+						<p class="shh-reader-sub">
+							Save Forever, Learn faster. Your intelligent library for high
+							efficiency and deep understanding.
+						</p>
+						<a class="btn-primary" href="https://r.slax.com/login">
+							Start Reading Smarter — Free <span class="arrow">→</span>
+						</a>
+						<div class="shh-reader-trust">
+							{readerTrust.map((t) => <span>{t}</span>)}
+						</div>
+					</div>
+					<div class="shh-reader-visual">
+						<div class="shh-reader-preview">
+							<div class="shh-reader-card">
+								<h4>🤖 AI Analysis</h4>
+								<p>
+									This article explains how knowledge workers can build a
+									permanent reading library. Key points:<br />1. Save content
+									before it disappears.<br />2. Use AI to summarize and surface
+									key ideas.<br />3. Turn reading into reusable knowledge.
+								</p>
+							</div>
+							<div class="shh-reader-card">
+								<h4>💬 Ask AI</h4>
+								<p>
+									<strong>You:</strong> "What should I remember from this
+									article?"<br />
+									<strong>AI:</strong> "Focus on the permanent archive,
+									AI-assisted understanding, and collaboration layer. Those are
+									the main reasons users switch."
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- NOTE -->
+			<div class="shh-panel shh-panel-note" data-panel="note">
+				<div class="shh-note-inner">
+					<div class="shh-note-text">
+						<h2 class="shh-note-title">
+							Your AI-powered<br />voice notes.<br />
+							<em>Turn voice into text</em><br />in seconds.
+						</h2>
+						<p class="shh-note-sub">
+							Record with Slax Note on the go. Let AI capture and refine your
+							thoughts into various text styles. Never lose an idea.
+						</p>
+						<div class="shh-note-stores">
+							<a
+								class="shh-store-btn"
+								href="https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<span class="shh-store-small">Download on the</span>
+								<span class="shh-store-main">App Store</span>
+							</a>
+							<a
+								class="shh-store-btn"
+								href="https://play.google.com/store/apps/details?id=app.slax.notes"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<span class="shh-store-small">GET IT ON</span>
+								<span class="shh-store-main">Google Play</span>
+							</a>
+						</div>
+					</div>
+					<div class="shh-note-visual">
+						<img
+							src="/images/note-hero.png"
+							alt="Slax Note — voice to text app"
+							class="shh-note-img"
+							loading="eager"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Product cards — hovering switches the hero above -->
+		<div class="shh-cards">
+			<a
+				class="shh-card shh-card-reader"
+				href="/reader/"
+				data-trigger="reader"
+			>
+				<div class="shh-card-header">
+					<img src="/images/reader-logo-new.png" alt="Slax Reader" class="shh-card-logo" />
+					<span class="shh-card-name">Slax Reader</span>
+				</div>
+				<p class="shh-card-desc">
+					Save, organize, and annotate articles from across the web. Built for
+					deep reading and effortless knowledge capture.
+				</p>
+				<span class="shh-card-cta">Explore Reader →</span>
+			</a>
+			<a
+				class="shh-card shh-card-note"
+				href="/note/"
+				data-trigger="note"
+			>
+				<div class="shh-card-header">
+					<img src="/images/note-logo-new.png" alt="Slax Note" class="shh-card-logo" />
+					<span class="shh-card-name">Slax Note</span>
+				</div>
+				<p class="shh-card-desc">
+					Capture ideas with your voice, let AI refine them into notes, summaries,
+					or whatever form you need.
+				</p>
+				<span class="shh-card-cta">Explore Note →</span>
+			</a>
+		</div>
+	</section>
+
+	<Footer />
+</Base>
+
+<script>
+	const section = document.querySelector<HTMLElement>('.shh');
+	const panels = document.querySelectorAll<HTMLElement>('[data-panel]');
+	const triggers = document.querySelectorAll<HTMLElement>('[data-trigger]');
+
+	const ROTATE_KEYS = ['reader', 'note'] as const;
+	const ROTATE_INTERVAL = 6000;
+
+	let current: string = 'reader';
+	let rotateTimer: ReturnType<typeof setInterval> | null = null;
+
+	function activate(state: string) {
+		current = state;
+		panels.forEach((p) =>
+			p.classList.toggle('is-active', p.dataset.panel === state),
+		);
+		triggers.forEach((t) =>
+			t.classList.toggle('is-hovered', t.dataset.trigger === state),
+		);
+	}
+
+	function startRotate() {
+		if (rotateTimer) return;
+		rotateTimer = setInterval(() => {
+			const i = ROTATE_KEYS.indexOf(current as (typeof ROTATE_KEYS)[number]);
+			const next = ROTATE_KEYS[(i + 1) % ROTATE_KEYS.length];
+			activate(next);
+		}, ROTATE_INTERVAL);
+	}
+
+	function stopRotate() {
+		if (rotateTimer) {
+			clearInterval(rotateTimer);
+			rotateTimer = null;
+		}
+	}
+
+	triggers.forEach((trigger) => {
+		const key = trigger.dataset.trigger!;
+		trigger.addEventListener('mouseenter', () => {
+			stopRotate();
+			activate(key);
+		});
+		trigger.addEventListener('mouseleave', startRotate);
+		trigger.addEventListener('focus', () => {
+			stopRotate();
+			activate(key);
+		});
+		trigger.addEventListener('blur', startRotate);
+	});
+
+	// Respect users who prefer reduced motion
+	const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	if (!reduced) startRotate();
+</script>
+
+<style>
+	.shh {
+		width: 100%;
+		font-family: var(--sans);
+	}
+
+	/* ─── Hero wrap: stacked panels ─── */
+	.shh-hero-wrap {
+		display: grid;
+		grid-template-areas: 'hero';
+		min-height: 460px;
+	}
+	.shh-panel {
+		grid-area: hero;
+		display: flex;
+		align-items: center;
+		opacity: 0;
+		transform: translateY(14px);
+		transition:
+			opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+			transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+		pointer-events: none;
+	}
+	.shh-panel.is-active {
+		opacity: 1;
+		transform: translateY(0);
+		pointer-events: auto;
+	}
+
+	/* ─── Reader panel ─── */
+	.shh-panel-reader {
+		background: var(--bg);
+	}
+	.shh-reader-inner {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 3rem;
+		align-items: center;
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 5rem 2rem 4rem;
+	}
+	@media (min-width: 900px) {
+		.shh-reader-inner {
+			grid-template-columns: 1fr 1fr;
+			gap: 4rem;
+		}
+	}
+	.shh-reader-title {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.2rem, 4vw, 3.4rem);
+		line-height: 1.05;
+		letter-spacing: -0.025em;
+		color: var(--ink);
+		margin: 0 0 1.25rem;
+	}
+	.shh-reader-sub {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0 0 2rem;
+		max-width: 34rem;
+	}
+	.shh-reader-trust {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem 1.5rem;
+		margin-top: 1.5rem;
+		color: var(--ink-mute);
+		font-family: var(--mono);
+		font-size: 0.82rem;
+	}
+	.shh-reader-preview {
+		width: 100%;
+		max-width: 480px;
+		padding: 1.75rem;
+		border: 1px solid var(--rule);
+		background: var(--bg-deep);
+		box-shadow: 0 6px 32px -16px rgba(27, 26, 23, 0.18);
+	}
+	.shh-reader-card {
+		padding: 1.1rem 1.25rem;
+		background: var(--bg);
+		border: 1px solid var(--rule-soft);
+	}
+	.shh-reader-card + .shh-reader-card {
+		margin-top: 0.9rem;
+	}
+	.shh-reader-card h4 {
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+		color: var(--accent);
+		margin: 0 0 0.6rem;
+		text-transform: uppercase;
+	}
+	.shh-reader-card p {
+		font-family: var(--serif);
+		font-size: 0.95rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+	}
+	.shh-reader-card :global(strong) {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	/* ─── Note panel ─── */
+	.shh-panel-note {
+		background: var(--bg-deep);
+	}
+	.shh-note-inner {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 3rem;
+		align-items: center;
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 4.5rem 2rem 3.5rem;
+	}
+	@media (min-width: 900px) {
+		.shh-note-inner {
+			grid-template-columns: 1fr 1fr;
+			gap: 4rem;
+		}
+	}
+	.shh-note-title {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 3.5vw, 3rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		color: var(--ink);
+		margin: 0 0 1.25rem;
+	}
+	.shh-note-title :global(em) {
+		font-style: italic;
+		font-weight: 300;
+		color: var(--accent);
+	}
+	.shh-note-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0 0 2rem;
+		max-width: 38ch;
+	}
+	.shh-note-stores {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+	.shh-store-btn {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.1rem;
+		background: var(--ink);
+		color: var(--bg);
+		text-decoration: none;
+		padding: 0.7rem 1.2rem;
+		border-radius: 10px;
+		transition:
+			background 0.2s ease,
+			transform 0.2s ease;
+		min-width: 160px;
+	}
+	.shh-store-btn:hover {
+		background: var(--accent);
+		transform: translateY(-1px);
+	}
+	.shh-store-small {
+		font-size: 0.64rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		opacity: 0.7;
+		line-height: 1.2;
+	}
+	.shh-store-main {
+		font-size: 0.95rem;
+		font-weight: 600;
+		line-height: 1.3;
+	}
+	.shh-note-img {
+		width: 100%;
+		max-width: 480px;
+		height: auto;
+		display: block;
+	}
+
+	/* ─── Product cards ─── */
+	.shh-cards {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+		max-width: 1200px;
+		width: 100%;
+		margin-inline: auto;
+		padding: 1.5rem 2rem 3rem;
+		background: var(--bg);
+		border-top: 1px solid var(--rule-soft);
+	}
+	@media (min-width: 820px) {
+		.shh-cards {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.shh-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding: 1.5rem 1.75rem;
+		border: 1px solid var(--rule);
+		text-decoration: none;
+		background: var(--bg);
+		transition:
+			border-color 0.25s ease,
+			background 0.25s ease,
+			transform 0.25s ease;
+		position: relative;
+	}
+	.shh-card:hover,
+	.shh-card.is-hovered {
+		transform: translateY(-3px);
+		border-color: var(--accent);
+		background: var(--bg-deep);
+	}
+	.shh-card-header {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+	}
+	.shh-card-logo {
+		width: 22px;
+		height: 22px;
+		border-radius: 6px;
+		object-fit: cover;
+		flex-shrink: 0;
+	}
+	.shh-card-name {
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		font-weight: 500;
+		color: var(--ink);
+		letter-spacing: -0.01em;
+	}
+	.shh-card-desc {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		margin: 0.2rem 0 0;
+		max-width: 42ch;
+	}
+	.shh-card-cta {
+		margin-top: 0.6rem;
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.08em;
+		color: var(--accent);
+		align-self: flex-start;
+	}
+
+	@media (max-width: 900px) {
+		.shh-hero-wrap {
+			min-height: 380px;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.shh-panel {
+			transition: opacity 0.2s ease;
+			transform: none !important;
+		}
+	}
+</style>

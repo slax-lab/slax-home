@@ -1,0 +1,16 @@
+---
+interface Props {
+	number?: string;
+}
+
+const { number } = Astro.props;
+---
+<div class="section-label">
+	{number && <span class="num">{number}</span>}<slot />
+</div>
+
+<style>
+	.num {
+		margin-right: 0.6rem;
+	}
+</style>

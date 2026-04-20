@@ -1,0 +1,33 @@
+---
+interface Props {
+	variant?: 'primary' | 'secondary' | 'nav-cta';
+	href?: string;
+	arrow?: boolean;
+	class?: string;
+}
+
+const {
+	variant = 'primary',
+	href,
+	arrow = false,
+	class: className = '',
+} = Astro.props;
+
+const variantClass =
+	variant === 'primary'
+		? 'btn-primary'
+		: variant === 'secondary'
+			? 'btn-secondary'
+			: 'nav-cta';
+---
+{href ? (
+	<a href={href} class:list={[variantClass, className]}>
+		<slot />
+		{arrow && <span class="arrow">→</span>}
+	</a>
+) : (
+	<button type="button" class:list={[variantClass, className]}>
+		<slot />
+		{arrow && <span class="arrow">→</span>}
+	</button>
+)}

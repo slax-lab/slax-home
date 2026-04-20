@@ -1,0 +1,976 @@
+---
+import Button from '~/components/Button.astro';
+import FaqList from '~/components/FaqList.astro';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+
+// All content below is copied verbatim from note.slax.com (the live
+// marketing landing) plus n.slax.com product i18n where relevant.
+// Single source of truth: fetched from note.slax.com 2026-04-19.
+
+// Efficiency Boost 🚀 — "save your time on what matters"
+const efficiencyFeatures = [
+	{
+		title: 'Capture your idea with one click',
+		body: "Just record effortlessly with one tap. Focus on your thoughts, and we'll handle the rest.",
+	},
+	{
+		title: 'Automatically optimize text and punctuation',
+		body: 'Our AI-powered service accurately transcribe your voice, then further polish the text and add punctuation to match your tone.',
+	},
+	{
+		title: 'Copy and share your notes everywhere',
+		body: 'Easily share your insights as copied text or image to integrate your insights into your workflow.',
+	},
+];
+
+// Intelligent Ghostwriting ✍️ — "let AI perfect your text with ease"
+const ghostwritingFeatures = [
+	{
+		title: 'Choose ready-made styles for various scenarios',
+		body: 'Select our built-in styles, including summarizing, tweets, and compliments. More styles are on the way.',
+	},
+	{
+		title: 'Customize prompt to suit personalized needs',
+		body: 'Personalize prompts tailored to your unique requirements and workflow.',
+	},
+];
+
+// How are others using Slax Note — 5 real use cases from note.slax.com
+const useCases = [
+	{
+		title: 'Personal voice memos',
+		body: 'Seize and save fleeting thoughts during walks or drives. We transform your voice memos into polished and accessible text. Never let any aha moment slip away.',
+	},
+	{
+		title: 'Content Creation',
+		body: "Create content faster and easier than ever. Simply speak your ideas, and Slax Note's AI will generate elegant content in seconds. No typing required!",
+	},
+	{
+		title: 'Schedule organization',
+		body: 'Just tell Slax Note your to-dos, and it will help organize your schedule effortlessly, freeing up your time for what truly matters.',
+	},
+	{
+		title: 'Meeting minutes',
+		body: 'Wake Slax Note when in a laptop-free meeting, and it will be your AI assistant that records and transcribes the meeting summries.',
+	},
+	{
+		title: 'Learning notes',
+		body: 'Your AI study buddy. Open Slax Note to capture lectures you might miss, or practice your presentation and let it generate a polished speech draft with ease.',
+	},
+];
+
+// Real testimonials from note.slax.com — 6 named users
+const testimonials = [
+	{
+		quote:
+			'If you frequently need to write or jot down inspirations, I highly recommend Slax Note. It polishes my spoken content and makes it even more precise than my usual writing.',
+		author: 'Cao Jiang',
+		title: 'Independent content creator',
+	},
+	{
+		quote:
+			'This tool is quite elegant. It can help me develop the habit of consistently using it to record my thoughts, which is truly beneficial.',
+		author: 'Fenng',
+		title: 'Tech blogger',
+	},
+	{
+		quote:
+			'Slax Note utilizes LLM technology to achieve automatic voice transcription and content refinement. Compared to traditional tools, it removes filler words and disfluencies from spoken language, making output clear and logical that helps users capture and organize their ideas effectively.',
+		author: '辉哥奇谭',
+		title: 'Writer',
+	},
+	{
+		quote:
+			"I don't lack content to output, but time to create it. Since using Slax Note, I've saved so much time, which is invaluable to me.",
+		author: 'Investor Fan',
+		title: 'Investor / Founder of Gaozhang Capital',
+	},
+	{
+		quote:
+			"I'll open Slax Note whether chatting with friends or doing interview. It directly turns conversation into articles without manual record arrangement. Slax Note takes care of everything for me.",
+		author: '刘容',
+		title: 'Internet Company Marketing Manager',
+	},
+	{
+		quote:
+			'In our family group chat, I often share daily schedules and important matters, and I always use Slax Note to record and organize the plans systematically. This helps our communication stays clear and all my various things are well-arranged.',
+		author: 'Vivian',
+		title: 'Senior manager',
+	},
+];
+
+// FAQ — verbatim from note.slax.com
+const faqs = [
+	{
+		q: 'How to subscribe?',
+		a: "Visit our app Slax Note, choose your desired subscription plan, and follow the prompts to create an account and complete the payment process. You'll be able to enjoy premium features immediately after subscribing.",
+	},
+	{
+		q: 'Does it support uploading files?',
+		a: 'Audio file uploads are not supported at the moment, but this feature is planned and will be supported in the future.',
+	},
+	{
+		q: 'How accurate is the speech-to-text conversion?',
+		a: 'Using advanced AI technology, accuracy is very high. For clear audio input, accuracy can reach over 95%.',
+	},
+	{
+		q: 'Is there a time limit for recordings?',
+		a: 'Each recording is limited to 30 minutes.',
+	},
+	{
+		q: 'Can I edit the converted text?',
+		a: 'Yes, converted text is fully editable and supports various text style conversions.',
+	},
+	{
+		q: 'Where are audio files stored and are they secure?',
+		a: 'All audio recordings are stored locally to ensure user privacy and security.',
+	},
+	{
+		q: 'How can I export notes?',
+		a: 'Notes can be easily shared to other apps as text or images.',
+	},
+	{
+		q: 'Does it work offline?',
+		a: 'Recording features work offline, but conversion requires internet connection.',
+	},
+	{
+		q: 'How to set content in different styles?',
+		a: "Open the App to start recording, or tap 'Text Note' to input content, which will take you to the automatic refinement page. Here, you can click the 'Default' button on the right to switch between different writing styles. Or freely customize the style you desire.",
+	},
+	{
+		q: 'Which languages does Slax Note support for speech recognition?',
+		a: 'Currently supports major languages like English, Chinese, German and Japanese, with more languages planned for the future.',
+	},
+];
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'SoftwareApplication',
+	name: 'Slax Note',
+	alternateName: 'Slax Note — Your Voice Notes Copilot',
+	applicationCategory: 'ProductivityApplication',
+	operatingSystem: 'iOS, Android, Web',
+	description:
+		'Transform Speech into Smart Notes Effortlessly. Record with Slax Note on the go. Let AI capture and refine your thoughts into various text styles.',
+	offers: [
+		{ '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
+		{
+			'@type': 'Offer',
+			name: 'Premium Annual',
+			price: '49.99',
+			priceCurrency: 'USD',
+		},
+	],
+	publisher: {
+		'@type': 'Organization',
+		name: 'Starry Tech Pte. Ltd.',
+		url: 'https://slax.com',
+	},
+};
+---
+<Base
+	title="Slax Note — Your Voice Notes Copilot · Transform Speech into Smart Notes Effortlessly"
+	description="Record with Slax Note on the go. Let AI capture and refine your thoughts into various text styles. Never lose an idea."
+	ogImage="/images/note/cover.png"
+	schema={schema}
+>
+	<Nav active="note" />
+
+	<main>
+		<!-- HERO -->
+		<section class="n-hero">
+			<div class="n-hero-inner">
+				<div>
+					<h1 class="n-h1">
+						Your AI-powered<br />voice notes.<br />
+						<em>Turn voice into text</em><br />in seconds.
+					</h1>
+					<p class="n-dek">
+						Record with Slax Note on the go. Let AI capture and refine your
+						thoughts into various text styles. Never lose an idea.
+					</p>
+					<div class="n-stores">
+						<a
+							class="store-btn"
+							href="https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="store-small">Download on the</span>
+							<span class="store-main">App Store</span>
+						</a>
+						<a
+							class="store-btn"
+							href="https://play.google.com/store/apps/details?id=app.slax.notes"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="store-small">GET IT ON</span>
+							<span class="store-main">Google Play</span>
+						</a>
+					</div>
+					<p class="n-web-cta">
+						Or <a href="https://n.slax.com/">open Note on the web →</a>
+					</p>
+				</div>
+				<div class="n-visual">
+					<img
+						src="/images/note/cover.png"
+						alt="Slax Note — Your Voice Notes Copilot"
+						class="n-img"
+						loading="eager"
+					/>
+				</div>
+			</div>
+		</section>
+
+		<!-- EFFICIENCY BOOST -->
+		<section class="features" id="features">
+			<div class="features-inner">
+				<div class="feat-head">
+					<h2 class="feat-title">Efficiency Boost</h2>
+					<p class="feat-sub">Save your time on what matters.</p>
+				</div>
+				<div class="feat-grid feat-grid-3">
+					{efficiencyFeatures.map((f, i) => (
+						<div class="feat">
+							<div class="feat-num">{String(i + 1).padStart(2, '0')}</div>
+							<h3 class="feat-h">{f.title}</h3>
+							<p class="feat-p">{f.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- INTELLIGENT GHOSTWRITING -->
+		<section class="features features-alt">
+			<div class="features-inner">
+				<div class="feat-head">
+					<h2 class="feat-title">Intelligent Ghostwriting</h2>
+					<p class="feat-sub">Let AI perfect your text with ease.</p>
+				</div>
+				<div class="feat-grid feat-grid-2">
+					{ghostwritingFeatures.map((f, i) => (
+						<div class="feat">
+							<div class="feat-num">{String(i + 1).padStart(2, '0')}</div>
+							<h3 class="feat-h">{f.title}</h3>
+							<p class="feat-p">{f.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- USE CASES -->
+		<section class="usecases">
+			<div class="usecases-inner">
+				<h2 class="usecases-head">How are others using Slax Note</h2>
+				<div class="uc-grid">
+					{useCases.map((uc) => (
+						<div class="uc">
+							<h3 class="uc-h">{uc.title}</h3>
+							<p class="uc-p">{uc.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- TESTIMONIALS -->
+		<section class="testimonials">
+			<div class="testimonials-inner">
+				<h2 class="t-head">Loved by thousands of users</h2>
+				<p class="t-sub">
+					Ready to revolutionize your note-taking? Try Slax Note now.
+				</p>
+				<div class="t-grid">
+					{testimonials.map((t) => (
+						<figure class="testimonial">
+							<blockquote class="t-quote">"{t.quote}"</blockquote>
+							<figcaption class="t-caption">
+								<span class="t-author">{t.author}</span>
+								<span class="t-title">{t.title}</span>
+							</figcaption>
+						</figure>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- PRICING -->
+		<section class="pricing" id="pricing">
+			<div class="pricing-inner">
+				<h2 class="pricing-head">Pricing</h2>
+				<p class="pricing-dek">Enjoy early-bird pricing to upgrade your plan.</p>
+
+				<div class="plans-grid">
+					<!-- FREE -->
+					<div class="plan">
+						<div class="plan-eyebrow">Free</div>
+						<div class="plan-price">
+							<span class="num">$0</span>
+						</div>
+						<ul class="plan-list">
+							<li><span class="plan-feat-label">Voice notes</span><span class="plan-feat-value">5 notes</span></li>
+							<li><span class="plan-feat-label">AI Polish</span><span class="plan-feat-value">10 times / total</span></li>
+							<li><span class="plan-feat-label">Recording duration</span><span class="plan-feat-value">30 minutes</span></li>
+						</ul>
+						<a href="https://n.slax.com/" class="btn-primary">Give it a try</a>
+					</div>
+
+					<!-- PREMIUM -->
+					<div class="plan featured">
+						<div class="plan-eyebrow">
+							Premium <span class="plan-badge">Save two months!</span>
+						</div>
+						<div class="plan-price">
+							<span class="num">$49.99</span><span class="unit">/ year</span>
+						</div>
+						<p class="plan-note">Cancel anytime.</p>
+						<ul class="plan-list">
+							<li><span class="plan-feat-label">Voice notes</span><span class="plan-feat-value">Unlimited</span></li>
+							<li><span class="plan-feat-label">AI Polish</span><span class="plan-feat-value">300 times / day</span></li>
+							<li><span class="plan-feat-label">Recording duration</span><span class="plan-feat-value">30 minutes</span></li>
+						</ul>
+						<div class="plan-actions">
+							<a
+								class="btn-primary"
+								href="https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								App Store
+							</a>
+							<a
+								class="btn-primary btn-primary-outline"
+								href="https://play.google.com/store/apps/details?id=app.slax.notes"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Google Play
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- FAQ -->
+		<section class="faq">
+			<div class="faq-inner">
+				<h2 class="faq-head">Frequently Asked Questions</h2>
+				<p class="faq-sub">
+					Any other questions or suggestions, please contact us on
+					<a href="https://discord.gg/slax">Discord</a> or email us at
+					<a href="mailto:hi@slax.com">hi@slax.com</a>.
+				</p>
+				<FaqList items={faqs} />
+			</div>
+		</section>
+
+		<!-- FINALE -->
+		<section class="finale">
+			<div class="finale-inner">
+				<h2 class="finale-h">Never lose an <em>idea</em> again.</h2>
+				<p class="finale-p">
+					Free to download, on iPhone, Android, and the web.
+				</p>
+				<div class="actions actions-center">
+					<Button variant="primary" href="https://n.slax.com/" arrow>Open Slax Note</Button>
+					<Button variant="secondary" href="#pricing">See pricing</Button>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+</Base>
+
+<style>
+	/* HERO */
+	.n-hero {
+		padding: 6rem 0 5rem;
+	}
+	.n-hero-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 4rem;
+		align-items: center;
+	}
+	@media (min-width: 960px) {
+		.n-hero-inner {
+			grid-template-columns: 1.1fr 1fr;
+		}
+	}
+	.n-h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+		line-height: 1.08;
+		letter-spacing: -0.025em;
+		margin: 2rem 0 1.5rem;
+		color: var(--ink);
+	}
+	.n-h1 :global(em) {
+		font-style: italic;
+		font-weight: 300;
+		color: var(--accent);
+	}
+	.n-dek {
+		font-family: var(--serif);
+		font-size: 1.2rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		max-width: 42ch;
+		margin: 0 0 2rem;
+	}
+	.n-stores {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+	.store-btn {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.1rem;
+		background: var(--ink);
+		color: var(--bg);
+		text-decoration: none;
+		padding: 0.7rem 1.2rem;
+		border-radius: 10px;
+		transition:
+			background 0.2s ease,
+			transform 0.2s ease;
+		min-width: 160px;
+	}
+	.store-btn:hover {
+		background: var(--accent);
+		transform: translateY(-1px);
+	}
+	.store-small {
+		font-size: 0.64rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		opacity: 0.7;
+		line-height: 1.2;
+	}
+	.store-main {
+		font-size: 0.95rem;
+		font-weight: 600;
+		line-height: 1.3;
+	}
+	.n-web-cta {
+		margin: 1.5rem 0 0;
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		color: var(--ink-mute);
+		letter-spacing: 0.04em;
+	}
+	.n-web-cta a {
+		color: var(--ink);
+		text-decoration: none;
+		border-bottom: 1px dotted var(--ink-mute);
+		transition:
+			color 0.2s,
+			border-color 0.2s;
+	}
+	.n-web-cta a:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+	.n-visual {
+		display: flex;
+		justify-content: center;
+	}
+	.n-img {
+		width: 100%;
+		max-width: 420px;
+		height: auto;
+		display: block;
+	}
+
+	/* FEATURES (shared by Efficiency Boost + Intelligent Ghostwriting) */
+	.features {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.features-alt {
+		background: var(--bg-deep);
+	}
+	.features-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.feat-head {
+		margin-bottom: 4rem;
+	}
+	.feat-title {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0 0 0.5rem;
+		color: var(--ink);
+	}
+	.feat-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0;
+		font-style: italic;
+	}
+	.feat-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.feat-grid-3,
+		.feat-grid-2 {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@media (min-width: 1040px) {
+		.feat-grid-3 {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+	.feat {
+		padding: 2.5rem 2rem;
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.feat-grid-3 .feat:nth-child(2n) {
+			border-left: 1px solid var(--rule);
+		}
+		.feat-grid-2 .feat:nth-child(2n) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	@media (min-width: 1040px) {
+		.feat-grid-3 .feat:nth-child(2n) {
+			border-left: 0;
+		}
+		.feat-grid-3 .feat:not(:nth-child(3n + 1)) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.feat-num {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.2em;
+		color: var(--ink-mute);
+		margin-bottom: 1.5rem;
+	}
+	.feat-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.25rem;
+		letter-spacing: -0.015em;
+		margin: 0 0 0.75rem;
+		line-height: 1.25;
+	}
+	.feat-p {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 38ch;
+	}
+
+	/* USE CASES */
+	.usecases {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.usecases-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.usecases-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0 0 3rem;
+	}
+	.uc-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.uc-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.uc {
+		padding: 2rem;
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.uc:nth-child(2n) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.uc-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.25rem;
+		letter-spacing: -0.015em;
+		margin: 0 0 0.75rem;
+		line-height: 1.25;
+	}
+	.uc-p {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 44ch;
+	}
+
+	/* TESTIMONIALS */
+	.testimonials {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		background: var(--bg-deep);
+	}
+	.testimonials-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.t-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0 0 0.5rem;
+	}
+	.t-sub {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1.15rem;
+		color: var(--ink-soft);
+		margin: 0 0 3.5rem;
+	}
+	.t-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1.5rem;
+	}
+	@media (min-width: 760px) {
+		.t-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@media (min-width: 1040px) {
+		.t-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+	.testimonial {
+		padding: 2rem 1.75rem;
+		background: var(--bg);
+		border: 1px solid var(--rule);
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 1.5rem;
+	}
+	.t-quote {
+		font-family: var(--serif);
+		font-size: 1.02rem;
+		line-height: 1.6;
+		color: var(--ink);
+		margin: 0;
+		font-style: italic;
+	}
+	.t-caption {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		border-top: 1px solid var(--rule-soft);
+		padding-top: 1rem;
+	}
+	.t-author {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 0.98rem;
+		color: var(--ink);
+	}
+	.t-title {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.05em;
+		color: var(--ink-mute);
+	}
+
+	/* PRICING */
+	.pricing {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		scroll-margin-top: 5rem;
+	}
+	.pricing-inner {
+		max-width: 900px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.pricing-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 3.5vw, 2.8rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 0 0 0.5rem;
+	}
+	.pricing-dek {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0 0 3rem;
+	}
+	.plans-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.plans-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.plan {
+		padding: 2.5rem 2rem;
+		background: var(--bg);
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.plan > .btn-primary,
+	.plan > .plan-actions {
+		margin-top: auto;
+	}
+	.plan.featured > .btn-primary,
+	.plan.featured .btn-primary:not(.btn-primary-outline) {
+		background: var(--accent);
+		color: #fff;
+	}
+	.plan.featured > .btn-primary:hover,
+	.plan.featured .btn-primary:not(.btn-primary-outline):hover {
+		background: var(--accent-hover, #2E4D3E);
+	}
+	@media (min-width: 760px) {
+		.plan + .plan {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	@media (max-width: 759px) {
+		.plan + .plan {
+			border-top: 1px solid var(--rule);
+		}
+	}
+	.plan.featured {
+		background: var(--bg-deep);
+	}
+	.plan-eyebrow {
+		font-family: var(--serif);
+		font-size: 1.4rem;
+		font-weight: 500;
+		color: var(--ink);
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		flex-wrap: wrap;
+	}
+	.plan.featured .plan-eyebrow {
+		color: var(--accent);
+	}
+	.plan-badge {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 12%, transparent);
+		padding: 0.25rem 0.6rem;
+		border-radius: 999px;
+	}
+	.plan-price {
+		display: flex;
+		align-items: baseline;
+		gap: 0.4rem;
+		margin: 0.5rem 0 1rem;
+	}
+	.plan-price .num {
+		font-family: var(--serif);
+		font-size: 2.3rem;
+		font-weight: 400;
+		color: var(--ink);
+		letter-spacing: -0.025em;
+	}
+	.plan-price .unit {
+		font-family: var(--sans);
+		font-size: 0.92rem;
+		color: var(--ink-mute);
+	}
+	.plan-note {
+		font-family: var(--serif);
+		font-size: 0.95rem;
+		font-style: italic;
+		color: var(--ink-mute);
+		margin: 0 0 1.5rem;
+	}
+	.plan-list {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 2rem;
+		display: grid;
+		gap: 0.75rem;
+		width: 100%;
+	}
+	.plan-list li {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		padding: 0.6rem 0;
+		border-bottom: 1px solid var(--rule-soft);
+		gap: 1rem;
+		font-family: var(--serif);
+	}
+	.plan-list li:last-child {
+		border-bottom: none;
+	}
+	.plan-feat-label {
+		color: var(--ink-soft);
+		font-size: 0.95rem;
+	}
+	.plan-feat-value {
+		color: var(--ink);
+		font-weight: 500;
+		font-size: 0.98rem;
+	}
+	.plan-actions {
+		display: flex;
+		gap: 0.6rem;
+		flex-wrap: wrap;
+	}
+	.plan-actions .btn-primary-outline {
+		background: transparent;
+		color: var(--ink);
+		border: 1px solid var(--ink);
+	}
+	.plan-actions .btn-primary-outline:hover {
+		background: var(--ink);
+		color: var(--bg);
+	}
+	.plan.featured .btn-primary-outline {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+	.plan.featured .btn-primary-outline:hover {
+		background: var(--accent);
+		color: #fff;
+	}
+
+	/* FAQ */
+	.faq {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.faq-inner {
+		max-width: 1080px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.faq-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		letter-spacing: -0.02em;
+		margin: 0 0 0.5rem;
+	}
+	.faq-sub {
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		color: var(--ink-soft);
+		margin: 0 0 3rem;
+		max-width: 56ch;
+	}
+	.faq-sub a {
+		color: var(--ink);
+		text-decoration: none;
+		border-bottom: 1px dotted var(--ink-mute);
+		transition:
+			color 0.2s,
+			border-color 0.2s;
+	}
+	.faq-sub a:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+
+	/* FINALE */
+	.finale {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		text-align: center;
+	}
+	.finale-inner {
+		max-width: 820px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.finale-h {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.2rem, 4vw, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 1.5rem auto 1.5rem;
+		max-width: 22ch;
+	}
+	.finale-h :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.finale-p {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 44ch;
+		margin: 0 auto 2.25rem;
+	}
+	.actions {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+	.actions-center {
+		justify-content: center;
+	}
+</style>

@@ -1,0 +1,59 @@
+---
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+
+interface Props {
+	title: string;
+	heading: string;
+	navActive?: 'reader' | 'note' | 'blog';
+	stageNote?: string;
+}
+
+const {
+	title,
+	heading,
+	navActive,
+	stageNote = 'Full content lands in stage 2 of the redesign.',
+} = Astro.props;
+---
+<Base title={title}>
+	<Nav active={navActive} />
+	<main class="page-placeholder">
+		<h1>{heading}</h1>
+		<div class="content"><slot /></div>
+		<p class="stage-note">{stageNote}</p>
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.page-placeholder {
+		max-width: 680px;
+		margin: 0 auto;
+		padding: 7rem 2rem 5rem;
+	}
+	h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.2rem, 4vw, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		margin: 2.5rem 0 1.5rem;
+	}
+	.content :global(p) {
+		font-family: var(--serif);
+		font-size: 1.2rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		margin: 0 0 1.5rem;
+	}
+	.stage-note {
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin-top: 4rem;
+	}
+</style>
