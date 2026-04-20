@@ -2,13 +2,9 @@
 
 ## 项目简介
 
-这是 Slax 官网的 monorepo 项目，包含三个子站点：
+这是 Slax 官网项目，基于 Astro + MDX 构建，部署于 https://slax.com 。通过创建分支、提交 PR 合并进 `main` 分支来触发部署更新线上网站。
 
-- **slax-home** (`apps/slax-home`) — 主站 & 博客，路径 `/`
-- **reader-home** (`apps/reader-home`) — Slax Reader 文档，路径 `/reader`
-- **note-home** (`apps/note-home`) — Slax Note 文档，路径 `/note`
-
-技术栈：Astro + Starlight，包管理器为 pnpm。
+技术栈：Astro + MDX，包管理器为 pnpm。
 
 ## 常用操作速查
 
@@ -41,29 +37,35 @@
 
 ```
 slax-home/
-├── apps/
-│   ├── slax-home/       # 主站（首页 + 博客）
-│   ├── reader-home/     # Slax Reader 产品文档
-│   └── note-home/       # Slax Note 产品文档
-├── dist/                # 打包输出目录（自动生成，不要手动修改）
-├── script/build.sh      # 打包脚本（自动合并三个子站点）
+├── src/
+│   ├── components/      # Astro 组件（Nav、Footer、ProductCard 等）
+│   ├── content/         # 内容集合
+│   │   ├── blog/                # 博客文章（.mdx）
+│   │   ├── reader-alternatives/ # Slax Reader 竞品对比
+│   │   └── note-alternatives/   # Slax Note 竞品对比
+│   ├── layouts/         # 页面布局（Base.astro）
+│   ├── pages/           # 路由页面
+│   │   ├── blog/        # 博客列表 & 详情
+│   │   ├── reader/      # Slax Reader 产品页 & 竞品对比
+│   │   └── note/        # Slax Note 产品页 & 竞品对比
+│   ├── styles/          # 样式（global.css、tokens.css）
+│   └── content.config.ts # 内容集合定义
+├── public/              # 静态资源（图片、favicon 等）
+├── docs/                # 设计文档 & mockup
+├── dist/                # 构建输出（自动生成，不要手动修改）
 └── package.json         # 项目根配置
 ```
 
 ## 开发端口
 
-本地运行时，三个子站点分别在不同端口：
-
-- 主站：http://localhost:4321
-- Reader：http://localhost:4322
-- Note：http://localhost:4323
+本地运行：http://localhost:4321
 
 ## 内容编辑指引
 
-- 博客文章在 `apps/slax-home/src/content/blog/` 目录下，使用 `.mdx` 格式
-- Reader 文档在 `apps/reader-home/src/content/docs/` 目录下
-- Note 文档在 `apps/note-home/src/content/docs/` 目录下
-- 图片等静态资源放在对应 app 的 `public/` 目录下
+- 博客文章在 `src/content/blog/` 目录下，使用 `.mdx` 格式
+- Slax Reader 竞品对比在 `src/content/reader-alternatives/` 目录下
+- Slax Note 竞品对比在 `src/content/note-alternatives/` 目录下
+- 图片等静态资源放在 `public/` 目录下
 
 ## 注意事项
 
