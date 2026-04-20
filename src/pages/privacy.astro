@@ -1,0 +1,216 @@
+---
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+---
+<Base
+	title="Privacy Policy — Slax"
+	description="How Slax collects, uses, and protects your personal information across Slax Reader, Slax Note, and related services."
+>
+	<Nav />
+	<main class="legal">
+		<header class="legal__head">
+			<p class="legal__eyebrow">Legal</p>
+			<h1>Privacy Policy</h1>
+			<p class="legal__date">Last updated April 20, 2026</p>
+		</header>
+
+		<article class="legal__body">
+			<section>
+				<h2>Introduction</h2>
+				<p>Welcome to the websites and products operated by Slax Lab, including Slax Reader and Slax Note (collectively, "Slax").</p>
+				<p>In this privacy policy, we explain what personal information we collect, how we use and disclose that data, and your choices regarding our handling of your data. This privacy policy is incorporated into our terms of service and forms a part of it.</p>
+			</section>
+
+			<section>
+				<h2>Important Notice</h2>
+				<p>Before using our products, services, or submitting any personal information to us, please carefully read this privacy policy and contact us if you have any questions. Your use of the services signifies that you agree to the practices described in this privacy policy. If you do not agree to this privacy policy, please do not access the website or use the services in any way.</p>
+			</section>
+
+			<section>
+				<h2>The Information We Collect</h2>
+				<p>This notice applies to all information collected or submitted on the Slax website and the Slax applications and services for iPhone, iPad, Android, Kindle, desktop, browser extensions, and other devices and platforms, hereafter referred to as simply Slax.</p>
+				<p>Slax occasionally needs to collect information for convenience, practicality, or technical requirements. This information includes:</p>
+				<ul>
+					<li>Your chosen username, which may be your email address or name. A username is technically required so you can log in from multiple computers and devices. We encourage you to use your email address to make "forgot password" functionality possible.</li>
+					<li>The titles, metadata, and content of pages, articles, and notes which you save to or create in Slax via websites, our applications, third-party applications using our API, and any other means.</li>
+					<li>The HTML contents of the pages you save to Slax Reader when recognized as a known login-requiring site. This is technically required to generate the Text view and other indexing features for sites that require logins or accounts, such as some major newspaper publishers. When HTML is saved for a page, it is only used within your account and is not revealed via social or sharing features.</li>
+					<li>We may also use "cookie" technology. Among other things, we may use cookies or other tracking technology for the purposes of helping you navigate between pages efficiently to spare you from having to re-enter that information each time you visit.</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>How We Use Your Personal Information</h2>
+				<p>We collect and process all your personal data in accordance with relevant data protection regulations, particularly the General Data Protection Regulation (GDPR). We may use the collected personal information for:</p>
+				<ul>
+					<li>Providing and managing access to our services</li>
+					<li>Providing new features or new services</li>
+					<li>Product optimization, performance optimization, and troubleshooting</li>
+					<li>Responding to your inquiries, comments, feedback, or issues</li>
+					<li>Sending administrative information</li>
+					<li>Preventing fraud, criminal activity, or abuse of our services</li>
+					<li>Compliance with legal regulations</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Sharing and Disclosure of Personal Information</h2>
+				<p>We do not rent or sell your information in personally identifiable form to anyone for profit. However, we may share your personal information with:</p>
+
+				<h3>Third-Party Vendors</h3>
+				<p>We engage vendors to provide services on our behalf, such as:</p>
+				<ul>
+					<li>Business analytics</li>
+					<li>Customer service</li>
+					<li>Marketing</li>
+					<li>Distribution</li>
+					<li>Payment processing</li>
+				</ul>
+
+				<h3>Business Partners</h3>
+				<ul>
+					<li>We may share information with partners for joint service provisions</li>
+					<li>We do not control the privacy practices of these third-party partners</li>
+				</ul>
+
+				<h3>Legal and Business Requirements</h3>
+				<ul>
+					<li>Compliance with legal requirements</li>
+					<li>Business transfers during mergers, acquisitions, or restructuring</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Disclaimer</h2>
+
+				<h3>Service Commitment</h3>
+				<ul>
+					<li>We provide services with reasonable technology and prudence</li>
+					<li>We may determine the maximum storage period of your data</li>
+				</ul>
+
+				<h3>Service Termination</h3>
+				<ul>
+					<li>We will announce service termination at least 30 days in advance</li>
+					<li>After the deadline, we can terminate the service and stop data download services</li>
+				</ul>
+
+				<h3>Liability Limitations</h3>
+				<p>We are not liable for service interruptions caused by:</p>
+				<ul>
+					<li>Government policy changes</li>
+					<li>Natural disasters</li>
+					<li>Wars</li>
+					<li>Communication line interruptions</li>
+					<li>Hacker attacks</li>
+					<li>Computer virus intrusions</li>
+					<li>System adjustments</li>
+					<li>Network failures</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Contact Us</h2>
+				<p>If you encounter product issues, technical malfunctions, or security concerns, please contact our technical support at: <a href="mailto:hello@slax.com">hello@slax.com</a></p>
+			</section>
+
+			<p class="legal__closing">By using our services, you agree to these terms.</p>
+		</article>
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.legal {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: 7rem 2rem 6rem;
+	}
+	.legal__head {
+		border-bottom: 1px solid var(--rule);
+		padding-bottom: 2.5rem;
+		margin-bottom: 3rem;
+	}
+	.legal__eyebrow {
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 1.25rem;
+	}
+	.legal__head h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.4rem, 4.5vw, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		margin: 0 0 1rem;
+		color: var(--ink);
+	}
+	.legal__date {
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		letter-spacing: 0.04em;
+		color: var(--ink-mute);
+		margin: 0;
+	}
+	.legal__body section {
+		margin-bottom: 2.75rem;
+	}
+	.legal__body h2 {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.45rem;
+		line-height: 1.3;
+		letter-spacing: -0.01em;
+		margin: 0 0 1rem;
+		color: var(--ink);
+	}
+	.legal__body h3 {
+		font-family: var(--sans);
+		font-weight: 600;
+		font-size: 0.95rem;
+		letter-spacing: 0.01em;
+		margin: 1.75rem 0 0.75rem;
+		color: var(--ink);
+	}
+	.legal__body p {
+		font-family: var(--serif);
+		font-size: 1.08rem;
+		line-height: 1.7;
+		color: var(--ink-soft);
+		margin: 0 0 1rem;
+	}
+	.legal__body ul {
+		margin: 0 0 1rem;
+		padding-left: 1.4rem;
+	}
+	.legal__body li {
+		font-family: var(--serif);
+		font-size: 1.08rem;
+		line-height: 1.75;
+		color: var(--ink-soft);
+		margin-bottom: 0.5rem;
+	}
+	.legal__body a {
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid var(--rule);
+		transition: border-color 0.2s ease, color 0.2s ease;
+	}
+	.legal__body a:hover {
+		color: var(--accent-hover);
+		border-bottom-color: var(--accent);
+	}
+	.legal__closing {
+		margin-top: 3.5rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--rule);
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1rem;
+		line-height: 1.7;
+		color: var(--ink-mute);
+	}
+</style>
