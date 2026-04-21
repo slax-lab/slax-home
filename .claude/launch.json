@@ -4,7 +4,7 @@
 		{
 			"name": "slax-home",
 			"runtimeExecutable": "pnpm",
-			"runtimeArgs": ["dev"],
+			"runtimeArgs": ["dev", "--port", "4324"],
 			"port": 4324
 		}
 	]
