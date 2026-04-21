@@ -1,0 +1,186 @@
+---
+interface Download {
+	href: string;
+	small?: string;
+	main: string;
+}
+
+interface Platform {
+	icon: string;
+	title: string;
+	bullets: string[];
+	downloads: Download[];
+}
+
+interface Props {
+	anchorId?: string;
+	platforms: Platform[];
+}
+
+const { anchorId = 'download', platforms } = Astro.props;
+---
+<section class="download" id={anchorId}>
+	<div class="download-inner">
+		<h2 class="download-head"><slot name="heading" /></h2>
+		<p class="download-dek"><slot name="dek" /></p>
+		<div class="platforms">
+			{platforms.map((p) => (
+				<div class="platform">
+					<div class="platform-left">
+						<div class="platform-head">
+							<span class="platform-icon">{p.icon}</span>
+							<h3 class="platform-title">{p.title}</h3>
+						</div>
+						<ul class="platform-list">
+							{p.bullets.map((b) => <li>{b}</li>)}
+						</ul>
+					</div>
+					<div class="platform-right">
+						{p.downloads.map((d) => (
+							<a
+								href={d.href}
+								class="dl-btn"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								{d.small && <span class="dl-btn-small">{d.small}</span>}
+								<span class="dl-btn-main">{d.main}</span>
+							</a>
+						))}
+					</div>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.download {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		background: var(--bg-deep);
+		scroll-margin-top: 5rem;
+	}
+	.download-inner {
+		max-width: 980px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.download-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 3.5vw, 3rem);
+		letter-spacing: -0.025em;
+		line-height: 1.1;
+		margin: 1rem 0 0.5rem;
+	}
+	.download-head :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.download-dek {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0 0 3rem;
+	}
+	.platforms {
+		display: grid;
+		gap: 1.5rem;
+	}
+	.platform {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1.5rem;
+		padding: 2rem 2.25rem;
+		background: var(--bg);
+		border: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.platform {
+			grid-template-columns: 1fr auto;
+			align-items: center;
+			gap: 2.5rem;
+		}
+	}
+	.platform-head {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		margin-bottom: 1rem;
+	}
+	.platform-icon {
+		font-size: 1.6rem;
+	}
+	.platform-title {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.3rem;
+		letter-spacing: -0.015em;
+		margin: 0;
+	}
+	.platform-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 0.4rem;
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		color: var(--ink-soft);
+	}
+	.platform-list li {
+		padding-left: 1.25rem;
+		position: relative;
+	}
+	.platform-list li::before {
+		content: "✓";
+		position: absolute;
+		left: 0;
+		color: var(--accent);
+		font-weight: 500;
+	}
+	.platform-right {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+	}
+	.dl-btn {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.15rem;
+		padding: 0.7rem 1.2rem;
+		background: transparent;
+		color: var(--ink);
+		text-decoration: none;
+		border: 1px solid var(--ink);
+		min-width: 180px;
+		transition:
+			background 0.2s ease,
+			color 0.2s ease;
+	}
+	.dl-btn:hover {
+		background: var(--ink);
+		color: var(--bg);
+	}
+	.dl-btn-small {
+		font-family: var(--mono);
+		font-size: 0.62rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		line-height: 1.2;
+	}
+	.dl-btn:hover .dl-btn-small {
+		color: var(--bg);
+		opacity: 0.75;
+	}
+	.dl-btn-main {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		font-weight: 500;
+		line-height: 1.3;
+	}
+</style>
