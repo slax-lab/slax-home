@@ -1,5 +1,6 @@
 ---
 import Button from '~/components/Button.astro';
+import DownloadSection from '~/components/DownloadSection.astro';
 import FaqList from '~/components/FaqList.astro';
 import Footer from '~/components/Footer.astro';
 import Nav from '~/components/Nav.astro';
@@ -152,12 +153,6 @@ const platforms = [
 	},
 ];
 
-const readerTrust = [
-	'🔒 Your content, forever safe',
-	'🚀 5× faster understanding',
-	'⭐ Interactive reading community',
-];
-
 const schema = {
 	'@context': 'https://schema.org',
 	'@type': 'SoftwareApplication',
@@ -183,8 +178,8 @@ const schema = {
 };
 ---
 <Base
-	title="Slax Reader — Read Smarter, Not Just Later"
-	description="Save Forever, Learn faster. Your intelligent library for high efficiency and deep understanding."
+	title="Slax Reader — A read-it-later app that doesn't try to be everything"
+	description="No algorithm. No feed. You choose what to read next. Unlimited snapshots, for free. Open-source."
 	schema={schema}
 >
 	<Nav active="reader" />
@@ -194,19 +189,37 @@ const schema = {
 		<section class="r-hero">
 			<div class="r-hero-inner">
 				<div>
-					<h1 class="r-h1">Read Smarter<br />Not Just Later</h1>
-					<p class="r-dek">
-						Save Forever, Learn faster. Your intelligent library for high
-						efficiency and deep understanding.
-					</p>
-					<div class="actions">
-						<Button variant="primary" href="https://r.slax.com/login" arrow>
-							Start Reading Smarter — Free
-						</Button>
-						<Button variant="secondary" href="#download">Download apps</Button>
-					</div>
-					<div class="r-trust">
-						{readerTrust.map((t) => <span>{t}</span>)}
+					<h1 class="r-h1">
+						A read-it-later app <em>that doesn't try to be everything.</em>
+					</h1>
+					<ul class="r-bullets">
+						<li>No algorithm. No feed. You choose what to read next.</li>
+						<li>Unlimited snapshots, for free.</li>
+						<li>Open-source.</li>
+					</ul>
+					<div class="r-hero-stores">
+						<a class="r-store-btn" href="https://r.slax.com/login">
+							<span class="r-store-small">Open in</span>
+							<span class="r-store-main">Your browser</span>
+						</a>
+						<a
+							class="r-store-btn"
+							href="https://apps.apple.com/cn/app/slax-reader-ai-read-it-later/id6596730998"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="r-store-small">Download on the</span>
+							<span class="r-store-main">App Store</span>
+						</a>
+						<a
+							class="r-store-btn"
+							href="https://play.google.com/store/apps/details?id=com.slax.reader"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="r-store-small">GET IT ON</span>
+							<span class="r-store-main">Google Play</span>
+						</a>
 					</div>
 				</div>
 				<div class="r-preview" aria-hidden="true">
@@ -384,40 +397,16 @@ const schema = {
 			</div>
 		</section>
 
+
 		<!-- DOWNLOAD -->
-		<section class="download" id="download">
-			<div class="download-inner">
-				<h2 class="download-head">
-					Slax Reader — <em>Save Forever. Read Smarter.</em>
-				</h2>
-				<p class="download-dek">
-					Free to download, available on all your favorite platforms.
-				</p>
-				<div class="platforms">
-					{platforms.map((p) => (
-						<div class="platform">
-							<div class="platform-left">
-								<div class="platform-head">
-									<span class="platform-icon">{p.icon}</span>
-									<h3 class="platform-title">{p.title}</h3>
-								</div>
-								<ul class="platform-list">
-									{p.bullets.map((b) => <li>{b}</li>)}
-								</ul>
-							</div>
-							<div class="platform-right">
-								{p.downloads.map((d) => (
-									<a href={d.href} class="dl-btn" target="_blank" rel="noopener noreferrer">
-										{d.small && <span class="dl-btn-small">{d.small}</span>}
-										<span class="dl-btn-main">{d.main}</span>
-									</a>
-								))}
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
-		</section>
+		<DownloadSection platforms={platforms}>
+			<Fragment slot="heading">
+				Slax Reader — <em>Save Forever. Read Smarter.</em>
+			</Fragment>
+			<Fragment slot="dek">
+				Free to download, available on all your favorite platforms.
+			</Fragment>
+		</DownloadSection>
 
 		<!-- FINALE -->
 		<section class="finale">
@@ -463,19 +452,84 @@ const schema = {
 	.r-h1 {
 		font-family: var(--serif);
 		font-weight: 400;
-		font-size: clamp(2.4rem, 5vw, 4.4rem);
-		line-height: 1.05;
-		letter-spacing: -0.025em;
-		margin: 2rem 0 1.5rem;
+		font-size: clamp(2rem, 4vw, 3.2rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 1.75rem;
 		color: var(--ink);
+		max-width: 22ch;
 	}
-	.r-dek {
+	.r-h1 :global(em) {
+		font-style: italic;
+		font-weight: 300;
+		color: var(--accent);
+	}
+	.r-bullets {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 2.25rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		max-width: 48ch;
+	}
+	.r-bullets li {
+		position: relative;
+		padding-left: 1.5rem;
 		font-family: var(--serif);
-		font-size: 1.2rem;
+		font-size: 1.05rem;
 		line-height: 1.55;
 		color: var(--ink-soft);
-		max-width: 40ch;
-		margin: 0 0 2rem;
+	}
+	.r-bullets li::before {
+		content: "—";
+		position: absolute;
+		left: 0;
+		top: 0;
+		color: var(--ink-mute);
+		font-weight: 300;
+	}
+	.r-hero-stores {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+	.r-store-btn {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.15rem;
+		background: transparent;
+		color: var(--ink);
+		text-decoration: none;
+		padding: 0.7rem 1.2rem;
+		border: 1px solid var(--ink);
+		transition:
+			background 0.2s ease,
+			color 0.2s ease;
+		min-width: 160px;
+	}
+	.r-store-btn:hover {
+		background: var(--ink);
+		color: var(--bg);
+	}
+	.r-store-small {
+		font-family: var(--mono);
+		font-size: 0.62rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		line-height: 1.2;
+	}
+	.r-store-btn:hover .r-store-small {
+		color: var(--bg);
+		opacity: 0.75;
+	}
+	.r-store-main {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		font-weight: 500;
+		line-height: 1.3;
 	}
 	.actions {
 		display: flex;
@@ -485,15 +539,6 @@ const schema = {
 	}
 	.actions-center {
 		justify-content: center;
-	}
-	.r-trust {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem 1.5rem;
-		margin-top: 2rem;
-		color: var(--ink-mute);
-		font-family: var(--mono);
-		font-size: 0.82rem;
 	}
 	.r-preview {
 		padding: 1.75rem;
@@ -983,128 +1028,6 @@ const schema = {
 	}
 
 	/* DOWNLOAD */
-	.download {
-		padding: var(--section-pad) 0;
-		border-top: 1px solid var(--rule-soft);
-		background: var(--bg-deep);
-		scroll-margin-top: 5rem;
-	}
-	.download-inner {
-		max-width: 980px;
-		margin: 0 auto;
-		padding: 0 2rem;
-	}
-	.download-head {
-		font-family: var(--serif);
-		font-weight: 400;
-		font-size: clamp(2rem, 3.5vw, 3rem);
-		letter-spacing: -0.025em;
-		line-height: 1.1;
-		margin: 1rem 0 0.5rem;
-	}
-	.download-head :global(em) {
-		font-style: italic;
-		color: var(--accent);
-		font-weight: 300;
-	}
-	.download-dek {
-		font-family: var(--serif);
-		font-size: 1.1rem;
-		color: var(--ink-soft);
-		margin: 0 0 3rem;
-	}
-	.platforms {
-		display: grid;
-		gap: 1.5rem;
-	}
-	.platform {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 1.5rem;
-		padding: 2rem 2.25rem;
-		background: var(--bg);
-		border: 1px solid var(--rule);
-	}
-	@media (min-width: 760px) {
-		.platform {
-			grid-template-columns: 1fr auto;
-			align-items: center;
-			gap: 2.5rem;
-		}
-	}
-	.platform-head {
-		display: flex;
-		align-items: center;
-		gap: 0.8rem;
-		margin-bottom: 1rem;
-	}
-	.platform-icon {
-		font-size: 1.6rem;
-	}
-	.platform-title {
-		font-family: var(--serif);
-		font-weight: 500;
-		font-size: 1.3rem;
-		letter-spacing: -0.015em;
-		margin: 0;
-	}
-	.platform-list {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		display: grid;
-		gap: 0.4rem;
-		font-family: var(--serif);
-		font-size: 0.98rem;
-		color: var(--ink-soft);
-	}
-	.platform-list li {
-		padding-left: 1.25rem;
-		position: relative;
-	}
-	.platform-list li::before {
-		content: "✓";
-		position: absolute;
-		left: 0;
-		color: var(--accent);
-		font-weight: 500;
-	}
-	.platform-right {
-		display: flex;
-		flex-direction: column;
-		gap: 0.6rem;
-	}
-	.dl-btn {
-		display: inline-flex;
-		flex-direction: column;
-		align-items: flex-start;
-		padding: 0.6rem 1.1rem;
-		background: var(--ink);
-		color: var(--bg);
-		text-decoration: none;
-		border-radius: 8px;
-		min-width: 180px;
-		transition:
-			background 0.2s,
-			transform 0.2s;
-	}
-	.dl-btn:hover {
-		background: var(--accent);
-		transform: translateY(-1px);
-	}
-	.dl-btn-small {
-		font-size: 0.66rem;
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-		opacity: 0.75;
-		line-height: 1.2;
-	}
-	.dl-btn-main {
-		font-size: 0.95rem;
-		font-weight: 600;
-		line-height: 1.3;
-	}
-
 	/* FINALE */
 	.finale {
 		padding: var(--section-pad) 0;

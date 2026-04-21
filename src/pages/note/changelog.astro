@@ -1,0 +1,226 @@
+---
+import { getCollection, render } from 'astro:content';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+
+type Platform = 'iOS' | 'Android';
+
+const raw = await getCollection('noteChangelog');
+
+const rendered = await Promise.all(
+	raw.map(async (e) => {
+		const { Content } = await render(e);
+		return { ...e, Content };
+	}),
+);
+
+// Group by `version + date`. Same-day iOS/Android ships with different notes
+// get merged into a single release card with per-platform sub-sections.
+type SubEntry = {
+	platforms: Platform[];
+	Content: (typeof rendered)[number]['Content'];
+};
+type Group = {
+	version: string;
+	date: Date;
+	platforms: Platform[];
+	subs: SubEntry[];
+};
+
+const groups = new Map<string, Group>();
+for (const e of rendered) {
+	const key = `${e.data.version}|${e.data.date.toISOString().slice(0, 10)}`;
+	const existing = groups.get(key);
+	if (existing) {
+		existing.subs.push({ platforms: e.data.platforms, Content: e.Content });
+		for (const p of e.data.platforms) {
+			if (!existing.platforms.includes(p)) existing.platforms.push(p);
+		}
+	} else {
+		groups.set(key, {
+			version: e.data.version,
+			date: e.data.date,
+			platforms: [...e.data.platforms],
+			subs: [{ platforms: e.data.platforms, Content: e.Content }],
+		});
+	}
+}
+
+const platformOrder: Platform[] = ['iOS', 'Android'];
+const sortPlatforms = (ps: Platform[]) =>
+	platformOrder.filter((p) => ps.includes(p));
+
+const entries = Array.from(groups.values())
+	.map((g) => ({ ...g, platforms: sortPlatforms(g.platforms) }))
+	.sort((a, b) => b.date.getTime() - a.date.getTime());
+
+const platformLabel = (ps: Platform[]) => sortPlatforms(ps).join(' · ');
+
+const prettyDate = (d: Date) =>
+	d.toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+		timeZone: 'UTC',
+	});
+
+const latest = entries[0];
+---
+<Base
+	title="Slax Note Release Notes"
+	description={`Every Slax Note release since launch — ${entries.length} versions across iOS and Android, most recently v${latest.version} on ${prettyDate(latest.date)}.`}
+>
+	<Nav active="note" />
+	<main class="changelog">
+		<header class="changelog__head">
+			<p class="changelog__eyebrow">Slax Note · Release Notes</p>
+			<h1>Every version since launch.</h1>
+			<p class="changelog__lede">
+				{entries.length} releases across iOS and Android. The latest is
+				<strong>v{latest.version}</strong>, shipped {prettyDate(latest.date)}.
+			</p>
+		</header>
+
+		<section class="changelog__list">
+			{entries.map((g) => (
+				<article class="release">
+					<div class="release__meta">
+						<h2 class="release__version">v{g.version}</h2>
+						<p class="release__date">{prettyDate(g.date)}</p>
+						<p class="release__platform">{platformLabel(g.platforms)}</p>
+					</div>
+					<div class="release__notes">
+						{g.subs.length === 1 ? (
+							<g.subs[0].Content />
+						) : (
+							g.subs.map((s) => (
+								<div class="release__sub">
+									<h3 class="release__sub-label">{platformLabel(s.platforms)}</h3>
+									<s.Content />
+								</div>
+							))
+						)}
+					</div>
+				</article>
+			))}
+		</section>
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.changelog {
+		max-width: 920px;
+		margin: 0 auto;
+		padding: 7rem 2rem 6rem;
+	}
+	.changelog__head {
+		border-bottom: 1px solid var(--rule);
+		padding-bottom: 2.75rem;
+		margin-bottom: 3.5rem;
+	}
+	.changelog__eyebrow {
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 1.25rem;
+	}
+	.changelog__head h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 3.8vw, 3rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0 0 1.25rem;
+		color: var(--ink);
+	}
+	.changelog__lede {
+		font-family: var(--serif);
+		font-size: 1.12rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 54ch;
+	}
+	.changelog__lede strong {
+		font-weight: 500;
+		color: var(--ink);
+	}
+	.changelog__list {
+		display: flex;
+		flex-direction: column;
+	}
+	.release {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+		padding: 2rem 0;
+		border-bottom: 1px solid var(--rule-soft);
+	}
+	@media (min-width: 760px) {
+		.release {
+			grid-template-columns: 14rem 1fr;
+			gap: 3rem;
+			padding: 2.5rem 0;
+		}
+	}
+	.release__meta {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+	.release__version {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.55rem;
+		line-height: 1.15;
+		letter-spacing: -0.015em;
+		color: var(--ink);
+		margin: 0;
+	}
+	.release__date {
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.06em;
+		color: var(--ink-mute);
+		margin: 0;
+	}
+	.release__platform {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--accent);
+		margin: 0;
+	}
+	.release__notes :global(ul) {
+		margin: 0;
+		padding-left: 1.1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.55rem;
+	}
+	.release__notes :global(li) {
+		font-family: var(--serif);
+		font-size: 1.02rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+	}
+	.release__notes :global(li::marker) {
+		color: var(--ink-mute);
+	}
+	.release__sub + .release__sub {
+		margin-top: 1.25rem;
+	}
+	.release__sub-label {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 0.55rem;
+	}
+</style>

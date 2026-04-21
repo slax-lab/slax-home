@@ -1,9 +1,166 @@
 ---
-import PlaceholderPage from '~/components/PlaceholderPage.astro';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+
+const contacts = [
+	{
+		label: 'On X',
+		lines: [
+			{ text: 'Slax Reader · @SlaxReader', href: 'https://x.com/SlaxReader' },
+			{ text: 'Slax Note · @SlaxNote', href: 'https://x.com/SlaxNote' },
+		],
+	},
+	{
+		label: 'On Discord',
+		lines: [
+			{ text: 'discord.gg/kznNsZvWSk', href: 'https://discord.gg/kznNsZvWSk' },
+		],
+	},
+	{
+		label: 'On GitHub',
+		lines: [
+			{ text: 'github.com/slax-lab', href: 'https://github.com/slax-lab' },
+		],
+	},
+	{
+		label: 'By email',
+		lines: [{ text: 'hello@slax.com', href: 'mailto:hello@slax.com' }],
+	},
+];
 ---
-<PlaceholderPage
+<Base
 	title="About — Slax"
-	heading="Slax Lab makes quiet software for the work of attention."
+	description="Slax Lab makes quiet software for the work of attention. Reach us on X, Discord, GitHub, or by email."
 >
-	<p>From Singapore, with correspondents elsewhere.</p>
-</PlaceholderPage>
+	<Nav active="blog" />
+	<main class="about">
+		<header class="about__head">
+			<p class="about__eyebrow">About</p>
+			<h1>Slax Lab makes quiet software for the work of attention.</h1>
+			<p class="about__lede">From Singapore, with correspondents elsewhere.</p>
+		</header>
+
+		<section class="about__section">
+			<h2>Get in touch</h2>
+			<p class="about__note">
+				We like conversations with careful readers and writers. Pick whichever
+				channel suits you.
+			</p>
+
+			<dl class="about__contacts">
+				{contacts.map((c) => (
+					<div class="contact-row">
+						<dt>{c.label}</dt>
+						<dd>
+							{c.lines.map((l, i) => (
+								<>
+									{i > 0 && <br />}
+									<a href={l.href}>{l.text}</a>
+								</>
+							))}
+						</dd>
+					</div>
+				))}
+			</dl>
+		</section>
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.about {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: 7rem 2rem 6rem;
+	}
+	.about__head {
+		border-bottom: 1px solid var(--rule);
+		padding-bottom: 2.5rem;
+		margin-bottom: 3rem;
+	}
+	.about__eyebrow {
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 1.25rem;
+	}
+	.about__head h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 3.8vw, 3rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0 0 1.25rem;
+		color: var(--ink);
+		max-width: 22ch;
+	}
+	.about__lede {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1.15rem;
+		color: var(--ink-soft);
+		margin: 0;
+	}
+	.about__section h2 {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.45rem;
+		line-height: 1.3;
+		letter-spacing: -0.01em;
+		margin: 0 0 1rem;
+		color: var(--ink);
+	}
+	.about__note {
+		font-family: var(--serif);
+		font-size: 1.08rem;
+		line-height: 1.65;
+		color: var(--ink-soft);
+		margin: 0 0 2rem;
+		max-width: 50ch;
+	}
+	.about__contacts {
+		margin: 0;
+		border-top: 1px solid var(--rule);
+	}
+	.contact-row {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.35rem;
+		padding: 1.1rem 0;
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 560px) {
+		.contact-row {
+			grid-template-columns: 11rem 1fr;
+			gap: 1rem;
+			align-items: baseline;
+		}
+	}
+	.contact-row dt {
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+	}
+	.contact-row dd {
+		margin: 0;
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+	}
+	.contact-row dd a {
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid var(--rule);
+		transition: border-color 0.2s ease, color 0.2s ease;
+	}
+	.contact-row dd a:hover {
+		color: var(--accent-hover);
+		border-bottom-color: var(--accent);
+	}
+</style>

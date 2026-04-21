@@ -40,4 +40,21 @@ const noteAlternatives = defineCollection({
 	}),
 });
 
-export const collections = { blog, readerAlternatives, noteAlternatives };
+const noteChangelog = defineCollection({
+	loader: glob({
+		pattern: '**/*.{md,mdx}',
+		base: './src/content/note-changelog',
+	}),
+	schema: z.object({
+		version: z.string(),
+		date: z.coerce.date(),
+		platforms: z.array(z.enum(['iOS', 'Android'])),
+	}),
+});
+
+export const collections = {
+	blog,
+	readerAlternatives,
+	noteAlternatives,
+	noteChangelog,
+};
