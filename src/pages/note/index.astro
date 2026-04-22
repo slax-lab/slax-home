@@ -241,11 +241,10 @@ const schema = {
 							<span class="store-small">GET IT ON</span>
 							<span class="store-main">Google Play</span>
 						</a>
-						<a class="store-btn" href="https://n.slax.com/">
-							<span class="store-small">Open in</span>
-							<span class="store-main">Your browser</span>
-						</a>
 					</div>
+					<p class="n-web-link">
+						Or <a href="https://n.slax.com/">open in your browser</a>.
+					</p>
 				</div>
 				<div class="n-visual">
 					<img
@@ -585,6 +584,23 @@ const schema = {
 		display: flex;
 		gap: 0.75rem;
 		flex-wrap: wrap;
+	}
+	.n-web-link {
+		margin: 0.9rem 0 0;
+		font-family: var(--serif);
+		font-size: 0.95rem;
+		color: var(--ink-mute);
+	}
+	.n-web-link a {
+		color: var(--ink-soft);
+		text-decoration: underline;
+		text-decoration-color: var(--rule);
+		text-underline-offset: 3px;
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
+	.n-web-link a:hover {
+		color: var(--accent);
+		text-decoration-color: var(--accent);
 	}
 	.store-btn {
 		display: inline-flex;

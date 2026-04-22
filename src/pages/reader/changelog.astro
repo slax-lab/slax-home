@@ -4,9 +4,9 @@ import Footer from '~/components/Footer.astro';
 import Nav from '~/components/Nav.astro';
 import Base from '~/layouts/Base.astro';
 
-type Platform = 'iOS' | 'Android';
+type Platform = 'iOS' | 'Android' | 'Web' | 'Extensions';
 
-const raw = await getCollection('noteChangelog');
+const raw = await getCollection('readerChangelog');
 
 const rendered = await Promise.all(
 	raw.map(async (e) => {
@@ -15,8 +15,8 @@ const rendered = await Promise.all(
 	}),
 );
 
-// Group by `version + date`. Same-day iOS/Android ships with different notes
-// get merged into a single release card with per-platform sub-sections.
+// Group by `version + date`. Same-day platform-specific releases with
+// different notes merge into one card with per-platform sub-sections.
 type SubEntry = {
 	platforms: Platform[];
 	Content: (typeof rendered)[number]['Content'];
@@ -47,7 +47,7 @@ for (const e of rendered) {
 	}
 }
 
-const platformOrder: Platform[] = ['iOS', 'Android'];
+const platformOrder: Platform[] = ['iOS', 'Android', 'Web', 'Extensions'];
 const sortPlatforms = (ps: Platform[]) =>
 	platformOrder.filter((p) => ps.includes(p));
 
@@ -68,16 +68,16 @@ const prettyDate = (d: Date) =>
 const latest = entries[0];
 ---
 <Base
-	title="Slax Note Release Notes"
-	description={`Every Slax Note release since launch — ${entries.length} versions across iOS and Android, most recently v${latest.version} on ${prettyDate(latest.date)}.`}
+	title="Slax Reader Release Notes"
+	description={`Every Slax Reader release — ${entries.length} versions across mobile apps, web, and extensions, most recently v${latest.version} on ${prettyDate(latest.date)}.`}
 >
-	<Nav active="note" />
+	<Nav active="reader" />
 	<main class="changelog">
 		<header class="changelog__head">
-			<p class="changelog__eyebrow">Slax Note · Release Notes</p>
-			<h1>Every version since launch.</h1>
+			<p class="changelog__eyebrow">Slax Reader · Release Notes</p>
+			<h1>Every version, in one place.</h1>
 			<p class="changelog__lede">
-				{entries.length} releases across iOS and Android. The latest is
+				{entries.length} releases across mobile apps, web, and extensions. The latest is
 				<strong>v{latest.version}</strong>, shipped {prettyDate(latest.date)}.
 			</p>
 		</header>

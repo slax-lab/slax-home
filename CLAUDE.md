@@ -70,3 +70,17 @@ slax-home/
 - 部署前必须先登录 Cloudflare（`npx wrangler login`），只需登录一次
 - `dist/` 目录是自动生成的，不要手动修改其中的文件
 - 修改代码后如果需要部署到测试环境，直接执行 `pnpm deploy:dev` 即可，它会自动先打包再上传
+
+## 品牌与大小写规则
+
+品牌名和专有名词在页面上必须保留标准大小写，不要用 `text-transform: uppercase` 把它们"美化"成全大写：
+
+- Slax、Slax Reader、Slax Note —— 保持混合大小写
+- iOS、macOS、iPadOS、tvOS —— 保留前缀小写
+- GitHub、TikTok、LinkedIn 等同理
+
+如果确实需要一个小号、宽字距的"眉标"样式，请使用 mono 字体 + 小 letter-spacing（如 `0.04em`），不要加 `text-transform: uppercase`。只有纯英文的泛用词（如 `RELEASE NOTES`、`FEATURED`）才适合全大写，且此时不能夹带品牌词。
+
+## 排版偏好
+
+- 博客正文**不要首字母放大（drop cap）**。首段保持略大一些的 lede 样式即可。

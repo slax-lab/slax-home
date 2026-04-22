@@ -216,11 +216,10 @@ const schema = {
 							<span class="r-store-small">GET IT ON</span>
 							<span class="r-store-main">Google Play</span>
 						</a>
-						<a class="r-store-btn" href="https://r.slax.com/login">
-							<span class="r-store-small">Open in</span>
-							<span class="r-store-main">Your browser</span>
-						</a>
 					</div>
+					<p class="r-web-link">
+						Or <a href="https://r.slax.com/login">open in your browser</a>.
+					</p>
 				</div>
 				<div class="r-preview" aria-hidden="true">
 					<img
@@ -480,6 +479,23 @@ const schema = {
 		display: flex;
 		gap: 0.75rem;
 		flex-wrap: wrap;
+	}
+	.r-web-link {
+		margin: 0.9rem 0 0;
+		font-family: var(--serif);
+		font-size: 0.95rem;
+		color: var(--ink-mute);
+	}
+	.r-web-link a {
+		color: var(--ink-soft);
+		text-decoration: underline;
+		text-decoration-color: var(--rule);
+		text-underline-offset: 3px;
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
+	.r-web-link a:hover {
+		color: var(--accent);
+		text-decoration-color: var(--accent);
 	}
 	.r-store-btn {
 		display: inline-flex;
