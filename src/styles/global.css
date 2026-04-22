@@ -283,16 +283,6 @@ a {
 	line-height: 1.55;
 	color: var(--ink);
 }
-/* Drop cap on the first letter of the opening paragraph */
-.prose > p:first-of-type::first-letter {
-	font-family: var(--serif);
-	font-weight: 400;
-	float: left;
-	font-size: 4.4em;
-	line-height: 0.85;
-	margin: 0.1em 0.12em -0.08em 0;
-	color: var(--accent);
-}
 .prose h2 {
 	font-family: var(--serif);
 	font-weight: 500;
