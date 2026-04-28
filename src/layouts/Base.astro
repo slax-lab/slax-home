@@ -5,12 +5,18 @@ import '@fontsource-variable/jetbrains-mono';
 import '~/styles/tokens.css';
 import '~/styles/global.css';
 
+interface Crumb {
+	name: string;
+	url: string;
+}
+
 interface Props {
 	title?: string;
 	description?: string;
 	ogImage?: string;
 	ogType?: 'website' | 'article';
 	schema?: object | object[];
+	breadcrumbs?: Crumb[];
 }
 
 const {
@@ -19,6 +25,7 @@ const {
 	ogImage = '/og-default.png',
 	ogType = 'website',
 	schema,
+	breadcrumbs,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
@@ -36,11 +43,28 @@ const defaultSiteSchema = {
 	},
 };
 
-const schemaList = schema
-	? Array.isArray(schema)
-		? [defaultSiteSchema, ...schema]
-		: [defaultSiteSchema, schema]
-	: [defaultSiteSchema];
+const breadcrumbSchema =
+	breadcrumbs && breadcrumbs.length > 0
+		? {
+				'@context': 'https://schema.org',
+				'@type': 'BreadcrumbList',
+				itemListElement: breadcrumbs.map((b, i) => ({
+					'@type': 'ListItem',
+					position: i + 1,
+					name: b.name,
+					item: new URL(b.url, Astro.site).toString(),
+				})),
+			}
+		: null;
+
+const extraSchemas: object[] = [];
+if (breadcrumbSchema) extraSchemas.push(breadcrumbSchema);
+if (schema) {
+	if (Array.isArray(schema)) extraSchemas.push(...schema);
+	else extraSchemas.push(schema);
+}
+
+const schemaList = [defaultSiteSchema, ...extraSchemas];
 ---
 <!doctype html>
 <html lang="en">

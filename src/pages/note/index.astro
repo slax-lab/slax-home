@@ -183,21 +183,52 @@ const schema = {
 	alternateName: 'Slax Note — Your Voice Notes Copilot',
 	applicationCategory: 'ProductivityApplication',
 	operatingSystem: 'iOS, Android, Web',
+	url: 'https://slax.com/note/',
+	image: 'https://slax.com/og/note.png',
+	screenshot: 'https://slax.com/images/note/cover.png',
 	description:
 		'Transform Speech into Smart Notes Effortlessly. Record with Slax Note on the go. Let AI capture and refine your thoughts into various text styles.',
+	downloadUrl: [
+		'https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286',
+		'https://play.google.com/store/apps/details?id=app.slax.notes',
+	],
 	offers: [
-		{ '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
+		{
+			'@type': 'Offer',
+			name: 'Free',
+			price: '0',
+			priceCurrency: 'USD',
+		},
+		{
+			'@type': 'Offer',
+			name: 'Premium Monthly',
+			price: '4.99',
+			priceCurrency: 'USD',
+			priceSpecification: {
+				'@type': 'UnitPriceSpecification',
+				price: '4.99',
+				priceCurrency: 'USD',
+				billingDuration: 'P1M',
+			},
+		},
 		{
 			'@type': 'Offer',
 			name: 'Premium Annual',
 			price: '49.99',
 			priceCurrency: 'USD',
+			priceSpecification: {
+				'@type': 'UnitPriceSpecification',
+				price: '49.99',
+				priceCurrency: 'USD',
+				billingDuration: 'P1Y',
+			},
 		},
 	],
 	publisher: {
 		'@type': 'Organization',
 		name: 'Starry Tech Pte. Ltd.',
 		url: 'https://slax.com',
+		logo: 'https://slax.com/images/slax-logo.png',
 	},
 };
 ---
