@@ -7,6 +7,9 @@ export default defineConfig({
 	server: {
 		port: 4321,
 	},
+	build: {
+		inlineStylesheets: 'always',
+	},
 	integrations: [
 		mdx(),
 		sitemap({
