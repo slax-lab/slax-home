@@ -2,13 +2,14 @@
 
 ## 项目简介
 
-这是 Slax 官网的 monorepo 项目，包含三个子站点：
+Slax 官网，单 Astro 仓（2026-04 由原 monorepo 合并而来），路径划分如下：
 
-- **slax-home** (`apps/slax-home`) — 主站 & 博客，路径 `/`
-- **reader-home** (`apps/reader-home`) — Slax Reader 文档，路径 `/reader`
-- **note-home** (`apps/note-home`) — Slax Note 文档，路径 `/note`
+- `/` — 主站（首页 + About + Privacy + Terms）
+- `/blog/` — 博客
+- `/reader/`、`/reader/changelog/`、`/reader/alternatives/` — Slax Reader 着陆页 + 发布日志 + 对比文章
+- `/note/`、`/note/changelog/`、`/note/alternatives/` — Slax Note 同上
 
-技术栈：Astro + Starlight，包管理器为 pnpm。
+技术栈：Astro 6 + MDX + sitemap，无 Starlight、无客户端框架，默认零 JS。包管理器 pnpm。代码规范用 Biome，提交走 husky + lint-staged。部署目标 Cloudflare Pages。
 
 ## 常用操作速查
 
@@ -41,35 +42,45 @@
 
 ```
 slax-home/
-├── apps/
-│   ├── slax-home/       # 主站（首页 + 博客）
-│   ├── reader-home/     # Slax Reader 产品文档
-│   └── note-home/       # Slax Note 产品文档
-├── dist/                # 打包输出目录（自动生成，不要手动修改）
-├── script/build.sh      # 打包脚本（自动合并三个子站点）
-└── package.json         # 项目根配置
+├── astro.config.mjs
+├── public/                    # 静态资源（图片、og-default.png、robots.txt）
+├── src/
+│   ├── components/            # Nav、Footer、Logo、ProductCard 等共享组件
+│   ├── content/               # Astro Content Collections
+│   │   ├── blog/              # 博客文章（.mdx）
+│   │   ├── reader-changelog/  # Reader 发布日志（.md，按日期 + 版本命名）
+│   │   ├── note-changelog/    # Note 发布日志（同上）
+│   │   ├── reader-alternatives/ # vs 对手对比文（.mdx）
+│   │   └── note-alternatives/   # 同上
+│   ├── content.config.ts      # collections 定义 + Zod schema
+│   ├── layouts/Base.astro     # 全站 layout（SEO meta、JSON-LD、字体）
+│   ├── lib/og.ts              # OG 图片渲染器（详见下方"OG 图片规则"）
+│   ├── pages/                 # 路由
+│   │   ├── og/                # OG endpoints（每页一个 .png.ts，构建期生成 PNG）
+│   │   ├── blog/[slug].astro
+│   │   ├── reader/index.astro · changelog.astro · alternatives/[slug].astro
+│   │   └── note/...           # 同 reader 结构
+│   └── styles/                # tokens.css + global.css
+└── package.json
 ```
 
 ## 开发端口
 
-本地运行时，三个子站点分别在不同端口：
-
-- 主站：http://localhost:4321
-- Reader：http://localhost:4322
-- Note：http://localhost:4323
+`pnpm dev` 启动本地开发，单端口：http://localhost:4321
 
 ## 内容编辑指引
 
-- 博客文章在 `apps/slax-home/src/content/blog/` 目录下，使用 `.mdx` 格式
-- Reader 文档在 `apps/reader-home/src/content/docs/` 目录下
-- Note 文档在 `apps/note-home/src/content/docs/` 目录下
-- 图片等静态资源放在对应 app 的 `public/` 目录下
+- **博客**：`src/content/blog/<slug>.mdx`，frontmatter 见 `content.config.ts` 的 `blog` schema（必填 `title` / `description` / `pubDate`）
+- **Reader / Note 发布日志**：`src/content/<reader|note>-changelog/YYYY-MM-DD-vX.Y.Z[.platform].md`，frontmatter 必填 `version` / `date` / `platforms`（数组）
+- **对比文章**：`src/content/<reader|note>-alternatives/<competitor>.mdx`
+- **图片**等静态资源：`public/images/`（CDN 用 `https://static-cdn.slax.com/...`）
 
 ## 注意事项
 
 - 部署前必须先登录 Cloudflare（`npx wrangler login`），只需登录一次
 - `dist/` 目录是自动生成的，不要手动修改其中的文件
 - 修改代码后如果需要部署到测试环境，直接执行 `pnpm deploy:dev` 即可，它会自动先打包再上传
+- 提交前 husky + lint-staged 会跑 `biome check --write`，不要用 `--no-verify` 跳过
 
 ## 品牌与大小写规则
 
@@ -84,3 +95,31 @@ slax-home/
 ## 排版偏好
 
 - 博客正文**不要首字母放大（drop cap）**。首段保持略大一些的 lede 样式即可。
+
+## OG 图片规则（社交分享卡片）
+
+**每个新页面都必须有专属 OG 图。** 不要让页面回退到默认的 `/og-default.png`。社交平台（X、LinkedIn、Slack、Discord、iMessage、微信）依赖 1200×630 PNG/JPG，渲染卡片时如果链接没有专属图，体验会和站内调性脱节。
+
+### 怎么做
+
+1. **共享渲染器**：`src/lib/og.ts` 导出 `renderOg({ eyebrow, title, accentWord? })`，输出 1200×630 PNG Buffer，serif 标题 + 左上 Slax 标识 + 左下 mono 眉标，可指定一个词标绿斜体重音。
+2. **每个新页面加一个 endpoint**：在 `src/pages/og/` 下放一个 `.png.ts` 文件，调用 `renderOg` 并返回 PNG Response。
+   - 静态页（如 `/about/`、`/reader/changelog/`）→ `src/pages/og/<name>.png.ts`
+   - 动态页（如 `/blog/[slug]/`）→ `src/pages/og/blog/[slug].png.ts`，用 `getStaticPaths()` 给每条内容生成。
+3. **在页面 `<Base>` 里挂上**：`ogImage="/og/<name>.png"`。`Base.astro` 已经自动加好 `og:image:type/width/height/alt` 和 `twitter:image`。
+
+### 不要做
+
+- ❌ 不要为新页面只用默认图就发版
+- ❌ 不要直接把营销 cover 图（hero、product shot）当 OG（构图比、字号、留白都不对）
+- ❌ 不要在 `og.ts` 里用 SVG OG 输出（X / LinkedIn / Slack 不可靠地解 SVG）
+
+### 验证清单
+
+每次发布前抽 1-2 个新链接到这三个工具跑一遍：
+
+- X：https://cards-dev.x.com/validator
+- Facebook / Meta：https://developers.facebook.com/tools/debug/
+- LinkedIn：https://www.linkedin.com/post-inspector/
+
+或者直接在 Slack / Discord 私信粘链接看预览。
