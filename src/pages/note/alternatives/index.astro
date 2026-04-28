@@ -7,8 +7,17 @@ import Base from '~/layouts/Base.astro';
 const entries = (await getCollection('noteAlternatives')).sort((a, b) =>
 	a.data.competitor.localeCompare(b.data.competitor),
 );
+
+const breadcrumbs = [
+	{ name: 'Home', url: '/' },
+	{ name: 'Slax Note', url: '/note/' },
+	{ name: 'Alternatives', url: '/note/alternatives/' },
+];
 ---
-<Base title="Slax Note alternatives — comparisons to AudioPen, Rosebud, Voicenotes & more">
+<Base
+	title="Slax Note alternatives — comparisons to AudioPen, Rosebud, Voicenotes & more"
+	breadcrumbs={breadcrumbs}
+>
 	<Nav active="note" />
 	<main class="alts-index">
 		<header class="head">

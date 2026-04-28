@@ -159,21 +159,41 @@ const schema = {
 	name: 'Slax Reader',
 	applicationCategory: 'ProductivityApplication',
 	operatingSystem: 'Web, iOS, iPadOS, Android, macOS',
+	url: 'https://slax.com/reader/',
+	image: 'https://slax.com/og/reader.png',
+	screenshot: 'https://slax.com/reader/hero.png',
 	description:
 		'Save Forever, Learn faster. Your intelligent library for high efficiency and deep understanding.',
+	downloadUrl: [
+		'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
+		'https://play.google.com/store/apps/details?id=com.slax.reader',
+		'https://chromewebstore.google.com/detail/gdnhaajlomjkhahnmiijphnodkcfikfd',
+	],
 	offers: [
-		{ '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
+		{
+			'@type': 'Offer',
+			name: 'Free',
+			price: '0',
+			priceCurrency: 'USD',
+		},
 		{
 			'@type': 'Offer',
 			name: 'Pro Reader',
 			price: '5.99',
 			priceCurrency: 'USD',
+			priceSpecification: {
+				'@type': 'UnitPriceSpecification',
+				price: '5.99',
+				priceCurrency: 'USD',
+				billingDuration: 'P1M',
+			},
 		},
 	],
 	publisher: {
 		'@type': 'Organization',
 		name: 'Slax Lab',
 		url: 'https://slax.com',
+		logo: 'https://slax.com/images/slax-logo.png',
 	},
 };
 ---

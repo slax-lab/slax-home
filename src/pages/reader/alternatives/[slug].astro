@@ -47,12 +47,23 @@ const schema = {
 		'@id': new URL(`/reader/alternatives/${entry.id}/`, Astro.site).toString(),
 	},
 };
+
+const breadcrumbs = [
+	{ name: 'Home', url: '/' },
+	{ name: 'Slax Reader', url: '/reader/' },
+	{ name: 'Alternatives', url: '/reader/alternatives/' },
+	{
+		name: `vs. ${entry.data.competitor}`,
+		url: `/reader/alternatives/${entry.id}/`,
+	},
+];
 ---
 <Base
 	title={`${entry.data.title} — Slax`}
 	description={entry.data.description}
 	ogType="article"
 	schema={schema}
+	breadcrumbs={breadcrumbs}
 >
 	<Nav active="reader" />
 	<article class="article">
