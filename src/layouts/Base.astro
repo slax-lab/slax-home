@@ -1,4 +1,7 @@
 ---
+import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import jetbrainsMonoLatin from '@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url';
+import sourceSerifLatin from '@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2?url';
 import '@fontsource-variable/inter';
 import '@fontsource-variable/source-serif-4';
 import '@fontsource-variable/jetbrains-mono';
@@ -71,6 +74,9 @@ const schemaList = [defaultSiteSchema, ...extraSchemas];
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preload" as="font" type="font/woff2" href={sourceSerifLatin} crossorigin />
+<link rel="preload" as="font" type="font/woff2" href={interLatin} crossorigin />
+<link rel="preload" as="font" type="font/woff2" href={jetbrainsMonoLatin} crossorigin />
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
