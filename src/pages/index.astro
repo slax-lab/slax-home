@@ -1,7 +1,66 @@
 ---
+import { getCollection } from 'astro:content';
 import Footer from '~/components/Footer.astro';
 import Nav from '~/components/Nav.astro';
 import Base from '~/layouts/Base.astro';
+
+const dateFmt = new Intl.DateTimeFormat('en-US', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+	timeZone: 'UTC',
+});
+
+const teaserFromBody = (body: string | undefined) => {
+	if (!body) return '';
+	const firstBullet = body
+		.split('\n')
+		.map((l) => l.trim())
+		.find((l) => l.startsWith('-'));
+	if (!firstBullet) return '';
+	const cleaned = firstBullet.replace(/^-\s*/, '').replace(/\*\*/g, '');
+	return cleaned.length > 110 ? `${cleaned.slice(0, 107).trimEnd()}…` : cleaned;
+};
+
+const latestChangelog = async (name: 'readerChangelog' | 'noteChangelog') => {
+	const all = await getCollection(name);
+	const sorted = all.sort(
+		(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+	);
+	const latest = sorted[0];
+	return {
+		version: latest.data.version,
+		date: latest.data.date,
+		platforms: latest.data.platforms as string[],
+		teaser: teaserFromBody(latest.body),
+	};
+};
+
+const latestPost = async (product: 'reader' | 'note') => {
+	const posts = await getCollection(
+		'blog',
+		({ data }) => !data.draft && data.product === product,
+	);
+	const sorted = posts.sort(
+		(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+	);
+	const latest = sorted[0];
+	return latest
+		? {
+				id: latest.id,
+				title: latest.data.title,
+				description: latest.data.description,
+				pubDate: latest.data.pubDate,
+			}
+		: null;
+};
+
+const [readerLatest, noteLatest, readerPost, notePost] = await Promise.all([
+	latestChangelog('readerChangelog'),
+	latestChangelog('noteChangelog'),
+	latestPost('reader'),
+	latestPost('note'),
+]);
 
 const beliefs = [
 	{
@@ -117,6 +176,73 @@ const products = [
 					</a>
 				))}
 			</div>
+		</div>
+	</section>
+
+	<!-- 屏 3 · What's new · latest changelog per product -->
+	<section class="whats-new">
+		<div class="whats-new-inner">
+			<span class="section-eyebrow">— What's new</span>
+			<div class="whats-new-grid">
+				<article class="release-card">
+					<p class="release-product">Slax Reader</p>
+					<p class="release-meta">
+						<span class="release-version">v{readerLatest.version}</span>
+						<span class="release-sep">·</span>
+						<span>{dateFmt.format(readerLatest.date)}</span>
+					</p>
+					<p class="release-platforms">{readerLatest.platforms.join(' · ')}</p>
+					{readerLatest.teaser && <p class="release-teaser">{readerLatest.teaser}</p>}
+					<a class="release-cta" href="/reader/changelog/">All Reader updates →</a>
+				</article>
+				<article class="release-card">
+					<p class="release-product">Slax Note</p>
+					<p class="release-meta">
+						<span class="release-version">v{noteLatest.version}</span>
+						<span class="release-sep">·</span>
+						<span>{dateFmt.format(noteLatest.date)}</span>
+					</p>
+					<p class="release-platforms">{noteLatest.platforms.join(' · ')}</p>
+					{noteLatest.teaser && <p class="release-teaser">{noteLatest.teaser}</p>}
+					<a class="release-cta" href="/note/changelog/">All Note updates →</a>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<!-- 屏 4 · From the blog · latest post per product -->
+	<section class="from-blog">
+		<div class="from-blog-inner">
+			<span class="section-eyebrow">— From the blog</span>
+			<div class="from-blog-grid">
+				{readerPost && (
+					<article class="post-card">
+						<p class="post-product">Slax Reader</p>
+						<time class="post-date" datetime={readerPost.pubDate.toISOString()}>
+							{dateFmt.format(readerPost.pubDate)}
+						</time>
+						<h3 class="post-title">
+							<a href={`/blog/${readerPost.id}/`}>{readerPost.title}</a>
+						</h3>
+						<p class="post-desc">{readerPost.description}</p>
+						<a class="post-cta" href={`/blog/${readerPost.id}/`}>Read →</a>
+					</article>
+				)}
+				{notePost && (
+					<article class="post-card">
+						<p class="post-product">Slax Note</p>
+						<time class="post-date" datetime={notePost.pubDate.toISOString()}>
+							{dateFmt.format(notePost.pubDate)}
+						</time>
+						<h3 class="post-title">
+							<a href={`/blog/${notePost.id}/`}>{notePost.title}</a>
+						</h3>
+						<p class="post-desc">{notePost.description}</p>
+						<a class="post-cta" href={`/blog/${notePost.id}/`}>Read →</a>
+					</article>
+				)}
+			</div>
+			<a class="from-blog-all" href="/blog/">All Slax writing →</a>
 		</div>
 	</section>
 
@@ -400,6 +526,222 @@ const products = [
 		transition: border-color 0.2s ease;
 	}
 	.product:hover .product-cta {
+		border-bottom-color: var(--accent);
+	}
+
+	/* ─── shared section helpers ─── */
+	.section-eyebrow {
+		display: block;
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 2rem;
+	}
+
+	/* ─── 屏 3 · What's new ─── */
+	.whats-new {
+		width: 100%;
+		background: var(--bg);
+		padding: clamp(3.5rem, 6vw, 5rem) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.whats-new-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.whats-new-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+	@media (min-width: 820px) {
+		.whats-new-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.release-card {
+		display: flex;
+		flex-direction: column;
+		padding: clamp(2rem, 3vw, 2.5rem) clamp(1.5rem, 2.5vw, 2.25rem);
+	}
+	.release-card + .release-card {
+		border-top: 1px solid var(--rule-soft);
+	}
+	@media (min-width: 820px) {
+		.release-card + .release-card {
+			border-top: 0;
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.release-product {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 1rem;
+	}
+	.release-meta {
+		font-family: var(--serif);
+		font-size: clamp(1.2rem, 1.7vw, 1.5rem);
+		line-height: 1.2;
+		color: var(--ink);
+		margin: 0 0 0.4rem;
+		display: flex;
+		gap: 0.55rem;
+		align-items: baseline;
+		flex-wrap: wrap;
+	}
+	.release-version {
+		font-weight: 500;
+		letter-spacing: -0.01em;
+	}
+	.release-sep {
+		color: var(--ink-mute);
+	}
+	.release-platforms {
+		font-family: var(--mono);
+		font-size: 0.74rem;
+		letter-spacing: 0.06em;
+		color: var(--accent);
+		margin: 0 0 1rem;
+	}
+	.release-teaser {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0 0 1.5rem;
+		max-width: 44ch;
+	}
+	.release-cta {
+		margin-top: auto;
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--accent);
+		text-decoration: none;
+		align-self: flex-start;
+		padding-bottom: 2px;
+		border-bottom: 1px solid transparent;
+		transition: border-color 0.2s ease;
+	}
+	.release-cta:hover {
+		border-bottom-color: var(--accent);
+	}
+
+	/* ─── 屏 4 · From the blog ─── */
+	.from-blog {
+		width: 100%;
+		background: var(--bg);
+		padding: clamp(3.5rem, 6vw, 5rem) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.from-blog-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.from-blog-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+	@media (min-width: 820px) {
+		.from-blog-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.post-card {
+		display: flex;
+		flex-direction: column;
+		padding: clamp(2rem, 3vw, 2.5rem) clamp(1.5rem, 2.5vw, 2.25rem);
+	}
+	.post-card + .post-card {
+		border-top: 1px solid var(--rule-soft);
+	}
+	@media (min-width: 820px) {
+		.post-card + .post-card {
+			border-top: 0;
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.post-product {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 0.75rem;
+	}
+	.post-date {
+		font-family: var(--mono);
+		font-size: 0.74rem;
+		letter-spacing: 0.06em;
+		color: var(--accent);
+		margin: 0 0 0.85rem;
+		display: block;
+	}
+	.post-title {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: clamp(1.25rem, 1.8vw, 1.55rem);
+		line-height: 1.25;
+		letter-spacing: -0.01em;
+		margin: 0 0 0.85rem;
+		color: var(--ink);
+	}
+	.post-title a {
+		color: inherit;
+		text-decoration: none;
+		transition: color 0.2s ease;
+	}
+	.post-title a:hover {
+		color: var(--accent);
+	}
+	.post-desc {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0 0 1.5rem;
+		max-width: 44ch;
+	}
+	.post-cta {
+		margin-top: auto;
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--accent);
+		text-decoration: none;
+		align-self: flex-start;
+		padding-bottom: 2px;
+		border-bottom: 1px solid transparent;
+		transition: border-color 0.2s ease;
+	}
+	.post-cta:hover {
+		border-bottom-color: var(--accent);
+	}
+	.from-blog-all {
+		display: inline-block;
+		margin-top: 2.25rem;
+		font-family: var(--mono);
+		font-size: 0.74rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		text-decoration: none;
+		padding-bottom: 2px;
+		border-bottom: 1px solid transparent;
+		transition: color 0.2s ease, border-color 0.2s ease;
+	}
+	.from-blog-all:hover {
+		color: var(--accent);
 		border-bottom-color: var(--accent);
 	}
 </style>

@@ -4,9 +4,12 @@ import Footer from '~/components/Footer.astro';
 import Nav from '~/components/Nav.astro';
 import Base from '~/layouts/Base.astro';
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+const posts = (
+	await getCollection(
+		'blog',
+		({ data }) => !data.draft && data.product === 'reader',
+	)
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const dateFmt = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
@@ -14,47 +17,30 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
 	day: 'numeric',
 });
 
-const blogSchema = {
-	'@context': 'https://schema.org',
-	'@type': 'Blog',
-	name: 'Slax Blog',
-	url: 'https://slax.com/blog/',
-	description:
-		'Essays about reading, writing, attention, and the quiet tools we make for them.',
-	blogPost: posts.map((post) => ({
-		'@type': 'BlogPosting',
-		headline: post.data.title,
-		description: post.data.description,
-		datePublished: post.data.pubDate.toISOString(),
-		dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
-		url: new URL(`/blog/${post.id}/`, Astro.site).toString(),
-		author: { '@type': 'Organization', name: 'Slax Lab' },
-	})),
-};
-
 const breadcrumbs = [
 	{ name: 'Home', url: '/' },
-	{ name: 'Blog', url: '/blog/' },
+	{ name: 'Slax Reader', url: '/reader/' },
+	{ name: 'Blog', url: '/reader/blog/' },
 ];
 ---
 <Base
-	title="Blog — Slax"
+	title="Slax Reader Blog"
+	description="Essays, launches, and product notes from the team building Slax Reader."
 	ogImage="/og/blog.png"
-	schema={blogSchema}
 	breadcrumbs={breadcrumbs}
 >
-	<Nav active="blog" />
+	<Nav active="reader" />
 	<main class="blog-index">
 		<header class="head">
-			<h1>Notes from building Slax.</h1>
+			<p class="eyebrow">Slax Reader · Blog</p>
+			<h1>Notes from building Slax Reader.</h1>
 			<p class="dek">
-				Essays about reading, writing, attention, and the quiet tools we
-				make for them.
+				How and why we make a read-it-later app that doesn't try to be everything.
 			</p>
 		</header>
 
 		{posts.length === 0 ? (
-			<p class="empty">No posts yet. Essays start landing in stage 3.</p>
+			<p class="empty">No posts yet.</p>
 		) : (
 			<ul class="post-list">
 				{posts.map((post) => (
@@ -64,9 +50,6 @@ const breadcrumbs = [
 								{dateFmt.format(post.data.pubDate)}
 							</time>
 							<div class="post-body">
-								<span class={`post-product post-product-${post.data.product}`}>
-									{post.data.product === 'reader' ? 'Slax Reader' : post.data.product === 'note' ? 'Slax Note' : 'Slax'}
-								</span>
 								<h2>{post.data.title}</h2>
 								<p>{post.data.description}</p>
 								<span class="post-cta">
@@ -93,6 +76,13 @@ const breadcrumbs = [
 		padding-bottom: 2.5rem;
 		border-bottom: 1px solid var(--rule);
 	}
+	.eyebrow {
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		letter-spacing: 0.04em;
+		color: var(--ink-mute);
+		margin: 0 0 1.25rem;
+	}
 	h1 {
 		font-family: var(--serif);
 		font-weight: 500;
@@ -110,7 +100,6 @@ const breadcrumbs = [
 		max-width: 52ch;
 		margin: 0;
 	}
-
 	.empty {
 		font-family: var(--mono);
 		font-size: 0.85rem;
@@ -119,7 +108,6 @@ const breadcrumbs = [
 		color: var(--ink-mute);
 		padding: 4rem 0;
 	}
-
 	.post-list {
 		list-style: none;
 		padding: 0;
@@ -157,19 +145,6 @@ const breadcrumbs = [
 		text-transform: uppercase;
 		color: var(--ink-mute);
 		padding-top: 0.15rem;
-	}
-	.post-product {
-		display: inline-block;
-		font-family: var(--mono);
-		font-size: 0.68rem;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-		color: var(--ink-mute);
-		margin-bottom: 0.6rem;
-	}
-	.post-product-reader,
-	.post-product-note {
-		color: var(--accent);
 	}
 	.post-body h2 {
 		font-family: var(--serif);
