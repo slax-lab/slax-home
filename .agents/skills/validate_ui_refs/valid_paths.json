@@ -1,0 +1,7 @@
+{
+	"_comment": "Slax UI path map for validate_ui_refs skill. Lists every valid UI path / Command Palette command name that documentation can reference. Replaces Warp's original valid_paths.json which was generated from warp-internal Rust source. Slax equivalent: populate from Slax Reader / Note React source.",
+	"_todo": "Either generate from Slax front-end source via a script, or maintain by hand. Until populated, validate_ui_refs will report all UI references as unknown.",
+	"menu_paths": [],
+	"settings_paths": [],
+	"command_palette_commands": []
+}
