@@ -1,0 +1,51 @@
+---
+title: "How to Price a Read-Later App That Outlives You"
+description: "Pocket and Omnivore died because of math, not users. Here's the real cost of running a read-later app for ten years — and the only two pricing models that survive."
+pubDate: 2026-05-07T00:00:00.000Z
+tags: ['reader', 'pricing']
+product: reader
+---
+
+Pocket got bought by Mozilla, neglected, and shut down in July 2025 — eighteen years after launch. Omnivore got acquired by ElevenLabs on October 29, 2024 and was gone seventeen days later, with users given two weeks to export before all data was deleted. Instapaper has changed hands at least three times. Read-later is a graveyard.
+
+Users blame greedy acquirers. Users blame "the suits." Sometimes that's true. More often the cause is simpler: the product never had a financial model that worked for ten years.
+
+## The cost shape
+
+A read-later app has one expensive thing and one cheap thing.
+
+**Cheap:** the database row for "User X saved URL Y at time Z." A few bytes. Trivial.
+
+**Expensive:** the snapshot. The rendered HTML, the images, the CSS. About 200KB to 2MB per article, depending on how image-heavy it is. Storage isn't expensive per gigabyte — it's expensive per *user-year-of-permanence*.
+
+Run the numbers. A power user saves 5,000 articles a year, with a median size of 800KB. That's 4GB per user per year. After ten years, 40GB. R2 storage at $0.015/GB/month is $0.60 per user per month, just for storage, just for the power user.
+
+Add bandwidth, parsing compute, AI summary calls, search indexes, vector embeddings, and you're at $1-3 per active power user per month — closer to $1 if you stay on a thrifty Cloudflare-native stack with a small AI model, closer to $3 if you run a frontier model on every save and every chat. None of that includes your team's salary.
+
+If your free plan is "unlimited everything," the power user is costing you money forever. If they don't convert to paid, you're funding their habit out of investor money. When the investors leave, the math becomes visible.
+
+## The two viable shapes
+
+There are exactly two pricing models that survive ten years:
+
+**1. A real paid tier with a real free tier.** The free tier has limits — number of saves, snapshot retention period, AI quota. The paid tier has the costly features. Conversion math is honest: pay for what you use.
+
+**2. Be a feature inside a profitable product.** Pinboard charged a one-time fee and survived because the cost shape was different (no snapshots, no AI). Apple's Reading List exists because Apple sells phones. Notion Web Clipper exists because Notion sells teams.
+
+Read-later as a standalone free-forever consumer product is not a viable shape. The math doesn't close.
+
+## What we settled on
+
+Here's where we landed after running the math on [Slax Reader](https://r.slax.com).
+
+A free tier that's genuinely usable: unlimited saves, full-text search, snapshots that don't expire on free users either. AI features (summary, outline, tag suggestions, search) are metered.
+
+A paid tier that pays the AI bill and the storage bill, with a margin. Not a margin big enough to fund a Series A. A margin big enough to survive without one.
+
+The parent company is 21 years old. We've been profitable since 2018 — eight years and counting. We've never raised outside capital. Our infrastructure cost per active user is a number we know to two decimal places, because we don't have anyone else's money to burn.
+
+## What this means for you
+
+If you're picking a read-later app today, the question isn't "which has the best UI." It's "which has math that survives the next acquirer offer."
+
+If a tool's pricing page doesn't make obvious sense — if the free tier is suspiciously generous, if there's no paid tier at all, if the founder's blog talks about growth but never about cost per user — you're looking at a tool with a shutdown date attached. You just don't know what date yet.
