@@ -183,28 +183,59 @@ const schema = {
 	alternateName: 'Slax Note — Your Voice Notes Copilot',
 	applicationCategory: 'ProductivityApplication',
 	operatingSystem: 'iOS, Android, Web',
+	url: 'https://slax.com/note/',
+	image: 'https://slax.com/og/note.png',
+	screenshot: 'https://slax.com/images/note/cover.png',
 	description:
 		'Transform Speech into Smart Notes Effortlessly. Record with Slax Note on the go. Let AI capture and refine your thoughts into various text styles.',
+	downloadUrl: [
+		'https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286',
+		'https://play.google.com/store/apps/details?id=app.slax.notes',
+	],
 	offers: [
-		{ '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
+		{
+			'@type': 'Offer',
+			name: 'Free',
+			price: '0',
+			priceCurrency: 'USD',
+		},
+		{
+			'@type': 'Offer',
+			name: 'Premium Monthly',
+			price: '4.99',
+			priceCurrency: 'USD',
+			priceSpecification: {
+				'@type': 'UnitPriceSpecification',
+				price: '4.99',
+				priceCurrency: 'USD',
+				billingDuration: 'P1M',
+			},
+		},
 		{
 			'@type': 'Offer',
 			name: 'Premium Annual',
 			price: '49.99',
 			priceCurrency: 'USD',
+			priceSpecification: {
+				'@type': 'UnitPriceSpecification',
+				price: '49.99',
+				priceCurrency: 'USD',
+				billingDuration: 'P1Y',
+			},
 		},
 	],
 	publisher: {
 		'@type': 'Organization',
 		name: 'Starry Tech Pte. Ltd.',
 		url: 'https://slax.com',
+		logo: 'https://slax.com/images/slax-logo.png',
 	},
 };
 ---
 <Base
 	title="Slax Note — A notes app for your own voice"
 	description="Say it the moment it shows up. One recording, many shapes — shaped by the prompts you choose. Made to grow with you, year after year."
-	ogImage="/images/note/cover.png"
+	ogImage="/og/note.png"
 	schema={schema}
 >
 	<Nav active="note" />
@@ -241,11 +272,10 @@ const schema = {
 							<span class="store-small">GET IT ON</span>
 							<span class="store-main">Google Play</span>
 						</a>
-						<a class="store-btn" href="https://n.slax.com/">
-							<span class="store-small">Open in</span>
-							<span class="store-main">Your browser</span>
-						</a>
 					</div>
+					<p class="n-web-link">
+						Or <a href="https://n.slax.com/">open in your browser</a>.
+					</p>
 				</div>
 				<div class="n-visual">
 					<img
@@ -585,6 +615,23 @@ const schema = {
 		display: flex;
 		gap: 0.75rem;
 		flex-wrap: wrap;
+	}
+	.n-web-link {
+		margin: 0.9rem 0 0;
+		font-family: var(--serif);
+		font-size: 0.95rem;
+		color: var(--ink-mute);
+	}
+	.n-web-link a {
+		color: var(--ink-soft);
+		text-decoration: underline;
+		text-decoration-color: var(--rule);
+		text-underline-offset: 3px;
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
+	.n-web-link a:hover {
+		color: var(--accent);
+		text-decoration-color: var(--accent);
 	}
 	.store-btn {
 		display: inline-flex;

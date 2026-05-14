@@ -13,8 +13,36 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
 	month: 'long',
 	day: 'numeric',
 });
+
+const blogSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'Blog',
+	name: 'Slax Blog',
+	url: 'https://slax.com/blog/',
+	description:
+		'Essays about reading, writing, attention, and the quiet tools we make for them.',
+	blogPost: posts.map((post) => ({
+		'@type': 'BlogPosting',
+		headline: post.data.title,
+		description: post.data.description,
+		datePublished: post.data.pubDate.toISOString(),
+		dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+		url: new URL(`/blog/${post.id}/`, Astro.site).toString(),
+		author: { '@type': 'Organization', name: 'Slax Lab' },
+	})),
+};
+
+const breadcrumbs = [
+	{ name: 'Home', url: '/' },
+	{ name: 'Blog', url: '/blog/' },
+];
 ---
-<Base title="Blog — Slax">
+<Base
+	title="Blog — Slax"
+	ogImage="/og/blog.png"
+	schema={blogSchema}
+	breadcrumbs={breadcrumbs}
+>
 	<Nav active="blog" />
 	<main class="blog-index">
 		<header class="head">
@@ -36,6 +64,9 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
 								{dateFmt.format(post.data.pubDate)}
 							</time>
 							<div class="post-body">
+								<span class={`post-product post-product-${post.data.product}`}>
+									{post.data.product === 'reader' ? 'Slax Reader' : post.data.product === 'note' ? 'Slax Note' : 'Slax'}
+								</span>
 								<h2>{post.data.title}</h2>
 								<p>{post.data.description}</p>
 								<span class="post-cta">
@@ -126,6 +157,19 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
 		text-transform: uppercase;
 		color: var(--ink-mute);
 		padding-top: 0.15rem;
+	}
+	.post-product {
+		display: inline-block;
+		font-family: var(--mono);
+		font-size: 0.68rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin-bottom: 0.6rem;
+	}
+	.post-product-reader,
+	.post-product-note {
+		color: var(--accent);
 	}
 	.post-body h2 {
 		font-family: var(--serif);

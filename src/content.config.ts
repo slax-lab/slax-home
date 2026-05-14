@@ -11,6 +11,7 @@ const blog = defineCollection({
 		heroImage: z.string().optional(),
 		tags: z.array(z.string()).optional(),
 		draft: z.boolean().optional(),
+		product: z.enum(['reader', 'note', 'slax']),
 	}),
 });
 
@@ -52,9 +53,22 @@ const noteChangelog = defineCollection({
 	}),
 });
 
+const readerChangelog = defineCollection({
+	loader: glob({
+		pattern: '**/*.{md,mdx}',
+		base: './src/content/reader-changelog',
+	}),
+	schema: z.object({
+		version: z.string(),
+		date: z.coerce.date(),
+		platforms: z.array(z.enum(['iOS', 'Android', 'Web', 'Extensions'])),
+	}),
+});
+
 export const collections = {
 	blog,
 	readerAlternatives,
 	noteAlternatives,
 	noteChangelog,
+	readerChangelog,
 };

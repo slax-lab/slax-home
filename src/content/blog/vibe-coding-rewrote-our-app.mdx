@@ -1,0 +1,125 @@
+---
+title: "I rewrote our app with vibe coding. I still can't read the code."
+description: "A PM and a designer rewrote Slax Note with Claude Code. Bugs, panic, the part where I couldn't stop, and what I changed. Part 2 coming."
+pubDate: 2026-04-29T00:00:00.000Z
+heroImage: "/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-what-did-i-do.png"
+tags: ['note', 'vibe-coding']
+product: note
+---
+
+Six weeks ago, neither of us could reliably get a build running. The new Slax Note shipped this week. I still can't read the code.
+
+I'm a PM. My teammate is a designer. Our boss told the two of us to rewrite [Slax Note](https://slax.com/note/) — our voice-first notes app — from scratch. Using AI.
+
+This is what happened, in order. Disbelief, rage, the night I couldn't feel anything, and the Claude Code agent we ended up calling Rocky.
+
+---
+
+## "Wait, what did I just do?"
+
+![Two coworkers chatting at their desks. Engineer: "What did you just do?" PM: "I don't know, but it actually ran successfully."](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-what-did-i-do.png)
+
+One afternoon I was sitting next to one of our actual engineers. Something I'd just typed into Rocky had built. Compiled. Run. The feature worked.
+
+He looked over. *"What did you just do?"*
+
+*"No idea,"* I said. *"But it ran."*
+
+That feeling — being happy for no reason you can explain — became the recurring emotion of the next month. I'd ship something, look at it, and have no clue how it got there. Confusing. Also kind of wonderful.
+
+---
+
+## It started with panic
+
+![Boss tells two non-developers they'll be in charge of building the app. The designer thinks: "I trust AI… but I don't even trust myself yet."](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-rewrite-task.png)
+
+Rewind to early March. My feed was nothing but AI coding takes. *Vibe coding.* *Cursor.* *Claude Code.* *"Anyone can ship now."* My designer teammate was getting the same firehose. We'd send each other links and quietly panic.
+
+The unspoken question: *what's left for people like us?*
+
+Then our boss walked over and made it concrete. *"You two. Rewrite Slax Note. Use AI."*
+
+Part of me wanted to refuse. The other part had already opened a new VS Code window. Panic gets you to the keyboard pretty fast. (It's worse at the question of when to leave it. We'll get there.)
+
+---
+
+## Most of the bugs were me
+
+![Four panels: environment errors, opening the wrong folder, debugging a white screen with AI for two hours, and the senior dev finds the bug in seconds.](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-bugs-were-me.png)
+
+For the first week, every time something didn't work, my reaction was: *the AI is broken.*
+
+Then I started keeping score. Roughly half my problems had nothing to do with the model:
+
+- I configured my environment wrong.
+- My VPN dropped mid-request.
+- I told Rocky to edit a file in the wrong folder. Twice.
+- I let Rocky debug a white screen with me for two hours, only for a senior engineer to glance at my laptop and say, *"You set a breakpoint here. That's why."*
+
+Half a day, gone. The model had done its job. I just didn't know how to drive the things around it — the editor, the terminal, where files lived. Embarrassing, but kind of a relief: that part I could learn.
+
+---
+
+## I yelled at it for a week
+
+![Left: rage phase, yelling at the AI. Right: providing context, giving clues, showing patience. Bottom: collaborating like teammates, then realizing — "Why did I forget how to talk when I was talking to AI?"](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-rocky-rage-phase.png)
+
+I got back from a work trip and my designer teammate had built most of the app. Then we hit the part nobody warns you about: bugs.
+
+The bugs were the worst part. I handled them badly at first. Paste an error, get a wrong answer, yell at the screen. *"You're useless. Are you even capable of this?"* Pure rage. Tokens spent. Nothing solved.
+
+Eventually I noticed something embarrassing. I was giving Rocky worse instructions than I'd ever give a human teammate.
+
+So I switched:
+
+- **Give context.** What the feature is for. What I already tried. What the logs say.
+- **Give clues.** "Check this endpoint. It returns 500 when the user is logged out." Not "fix it."
+- **Be patient.** If it's stuck, feed it the docs. It hasn't read the codebase. You have.
+
+First time I did it properly, the bug got fixed in one round. I sat there and thought: *why did I forget how to talk, just because the teammate was an AI?*
+
+I still don't have a clean answer to that.
+
+---
+
+## I couldn't put it down
+
+There's no comic for this section. By the time I noticed the problem, I wasn't laughing.
+
+I'd stopped going home on time. I'd stopped putting the laptop down at dinner. I'd be in bed at 11:30pm thinking, *"if I just kick off one more run, it'll be done by morning."* Every few minutes: accept this diff? Reject? Re-prompt? Roll back?
+
+A feature used to be ten decisions in a day. Now it was a hundred in an hour. I'd lose the thread of a sentence I was speaking out loud.
+
+One Tuesday around midnight I was in bed with my laptop, watching a green checkmark scroll across the terminal as Rocky finished a run. I was holding my breath for it. For a checkmark. From a robot. My partner had said something to me twice and I hadn't heard either time.
+
+I closed the laptop and said out loud: *wasn't AI supposed to give me my time back? How did it lock me to this screen instead?*
+
+The honest answer was that I never had to wait for anything anymore. Old me would've made coffee while a build ran. New me had nothing to wait for. So I just kept going.
+
+---
+
+## Three things I changed
+
+In the end, I changed three habits.
+
+1. **Hours.** After dinner, laptop closed. Rocky will be there tomorrow. The bug hasn't escaped.
+2. **Scope.** Half of what I'd been building, nobody had asked for. Vibe coding makes adding features cheap, which means adding the wrong features is cheap too. I started killing tickets instead of finishing them.
+3. **Don't turn Rocky loose.** You can't just hand him a task and walk away. You have to scope it, brief him, and come back to check. Slower per step. Faster overall, in my experience.
+
+---
+
+I still can't read most of the code in our repo. The features I shipped are in there somewhere, and real users use them. Six weeks ago I couldn't have said either of those things.
+
+Last night Rocky asked me to confirm a refactor at 10pm. I told him no, it's late, we'll do it tomorrow. He said okay. I closed the laptop.
+
+That's the part I didn't see coming.
+
+---
+
+Slax Note is the app we rewrote. It's a voice-first notes app — you talk, it writes, you pick what shape you want it in.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)
+
+Part 2 is the technical write-up — the stack, the pipeline, what broke. Coming soon on the [Slax blog](https://slax.com/blog/).

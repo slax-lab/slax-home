@@ -112,7 +112,7 @@ const platforms = [
 		],
 		downloads: [
 			{
-				href: 'https://apps.apple.com/cn/app/slax-reader-ai-read-it-later/id6596730998',
+				href: 'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
 				small: 'Download on the',
 				main: 'App Store',
 			},
@@ -129,7 +129,7 @@ const platforms = [
 		bullets: ['Save, read and organize like a pro.'],
 		downloads: [
 			{
-				href: 'https://apps.apple.com/cn/app/slax-reader-ai-read-it-later/id6596730998',
+				href: 'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
 				small: 'Download on the',
 				main: 'Mac App Store',
 			},
@@ -159,27 +159,48 @@ const schema = {
 	name: 'Slax Reader',
 	applicationCategory: 'ProductivityApplication',
 	operatingSystem: 'Web, iOS, iPadOS, Android, macOS',
+	url: 'https://slax.com/reader/',
+	image: 'https://slax.com/og/reader.png',
+	screenshot: 'https://slax.com/reader/hero.png',
 	description:
 		'Save Forever, Learn faster. Your intelligent library for high efficiency and deep understanding.',
+	downloadUrl: [
+		'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
+		'https://play.google.com/store/apps/details?id=com.slax.reader',
+		'https://chromewebstore.google.com/detail/gdnhaajlomjkhahnmiijphnodkcfikfd',
+	],
 	offers: [
-		{ '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
+		{
+			'@type': 'Offer',
+			name: 'Free',
+			price: '0',
+			priceCurrency: 'USD',
+		},
 		{
 			'@type': 'Offer',
 			name: 'Pro Reader',
 			price: '5.99',
 			priceCurrency: 'USD',
+			priceSpecification: {
+				'@type': 'UnitPriceSpecification',
+				price: '5.99',
+				priceCurrency: 'USD',
+				billingDuration: 'P1M',
+			},
 		},
 	],
 	publisher: {
 		'@type': 'Organization',
 		name: 'Slax Lab',
 		url: 'https://slax.com',
+		logo: 'https://slax.com/images/slax-logo.png',
 	},
 };
 ---
 <Base
 	title="Slax Reader — A read-it-later app that doesn't try to be everything"
 	description="No algorithm. No feed. You choose what to read next. Unlimited snapshots, for free. Open-source."
+	ogImage="/og/reader.png"
 	schema={schema}
 >
 	<Nav active="reader" />
@@ -200,7 +221,7 @@ const schema = {
 					<div class="r-hero-stores">
 						<a
 							class="r-store-btn is-primary"
-							href="https://apps.apple.com/cn/app/slax-reader-ai-read-it-later/id6596730998"
+							href="https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
@@ -216,11 +237,10 @@ const schema = {
 							<span class="r-store-small">GET IT ON</span>
 							<span class="r-store-main">Google Play</span>
 						</a>
-						<a class="r-store-btn" href="https://r.slax.com/login">
-							<span class="r-store-small">Open in</span>
-							<span class="r-store-main">Your browser</span>
-						</a>
 					</div>
+					<p class="r-web-link">
+						Or <a href="https://r.slax.com/login">open in your browser</a>.
+					</p>
 				</div>
 				<div class="r-preview" aria-hidden="true">
 					<img
@@ -480,6 +500,23 @@ const schema = {
 		display: flex;
 		gap: 0.75rem;
 		flex-wrap: wrap;
+	}
+	.r-web-link {
+		margin: 0.9rem 0 0;
+		font-family: var(--serif);
+		font-size: 0.95rem;
+		color: var(--ink-mute);
+	}
+	.r-web-link a {
+		color: var(--ink-soft);
+		text-decoration: underline;
+		text-decoration-color: var(--rule);
+		text-underline-offset: 3px;
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
+	.r-web-link a:hover {
+		color: var(--accent);
+		text-decoration-color: var(--accent);
 	}
 	.r-store-btn {
 		display: inline-flex;

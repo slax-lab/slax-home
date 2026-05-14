@@ -48,12 +48,20 @@ const schema = {
 		'@id': new URL(`/blog/${post.id}/`, Astro.site).toString(),
 	},
 };
+
+const breadcrumbs = [
+	{ name: 'Home', url: '/' },
+	{ name: 'Blog', url: '/blog/' },
+	{ name: post.data.title, url: `/blog/${post.id}/` },
+];
 ---
 <Base
 	title={`${post.data.title} — Slax`}
 	description={post.data.description}
 	ogType="article"
+	ogImage={`/og/blog/${post.id}.png`}
 	schema={schema}
+	breadcrumbs={breadcrumbs}
 >
 	<Nav active="blog" />
 	<article class="article">
