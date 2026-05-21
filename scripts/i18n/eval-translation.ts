@@ -100,15 +100,37 @@ function* walkMdx(dir: string): Generator<string> {
 }
 
 function checkGlossary(path: string, body: string, lang: string) {
+	void lang;
 	for (const wrong of FORBIDDEN_LOWERCASE) {
-		// Match standalone token (avoid matching inside URLs, code, etc.)
-		// Use a conservative regex: word boundary on both sides.
+		// Match standalone token. Skip when it's part of a domain (n.slax.com),
+		// a URL/email (https://slax.com, hello@slax.com), or inside backtick code.
 		const re = new RegExp(`\\b${wrong}\\b`, 'g');
 		let m = re.exec(body);
 		while (m !== null) {
-			// Skip if inside a URL or email — coarse heuristic: look backward for "://" or "@"
-			const before = body.slice(Math.max(0, m.index - 30), m.index);
-			if (!/:\/\/\S*$/.test(before) && !/@\S*$/.test(before)) {
+			const charBefore = body[m.index - 1] ?? '';
+			const charAfter = body[m.index + wrong.length] ?? '';
+			const before = body.slice(Math.max(0, m.index - 60), m.index);
+			const after = body.slice(
+				m.index + wrong.length,
+				m.index + wrong.length + 30,
+			);
+			const isDomainOrPath =
+				charBefore === '.' || // n.slax — subdomain
+				charBefore === '/' || // path segment
+				charBefore === '@' || // email local part
+				/^\.[a-z]/.test(after) || // slax.com / slax.md
+				/^-[a-z0-9]/.test(after); // slax-lab / slax-reader (GitHub repos)
+			void charAfter;
+			// In a markdown link URL `[label](...slax...)` — heuristic: look for unclosed `(`
+			const openParens = (before.match(/\(/g) ?? []).length;
+			const closeParens = (before.match(/\)/g) ?? []).length;
+			const inMdLinkUrl =
+				openParens > closeParens &&
+				/\(\S*$/.test(before) &&
+				/^\S*\)/.test(after);
+			const inUrl = /:\/\/\S*$/.test(before) || /@\S*$/.test(before);
+			const inCode = (before.match(/`/g) ?? []).length % 2 === 1;
+			if (!isDomainOrPath && !inUrl && !inMdLinkUrl && !inCode) {
 				fail(
 					`${relative(ROOT, path)}: forbidden lowercase token "${wrong}" at offset ${m.index}`,
 				);
