@@ -1,0 +1,207 @@
+---
+// Translated mini-landing page used for non-English /reader/ and /note/.
+// Renders the localized hero + 3 features the team has hand-translated,
+// then links to the full English page for everything else (pricing matrix,
+// comparison table, FAQs, downloads, etc.).
+//
+// When a full localized landing page is built, swap this out for the
+// production-grade component.
+
+import Button from '~/components/Button.astro';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import { t } from '~/i18n';
+import type { Locale } from '~/i18n/locales';
+import enUi from '~/i18n/ui/en';
+import jaUi from '~/i18n/ui/ja';
+import koUi from '~/i18n/ui/ko';
+import zhHansUi from '~/i18n/ui/zh-Hans';
+import zhHantUi from '~/i18n/ui/zh-Hant';
+import Base from '~/layouts/Base.astro';
+
+interface Props {
+	lang: Locale;
+	product: 'reader' | 'note';
+}
+
+const { lang, product } = Astro.props;
+
+const dicts = {
+	en: enUi,
+	'zh-Hans': zhHansUi,
+	'zh-Hant': zhHantUi,
+	ja: jaUi,
+	ko: koUi,
+};
+const dict = dicts[lang];
+const data = dict[product];
+
+const productLabel = product === 'reader' ? 'Slax Reader' : 'Slax Note';
+const englishHref = `/${product}/`;
+
+const ctaPrimaryHref =
+	product === 'reader'
+		? 'https://r.slax.com/login'
+		: 'https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286';
+
+const titleKey = product === 'reader' ? 'meta.siteName' : 'meta.siteName';
+void titleKey;
+---
+<Base
+	title={`${productLabel} — ${data.heading}`}
+	description={data.bullets.join(' ')}
+	lang={lang}
+>
+	<Nav active={product} />
+	<main class="local-landing">
+		<section class="hero">
+			<p class="eyebrow">{data.eyebrow}</p>
+			<h1>{data.heading}</h1>
+			<ul class="bullets">
+				{data.bullets.map((b) => <li>{b}</li>)}
+			</ul>
+			<div class="actions">
+				<Button variant="primary" href={ctaPrimaryHref} arrow>
+					{data.ctaPrimary}
+				</Button>
+				<Button variant="secondary" href={englishHref}>
+					{data.ctaSecondary}
+				</Button>
+			</div>
+		</section>
+
+		<section class="features">
+			{data.features.map((f, i) => (
+				<div class="feat">
+					<span class="feat-num">{String(i + 1).padStart(2, '0')}</span>
+					<h3>{f.title}</h3>
+					<p>{f.body}</p>
+				</div>
+			))}
+		</section>
+
+		<p class="bilingual-note">
+			{t(lang, 'home.comingSoon')} <a href={englishHref}>slax.com{englishHref}</a>.
+		</p>
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.local-landing {
+		max-width: 920px;
+		margin: 0 auto;
+		padding: 6rem 2rem 6rem;
+	}
+	.hero {
+		border-bottom: 1px solid var(--rule);
+		padding-bottom: 4rem;
+		margin-bottom: 4rem;
+	}
+	.eyebrow {
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 1.5rem;
+	}
+	.hero h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.3rem, 5vw, 3.4rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		margin: 0 0 2rem;
+		color: var(--ink);
+		max-width: 22ch;
+	}
+	.bullets {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 2.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		max-width: 50ch;
+	}
+	.bullets li {
+		position: relative;
+		padding-left: 1.5rem;
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+	}
+	.bullets li::before {
+		content: '—';
+		position: absolute;
+		left: 0;
+		top: 0;
+		color: var(--ink-mute);
+		font-weight: 300;
+	}
+	.actions {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.features {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+		margin-bottom: 4rem;
+	}
+	@media (min-width: 760px) {
+		.features {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 2rem;
+		}
+	}
+	.feat {
+		padding-top: 0.5rem;
+	}
+	.feat-num {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		color: var(--accent);
+		display: inline-block;
+		margin-bottom: 0.75rem;
+	}
+	.feat h3 {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.2rem;
+		line-height: 1.25;
+		letter-spacing: -0.01em;
+		margin: 0 0 0.6rem;
+		color: var(--ink);
+	}
+	.feat p {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+	}
+
+	.bilingual-note {
+		margin-top: 2rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--rule-soft);
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		letter-spacing: 0.04em;
+		color: var(--ink-mute);
+	}
+	.bilingual-note a {
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid var(--rule);
+	}
+	.bilingual-note a:hover {
+		border-color: var(--accent);
+	}
+</style>

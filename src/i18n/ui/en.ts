@@ -95,6 +95,56 @@ export const ui = {
 		latestIs: 'The latest is',
 		shippedOn: 'shipped',
 	},
+	reader: {
+		eyebrow: 'Slax Reader',
+		heading: "A read-it-later app that doesn't try to be everything.",
+		bullets: [
+			'No algorithm. No feed. You choose what to read next.',
+			'Unlimited snapshots, for free.',
+			'Open-source.',
+		],
+		features: [
+			{
+				title: 'AI-Powered Understanding',
+				body: 'Instant summaries, key insights, and answers to your questions about anything you save.',
+			},
+			{
+				title: 'Content Never Dies',
+				body: 'Articles saved once are backed up forever. No more 404s.',
+			},
+			{
+				title: 'Connected Reading',
+				body: 'Highlight, comment, and discuss with other readers on the same page.',
+			},
+		],
+		ctaPrimary: 'Open in Browser',
+		ctaSecondary: 'See the full English version',
+	},
+	note: {
+		eyebrow: 'Slax Note',
+		heading: 'Turn voice into polished writing — in seconds.',
+		bullets: [
+			'One-tap voice capture.',
+			'AI cleans up filler words and adds punctuation.',
+			'Share as text or image anywhere.',
+		],
+		features: [
+			{
+				title: 'Capture Instantly',
+				body: 'Record fleeting ideas with a single tap while walking, driving, or in a meeting.',
+			},
+			{
+				title: 'AI Polishes the Text',
+				body: 'Accurate transcription, automatic punctuation, and your-tone style polish.',
+			},
+			{
+				title: 'Share Anywhere',
+				body: 'Copy as text or export as image. Drop into any tool you already use.',
+			},
+		],
+		ctaPrimary: 'Download on App Store',
+		ctaSecondary: 'See the full English version',
+	},
 } as const;
 
 export default ui;

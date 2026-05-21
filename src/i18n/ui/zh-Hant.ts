@@ -95,6 +95,56 @@ export const ui: UIDict = {
 		latestIs: '最新版本',
 		shippedOn: '發佈於',
 	},
+	reader: {
+		eyebrow: 'Slax Reader',
+		heading: '稍後讀不必什麼都做。',
+		bullets: [
+			'沒有演算法、沒有資訊流。下一篇讀什麼，你說了算。',
+			'無限快照，免費。',
+			'開源。',
+		],
+		features: [
+			{
+				title: 'AI 幫你理解',
+				body: '一鍵摘要、要點提煉、針對文章內容直接問 AI。',
+			},
+			{
+				title: '文章永不失效',
+				body: '儲存一次，永久備份。從此不再遇到 404。',
+			},
+			{
+				title: '邊讀邊討論',
+				body: '在同一篇文章上劃重點、留言，與其他讀者交流。',
+			},
+		],
+		ctaPrimary: '在瀏覽器中開啟',
+		ctaSecondary: '查看完整英文版',
+	},
+	note: {
+		eyebrow: 'Slax Note',
+		heading: '說出來的話，幾秒變成精煉的文字。',
+		bullets: [
+			'一鍵錄音，抓住靈感。',
+			'AI 自動去除贅字、加標點、潤色語氣。',
+			'文字或圖片，任意分享。',
+		],
+		features: [
+			{
+				title: '瞬間捕捉',
+				body: '走路、開車、開會，一鍵記下一閃而過的想法。',
+			},
+			{
+				title: 'AI 潤色',
+				body: '準確轉寫，自動斷句加標點，按你的語氣重排成文。',
+			},
+			{
+				title: '任意分享',
+				body: '複製為文字，或匯出為圖片。無縫接入你已在用的工具。',
+			},
+		],
+		ctaPrimary: '在 App Store 下載',
+		ctaSecondary: '查看完整英文版',
+	},
 };
 
 export default ui;

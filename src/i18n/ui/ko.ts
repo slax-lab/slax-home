@@ -96,6 +96,56 @@ export const ui: UIDict = {
 		latestIs: '최신 버전',
 		shippedOn: '출시',
 	},
+	reader: {
+		eyebrow: 'Slax Reader',
+		heading: '나중에 읽기, 딱 그만큼만.',
+		bullets: [
+			'알고리즘 없음. 피드 없음. 다음에 읽을 글은 당신이 정합니다.',
+			'무제한 스냅샷, 무료.',
+			'오픈소스.',
+		],
+		features: [
+			{
+				title: 'AI 가 이해를 돕습니다',
+				body: '즉시 요약, 핵심 인사이트, 저장한 글에 직접 질문하기.',
+			},
+			{
+				title: '기사는 사라지지 않습니다',
+				body: '한 번 저장하면 영구 백업. 더 이상 404 는 없습니다.',
+			},
+			{
+				title: '함께 읽기',
+				body: '같은 글에 하이라이트, 코멘트, 다른 독자와 대화.',
+			},
+		],
+		ctaPrimary: '브라우저에서 열기',
+		ctaSecondary: '영문 전체 버전 보기',
+	},
+	note: {
+		eyebrow: 'Slax Note',
+		heading: '말한 것을 몇 초 만에 다듬어진 글로.',
+		bullets: [
+			'한 번 탭으로 녹음, 영감을 놓치지 마세요.',
+			'AI 가 어구를 정리하고 문장 부호를 더하며 톤을 다듬습니다.',
+			'텍스트로 또는 이미지로 어디에나 공유.',
+		],
+		features: [
+			{
+				title: '즉시 캡처',
+				body: '걷거나 운전하거나 회의 중에도 한 번 탭으로 떠오른 생각을 남깁니다.',
+			},
+			{
+				title: 'AI 가 문장을 다듬어요',
+				body: '정확한 전사, 자동 문장 부호, 당신의 말투를 살린 윤문.',
+			},
+			{
+				title: '어디든 공유',
+				body: '텍스트로 복사, 이미지로 내보내기. 지금 쓰는 도구에 바로 붙여 넣으세요.',
+			},
+		],
+		ctaPrimary: 'App Store 에서 다운로드',
+		ctaSecondary: '영문 전체 버전 보기',
+	},
 };
 
 export default ui;
