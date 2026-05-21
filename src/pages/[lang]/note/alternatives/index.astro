@@ -1,0 +1,16 @@
+---
+import LocalizedPagePlaceholder from '~/components/LocalizedPagePlaceholder.astro';
+import { type Locale, PREFIXED_LOCALES } from '~/i18n/locales';
+
+export async function getStaticPaths() {
+	return PREFIXED_LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang as Locale;
+---
+<LocalizedPagePlaceholder
+	lang={lang}
+	titleKey="meta.noteAlternativesTitle"
+	englishHref="/note/alternatives/"
+	active="note"
+/>

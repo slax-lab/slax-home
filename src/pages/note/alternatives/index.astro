@@ -3,10 +3,12 @@ import { getCollection } from 'astro:content';
 import Footer from '~/components/Footer.astro';
 import Nav from '~/components/Nav.astro';
 import Base from '~/layouts/Base.astro';
+import { entrySlug, filterByLocale } from '~/lib/content';
 
-const entries = (await getCollection('noteAlternatives')).sort((a, b) =>
-	a.data.competitor.localeCompare(b.data.competitor),
-);
+const entries = filterByLocale(
+	await getCollection('noteAlternatives'),
+	'en',
+).sort((a, b) => a.data.competitor.localeCompare(b.data.competitor));
 
 const breadcrumbs = [
 	{ name: 'Home', url: '/' },
@@ -36,7 +38,7 @@ const breadcrumbs = [
 			<ul class="alt-list">
 				{entries.map((entry) => (
 					<li class="alt-item">
-						<a href={`/note/alternatives/${entry.id}/`} class="alt-link">
+						<a href={`/note/alternatives/${entrySlug(entry)}/`} class="alt-link">
 							<span class="alt-competitor">{entry.data.competitor}</span>
 							<div class="alt-body">
 								<h2>Slax Note vs. {entry.data.competitor}</h2>

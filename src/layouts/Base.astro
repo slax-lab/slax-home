@@ -8,6 +8,14 @@ import '@fontsource-variable/jetbrains-mono';
 import '~/styles/tokens.css';
 import '~/styles/global.css';
 
+import {
+	DEFAULT_LOCALE,
+	HTML_LANG,
+	LOCALES,
+	type Locale,
+} from '~/i18n/locales';
+import { buildAlternates, buildCanonical, detectLocale } from '~/lib/hreflang';
+
 interface Crumb {
 	name: string;
 	url: string;
@@ -20,7 +28,13 @@ interface Props {
 	ogType?: 'website' | 'article';
 	schema?: object | object[];
 	breadcrumbs?: Crumb[];
+	/** Page locale. If omitted, inferred from URL path. */
+	lang?: Locale;
+	/** Locales that actually have a translation of this page. Defaults to all LOCALES (use for static pages). */
+	availableLocales?: readonly Locale[];
 }
+
+const inferredLocale = detectLocale(Astro.url.pathname);
 
 const {
 	title = 'Slax — Reading & writing, taken seriously',
@@ -29,15 +43,33 @@ const {
 	ogType = 'website',
 	schema,
 	breadcrumbs,
+	lang = inferredLocale,
+	availableLocales = LOCALES,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const htmlLang = HTML_LANG[lang];
+const canonical = buildCanonical(
+	Astro.url.pathname,
+	Astro.site?.toString() ?? 'https://slax.com',
+);
+
+// 404 pages shouldn't broadcast hreflang — they aren't indexable.
+const isErrorPage =
+	Astro.url.pathname.endsWith('/404/') || Astro.url.pathname.endsWith('/404');
+const alternates = isErrorPage
+	? []
+	: buildAlternates(
+			Astro.url.pathname,
+			availableLocales,
+			Astro.site?.toString() ?? 'https://slax.com',
+		);
 
 const defaultSiteSchema = {
 	'@context': 'https://schema.org',
 	'@type': 'WebSite',
 	name: 'Slax',
 	url: 'https://slax.com',
+	inLanguage: htmlLang,
 	publisher: {
 		'@type': 'Organization',
 		name: 'Slax Lab',
@@ -67,10 +99,20 @@ if (schema) {
 	else extraSchemas.push(schema);
 }
 
-const schemaList = [defaultSiteSchema, ...extraSchemas];
+// Attach inLanguage to article-type schemas when caller forgot.
+const enrichedExtras = extraSchemas.map((s) => {
+	if (typeof s === 'object' && s !== null && !('inLanguage' in s)) {
+		return { ...s, inLanguage: htmlLang };
+	}
+	return s;
+});
+
+const schemaList = [defaultSiteSchema, ...enrichedExtras];
+
+const isDefaultLocale = lang === DEFAULT_LOCALE;
 ---
 <!doctype html>
-<html lang="en">
+<html lang={htmlLang}>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -80,27 +122,35 @@ const schemaList = [defaultSiteSchema, ...extraSchemas];
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
+{alternates.map((a) => (
+	<link rel="alternate" hreflang={a.hreflang} href={a.href} />
+))}
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:type" content={ogType} />
 <meta property="og:site_name" content="Slax" />
 <meta property="og:url" content={canonical} />
+<meta property="og:locale" content={htmlLang.replace('-', '_')} />
 <meta property="og:image" content={new URL(ogImage, Astro.site).toString()} />
 <meta property="og:image:type" content={ogImage.endsWith('.png') ? 'image/png' : ogImage.endsWith('.jpg') || ogImage.endsWith('.jpeg') ? 'image/jpeg' : 'image/png'} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content={title} />
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={new URL(ogImage, Astro.site).toString()} />
 <meta name="twitter:image:alt" content={title} />
 <link rel="icon" type="image/png" href="/images/slax-logo.png" sizes="any" />
 <link rel="apple-touch-icon" href="/images/slax-logo.png" />
-<link rel="alternate" type="application/rss+xml" title="Slax Blog" href="/rss.xml" />
+{isDefaultLocale && (
+	<link rel="alternate" type="application/rss+xml" title="Slax Blog" href="/rss.xml" />
+)}
 {schemaList.map((s) => (
 	<script type="application/ld+json" set:html={JSON.stringify(s)} />
 ))}
 </head>
-<body data-density="airy">
+<body data-density="airy" data-locale={lang}>
 <slot />
 </body>
 </html>

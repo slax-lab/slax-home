@@ -1,11 +1,12 @@
 import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
+import { entrySlug, filterByLocale } from '~/lib/content';
 import { renderOg } from '~/lib/og';
 
 export async function getStaticPaths() {
-	const entries = await getCollection('noteAlternatives');
-	return entries.map((entry) => ({
-		params: { slug: entry.id },
+	const en = filterByLocale(await getCollection('noteAlternatives'), 'en');
+	return en.map((entry) => ({
+		params: { slug: entrySlug(entry) },
 		props: {
 			competitor: entry.data.competitor,
 			title: entry.data.title,

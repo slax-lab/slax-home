@@ -4,17 +4,31 @@ import { getCollection, render } from 'astro:content';
 import Footer from '~/components/Footer.astro';
 import Nav from '~/components/Nav.astro';
 import Base from '~/layouts/Base.astro';
+import {
+	availableLocalesForSlug,
+	type entryLocale,
+	entrySlug,
+	filterByLocale,
+} from '~/lib/content';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
-	}));
+	const all = await getCollection('blog');
+	const en = filterByLocale(all, 'en');
+	return en.map((post) => {
+		const slug = entrySlug(post);
+		const available = availableLocalesForSlug(all, slug);
+		return {
+			params: { slug },
+			props: { post, slug, available },
+		};
+	});
 }
 
-type Props = CollectionEntry<'blog'>;
-const post = Astro.props;
+const { post, slug, available } = Astro.props as {
+	post: CollectionEntry<'blog'>;
+	slug: string;
+	available: ReturnType<typeof entryLocale>[];
+};
 const { Content } = await render(post);
 
 const dateFmt = new Intl.DateTimeFormat('en-US', {
@@ -45,23 +59,25 @@ const schema = {
 	},
 	mainEntityOfPage: {
 		'@type': 'WebPage',
-		'@id': new URL(`/blog/${post.id}/`, Astro.site).toString(),
+		'@id': new URL(`/blog/${slug}/`, Astro.site).toString(),
 	},
 };
 
 const breadcrumbs = [
 	{ name: 'Home', url: '/' },
 	{ name: 'Blog', url: '/blog/' },
-	{ name: post.data.title, url: `/blog/${post.id}/` },
+	{ name: post.data.title, url: `/blog/${slug}/` },
 ];
 ---
 <Base
 	title={`${post.data.title} — Slax`}
 	description={post.data.description}
 	ogType="article"
-	ogImage={`/og/blog/${post.id}.png`}
+	ogImage={`/og/blog/${slug}.png`}
 	schema={schema}
 	breadcrumbs={breadcrumbs}
+	lang="en"
+	availableLocales={available}
 >
 	<Nav active="blog" />
 	<article class="article">

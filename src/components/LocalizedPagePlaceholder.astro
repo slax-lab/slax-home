@@ -1,0 +1,86 @@
+---
+// Reusable "translation coming soon" placeholder for [lang]/ pages whose
+// content collections / hand-translated bodies aren't yet localized.
+// Renders a translated nav/footer chrome + a clearly-marked note pointing
+// to the English version so users can still get the content.
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import { t } from '~/i18n';
+import type { Locale } from '~/i18n/locales';
+import Base from '~/layouts/Base.astro';
+
+interface Props {
+	lang: Locale;
+	titleKey: Parameters<typeof t>[1];
+	/** English fallback path (e.g. "/reader/changelog/"). */
+	englishHref: string;
+	/** Active nav highlight. */
+	active?: 'reader' | 'note' | 'blog';
+}
+
+const { lang, titleKey, englishHref, active } = Astro.props;
+const title = `${t(lang, titleKey)} — Slax`;
+---
+<Base
+	title={title}
+	description={t(lang, 'meta.defaultDescription')}
+	lang={lang}
+>
+	<Nav active={active} />
+	<main class="placeholder">
+		<header>
+			<p class="eyebrow">Slax</p>
+			<h1>{t(lang, titleKey)}</h1>
+		</header>
+		<p class="lede">
+			{t(lang, 'home.comingSoon')} <a href={englishHref}>slax.com{englishHref}</a>.
+		</p>
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.placeholder {
+		max-width: 680px;
+		margin: 0 auto;
+		padding: 7rem 2rem 5rem;
+	}
+	header {
+		border-bottom: 1px solid var(--rule);
+		padding-bottom: 2.5rem;
+		margin-bottom: 2rem;
+	}
+	.eyebrow {
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 1.25rem;
+	}
+	h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.2rem, 4vw, 3rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0;
+		color: var(--ink);
+	}
+	.lede {
+		font-family: var(--serif);
+		font-size: 1.18rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 50ch;
+	}
+	.lede a {
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid var(--rule);
+	}
+	.lede a:hover {
+		border-color: var(--accent);
+	}
+</style>

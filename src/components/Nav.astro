@@ -1,23 +1,41 @@
 ---
+import LanguageSwitcher from '~/components/LanguageSwitcher.astro';
 import Logo from '~/components/Logo.astro';
+import { t } from '~/i18n';
+import { DEFAULT_LOCALE } from '~/i18n/locales';
+import { detectLocale, withLocale } from '~/lib/hreflang';
 
 interface Props {
 	active?: 'reader' | 'note' | 'blog';
 }
 
 const { active } = Astro.props;
+const lang = detectLocale(Astro.url.pathname);
+const homeHref = lang === DEFAULT_LOCALE ? '/' : `/${lang}/`;
 
 const items = [
-	{ label: 'Reader', href: '/reader/', key: 'reader' as const },
-	{ label: 'Note', href: '/note/', key: 'note' as const },
-	{ label: 'Blog', href: '/blog/', key: 'blog' as const },
+	{
+		label: t(lang, 'nav.reader'),
+		href: withLocale('/reader/', lang),
+		key: 'reader' as const,
+	},
+	{
+		label: t(lang, 'nav.note'),
+		href: withLocale('/note/', lang),
+		key: 'note' as const,
+	},
+	{
+		label: t(lang, 'nav.blog'),
+		href: withLocale('/blog/', lang),
+		key: 'blog' as const,
+	},
 ];
 ---
 <nav class="nav">
 	<div class="nav-inner">
-		<a href="/" class="brand">
+		<a href={homeHref} class="brand">
 			<Logo size={26} />
-			Slax
+			{t(lang, 'nav.brand')}
 		</a>
 		<div class="nav-links">
 			{items.map((item) => (
@@ -28,6 +46,7 @@ const items = [
 					{item.label}
 				</a>
 			))}
+			<LanguageSwitcher variant="nav" />
 		</div>
 	</div>
 </nav>

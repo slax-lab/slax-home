@@ -1,0 +1,139 @@
+---
+import { type CollectionEntry, render } from 'astro:content';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import { t } from '~/i18n';
+import type { Locale } from '~/i18n/locales';
+import Base from '~/layouts/Base.astro';
+
+interface Props {
+	entry: CollectionEntry<'legal'>;
+	lang: Locale;
+	availableLocales: readonly Locale[];
+	/** Used for hreflang generation — the locale-agnostic path stem (e.g. "/privacy/" or "/terms/"). */
+	titleKey: 'meta.privacyTitle' | 'meta.termsTitle';
+}
+
+const { entry, lang, availableLocales, titleKey } = Astro.props;
+const { Content } = await render(entry);
+
+const dateFmt = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : lang, {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+});
+
+const title = `${entry.data.title} — Slax`;
+---
+<Base
+	title={title}
+	description={t(lang, 'meta.defaultDescription')}
+	lang={lang}
+	availableLocales={availableLocales}
+>
+	<Nav />
+	<main class="legal">
+		<header class="legal__head">
+			<p class="legal__eyebrow">{t(lang, 'meta.siteName')} · {t(lang, titleKey)}</p>
+			<h1>{entry.data.title}</h1>
+			{entry.data.updatedDate && (
+				<p class="legal__date">
+					{t(lang, 'common.updated')}: {dateFmt.format(entry.data.updatedDate)}
+				</p>
+			)}
+		</header>
+
+		<article class="legal__body prose">
+			<Content />
+		</article>
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.legal {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: 7rem 2rem 6rem;
+	}
+	.legal__head {
+		border-bottom: 1px solid var(--rule);
+		padding-bottom: 2.5rem;
+		margin-bottom: 3rem;
+	}
+	.legal__eyebrow {
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 1.25rem;
+	}
+	.legal__head h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.4rem, 4.5vw, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		margin: 0 0 1rem;
+		color: var(--ink);
+	}
+	.legal__date {
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		letter-spacing: 0.04em;
+		color: var(--ink-mute);
+		margin: 0;
+	}
+	.legal__body :global(h2) {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.45rem;
+		line-height: 1.3;
+		letter-spacing: -0.01em;
+		margin: 2.75rem 0 1rem;
+		color: var(--ink);
+	}
+	.legal__body :global(h3) {
+		font-family: var(--sans);
+		font-weight: 600;
+		font-size: 0.95rem;
+		letter-spacing: 0.01em;
+		margin: 1.75rem 0 0.75rem;
+		color: var(--ink);
+	}
+	.legal__body :global(p) {
+		font-family: var(--serif);
+		font-size: 1.08rem;
+		line-height: 1.7;
+		color: var(--ink-soft);
+		margin: 0 0 1rem;
+	}
+	.legal__body :global(ul) {
+		margin: 0 0 1rem;
+		padding-left: 1.4rem;
+	}
+	.legal__body :global(li) {
+		font-family: var(--serif);
+		font-size: 1.08rem;
+		line-height: 1.75;
+		color: var(--ink-soft);
+		margin-bottom: 0.5rem;
+	}
+	.legal__body :global(a) {
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid var(--rule);
+		transition: border-color 0.2s ease, color 0.2s ease;
+	}
+	.legal__body :global(a:hover) {
+		color: var(--accent-hover);
+		border-bottom-color: var(--accent);
+	}
+	.legal__body :global(hr) {
+		border: 0;
+		height: 1px;
+		background: var(--rule);
+		margin: 3rem 0;
+	}
+</style>

@@ -3,10 +3,11 @@ import { getCollection, render } from 'astro:content';
 import Footer from '~/components/Footer.astro';
 import Nav from '~/components/Nav.astro';
 import Base from '~/layouts/Base.astro';
+import { filterByLocale } from '~/lib/content';
 
 type Platform = 'iOS' | 'Android';
 
-const raw = await getCollection('noteChangelog');
+const raw = filterByLocale(await getCollection('noteChangelog'), 'en');
 
 const rendered = await Promise.all(
 	raw.map(async (e) => {

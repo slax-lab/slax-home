@@ -1,0 +1,141 @@
+---
+// Placeholder home page used for non-English locales until the full landing page is translated.
+// Shows brand hero + lede + link back to English version for full content.
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import { t } from '~/i18n';
+import type { Locale } from '~/i18n/locales';
+import Base from '~/layouts/Base.astro';
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+---
+<Base
+	title={t(lang, 'meta.defaultTitle')}
+	description={t(lang, 'meta.defaultDescription')}
+	lang={lang}
+>
+	<Nav />
+	<main class="home-placeholder">
+		<section class="hero">
+			<p class="eyebrow">{t(lang, 'home.hero.eyebrow')}</p>
+			<h1>{t(lang, 'home.hero.heading')}</h1>
+			<p class="lede">{t(lang, 'home.hero.lede')}</p>
+		</section>
+
+		<section class="products">
+			<a href={`/${lang}/reader/`} class="product-card">
+				<h2>Slax Reader</h2>
+				<span class="cta">→</span>
+			</a>
+			<a href={`/${lang}/note/`} class="product-card">
+				<h2>Slax Note</h2>
+				<span class="cta">→</span>
+			</a>
+		</section>
+
+		<p class="bilingual-note">
+			{t(lang, 'home.comingSoon')} <a href="/">slax.com</a>.
+		</p>
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.home-placeholder {
+		max-width: 920px;
+		margin: 0 auto;
+		padding: 6rem 2rem 6rem;
+	}
+	.hero {
+		border-bottom: 1px solid var(--rule);
+		padding-bottom: 4rem;
+		margin-bottom: 4rem;
+	}
+	.eyebrow {
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 1.5rem;
+	}
+	.hero h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.3rem, 5vw, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		margin: 0 0 1.5rem;
+		color: var(--ink);
+		max-width: 22ch;
+	}
+	.lede {
+		font-family: var(--serif);
+		font-size: 1.25rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 50ch;
+	}
+
+	.products {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1.25rem;
+		margin-bottom: 4rem;
+	}
+	@media (min-width: 560px) {
+		.products {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.product-card {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		padding: 1.75rem;
+		border: 1px solid var(--rule);
+		border-radius: 8px;
+		text-decoration: none;
+		color: inherit;
+		transition: border-color 0.2s, transform 0.2s;
+	}
+	.product-card:hover {
+		border-color: var(--accent);
+		transform: translateY(-2px);
+	}
+	.product-card h2 {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.35rem;
+		margin: 0;
+		color: var(--ink);
+	}
+	.product-card .cta {
+		font-family: var(--serif);
+		color: var(--accent);
+		font-size: 1.5rem;
+	}
+
+	.bilingual-note {
+		margin-top: 2rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--rule-soft);
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		letter-spacing: 0.04em;
+		color: var(--ink-mute);
+	}
+	.bilingual-note a {
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid var(--rule);
+	}
+	.bilingual-note a:hover {
+		border-color: var(--accent);
+	}
+</style>

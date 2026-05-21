@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Footer from '~/components/Footer.astro';
 import Nav from '~/components/Nav.astro';
 import Base from '~/layouts/Base.astro';
+import { entryLocale, entrySlug, filterByLocale } from '~/lib/content';
 
 const dateFmt = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
@@ -23,7 +24,7 @@ const teaserFromBody = (body: string | undefined) => {
 };
 
 const latestChangelog = async (name: 'readerChangelog' | 'noteChangelog') => {
-	const all = await getCollection(name);
+	const all = filterByLocale(await getCollection(name), 'en');
 	const sorted = all.sort(
 		(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 	);
@@ -37,17 +38,18 @@ const latestChangelog = async (name: 'readerChangelog' | 'noteChangelog') => {
 };
 
 const latestPost = async (product: 'reader' | 'note') => {
-	const posts = await getCollection(
-		'blog',
-		({ data }) => !data.draft && data.product === product,
-	);
+	const posts = await getCollection('blog', ({ data, id }) => {
+		if (data.draft || data.product !== product) return false;
+		const lang = data.lang ?? entryLocale(id);
+		return lang === 'en';
+	});
 	const sorted = posts.sort(
 		(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 	);
 	const latest = sorted[0];
 	return latest
 		? {
-				id: latest.id,
+				slug: entrySlug(latest),
 				title: latest.data.title,
 				description: latest.data.description,
 				pubDate: latest.data.pubDate,
@@ -222,10 +224,10 @@ const products = [
 							{dateFmt.format(readerPost.pubDate)}
 						</time>
 						<h3 class="post-title">
-							<a href={`/blog/${readerPost.id}/`}>{readerPost.title}</a>
+							<a href={`/blog/${readerPost.slug}/`}>{readerPost.title}</a>
 						</h3>
 						<p class="post-desc">{readerPost.description}</p>
-						<a class="post-cta" href={`/blog/${readerPost.id}/`}>Read →</a>
+						<a class="post-cta" href={`/blog/${readerPost.slug}/`}>Read →</a>
 					</article>
 				)}
 				{notePost && (
@@ -235,10 +237,10 @@ const products = [
 							{dateFmt.format(notePost.pubDate)}
 						</time>
 						<h3 class="post-title">
-							<a href={`/blog/${notePost.id}/`}>{notePost.title}</a>
+							<a href={`/blog/${notePost.slug}/`}>{notePost.title}</a>
 						</h3>
 						<p class="post-desc">{notePost.description}</p>
-						<a class="post-cta" href={`/blog/${notePost.id}/`}>Read →</a>
+						<a class="post-cta" href={`/blog/${notePost.slug}/`}>Read →</a>
 					</article>
 				)}
 			</div>

@@ -1,0 +1,187 @@
+---
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import { t } from '~/i18n';
+import type { Locale } from '~/i18n/locales';
+import Base from '~/layouts/Base.astro';
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+
+// Contact list is content (not UI), kept here as fixed data (URLs identical across locales).
+// Labels are pulled from the i18n dict.
+const contacts = [
+	{
+		labelKey: 'about.channels.x' as const,
+		lines: [
+			{ text: 'Slax · @SlaxHQ', href: 'https://x.com/SlaxHQ' },
+			{ text: 'Slax Reader · @SlaxReader', href: 'https://x.com/SlaxReader' },
+			{ text: 'Slax Note · @SlaxHQ', href: 'https://x.com/SlaxHQ' },
+		],
+	},
+	{
+		labelKey: 'about.channels.reddit' as const,
+		lines: [
+			{
+				text: 'Slax Reader · r/SlaxReader',
+				href: 'https://www.reddit.com/r/SlaxReader/',
+			},
+		],
+	},
+	{
+		labelKey: 'about.channels.github' as const,
+		lines: [
+			{ text: 'github.com/slax-lab', href: 'https://github.com/slax-lab' },
+		],
+	},
+	{
+		labelKey: 'about.channels.discord' as const,
+		lines: [
+			{ text: 'discord.gg/kznNsZvWSk', href: 'https://discord.gg/kznNsZvWSk' },
+		],
+	},
+	{
+		labelKey: 'about.channels.email' as const,
+		lines: [
+			{ text: 'reader@slax.com', href: 'mailto:reader@slax.com' },
+			{ text: 'note@slax.com', href: 'mailto:note@slax.com' },
+		],
+	},
+];
+---
+<Base
+	title={`${t(lang, 'meta.aboutTitle')} — Slax`}
+	description={t(lang, 'meta.defaultDescription')}
+	lang={lang}
+>
+	<Nav />
+	<main class="about">
+		<header class="about__head">
+			<p class="about__eyebrow">{t(lang, 'about.eyebrow')}</p>
+			<h1>{t(lang, 'about.heading')}</h1>
+			<p class="about__lede">{t(lang, 'about.lede')}</p>
+		</header>
+
+		<section class="about__section">
+			<h2>{t(lang, 'about.sectionHeading')}</h2>
+			<p class="about__note">{t(lang, 'about.note')}</p>
+
+			<dl class="about__contacts">
+				{contacts.map((c) => (
+					<div class="contact-row">
+						<dt>{t(lang, c.labelKey)}</dt>
+						<dd>
+							{c.lines.map((l, i) => (
+								<>
+									{i > 0 && <br />}
+									<a href={l.href}>{l.text}</a>
+								</>
+							))}
+						</dd>
+					</div>
+				))}
+			</dl>
+		</section>
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.about {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: 7rem 2rem 6rem;
+	}
+	.about__head {
+		border-bottom: 1px solid var(--rule);
+		padding-bottom: 2.5rem;
+		margin-bottom: 3rem;
+	}
+	.about__eyebrow {
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 1.25rem;
+	}
+	.about__head h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 3.8vw, 3rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0 0 1.25rem;
+		color: var(--ink);
+		max-width: 22ch;
+	}
+	.about__lede {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1.15rem;
+		color: var(--ink-soft);
+		margin: 0;
+	}
+	.about__section h2 {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.45rem;
+		line-height: 1.3;
+		letter-spacing: -0.01em;
+		margin: 0 0 1rem;
+		color: var(--ink);
+	}
+	.about__note {
+		font-family: var(--serif);
+		font-size: 1.08rem;
+		line-height: 1.65;
+		color: var(--ink-soft);
+		margin: 0 0 2rem;
+		max-width: 50ch;
+	}
+	.about__contacts {
+		margin: 0;
+		border-top: 1px solid var(--rule);
+	}
+	.contact-row {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.35rem;
+		padding: 1.1rem 0;
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 560px) {
+		.contact-row {
+			grid-template-columns: 11rem 1fr;
+			gap: 1rem;
+			align-items: baseline;
+		}
+	}
+	.contact-row dt {
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+	}
+	.contact-row dd {
+		margin: 0;
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+	}
+	.contact-row dd a {
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid var(--rule);
+		transition: border-color 0.2s ease, color 0.2s ease;
+	}
+	.contact-row dd a:hover {
+		color: var(--accent-hover);
+		border-bottom-color: var(--accent);
+	}
+</style>
