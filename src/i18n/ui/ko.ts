@@ -89,6 +89,13 @@ export const ui: UIDict = {
 		},
 		comingSoon: '현지화된 랜딩 페이지는 준비 중입니다. 영문 전체 버전:',
 	},
+	changelog: {
+		headline: '모든 버전을 한 페이지에.',
+		emptyState:
+			'이 언어의 업데이트 내역은 아직 번역되지 않았습니다. 영문 전체 버전:',
+		latestIs: '최신 버전',
+		shippedOn: '출시',
+	},
 };
 
 export default ui;

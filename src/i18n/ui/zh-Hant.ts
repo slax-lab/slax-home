@@ -89,6 +89,12 @@ export const ui: UIDict = {
 		},
 		comingSoon: '本地化著陸頁正在準備中。完整英文版在',
 	},
+	changelog: {
+		headline: '所有版本，一處查閱。',
+		emptyState: '本地化版本的更新日誌還在翻譯中。完整版在',
+		latestIs: '最新版本',
+		shippedOn: '發佈於',
+	},
 };
 
 export default ui;

@@ -89,6 +89,12 @@ export const ui = {
 		comingSoon:
 			'Localized landing page in progress. Full English version is at',
 	},
+	changelog: {
+		headline: 'Every version, in one place.',
+		emptyState: 'No releases translated yet. The full release log is at',
+		latestIs: 'The latest is',
+		shippedOn: 'shipped',
+	},
 } as const;
 
 export default ui;

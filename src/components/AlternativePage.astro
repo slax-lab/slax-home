@@ -1,0 +1,212 @@
+---
+import { type CollectionEntry, render } from 'astro:content';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import { t } from '~/i18n';
+import type { Locale } from '~/i18n/locales';
+import Base from '~/layouts/Base.astro';
+import { withLocale } from '~/lib/hreflang';
+
+type AnyAltEntry =
+	| CollectionEntry<'readerAlternatives'>
+	| CollectionEntry<'noteAlternatives'>;
+
+interface Props {
+	entry: AnyAltEntry;
+	slug: string;
+	lang: Locale;
+	availableLocales: readonly Locale[];
+	product: 'reader' | 'note';
+}
+
+const { entry, slug, lang, availableLocales, product } = Astro.props;
+const { Content } = await render(entry);
+
+const dateFmt = new Intl.DateTimeFormat(lang, {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+});
+
+const isCJK = /^(zh|ja|ko)/.test(lang);
+const bodyText = entry.body ?? '';
+const wordCount = isCJK
+	? Math.ceil(bodyText.replace(/\s+/g, '').length / 3)
+	: bodyText.trim().split(/\s+/).filter(Boolean).length;
+const readingMin = Math.max(1, Math.round(wordCount / 200));
+
+const productLabel = product === 'reader' ? 'Slax Reader' : 'Slax Note';
+const productIndexPath = withLocale(`/${product}/`, lang);
+const altsIndexPath = withLocale(`/${product}/alternatives/`, lang);
+const articlePath = `${altsIndexPath}${slug}/`;
+const ogPath =
+	lang === 'en'
+		? `/og/${product}-alternatives/${slug}.png`
+		: `/og/${lang}/${product}-alternatives/${slug}.png`;
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'Article',
+	headline: entry.data.title,
+	description: entry.data.description,
+	datePublished: (entry.data.updatedDate ?? new Date()).toISOString(),
+	dateModified: (entry.data.updatedDate ?? new Date()).toISOString(),
+	author: { '@type': 'Organization', name: 'Slax Lab' },
+	publisher: {
+		'@type': 'Organization',
+		name: 'Slax Lab',
+		logo: {
+			'@type': 'ImageObject',
+			url: 'https://slax.com/images/slax-logo.png',
+		},
+	},
+	mainEntityOfPage: {
+		'@type': 'WebPage',
+		'@id': new URL(articlePath, Astro.site).toString(),
+	},
+};
+
+const altsTitleKey = (
+	product === 'reader'
+		? 'meta.readerAlternativesTitle'
+		: 'meta.noteAlternativesTitle'
+) as 'meta.readerAlternativesTitle' | 'meta.noteAlternativesTitle';
+
+const breadcrumbs = [
+	{ name: t(lang, 'nav.brand'), url: lang === 'en' ? '/' : `/${lang}/` },
+	{ name: productLabel, url: productIndexPath },
+	{ name: t(lang, altsTitleKey), url: altsIndexPath },
+	{
+		name: `vs. ${entry.data.competitor}`,
+		url: articlePath,
+	},
+];
+---
+<Base
+	title={`${entry.data.title} — Slax`}
+	description={entry.data.description}
+	ogType="article"
+	ogImage={ogPath}
+	schema={schema}
+	breadcrumbs={breadcrumbs}
+	lang={lang}
+	availableLocales={availableLocales}
+>
+	<Nav active={product} />
+	<article class="article">
+		<div class="article-inner">
+			<a class="article-back-top" href={altsIndexPath}>← {t(lang, altsTitleKey)}</a>
+
+			<header class="article-head">
+				<div class="article-meta">
+					{entry.data.updatedDate && (
+						<>
+							<time datetime={entry.data.updatedDate.toISOString()}>
+								{dateFmt.format(entry.data.updatedDate)}
+							</time>
+							<span class="sep">·</span>
+						</>
+					)}
+					<span>{readingMin} min</span>
+					<span class="sep">·</span>
+					<span class="competitor">vs. {entry.data.competitor}</span>
+				</div>
+				<h1>{entry.data.title}</h1>
+				{entry.data.description && (
+					<p class="dek">{entry.data.description}</p>
+				)}
+			</header>
+
+			<div class="prose">
+				<Content />
+			</div>
+
+			<footer class="article-footer">
+				<div class="article-end" aria-label="End of article">◆</div>
+				<a class="article-back-bottom" href={altsIndexPath}>
+					{t(lang, altsTitleKey)} <span class="arrow">→</span>
+				</a>
+			</footer>
+		</div>
+	</article>
+	<Footer />
+</Base>
+
+<style>
+	.article { padding: 3rem 2rem 5rem; }
+	.article-inner { max-width: 680px; margin: 0 auto; }
+	.article-back-top {
+		display: inline-block;
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		letter-spacing: 0.06em;
+		color: var(--ink-mute);
+		text-decoration: none;
+		margin-bottom: 3rem;
+		transition: color 0.2s;
+	}
+	.article-back-top:hover { color: var(--accent); }
+	.article-head { margin-bottom: 3rem; }
+	.article-meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.75rem;
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.06em;
+		color: var(--ink-mute);
+		margin-bottom: 1.5rem;
+	}
+	.article-meta time { text-transform: uppercase; letter-spacing: 0.1em; }
+	.article-meta .sep { color: var(--rule); }
+	.article-meta .competitor { color: var(--accent); letter-spacing: 0.04em; }
+	.article-head h1 {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: clamp(1.7rem, 3vw, 2.3rem);
+		line-height: 1.15;
+		letter-spacing: -0.015em;
+		margin: 0 0 1rem;
+		color: var(--ink);
+	}
+	.article-head .dek {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1.2rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 58ch;
+	}
+	.article-footer {
+		margin-top: 4.5rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--rule-soft);
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+	.article-end {
+		font-family: var(--serif);
+		font-size: 1.35rem;
+		color: var(--accent);
+		line-height: 1;
+	}
+	.article-back-bottom {
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		color: var(--ink);
+		text-decoration: none;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		border-bottom: 1px dotted var(--ink-mute);
+		padding-bottom: 2px;
+		align-self: flex-start;
+		transition: color 0.2s, border-color 0.2s;
+	}
+	.article-back-bottom:hover { color: var(--accent); border-color: var(--accent); }
+	.article-back-bottom .arrow { transition: transform 0.2s; }
+	.article-back-bottom:hover .arrow { transform: translateX(3px); }
+</style>

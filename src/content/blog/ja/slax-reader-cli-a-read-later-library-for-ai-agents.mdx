@@ -1,0 +1,129 @@
+---
+title: "Slax Reader CLI：AI エージェントが使えるあとで読むライブラリ"
+description: "Slax Reader を、AI エージェント——Claude Code、Codex、Gemini CLI、Cursor——が読み書きできる永続的な読書ストアに変える CLI です。"
+pubDate: 2026-05-19T00:00:00.000Z
+tags: ['reader', 'cli', 'ai-agents']
+product: reader
+---
+
+あとで読むアプリ Slax Reader 向けに CLI を出しました。面白いのは CLI そのものではなく、あなたの読書ライブラリが AI エージェントが呼べる一級のツールになったことです。ブックマーク、リスト、プロンプトへのパイプ——すべてスクリプタブルです。
+
+リポジトリ：[github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)（MIT）。インストールと使い方は下にあります。
+
+---
+
+## なぜ CLI か
+
+ほとんどの AI エージェントには、ものを置く場所がありません。
+
+Claude Code に「この記事をあとで読むために保存して」と頼んでも——できません。ChatGPT は URL を要約できますが、明日見つけられる場所にリンクを書き残すことはできません。タイムラインをスキャンするブラウザエージェントには永続的なストアがありません。すべての会話は、それが起きたツールの中に閉じ込められています。
+
+CLI はその隙間を埋めます。Slax Reader は、どんなエージェント——Claude Code、Claude Desktop、Codex、Gemini CLI、OpenClaw、Cursor、Windsurf——でも読み書きできる永続的な読書ストアになります。
+
+具体的には：
+
+- X のタイムラインをスキャンするブラウザエージェント → `reader-cli add` がリンクを保存
+- 記事を起草中の Claude Code → `reader-cli list --filter inbox` を呼び出し、今日保存したものを素材として引き出す
+- 週末のスクリプトが過去 30 日間の `reader-cli list --filter archive --json` を取得し、自分のパイプラインに流し込む
+
+ライブラリは受動的なブックマークの山であることをやめます。エージェントが扱えるコーパスになります。
+
+---
+
+## できること
+
+### 1. 要約より、フィルタリング
+
+ほとんどの「AI が長文を読んでくれる」ツールは要約をデフォルトにしています。私たちは、フィルタリングの方が役に立つと思っています。
+
+Claude Code にこう言います：*「今朝保存した長文を取って、もっとも反直観的な 3 ポイントと、私がたぶん反対する 1 ポイントを教えて。」*
+
+裏側では、エージェントが `reader-cli list --filter inbox --json` を実行し、適切なブックマークを選び、`reader-cli get <id> --markdown` でコンテンツを引き出します。UUID は一度も目にしません。
+
+記事を圧縮する必要はありません。あなたに必要なのは、それが時間を使う価値があるかと、そのうちどの 5 分間が重要か、を知ることです。
+
+### 2. ルールで一括保存
+
+`reader-cli add` は URL を受け取りますが、面白いワークフローはエージェントに選ばせることです：
+
+- 「HN フロントページをスキャンし、200 ポイント以上の投稿はアーカイブモード（フルスナップショット）で保存」
+- 「X のタイムラインを監視。よく保存している 8 アカウントが投稿したリンクを保存」
+- 「この Substack 出版物の直近 30 投稿をスキャン。タイトルに『agent』が含まれているものを保存」
+
+スクレイピングです。違いは、スクレイパーを書く代わりにルールを平易な英語で記述することです。
+
+### 3. RSS ワークフローの逆転
+
+従来のリーダーワークフロー：
+
+1. N 個のフィードを購読する
+2. RSS リーダーがすべてを引っ張ってくる
+3. あなたが見出しをスキャンする
+4. あとで読むために保存する
+5. 実際に読む
+
+ステップ 3——「自分で見出しをスキャンする」——は、今や AI に属するべき部分です。
+
+逆転：
+
+1. エージェントがフィードを購読する
+2. エージェントがスキャンし、ダイジェストを送る
+3. あなたが読む価値のある 3 つを指す
+4. エージェントが Reader に保存する
+
+私が実際に動かしている具体例：
+
+- **オープンソース LLM リリース追跡。** エージェントが HuggingFace のトレンド、Anthropic／Mistral／Meta／Qwen／DeepSeek のリリースページ、r/LocalLLaMA、arxiv-sanity をスキャン。読む価値のある新しいモデルカードやベンチマークを `models` タグ付きで保存。週次ダイジェスト。
+
+これを設定した後、RSS の購読の大半をやめました。悪いからではなく——スキャンのステップが、もう私のものであるべきではないからです。
+
+### 4. 過去のあなたに問い合わせる
+
+書き手はみな車輪を再発明します。あるアイデアを明快に説明する何かを、先月読みました。今は見つかりません。
+
+記事を書き始める前に、Claude Code にこう尋ねます：*「私の Slax Reader アーカイブで、過去 90 日間のエージェント設計パターンに関するものをすべて見つけて。」* エージェントは `reader-cli list --filter archive --json` を呼び、コンテキスト内でフィルタリングし、過去のあなたからのリサーチブリーフを返してきます。アーカイブ全体を自分で読み返す必要はありません。
+
+**上級編：** 今の自分の見解と矛盾するものを読んだら、毎回 `#self-challenge` で保存。四半期に一度、読み返す。これがクエリ可能になった、自分の意見の進化です。
+
+---
+
+## プロダクトについて少し
+
+懐疑的な方へ：
+
+- **オープンソース、セルフホスト可能。** Slax Reader 本体は Apache 2.0（[github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader)）。CLI は MIT。いつでもエクスポートできます。
+- **キャッシュフローは安定していて、長期運用にコミットしています。** Pocket は 2025 年に Mozilla によって終了し、多くの人にあとで読む依存症のトラウマを残しました。私たちは同じことはしません。
+- **永続バックアップは無料。** ブックマーク＋全文キャッシュは永久無料。Readwise、Instapaper Premium、Matter、かつての Pocket はこれに課金していました。私たちはしません。
+- **全文検索とハイライトは無料。** 同じ理由です。
+- **プラットフォーム別のパーサーに継続投資。** X、Threads、Substack は十分にサポート。中国側では WeChat 公式アカウント、小紅書、微博、知乎の専用パーサーを持っています。
+- **iOS、Android、Web、ブラウザ拡張。**
+
+---
+
+## インストール
+
+```bash
+# ワンステップで：CLI と AI エージェント用スキルをインストール
+npx @slax-lab/reader-cli@latest install
+
+# 認証（reader.slax.com → Settings → API Keys から API キーを貼り付け）
+reader-cli login
+
+# 使う
+reader-cli add https://example.com --tags "models,ai" --archive
+reader-cli list --filter inbox
+reader-cli get <bookmark-id> --markdown
+```
+
+または、エージェントにインストールガイドを示して、全部やらせるだけでも構いません：
+
+> *「Slax Reader CLI のインストールとセットアップを手伝って：https://github.com/slax-lab/slax-reader-cli/blob/main/docs/ai-agent-installation-guide.md」*
+
+---
+
+## リンク
+
+- リポジトリ＆ドキュメント：[github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)
+- 登録：[reader.slax.com](https://reader.slax.com)
+
+> 私のリファラル経由の登録で、Pro が数か月もらえます：[r.slax.com/luca-reader](https://r.slax.com/luca-reader)。上記のワークフローはどれも Pro 不要——永続バックアップ、全文検索、CLI はすべて無料プランで動きます。

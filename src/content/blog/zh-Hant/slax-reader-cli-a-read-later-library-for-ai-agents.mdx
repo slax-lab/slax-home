@@ -1,0 +1,129 @@
+---
+title: "Slax Reader CLI:一個可供你的 AI agent 使用的稍後讀書庫"
+description: "一個把 Slax Reader 變成持久閱讀儲存的 CLI,任何 AI agent——Claude Code、Codex、Gemini CLI、Cursor——都能讀寫。"
+pubDate: 2026-05-19T00:00:00.000Z
+tags: ['reader', 'cli', 'ai-agents']
+product: reader
+---
+
+我們推出了 Slax Reader 的 CLI,也就是我們的稍後讀 App。有意思的不是 CLI 本身——而是你的閱讀書庫現在變成 AI agent 可以呼叫的一等公民工具。加入書籤、列出清單、把內容傳進 prompt,全部可以寫腳本。
+
+倉庫:[github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)(MIT)。安裝與用法見下方。
+
+---
+
+## 為什麼要做 CLI
+
+多數 AI agent 沒地方放東西。
+
+叫 Claude Code「把這篇文章存起來之後讀」——它做不到。ChatGPT 可以摘要一個 URL,但沒辦法把連結寫到你明天找得到的地方。在你 timeline 上掃描的瀏覽器 agent 沒有持久的儲存。每一次對話都被圈在它發生的那個工具裡。
+
+CLI 填補了這個缺口。Slax Reader 變成一個持久的閱讀儲存,任何 agent——Claude Code、Claude Desktop、Codex、Gemini CLI、OpenClaw、Cursor、Windsurf——都能讀寫。
+
+具體來說:
+
+- 掃描你的 X timeline 的瀏覽器 agent → `reader-cli add` 儲存連結。
+- 起草文章的 Claude Code → 呼叫 `reader-cli list --filter inbox` 拉出今天的儲存內容作為素材。
+- 你週末跑的腳本從過去 30 天拉 `reader-cli list --filter archive --json`,餵進你自己的處理流程。
+
+書庫不再是被動的書籤堆。它變成你的 agent 可以一起工作的語料庫。
+
+---
+
+## 你能用它做什麼
+
+### 1. 過濾,不是摘要
+
+多數「AI 幫你讀長文」的工具預設行為是摘要。我們認為過濾更有用。
+
+告訴 Claude Code:*「拿我今天早上儲存的那篇長文,給我 3 個最違反直覺的觀點,還有 1 個我可能會反對的觀點。」*
+
+底層 agent 會跑 `reader-cli list --filter inbox --json`,挑出對的書籤,然後 `reader-cli get <id> --markdown` 拉出內容。你從頭到尾都沒看過 UUID。
+
+你不需要文章被壓縮。你需要知道它值不值得你的時間,以及裡面哪 5 分鐘最重要。
+
+### 2. 用規則批次儲存
+
+`reader-cli add` 接受 URL,但有趣的工作流是讓 agent 來挑:
+
+- 「掃描 HN 首頁,把任何超過 200 分的貼文以歸檔模式(完整快照)儲存。」
+- 「監看我的 X timeline。儲存我最常儲存的那 8 個帳號發出的連結。」
+- 「掃描這個 Substack 出版品的最後 30 篇貼文。儲存任何標題裡有『agent』的文章。」
+
+這就是爬蟲。差別在於你用白話描述規則,而不是寫爬蟲程式。
+
+### 3. RSS 工作流,反過來做
+
+傳統 reader 工作流:
+
+1. 訂閱 N 個 feed。
+2. RSS 閱讀器拉所有內容。
+3. 你掃標題。
+4. 你儲存稍後讀。
+5. 你真的去讀。
+
+第 3 步——「自己掃標題」——應該屬於現在的 AI 了。
+
+反過來:
+
+1. Agent 訂閱 feed。
+2. Agent 掃描,寄一份摘要給你。
+3. 你指出值得讀的那 3 篇。
+4. Agent 把它們存進 Reader。
+
+我跑的一個具體例子:
+
+- **追蹤開源 LLM 發布。**Agent 掃描 HuggingFace 熱門、Anthropic / Mistral / Meta / Qwen / DeepSeek 的發布頁、r/LocalLLaMA 和 arxiv-sanity。儲存任何值得讀的新模型卡或基準測試,加上 `models` 標籤。每週一份摘要。
+
+設定好之後,我把多數 RSS 訂閱都退了。不是因為它們不好——而是掃描那一步不該再是我的工作了。
+
+### 4. 查詢過去的你
+
+每個寫作者都在重新發明輪子。你上個月讀到一篇把某個概念講得很清楚的文章。現在找不到了。
+
+開始寫之前,問 Claude Code:*「在我的 Slax Reader 歸檔裡,找過去 90 天所有關於 agent 設計模式的內容。」* Agent 呼叫 `reader-cli list --filter archive --json`,在它的脈絡裡過濾,回傳一份來自過去的你的研究簡報。不用自己重讀整個歸檔。
+
+**進階:**任何時候你讀到某個與你目前看法相反的東西,用 `#self-challenge` 標籤儲存。每季回頭讀一次。這就是你的觀點演化過程,而且可被查詢。
+
+---
+
+## 關於這個產品的幾件事
+
+給多疑的人:
+
+- **開源、可自架。**Slax Reader 本身是 Apache 2.0([github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader))。CLI 是 MIT。隨時可匯出。
+- **我們現金流穩定,並承諾長期經營。**Pocket 在 2025 年被 Mozilla 中止,讓很多人留下了稍後讀被遺棄的創傷。我們不會讓你經歷那個。
+- **永久備份免費。**書籤 + 全文快取,永遠免費。Readwise、Instapaper Premium、Matter 和以前的 Pocket 都對此收費。我們不收。
+- **全文搜尋和重點標記免費。**同樣的理由。
+- **我們持續投入特定平台的解析器。**X、Threads 和 Substack 都支援良好。中文這邊,我們有微信公眾號、小紅書、微博和知乎的專用解析器。
+- **iOS、Android、Web、瀏覽器擴充功能。**
+
+---
+
+## 安裝
+
+```bash
+# 一步:安裝 CLI 和 AI agent 技能
+npx @slax-lab/reader-cli@latest install
+
+# 驗證(從 reader.slax.com → Settings → API Keys 貼上 API key)
+reader-cli login
+
+# 使用
+reader-cli add https://example.com --tags "models,ai" --archive
+reader-cli list --filter inbox
+reader-cli get <bookmark-id> --markdown
+```
+
+或者直接讓你的 agent 看安裝指南,讓它把整件事都做完:
+
+> *「幫我安裝並設定 Slax Reader CLI:https://github.com/slax-lab/slax-reader-cli/blob/main/docs/ai-agent-installation-guide.md」*
+
+---
+
+## 連結
+
+- 倉庫與文件:[github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)
+- 註冊:[reader.slax.com](https://reader.slax.com)
+
+> 用我的推薦連結註冊可以拿到幾個月的 Pro:[r.slax.com/luca-reader](https://r.slax.com/luca-reader)。上面所有的工作流都不需要 Pro——永久備份、全文搜尋和 CLI 在免費版上都可以用。

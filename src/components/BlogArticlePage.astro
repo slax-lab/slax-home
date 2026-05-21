@@ -1,0 +1,232 @@
+---
+import { type CollectionEntry, render } from 'astro:content';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import { t } from '~/i18n';
+import type { Locale } from '~/i18n/locales';
+import Base from '~/layouts/Base.astro';
+import { withLocale } from '~/lib/hreflang';
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+	slug: string;
+	lang: Locale;
+	availableLocales: readonly Locale[];
+}
+
+const { post, slug, lang, availableLocales } = Astro.props;
+const { Content } = await render(post);
+
+// Locale for Intl. zh-Hans → zh-CN-ish behavior is fine via the BCP-47 code itself.
+const dateFmt = new Intl.DateTimeFormat(lang, {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+});
+
+// 200 wpm for English; CJK is faster per character but ~600-800 CPM. Coarse approximation:
+// for CJK we estimate via 3 chars per "word" (rough)
+const isCJK = /^(zh|ja|ko)/.test(lang);
+const bodyText = post.body ?? '';
+const wordCount = isCJK
+	? Math.ceil(bodyText.replace(/\s+/g, '').length / 3)
+	: bodyText.trim().split(/\s+/).filter(Boolean).length;
+const readingMin = Math.max(1, Math.round(wordCount / 200));
+
+const blogPath = withLocale('/blog/', lang);
+const articlePath = `${blogPath}${slug}/`;
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'Article',
+	headline: post.data.title,
+	description: post.data.description,
+	datePublished: post.data.pubDate.toISOString(),
+	dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+	author: { '@type': 'Organization', name: 'Slax Lab' },
+	publisher: {
+		'@type': 'Organization',
+		name: 'Slax Lab',
+		logo: {
+			'@type': 'ImageObject',
+			url: 'https://slax.com/images/slax-logo.png',
+		},
+	},
+	mainEntityOfPage: {
+		'@type': 'WebPage',
+		'@id': new URL(articlePath, Astro.site).toString(),
+	},
+};
+
+const breadcrumbs = [
+	{ name: t(lang, 'nav.brand'), url: lang === 'en' ? '/' : `/${lang}/` },
+	{ name: t(lang, 'meta.blogTitle'), url: blogPath },
+	{ name: post.data.title, url: articlePath },
+];
+
+const ogPath =
+	lang === 'en' ? `/og/blog/${slug}.png` : `/og/${lang}/blog/${slug}.png`;
+---
+<Base
+	title={`${post.data.title} — Slax`}
+	description={post.data.description}
+	ogType="article"
+	ogImage={ogPath}
+	schema={schema}
+	breadcrumbs={breadcrumbs}
+	lang={lang}
+	availableLocales={availableLocales}
+>
+	<Nav active="blog" />
+	<article class="article">
+		<div class="article-inner">
+			<a class="article-back-top" href={blogPath}>← {t(lang, 'meta.blogTitle')}</a>
+
+			<header class="article-head">
+				<div class="article-meta">
+					<time datetime={post.data.pubDate.toISOString()}>
+						{dateFmt.format(post.data.pubDate)}
+					</time>
+					<span class="sep">·</span>
+					<span>{readingMin} min</span>
+					{post.data.tags && post.data.tags.length > 0 && (
+						<>
+							<span class="sep">·</span>
+							<ul class="article-tags">
+								{post.data.tags.map((tag) => <li>{tag}</li>)}
+							</ul>
+						</>
+					)}
+				</div>
+				<h1>{post.data.title}</h1>
+				{post.data.description && (
+					<p class="dek">{post.data.description}</p>
+				)}
+			</header>
+
+			<div class="prose">
+				<Content />
+			</div>
+
+			<footer class="article-footer">
+				<div class="article-end" aria-label="End of article">◆</div>
+				<a class="article-back-bottom" href={blogPath}>
+					{t(lang, 'common.readMore')} <span class="arrow">→</span>
+				</a>
+			</footer>
+		</div>
+	</article>
+	<Footer />
+</Base>
+
+<style>
+	.article {
+		padding: 3rem 2rem 5rem;
+	}
+	.article-inner {
+		max-width: 680px;
+		margin: 0 auto;
+	}
+	.article-back-top {
+		display: inline-block;
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		letter-spacing: 0.06em;
+		color: var(--ink-mute);
+		text-decoration: none;
+		margin-bottom: 3rem;
+		transition: color 0.2s;
+	}
+	.article-back-top:hover {
+		color: var(--accent);
+	}
+	.article-head {
+		margin-bottom: 3rem;
+	}
+	.article-meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.75rem;
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.06em;
+		color: var(--ink-mute);
+		margin-bottom: 1.5rem;
+	}
+	.article-meta time {
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+	}
+	.article-meta .sep {
+		color: var(--rule);
+	}
+	.article-tags {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+	.article-tags li {
+		text-transform: lowercase;
+		letter-spacing: 0.04em;
+		color: var(--accent);
+	}
+	.article-head h1 {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: clamp(1.7rem, 3vw, 2.3rem);
+		line-height: 1.15;
+		letter-spacing: -0.015em;
+		margin: 0 0 1rem;
+		color: var(--ink);
+	}
+	.article-head .dek {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1.2rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 58ch;
+	}
+	.article-footer {
+		margin-top: 4.5rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--rule-soft);
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+	.article-end {
+		font-family: var(--serif);
+		font-size: 1.35rem;
+		color: var(--accent);
+		line-height: 1;
+	}
+	.article-back-bottom {
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		color: var(--ink);
+		text-decoration: none;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		border-bottom: 1px dotted var(--ink-mute);
+		padding-bottom: 2px;
+		align-self: flex-start;
+		transition: color 0.2s, border-color 0.2s;
+	}
+	.article-back-bottom:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+	.article-back-bottom .arrow {
+		transition: transform 0.2s;
+	}
+	.article-back-bottom:hover .arrow {
+		transform: translateX(3px);
+	}
+</style>

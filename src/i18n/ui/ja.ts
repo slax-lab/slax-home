@@ -90,6 +90,12 @@ export const ui: UIDict = {
 		comingSoon:
 			'ローカライズ版のランディングページは準備中です。完全な英語版はこちら:',
 	},
+	changelog: {
+		headline: 'すべてのバージョンを、ひとつのページに。',
+		emptyState: 'この言語の更新履歴はまだ翻訳されていません。完全版はこちら:',
+		latestIs: '最新版',
+		shippedOn: 'リリース',
+	},
 };
 
 export default ui;
