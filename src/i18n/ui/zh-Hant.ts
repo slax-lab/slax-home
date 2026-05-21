@@ -1,13 +1,14 @@
 // 繁體中文 UI 字串。結構必須與 en.ts 完全對齊。
+// 用詞偏好台灣 / 香港：軟體、資訊流、設定、登入。
 
 import type { UIDict } from './en';
 
 export const ui: UIDict = {
 	meta: {
 		siteName: 'Slax',
-		defaultTitle: 'Slax —— 認真閱讀，認真書寫',
+		defaultTitle: 'Slax —— 給認真讀寫的人的工具',
 		defaultDescription:
-			'Slax 為長內容打造一個閱讀器和一個筆記本，專注於慢慢來的軟體。',
+			'Slax Lab 做小而美且長期的軟體，現在有 Slax Reader 和 Slax Note。',
 		blogTitle: 'Slax 部落格',
 		readerBlogTitle: 'Slax Reader 部落格',
 		noteBlogTitle: 'Slax Note 部落格',
@@ -18,7 +19,7 @@ export const ui: UIDict = {
 		aboutTitle: '關於 Slax',
 		privacyTitle: '私隱政策',
 		termsTitle: '服務條款',
-		notFoundTitle: '找不到頁面',
+		notFoundTitle: '找不到這個頁面',
 	},
 	nav: {
 		reader: 'Reader',
@@ -33,7 +34,7 @@ export const ui: UIDict = {
 			products: '產品',
 			reader: 'Reader',
 			note: 'Note',
-			company: '公司',
+			company: '關於',
 		},
 		links: {
 			slaxReader: 'Slax Reader',
@@ -47,13 +48,13 @@ export const ui: UIDict = {
 			rss: 'RSS',
 		},
 		copyright: '© 2026 Slax Lab',
-		versionMeta: 'v{version} · 更新於 {lastUpdated}',
+		versionMeta: 'v{version} · 最近更新 {lastUpdated}',
 	},
 	common: {
-		readMore: '閱讀全文',
+		readMore: '繼續讀',
 		backToTop: '回到頂部',
-		published: '發佈於',
-		updated: '更新於',
+		published: '發佈',
+		updated: '更新',
 		tags: '標籤',
 		platforms: '平台',
 		version: '版本',
@@ -62,17 +63,17 @@ export const ui: UIDict = {
 		previous: '上一篇',
 	},
 	notFound: {
-		heading: '找不到頁面',
-		body: '你想找的頁面已經搬走或從未存在。請從頂部導覽回到首頁。',
-		homeLink: '回到首頁',
+		heading: '找不到這個頁面',
+		body: '頁面不存在。',
+		homeLink: '回首頁',
 		readBlogLink: '看看部落格',
 	},
 	about: {
 		eyebrow: '關於',
-		heading: 'Slax Lab 在做關於「專注」的小軟體。',
-		lede: '總部新加坡，同事散落各地。',
+		heading: '給認真的人做安靜的工具。',
+		lede: '公司在新加坡，同事散在各地。',
 		sectionHeading: '聯絡我們',
-		note: '我們喜歡與認真閱讀和書寫的人聊天。挑一個順手的方式。',
+		note: '我們喜歡和認真讀寫的人聊。下面任選一種聯絡方式。',
 		channels: {
 			x: '在 X 上',
 			reddit: '在 Reddit 上',
@@ -85,65 +86,65 @@ export const ui: UIDict = {
 		hero: {
 			eyebrow: 'Slax',
 			heading: '簡單。從容。長期。',
-			lede: '我們自己想用的軟體——Slax Reader 與 Slax Note，做得小，做得久。',
+			lede: '做我們自己想用的小而美且長期的軟體。',
 		},
-		comingSoon: '本地化著陸頁正在準備中。完整英文版在',
+		comingSoon: '中文版還在做。完整版在',
 	},
 	changelog: {
-		headline: '所有版本，一處查閱。',
-		emptyState: '本地化版本的更新日誌還在翻譯中。完整版在',
-		latestIs: '最新版本',
+		headline: '每一版都在這裡。',
+		emptyState: '中文版的更新日誌還在翻。完整版在',
+		latestIs: '最新版',
 		shippedOn: '發佈於',
 	},
 	reader: {
 		eyebrow: 'Slax Reader',
-		heading: '稍後讀不必什麼都做。',
+		heading: '簡單純粹的稍後讀工具。',
 		bullets: [
-			'沒有演算法、沒有資訊流。下一篇讀什麼，你說了算。',
-			'無限快照，免費。',
+			'沒有演算法，沒有資訊流。下一篇讀什麼，自己挑。',
+			'免費無限網頁快照。',
 			'開源。',
 		],
 		features: [
 			{
-				title: 'AI 幫你理解',
-				body: '一鍵摘要、要點提煉、針對文章內容直接問 AI。',
+				title: 'AI 輔助理解。',
+				body: '立即出摘要、提重點。看不懂的內容可以直接問 AI。',
 			},
 			{
-				title: '文章永不失效',
-				body: '儲存一次，永久備份。從此不再遇到 404。',
+				title: '存了就不會丟',
+				body: '一次存下，永久備份。再也不用怕 404。',
 			},
 			{
-				title: '邊讀邊討論',
-				body: '在同一篇文章上劃重點、留言，與其他讀者交流。',
+				title: '和別人一起讀',
+				body: '在同一篇文章上劃重點、留評論，看別人怎麼讀。',
 			},
 		],
-		ctaPrimary: '在瀏覽器中開啟',
-		ctaSecondary: '查看完整英文版',
+		ctaPrimary: '用瀏覽器打開',
+		ctaSecondary: '看英文版',
 	},
 	note: {
 		eyebrow: 'Slax Note',
-		heading: '說出來的話，幾秒變成精煉的文字。',
+		heading: '說一段話，幾秒整成清晰流暢的文字。',
 		bullets: [
-			'一鍵錄音，抓住靈感。',
-			'AI 自動去除贅字、加標點、潤色語氣。',
-			'文字或圖片，任意分享。',
+			'一鍵錄音。',
+			'AI 自動去贅字、加標點。',
+			'可以將文字或圖片發到任何地方。',
 		],
 		features: [
 			{
-				title: '瞬間捕捉',
-				body: '走路、開車、開會，一鍵記下一閃而過的想法。',
+				title: '隨時記下',
+				body: '走路、開車、開會的時候，一鍵把剛冒出來的想法存下來。',
 			},
 			{
-				title: 'AI 潤色',
-				body: '準確轉寫，自動斷句加標點，按你的語氣重排成文。',
+				title: 'AI 整理成乾淨的文字',
+				body: '轉寫準確，自動加標點，按你的口吻重新整理。',
 			},
 			{
-				title: '任意分享',
-				body: '複製為文字，或匯出為圖片。無縫接入你已在用的工具。',
+				title: '發到任何地方',
+				body: '複製文字或轉成圖片，發送到你的常用工具。',
 			},
 		],
 		ctaPrimary: '在 App Store 下載',
-		ctaSecondary: '查看完整英文版',
+		ctaSecondary: '看英文版',
 	},
 };
 
