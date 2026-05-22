@@ -30,6 +30,8 @@ const blog = defineCollection({
 		lang: langSchema,
 		/** Reference to the canonical (English) slug for cross-locale linking. Defaults to same slug. */
 		translationOf: z.string().optional(),
+		/** Author slug from src/data/authors.ts. Defaults to DEFAULT_AUTHOR_SLUG. */
+		author: z.string().optional(),
 	}),
 });
 
@@ -46,6 +48,7 @@ const readerAlternatives = defineCollection({
 		updatedDate: z.coerce.date().optional(),
 		lang: langSchema,
 		translationOf: z.string().optional(),
+		author: z.string().optional(),
 	}),
 });
 
@@ -62,6 +65,7 @@ const noteAlternatives = defineCollection({
 		updatedDate: z.coerce.date().optional(),
 		lang: langSchema,
 		translationOf: z.string().optional(),
+		author: z.string().optional(),
 	}),
 });
 

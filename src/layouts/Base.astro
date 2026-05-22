@@ -13,6 +13,7 @@ import {
 	HTML_LANG,
 	LOCALES,
 	type Locale,
+	OG_LOCALE,
 } from '~/i18n/locales';
 import { buildAlternates, buildCanonical, detectLocale } from '~/lib/hreflang';
 
@@ -32,6 +33,8 @@ interface Props {
 	lang?: Locale;
 	/** Locales that actually have a translation of this page. Defaults to all LOCALES (use for static pages). */
 	availableLocales?: readonly Locale[];
+	/** Emit <meta name="robots" content="noindex"> — use for 404, search results, etc. */
+	noindex?: boolean;
 }
 
 const inferredLocale = detectLocale(Astro.url.pathname);
@@ -45,6 +48,7 @@ const {
 	breadcrumbs,
 	lang = inferredLocale,
 	availableLocales = LOCALES,
+	noindex = false,
 } = Astro.props;
 
 const htmlLang = HTML_LANG[lang];
@@ -121,6 +125,7 @@ const isDefaultLocale = lang === DEFAULT_LOCALE;
 <link rel="preload" as="font" type="font/woff2" href={jetbrainsMonoLatin} crossorigin />
 <title>{title}</title>
 <meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
 <link rel="canonical" href={canonical} />
 {alternates.map((a) => (
 	<link rel="alternate" hreflang={a.hreflang} href={a.href} />
@@ -130,7 +135,7 @@ const isDefaultLocale = lang === DEFAULT_LOCALE;
 <meta property="og:type" content={ogType} />
 <meta property="og:site_name" content="Slax" />
 <meta property="og:url" content={canonical} />
-<meta property="og:locale" content={htmlLang.replace('-', '_')} />
+<meta property="og:locale" content={OG_LOCALE[lang]} />
 <meta property="og:image" content={new URL(ogImage, Astro.site).toString()} />
 <meta property="og:image:type" content={ogImage.endsWith('.png') ? 'image/png' : ogImage.endsWith('.jpg') || ogImage.endsWith('.jpeg') ? 'image/jpeg' : 'image/png'} />
 <meta property="og:image:width" content="1200" />

@@ -10,6 +10,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
+const ogImage = lang === 'en' ? '/og/about.png' : `/og/${lang}/about.png`;
 
 // Contact list is content (not UI), kept here as fixed data (URLs identical across locales).
 // Labels are pulled from the i18n dict.
@@ -55,6 +56,7 @@ const contacts = [
 <Base
 	title={`${t(lang, 'meta.aboutTitle')} — Slax`}
 	description={t(lang, 'meta.defaultDescription')}
+	ogImage={ogImage}
 	lang={lang}
 >
 	<Nav />

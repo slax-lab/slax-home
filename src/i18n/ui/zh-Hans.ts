@@ -60,6 +60,7 @@ export const ui: UIDict = {
 		date: '日期',
 		next: '下一篇',
 		previous: '上一篇',
+		byAuthor: '作者 {author}',
 	},
 	notFound: {
 		heading: '没找到这个页面',

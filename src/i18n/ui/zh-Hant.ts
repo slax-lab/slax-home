@@ -61,6 +61,7 @@ export const ui: UIDict = {
 		date: '日期',
 		next: '下一篇',
 		previous: '上一篇',
+		byAuthor: '作者 {author}',
 	},
 	notFound: {
 		heading: '找不到這個頁面',

@@ -2,14 +2,16 @@
 import LanguageSwitcher from '~/components/LanguageSwitcher.astro';
 import Logo from '~/components/Logo.astro';
 import { t } from '~/i18n';
-import { DEFAULT_LOCALE } from '~/i18n/locales';
+import { DEFAULT_LOCALE, type Locale } from '~/i18n/locales';
 import { detectLocale, withLocale } from '~/lib/hreflang';
 
 interface Props {
 	active?: 'reader' | 'note' | 'blog';
+	/** Locales that actually have a translation of the current page. Forwarded to LanguageSwitcher so users only see real targets. */
+	availableLocales?: readonly Locale[];
 }
 
-const { active } = Astro.props;
+const { active, availableLocales } = Astro.props;
 const lang = detectLocale(Astro.url.pathname);
 const homeHref = lang === DEFAULT_LOCALE ? '/' : `/${lang}/`;
 
@@ -46,7 +48,7 @@ const items = [
 					{item.label}
 				</a>
 			))}
-			<LanguageSwitcher variant="nav" />
+			<LanguageSwitcher variant="nav" available={availableLocales} />
 		</div>
 	</div>
 </nav>

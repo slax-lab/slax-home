@@ -30,6 +30,17 @@ export const HTML_LANG: Record<Locale, string> = {
 	ko: 'ko',
 };
 
+// Open Graph locale codes follow the Facebook `ll_CC` spec — different from
+// BCP-47. LinkedIn / Facebook silently drop unrecognized values; Google does
+// not care. Map locale → canonical ll_CC.
+export const OG_LOCALE: Record<Locale, string> = {
+	en: 'en_US',
+	'zh-Hans': 'zh_CN',
+	'zh-Hant': 'zh_TW',
+	ja: 'ja_JP',
+	ko: 'ko_KR',
+};
+
 // Dictionary fallback chain when a key is missing. NOT a route fallback —
 // route fallback is configured in astro.config.mjs's `i18n.fallback`.
 // Rule: zh-Hant falls back to zh-Hans before en; ja/ko go straight to en

@@ -85,7 +85,7 @@ const beliefs = [
 const products = [
 	{
 		key: 'reader',
-		href: '/reader/',
+		href: '/ja/reader/',
 		logo: '/images/reader-logo-new.png',
 		name: 'Slax Reader',
 		headline: '何でもありにはしない、「あとで読む」のためのアプリ。',
@@ -98,7 +98,7 @@ const products = [
 	},
 	{
 		key: 'note',
-		href: '/note/',
+		href: '/ja/note/',
 		logo: '/images/note-logo-new.png',
 		name: 'Slax Note',
 		headline: '自分の声のための、ノートアプリ。',
@@ -114,6 +114,7 @@ const products = [
 <Base
 	title="Slax — シンプルに、ゆっくりと、長く。"
 	description="自分たちが使いたいソフトウェアを、作る。Slax Reader と Slax Note、長く使えるように作った小さな道具。"
+	ogImage="/og/ja/home.png"
 >
 	<Nav />
 
@@ -128,8 +129,8 @@ const products = [
 					自分たちが使いたいソフトウェアを、作る。
 				</p>
 				<div class="slax-hero-cta">
-					<a class="slax-hero-btn" href="/reader/">Reader を見る</a>
-					<a class="slax-hero-btn" href="/note/">Note を見る</a>
+					<a class="slax-hero-btn" href="/ja/reader/">Reader を見る</a>
+					<a class="slax-hero-btn" href="/ja/note/">Note を見る</a>
 				</div>
 			</div>
 			<aside class="slax-hero-aside" aria-labelledby="beliefs-label">
@@ -195,7 +196,7 @@ const products = [
 					</p>
 					<p class="release-platforms">{readerLatest.platforms.join(' · ')}</p>
 					{readerLatest.teaser && <p class="release-teaser">{readerLatest.teaser}</p>}
-					<a class="release-cta" href="/reader/changelog/">Reader の更新履歴 →</a>
+					<a class="release-cta" href="/ja/reader/changelog/">Reader の更新履歴 →</a>
 				</article>
 				<article class="release-card">
 					<p class="release-product">Slax Note</p>
@@ -206,7 +207,7 @@ const products = [
 					</p>
 					<p class="release-platforms">{noteLatest.platforms.join(' · ')}</p>
 					{noteLatest.teaser && <p class="release-teaser">{noteLatest.teaser}</p>}
-					<a class="release-cta" href="/note/changelog/">Note の更新履歴 →</a>
+					<a class="release-cta" href="/ja/note/changelog/">Note の更新履歴 →</a>
 				</article>
 			</div>
 		</div>
@@ -224,10 +225,10 @@ const products = [
 							{dateFmt.format(readerPost.pubDate)}
 						</time>
 						<h3 class="post-title">
-							<a href={`/blog/${readerPost.slug}/`}>{readerPost.title}</a>
+							<a href={`/ja/blog/${readerPost.slug}/`}>{readerPost.title}</a>
 						</h3>
 						<p class="post-desc">{readerPost.description}</p>
-						<a class="post-cta" href={`/blog/${readerPost.slug}/`}>読む →</a>
+						<a class="post-cta" href={`/ja/blog/${readerPost.slug}/`}>読む →</a>
 					</article>
 				)}
 				{notePost && (
@@ -237,14 +238,14 @@ const products = [
 							{dateFmt.format(notePost.pubDate)}
 						</time>
 						<h3 class="post-title">
-							<a href={`/blog/${notePost.slug}/`}>{notePost.title}</a>
+							<a href={`/ja/blog/${notePost.slug}/`}>{notePost.title}</a>
 						</h3>
 						<p class="post-desc">{notePost.description}</p>
-						<a class="post-cta" href={`/blog/${notePost.slug}/`}>読む →</a>
+						<a class="post-cta" href={`/ja/blog/${notePost.slug}/`}>読む →</a>
 					</article>
 				)}
 			</div>
-			<a class="from-blog-all" href="/blog/">Slax の記事すべて →</a>
+			<a class="from-blog-all" href="/ja/blog/">Slax の記事すべて →</a>
 		</div>
 	</section>
 

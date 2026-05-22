@@ -15,8 +15,14 @@ interface Props {
 const { lang } = Astro.props;
 const homeHref = lang === DEFAULT_LOCALE ? '/' : `/${lang}/`;
 const blogHref = withLocale('/blog/', lang);
+const ogImage = lang === DEFAULT_LOCALE ? '/og/404.png' : `/og/${lang}/404.png`;
 ---
-<Base title={`${t(lang, 'meta.notFoundTitle')} — Slax`} lang={lang}>
+<Base
+	title={`${t(lang, 'meta.notFoundTitle')} — Slax`}
+	lang={lang}
+	ogImage={ogImage}
+	noindex
+>
 	<Nav />
 	<main class="error-page">
 		<Eyebrow>Error · 404</Eyebrow>

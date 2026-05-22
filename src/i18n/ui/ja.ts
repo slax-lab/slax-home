@@ -60,6 +60,7 @@ export const ui: UIDict = {
 		date: '日付',
 		next: '次へ',
 		previous: '前へ',
+		byAuthor: '著者 {author}',
 	},
 	notFound: {
 		heading: 'ページが見つかりません',

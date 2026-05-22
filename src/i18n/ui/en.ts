@@ -59,6 +59,7 @@ export const ui = {
 		date: 'Date',
 		next: 'Next',
 		previous: 'Previous',
+		byAuthor: 'by {author}',
 	},
 	notFound: {
 		heading: 'Page not found',

@@ -1,6 +1,7 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
+import { getLastmodFor } from './scripts/lastmod.mjs';
 
 export default defineConfig({
 	site: 'https://slax.com',
@@ -32,6 +33,16 @@ export default defineConfig({
 				},
 			},
 			filter: (page) => !page.includes('/admin/'),
+			serialize(item) {
+				try {
+					const url = new URL(item.url);
+					const lm = getLastmodFor(url.pathname);
+					if (lm) item.lastmod = lm;
+				} catch {
+					// keep default behaviour on any failure
+				}
+				return item;
+			},
 		}),
 	],
 });
