@@ -1,0 +1,1076 @@
+---
+import Button from '~/components/Button.astro';
+import DownloadSection from '~/components/DownloadSection.astro';
+import FaqList from '~/components/FaqList.astro';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+
+// Content sourced verbatim from original apps/reader-home components
+// (archive/apps-backup): HomeHero / HomeFeatures / HomeHowItWorks /
+// HomeComparison / HomeCTA / PricingTable / DownloadPage.
+// Plan decision: merge features + pricing + download into single
+// anchor-navigable /reader/ page.
+
+const features = [
+	{
+		title: 'AI 기반의 깊은 이해',
+		body: '어떤 글이든 즉시 요약과 핵심 포인트를 얻고, 질문에 대한 답을 받아볼 수 있습니다. 읽는 모든 것에 전담 튜터가 있는 셈입니다.',
+	},
+	{
+		title: '콘텐츠는 사라지지 않습니다',
+		body: '한 번 저장한 글은 영구적으로 백업됩니다. 「404 페이지를 찾을 수 없습니다」를 다시는 만나지 않으셔도 됩니다. 여러분의 디지털 서재는 정말로 영원합니다.',
+	},
+	{
+		title: '똑똑한 정리',
+		body: 'AI가 자동으로 콘텐츠에 태그를 달고 분류합니다. 강력한 시맨틱 검색으로 필요한 것을 필요할 때 정확히 찾아내십시오.',
+	},
+	{
+		title: '연결된 읽기',
+		body: '저장한 모든 글에 하이라이트와 코멘트를 남길 수 있습니다. 콘텐츠를 공유하고 다른 사람을 초대해 함께 인사이트를 더하고 토론하십시오. 모든 글이 대화의 장이 됩니다.',
+	},
+];
+
+const steps = [
+	{
+		title: '무엇이든 저장',
+		body: '웹 어디에서든 한 번의 클릭으로 글, 논문, 블로그 포스트를 저장합니다.',
+	},
+	{
+		title: 'AI 분석',
+		body: '즉시 생성되는 AI 개요로 어떤 것을 깊이 읽고 어떤 것은 훑어볼지 결정합니다. 최고의 콘텐츠에 시간을 쓰십시오.',
+	},
+	{
+		title: '질문하기',
+		body: '저장한 콘텐츠에 대해 AI와 대화하며 이해를 깊게 만듭니다.',
+	},
+	{
+		title: '콘텐츠와 함께 호흡',
+		body: '하이라이트하고, 코멘트를 남기고, 다른 사람과 토론합니다. 무엇을 쓰는지가 무엇을 읽는지보다 더 가치 있습니다.',
+	},
+];
+
+// Cell value: 'ok' → ● accent,   'no' → — muted,   any other string → inline text (muted italic)
+const compareRows: Array<[string, string, string, string]> = [
+	['무제한 무료 북마크 (얼리 유저 대상)', 'ok', 'ok', '유료'],
+	['콘텐츠 영구 백업', 'ok', '유료', '유료'],
+	['AI 개요', '유료', 'ok', '유료'],
+	['읽으면서 AI와 대화', '유료', 'no', '유료'],
+	[
+		'원본 페이지와 스냅샷에 하이라이트와 코멘트, 양방향 동기화',
+		'ok',
+		'no',
+		'유료',
+	],
+	['리더 토론 참여', 'ok', 'no', '공유본만'],
+	['AI 자동 태깅', '유료', '수동', '수동'],
+];
+
+const matrixRows: Array<[string, string, string]> = [
+	['무제한 글 저장', 'ok', 'ok'],
+	['영구 스냅샷 (깨진 링크 없음)', 'ok', 'ok'],
+	['무제한 하이라이트와 코멘트', 'ok', 'ok'],
+	['전문 검색', 'ok', 'ok'],
+	['모든 기기 간 동기화', 'ok', 'ok'],
+	['글 공유와 토론 참여', 'ok', 'ok'],
+	['오픈소스와 프라이버시 우선', 'ok', 'ok'],
+	['태그 생성과 관리', 'ok', 'ok'],
+	['스마트 AI 자동 태깅', 'no', 'ai'],
+	['즉시 AI 요약', 'no', 'ai'],
+	['인터랙티브 AI 개요', 'no', 'ai'],
+	['AI 챗봇 — 서재에 무엇이든 질문', 'no', 'ai'],
+];
+
+const faqs = [
+	{
+		q: 'Free 플랜은 정말 평생 무료입니까?',
+		a: '예, 얼리 유저에 한해 그렇습니다. 얼리 액세스 기간 동안 무제한 북마크와 영구 백업을 무료로 제공합니다. 한도가 적용되기 전에 지금 무료 사용권을 확보하십시오.',
+	},
+	{
+		q: 'Slax Reader가 정말 매주 몇 시간의 독서 시간을 절약해줄까요?',
+		a: '바로 그것을 위해 만들어졌습니다. 클릭 가능한 AI 개요로 모든 단어를 읽지 않고도 긴 글을 자유롭게 탐색합니다. 자동 태깅이 정리를 맡아 주니, 여러분은 그저 읽기만 하면 됩니다.',
+	},
+	{
+		q: 'Pro 구독은 언제든 해지할 수 있습니까?',
+		a: '물론입니다. 계정 설정에서 언제든지 위약금 없이 해지할 수 있습니다. 저장한 글과 하이라이트는 Free 플랜에서도 계속 접근 가능합니다.',
+	},
+	{
+		q: '1개월 무료 체험은 어떻게 진행됩니까?',
+		a: '로그인하고 바로 체험을 시작하십시오. 신용카드 등록은 필요하지 않습니다. 30일 이후에 월 $5.99 (정가 $9.99)로 Pro를 계속 이용할지 여부를 안내드립니다.',
+	},
+];
+
+const platforms = [
+	{
+		icon: '📱',
+		title: 'iPhone, iPad, Android',
+		bullets: [
+			'영구 무료로 저장합니다.',
+			'한 번의 탭으로 어떤 글이든 저장합니다.',
+			'즉시 AI 개요와 빠른 탐색을 받아봅니다.',
+			'크로스 플랫폼 동기화.',
+		],
+		downloads: [
+			{
+				href: 'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
+				small: 'Download on the',
+				main: 'App Store',
+			},
+			{
+				href: 'https://play.google.com/store/apps/details?id=com.slax.reader',
+				small: 'GET IT ON',
+				main: 'Google Play',
+			},
+		],
+	},
+	{
+		icon: '💻',
+		title: 'Mac',
+		bullets: ['프로처럼 저장하고, 읽고, 정리합니다.'],
+		downloads: [
+			{
+				href: 'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
+				small: 'Download on the',
+				main: 'Mac App Store',
+			},
+		],
+	},
+	{
+		icon: '🌐',
+		title: '브라우저 확장 프로그램',
+		bullets: [
+			'한 번의 탭으로 어떤 웹페이지든 저장하고 백업합니다. 영원히 여러분의 것입니다.',
+			'같은 페이지에서 바로 글과 AI 대화를 나눕니다.',
+			'강력한 시맨틱 검색으로 필요한 것을 빠르게 찾아냅니다.',
+		],
+		downloads: [
+			{
+				href: 'https://chromewebstore.google.com/detail/gdnhaajlomjkhahnmiijphnodkcfikfd?utm_source=web_homepage',
+				small: '',
+				main: 'Chrome Extension',
+			},
+		],
+	},
+];
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'SoftwareApplication',
+	name: 'Slax Reader',
+	applicationCategory: 'ProductivityApplication',
+	operatingSystem: 'Web, iOS, iPadOS, Android, macOS',
+	url: 'https://slax.com/reader/',
+	image: 'https://slax.com/og/reader.png',
+	screenshot: 'https://slax.com/reader/hero.png',
+	description:
+		'오픈소스, 순수한 나중에 읽기 앱. 영원히 저장하고, 더 빠르게 배웁니다. 효율과 깊은 이해를 위한 여러분의 지능형 서재.',
+	downloadUrl: [
+		'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
+		'https://play.google.com/store/apps/details?id=com.slax.reader',
+		'https://chromewebstore.google.com/detail/gdnhaajlomjkhahnmiijphnodkcfikfd',
+	],
+	offers: [
+		{
+			'@type': 'Offer',
+			name: 'Free',
+			price: '0',
+			priceCurrency: 'USD',
+		},
+		{
+			'@type': 'Offer',
+			name: 'Pro Reader',
+			price: '5.99',
+			priceCurrency: 'USD',
+			priceSpecification: {
+				'@type': 'UnitPriceSpecification',
+				price: '5.99',
+				priceCurrency: 'USD',
+				billingDuration: 'P1M',
+			},
+		},
+	],
+	publisher: {
+		'@type': 'Organization',
+		name: 'Slax Lab',
+		url: 'https://slax.com',
+		logo: 'https://slax.com/images/slax-logo.png',
+	},
+};
+---
+<Base
+	title="Slax Reader — 오픈소스, 순수한 나중에 읽기 앱"
+	description="오픈소스, 순수한 나중에 읽기 앱. 알고리즘도, 피드도 없습니다. 다음에 무엇을 읽을지는 여러분이 정합니다. 무제한 스냅샷, 무료."
+	ogImage="/og/reader.png"
+	schema={schema}
+>
+	<Nav active="reader" />
+
+	<main>
+		<!-- HERO -->
+		<section class="r-hero">
+			<div class="r-hero-inner">
+				<div>
+					<h1 class="r-h1">
+						오픈소스, 순수한 <em>나중에 읽기 앱.</em>
+					</h1>
+					<ul class="r-bullets">
+						<li>알고리즘도, 피드도 없습니다. 다음에 무엇을 읽을지는 여러분이 정합니다.</li>
+						<li>무제한 스냅샷, 무료.</li>
+						<li>오픈소스.</li>
+					</ul>
+					<div class="r-hero-stores">
+						<a
+							class="r-store-btn is-primary"
+							href="https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="r-store-small">Download on the</span>
+							<span class="r-store-main">App Store</span>
+						</a>
+						<a
+							class="r-store-btn"
+							href="https://play.google.com/store/apps/details?id=com.slax.reader"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="r-store-small">GET IT ON</span>
+							<span class="r-store-main">Google Play</span>
+						</a>
+					</div>
+					<p class="r-web-link">
+						또는 <a href="https://r.slax.com/login">웹 버전 열기</a>.
+					</p>
+				</div>
+				<div class="r-preview" aria-hidden="true">
+					<img
+						src="/reader/hero.png"
+						alt="Slax Reader 인터페이스 미리보기"
+						loading="eager"
+						decoding="async"
+					/>
+				</div>
+			</div>
+		</section>
+
+		<!-- FEATURES -->
+		<section class="features" id="features">
+			<div class="features-inner">
+				<div class="features-head">
+					<h2 class="features-title">또 하나의 나중에 읽기 도구가 아닙니다</h2>
+					<p class="features-sub">
+						지능형 읽기의 미래를 만들고 있습니다.
+					</p>
+				</div>
+				<div class="feat-grid">
+					{features.map((f, i) => (
+						<div class="feat">
+							<div class="feat-num">{String(i + 1).padStart(2, '0')}</div>
+							<h3 class="feat-h">{f.title}</h3>
+							<p class="feat-p">{f.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- HOW IT WORKS -->
+		<section class="how">
+			<div class="how-inner">
+				<h2 class="how-head">북마크에서 돌파구까지.</h2>
+				<p class="how-sub">
+					읽고 배우는 방식을 바꾸는 네 가지 간단한 단계.
+				</p>
+				<div class="how-steps">
+					{steps.map((s, i) => (
+						<div class="how-step">
+							<div class="how-step-num">{String(i + 1).padStart(2, '0')}</div>
+							<h3 class="how-step-h">{s.title}</h3>
+							<p class="how-step-body">{s.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- COMPARE -->
+		<section class="compare">
+			<div class="compare-inner">
+				<h2 class="compare-head">왜 독자들이 Slax로 옮겨오고 있을까요</h2>
+				<p class="compare-sub">
+					전통적인 나중에 읽기 도구와 어떻게 다른지 살펴보십시오.
+				</p>
+				<div class="compare-table">
+					<div class="compare-row head">
+						<div>기능</div>
+						<div class="highlight">Slax Reader</div>
+						<div>Instapaper</div>
+						<div>Readwise</div>
+					</div>
+					{compareRows.map((row) => (
+						<div class="compare-row">
+							<div>{row[0]}</div>
+							{[1, 2, 3].map((i) => {
+								const v = row[i];
+								const isHighlight = i === 1;
+								let cls = 'cell';
+								let content: string = v;
+								if (v === 'ok') {
+									cls += ' cell-ok';
+									content = '●';
+								} else if (v === 'no') {
+									cls += ' cell-no';
+									content = '—';
+								} else {
+									cls += ' cell-text';
+								}
+								if (isHighlight) cls += ' highlight';
+								return <div class={cls}>{content}</div>;
+							})}
+						</div>
+					))}
+				</div>
+				<p class="compare-more">
+					<a href="/ko/reader/alternatives/">
+						전체 비교 — Readwise, Omnivore, Cubox 등 →
+					</a>
+				</p>
+			</div>
+		</section>
+
+		<!-- PRICING -->
+		<section class="pricing" id="pricing">
+			<div class="pricing-inner">
+				<h2 class="pricing-head">더 똑똑하게 읽으십시오, <em>그저 '나중에'만이 아니라.</em></h2>
+				<p class="pricing-dek">
+					영원히 저장하고, 더 빠르게 배웁니다. 효율과 깊은 이해를 위한 여러분의 지능형 서재.
+				</p>
+				<a class="pricing-promo" href="https://r.slax.com/login">
+					🎉 오늘 가입하고 Pro 1개월 무료 체험
+				</a>
+
+				<div class="plans-grid">
+					<div class="plan">
+						<div class="plan-eyebrow">Free</div>
+						<div class="plan-price">
+							<span class="num">$0</span><span class="unit">/ 월</span>
+						</div>
+						<p class="plan-tag">
+							무제한 북마크와 영구 백업 — 한도 적용 전에 지금 가입하십시오!
+						</p>
+						<a href="https://r.slax.com/login" class="btn-primary">무료로 시작</a>
+					</div>
+					<div class="plan featured">
+						<div class="plan-eyebrow">Pro Reader</div>
+						<div class="plan-price">
+							<span class="num">$5.99</span><span class="unit">/ 월</span>
+							<span class="was">$9.99</span>
+						</div>
+						<p class="plan-tag">
+							통합된 AI 분석으로 읽기 초능력을 깨우십시오.
+						</p>
+						<a href="https://r.slax.com/login" class="btn-primary">1개월 무료 체험</a>
+					</div>
+				</div>
+
+				<div class="matrix" aria-label="기능 매트릭스">
+					<div class="matrix-row head">
+						<div class="cell-feat">기능</div>
+						<div class="cell">Free</div>
+						<div class="cell">Pro Reader</div>
+					</div>
+					{matrixRows.map((row) => (
+						<div class="matrix-row">
+							<div class="cell-feat">{row[0]}</div>
+							{[1, 2].map((i) => {
+								const v = row[i];
+								if (v === 'ok') return <div class="cell ok">✓</div>;
+								if (v === 'ai') return <div class="cell ai">AI</div>;
+								return <div class="cell no">✕</div>;
+							})}
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- FAQ -->
+		<section class="faq">
+			<div class="faq-inner">
+				<h2 class="faq-head">자주 묻는 질문</h2>
+				<FaqList items={faqs} />
+			</div>
+		</section>
+
+
+		<!-- DOWNLOAD -->
+		<DownloadSection platforms={platforms}>
+			<Fragment slot="heading">
+				Slax Reader — <em>영원히 저장. 더 똑똑하게 읽기.</em>
+			</Fragment>
+			<Fragment slot="dek">
+				무료 다운로드, 좋아하는 모든 플랫폼에서 사용 가능합니다.
+			</Fragment>
+		</DownloadSection>
+
+		<!-- FINALE -->
+		<section class="finale">
+			<div class="finale-inner">
+				<h2 class="finale-h">
+					오늘 <em>지능형</em> 읽기 여정을 시작하십시오
+				</h2>
+				<p class="finale-p">더 똑똑하게 읽고, 더 빠르게 배우고, 더 많이 기억합니다.</p>
+				<div class="actions actions-center">
+					<Button variant="primary" href="https://r.slax.com/login" arrow>
+						시작하기 — 무료입니다
+					</Button>
+					<Button variant="secondary" href="https://github.com/slax-lab/slax-reader">
+						코드 보기
+					</Button>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+</Base>
+
+<style>
+	/* HERO */
+	.r-hero {
+		padding: 6rem 0 5rem;
+	}
+	.r-hero-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 4rem;
+		align-items: center;
+	}
+	@media (min-width: 960px) {
+		.r-hero-inner {
+			grid-template-columns: 1.1fr 1fr;
+		}
+	}
+	.r-h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 4vw, 3.2rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 1.75rem;
+		color: var(--ink);
+		max-width: 22ch;
+	}
+	.r-h1 :global(em) {
+		font-style: italic;
+		font-weight: 300;
+		color: var(--accent);
+	}
+	.r-bullets {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 2.25rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		max-width: 48ch;
+	}
+	.r-bullets li {
+		position: relative;
+		padding-left: 1.5rem;
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+	}
+	.r-bullets li::before {
+		content: "—";
+		position: absolute;
+		left: 0;
+		top: 0;
+		color: var(--ink-mute);
+		font-weight: 300;
+	}
+	.r-hero-stores {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+	.r-web-link {
+		margin: 0.9rem 0 0;
+		font-family: var(--serif);
+		font-size: 0.95rem;
+		color: var(--ink-mute);
+	}
+	.r-web-link a {
+		color: var(--ink-soft);
+		text-decoration: underline;
+		text-decoration-color: var(--rule);
+		text-underline-offset: 3px;
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
+	.r-web-link a:hover {
+		color: var(--accent);
+		text-decoration-color: var(--accent);
+	}
+	.r-store-btn {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.15rem;
+		background: transparent;
+		color: var(--ink);
+		text-decoration: none;
+		padding: 0.7rem 1.2rem;
+		border: 1px solid var(--ink);
+		transition:
+			background 0.2s ease,
+			color 0.2s ease;
+		min-width: 160px;
+	}
+	.r-store-btn:hover {
+		background: var(--ink);
+		color: var(--bg);
+	}
+	.r-store-btn.is-primary,
+	.r-store-btn.is-primary:hover {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: var(--bg);
+	}
+	.r-store-btn.is-primary .r-store-small,
+	.r-store-btn.is-primary:hover .r-store-small {
+		color: var(--bg);
+		opacity: 0.8;
+	}
+	.r-store-small {
+		font-family: var(--mono);
+		font-size: 0.62rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		line-height: 1.2;
+	}
+	.r-store-btn:hover .r-store-small {
+		color: var(--bg);
+		opacity: 0.75;
+	}
+	.r-store-main {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		font-weight: 500;
+		line-height: 1.3;
+	}
+	.actions {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+	.actions-center {
+		justify-content: center;
+	}
+	.r-preview {
+		display: flex;
+		justify-content: center;
+	}
+	.r-preview img {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-width: 480px;
+	}
+
+	/* FEATURES */
+	.features {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.features-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.features-head {
+		margin-bottom: 4rem;
+	}
+	.features-title {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 0.5rem;
+	}
+	.features-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 44ch;
+	}
+	.feat-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.feat-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@media (min-width: 1040px) {
+		.feat-grid {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+	.feat {
+		padding: 2.5rem 2rem;
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.feat:nth-child(2n) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	@media (min-width: 1040px) {
+		.feat:nth-child(2n) {
+			border-left: 0;
+		}
+		.feat:not(:nth-child(4n + 1)) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.feat-num {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.2em;
+		color: var(--ink-mute);
+		margin-bottom: 1.5rem;
+	}
+	.feat-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.2rem;
+		letter-spacing: -0.015em;
+		margin: 0 0 0.75rem;
+		line-height: 1.25;
+	}
+	.feat-p {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 38ch;
+	}
+
+	/* HOW */
+	.how {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		background: var(--bg-deep);
+	}
+	.how-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.how-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 0.5rem;
+	}
+	.how-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0 0 4rem;
+	}
+	.how-steps {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+	}
+	@media (min-width: 820px) {
+		.how-steps {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+	.how-step {
+		text-align: left;
+	}
+	.how-step-num {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.2em;
+		color: var(--ink-mute);
+		margin: 0 0 1.5rem;
+	}
+	.how-step-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.3rem;
+		letter-spacing: -0.015em;
+		line-height: 1.2;
+		margin: 0 0 0.6rem;
+	}
+	.how-step-body {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 32ch;
+	}
+
+	/* COMPARE */
+	.compare {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.compare-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.compare-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 0.5rem;
+	}
+	.compare-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0 0 3rem;
+	}
+	.compare-table {
+		border-top: 1px solid var(--rule);
+		font-family: var(--serif);
+		font-size: 1rem;
+		overflow-x: auto;
+	}
+	.compare-row {
+		display: grid;
+		grid-template-columns: 1.5fr 1fr 1fr 1fr;
+		border-bottom: 1px solid var(--rule);
+		min-width: 640px;
+	}
+	.compare-row > div {
+		padding: 1.1rem 1rem;
+		color: var(--ink-soft);
+	}
+	.compare-row > div:first-child {
+		color: var(--ink);
+	}
+	.compare-row > div.highlight {
+		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 5%, transparent);
+	}
+	.compare-row.head > div {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		padding: 0.8rem 1rem;
+	}
+	.compare-row.head > div:not(:first-child) {
+		text-align: center;
+	}
+	.compare-row.head > div.highlight {
+		color: var(--accent);
+		font-weight: 500;
+	}
+	.compare-row .cell {
+		text-align: center;
+	}
+	.compare-row .cell-ok {
+		color: var(--accent);
+		font-size: 1.05rem;
+	}
+	.compare-row .cell-no {
+		color: var(--ink-mute);
+		font-size: 1.2rem;
+	}
+	.compare-row .cell-text {
+		color: var(--ink-mute);
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		letter-spacing: 0.04em;
+	}
+	.compare-row .cell-ok.highlight {
+		background: color-mix(in srgb, var(--accent) 5%, transparent);
+	}
+	.compare-more {
+		margin: 2rem 0 0;
+		font-family: var(--mono);
+		font-size: 0.85rem;
+	}
+	.compare-more a {
+		color: var(--ink);
+		text-decoration: none;
+		border-bottom: 1px dotted var(--ink-mute);
+		transition:
+			color 0.2s,
+			border-color 0.2s;
+	}
+	.compare-more a:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+
+	/* PRICING */
+	.pricing {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		background: var(--bg-deep);
+		scroll-margin-top: 5rem;
+	}
+	.pricing-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.pricing-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 3.5vw, 3rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 1rem 0 0.5rem;
+	}
+	.pricing-head :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.pricing-dek {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 48ch;
+		margin: 0 0 1.5rem;
+	}
+	.pricing-promo {
+		display: inline-block;
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		letter-spacing: 0.04em;
+		padding: 0.5rem 1rem;
+		border: 1px solid var(--accent);
+		border-radius: 999px;
+		color: var(--accent);
+		text-decoration: none;
+		margin-bottom: 3rem;
+	}
+	.pricing-promo:hover {
+		background: var(--accent);
+		color: var(--bg);
+	}
+	.plans-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 820px) {
+		.plans-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.plan {
+		padding: 2.5rem 2.25rem;
+		background: var(--bg);
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.plan > .btn-primary {
+		margin-top: auto;
+	}
+	.plan.featured > .btn-primary {
+		background: var(--accent);
+		color: #fff;
+	}
+	.plan.featured > .btn-primary:hover {
+		background: var(--accent-hover, #2E4D3E);
+	}
+	@media (min-width: 820px) {
+		.plan + .plan {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	@media (max-width: 819px) {
+		.plan + .plan {
+			border-top: 1px solid var(--rule);
+		}
+	}
+	.plan.featured {
+		background: var(--bg-deeper);
+		position: relative;
+	}
+	.plan.featured::before {
+		content: "Recommended";
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		font-family: var(--mono);
+		font-size: 0.68rem;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+	.plan-eyebrow {
+		font-family: var(--serif);
+		font-size: 1.5rem;
+		font-weight: 500;
+		color: var(--ink);
+	}
+	.plan.featured .plan-eyebrow {
+		color: var(--accent);
+	}
+	.plan-price {
+		display: flex;
+		align-items: baseline;
+		gap: 0.5rem;
+		margin: 0.5rem 0 1rem;
+	}
+	.plan-price .num {
+		font-family: var(--serif);
+		font-size: 2.75rem;
+		font-weight: 400;
+		color: var(--ink);
+		letter-spacing: -0.03em;
+	}
+	.plan-price .unit {
+		font-family: var(--sans);
+		font-size: 0.92rem;
+		color: var(--ink-mute);
+	}
+	.plan-price .was {
+		font-family: var(--mono);
+		font-size: 0.85rem;
+		color: var(--ink-mute);
+		text-decoration: line-through;
+		margin-left: 0.4rem;
+	}
+	.plan-tag {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1rem;
+		color: var(--ink-soft);
+		margin: 0 0 1.5rem;
+		max-width: 38ch;
+		line-height: 1.45;
+	}
+
+	.matrix {
+		margin-top: 3rem;
+		font-family: var(--serif);
+		font-size: 1rem;
+	}
+	.matrix-row {
+		display: grid;
+		grid-template-columns: 1.6fr 0.6fr 0.6fr;
+		padding: 0.9rem 1rem;
+		border-bottom: 1px solid var(--rule);
+		align-items: baseline;
+	}
+	.matrix-row.head {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		border-bottom: 1px solid var(--ink);
+		padding: 0.6rem 1rem;
+	}
+	.matrix-row .cell-feat {
+		color: var(--ink);
+	}
+	.matrix-row .cell {
+		text-align: center;
+		color: var(--ink-soft);
+	}
+	.matrix-row .cell.ok {
+		color: var(--accent);
+	}
+	.matrix-row .cell.ai {
+		color: var(--accent);
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.05em;
+	}
+	.matrix-row .cell.no {
+		color: var(--ink-mute);
+	}
+
+	/* FAQ */
+	.faq {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.faq-inner {
+		max-width: 1080px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.faq-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		letter-spacing: -0.02em;
+		margin: 1rem 0 3rem;
+	}
+
+	/* DOWNLOAD */
+	/* FINALE */
+	.finale {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		text-align: center;
+	}
+	.finale-inner {
+		max-width: 820px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.finale-h {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.2rem, 4vw, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 1.5rem auto 1.5rem;
+		max-width: 22ch;
+	}
+	.finale-h :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.finale-p {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 42ch;
+		margin: 0 auto 2.25rem;
+	}
+</style>
+</content>
+</invoke>

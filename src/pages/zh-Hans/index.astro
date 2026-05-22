@@ -1,0 +1,750 @@
+---
+import { getCollection } from 'astro:content';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+import { entryLocale, entrySlug, filterByLocale } from '~/lib/content';
+
+const dateFmt = new Intl.DateTimeFormat('zh-Hans', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+	timeZone: 'UTC',
+});
+
+const teaserFromBody = (body: string | undefined) => {
+	if (!body) return '';
+	const firstBullet = body
+		.split('\n')
+		.map((l) => l.trim())
+		.find((l) => l.startsWith('-'));
+	if (!firstBullet) return '';
+	const cleaned = firstBullet.replace(/^-\s*/, '').replace(/\*\*/g, '');
+	return cleaned.length > 110 ? `${cleaned.slice(0, 107).trimEnd()}…` : cleaned;
+};
+
+const latestChangelog = async (name: 'readerChangelog' | 'noteChangelog') => {
+	const all = filterByLocale(await getCollection(name), 'zh-Hans');
+	const sorted = all.sort(
+		(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+	);
+	const latest = sorted[0];
+	return {
+		version: latest.data.version,
+		date: latest.data.date,
+		platforms: latest.data.platforms as string[],
+		teaser: teaserFromBody(latest.body),
+	};
+};
+
+const latestPost = async (product: 'reader' | 'note') => {
+	const posts = await getCollection('blog', ({ data, id }) => {
+		if (data.draft || data.product !== product) return false;
+		const lang = data.lang ?? entryLocale(id);
+		return lang === 'zh-Hans';
+	});
+	const sorted = posts.sort(
+		(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+	);
+	const latest = sorted[0];
+	return latest
+		? {
+				slug: entrySlug(latest),
+				title: latest.data.title,
+				description: latest.data.description,
+				pubDate: latest.data.pubDate,
+			}
+		: null;
+};
+
+const [readerLatest, noteLatest, readerPost, notePost] = await Promise.all([
+	latestChangelog('readerChangelog'),
+	latestChangelog('noteChangelog'),
+	latestPost('reader'),
+	latestPost('note'),
+]);
+
+const beliefs = [
+	{
+		n: '01',
+		line: '我们做自己要用的软件。',
+		note: '如果连我们自己都不会每天用，就不发布。',
+	},
+	{
+		n: '02',
+		line: '愿意走慢一点的路。',
+		note: '小而美的软件，慢慢做——十年后你回来，它还在。',
+	},
+	{
+		n: '03',
+		line: '我们写代码，你拥有数据。',
+		note: '开源，不绑架。数据是你的，决定也是你的。',
+	},
+];
+
+const products = [
+	{
+		key: 'reader',
+		href: '/zh-Hans/reader/',
+		logo: '/images/reader-logo-new.png',
+		name: 'Slax Reader',
+		headline: '一个不想做万能工具的稍后读应用。',
+		bullets: [
+			'没有算法，没有信息流。下一篇读什么，自己挑。',
+			'免费无限网页快照。',
+			'开源。',
+		],
+		cta: '进入 Reader →',
+	},
+	{
+		key: 'note',
+		href: '/zh-Hans/note/',
+		logo: '/images/note-logo-new.png',
+		name: 'Slax Note',
+		headline: '一个为你自己的声音而做的笔记应用。',
+		bullets: [
+			'想到就说，不用打字，不用整理。',
+			'一段录音，多种形态——由你选择的指令塑形。',
+			'为长期陪伴而做，一年又一年。',
+		],
+		cta: '进入 Note →',
+	},
+];
+---
+<Base
+	title="Slax —— 简单。从容。长期。"
+	description="做我们自己想用的软件。Slax Reader 和 Slax Note——小而美，做得长久。"
+	ogImage="/og/zh-Hans/home.png"
+>
+	<Nav />
+
+	<!-- 屏 1 · Slax Hero · brand stance + beliefs -->
+	<section class="slax-hero">
+		<div class="slax-hero-inner">
+			<div class="slax-hero-main">
+				<h1 class="slax-hero-title">
+					简单。从容。<br /><em>长期。</em>
+				</h1>
+				<p class="slax-hero-sub">
+					做我们自己想用的软件。
+				</p>
+				<div class="slax-hero-cta">
+					<a class="slax-hero-btn" href="/zh-Hans/reader/">认识 Reader</a>
+					<a class="slax-hero-btn" href="/zh-Hans/note/">认识 Note</a>
+				</div>
+			</div>
+			<aside class="slax-hero-aside" aria-labelledby="beliefs-label">
+				<span id="beliefs-label" class="beliefs-eyebrow">—— 我们的做法</span>
+				<ol class="beliefs-list">
+					{beliefs.map((b) => (
+						<li class="belief">
+							<span class="belief-num">{b.n}</span>
+							<div class="belief-body">
+								<span class="belief-line">{b.line}</span>
+								<p class="belief-note">{b.note}</p>
+							</div>
+						</li>
+					))}
+				</ol>
+			</aside>
+		</div>
+	</section>
+
+	<!-- 屏 2 · Products · flat grid, logo-forward -->
+	<section class="products" id="products">
+		<div class="products-inner">
+			<span class="products-eyebrow">—— 我们的产品</span>
+			<div class="products-grid">
+				{products.map((p) => (
+					<a class={`product product-${p.key}`} href={p.href}>
+						<div class="product-body">
+							<h2 class="product-name">{p.name}</h2>
+							<p class="product-headline">{p.headline}</p>
+							<ul class="product-bullets">
+								{p.bullets.map((b) => <li>{b}</li>)}
+							</ul>
+							<span class="product-cta">{p.cta}</span>
+						</div>
+						<span class="product-logo-frame">
+							<img
+								src={p.logo}
+								alt={`${p.name} 标识`}
+								class="product-logo"
+								width="112"
+								height="112"
+								loading="eager"
+								decoding="async"
+							/>
+						</span>
+					</a>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<!-- 屏 3 · What's new · latest changelog per product -->
+	<section class="whats-new">
+		<div class="whats-new-inner">
+			<span class="section-eyebrow">—— 最新更新</span>
+			<div class="whats-new-grid">
+				<article class="release-card">
+					<p class="release-product">Slax Reader</p>
+					<p class="release-meta">
+						<span class="release-version">v{readerLatest.version}</span>
+						<span class="release-sep">·</span>
+						<span>{dateFmt.format(readerLatest.date)}</span>
+					</p>
+					<p class="release-platforms">{readerLatest.platforms.join(' · ')}</p>
+					{readerLatest.teaser && <p class="release-teaser">{readerLatest.teaser}</p>}
+					<a class="release-cta" href="/zh-Hans/reader/changelog/">查看 Reader 全部更新 →</a>
+				</article>
+				<article class="release-card">
+					<p class="release-product">Slax Note</p>
+					<p class="release-meta">
+						<span class="release-version">v{noteLatest.version}</span>
+						<span class="release-sep">·</span>
+						<span>{dateFmt.format(noteLatest.date)}</span>
+					</p>
+					<p class="release-platforms">{noteLatest.platforms.join(' · ')}</p>
+					{noteLatest.teaser && <p class="release-teaser">{noteLatest.teaser}</p>}
+					<a class="release-cta" href="/zh-Hans/note/changelog/">查看 Note 全部更新 →</a>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<!-- 屏 4 · From the blog · latest post per product -->
+	<section class="from-blog">
+		<div class="from-blog-inner">
+			<span class="section-eyebrow">—— 来自博客</span>
+			<div class="from-blog-grid">
+				{readerPost && (
+					<article class="post-card">
+						<p class="post-product">Slax Reader</p>
+						<time class="post-date" datetime={readerPost.pubDate.toISOString()}>
+							{dateFmt.format(readerPost.pubDate)}
+						</time>
+						<h3 class="post-title">
+							<a href={`/zh-Hans/blog/${readerPost.slug}/`}>{readerPost.title}</a>
+						</h3>
+						<p class="post-desc">{readerPost.description}</p>
+						<a class="post-cta" href={`/zh-Hans/blog/${readerPost.slug}/`}>继续读 →</a>
+					</article>
+				)}
+				{notePost && (
+					<article class="post-card">
+						<p class="post-product">Slax Note</p>
+						<time class="post-date" datetime={notePost.pubDate.toISOString()}>
+							{dateFmt.format(notePost.pubDate)}
+						</time>
+						<h3 class="post-title">
+							<a href={`/zh-Hans/blog/${notePost.slug}/`}>{notePost.title}</a>
+						</h3>
+						<p class="post-desc">{notePost.description}</p>
+						<a class="post-cta" href={`/zh-Hans/blog/${notePost.slug}/`}>继续读 →</a>
+					</article>
+				)}
+			</div>
+			<a class="from-blog-all" href="/zh-Hans/blog/">Slax 全部文章 →</a>
+		</div>
+	</section>
+
+	<Footer />
+</Base>
+
+<style>
+	/* ─── 屏 1 · Slax Hero + beliefs aside ─── */
+	.slax-hero {
+		width: 100%;
+		background: var(--bg);
+		border-bottom: 1px solid var(--rule-soft);
+	}
+	.slax-hero-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: clamp(3.5rem, 7vw, 5.5rem) 2rem clamp(3rem, 5vw, 4.5rem);
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 3rem;
+		align-items: start;
+	}
+	@media (min-width: 960px) {
+		.slax-hero-inner {
+			grid-template-columns: minmax(0, 1fr) minmax(340px, 0.85fr);
+			gap: 4.5rem;
+		}
+	}
+	.slax-hero-main {
+		min-width: 0;
+		padding-top: 0.25rem;
+	}
+	.slax-hero-aside {
+		min-width: 0;
+	}
+	@media (min-width: 960px) {
+		.slax-hero-aside {
+			border-left: 1px solid var(--rule-soft);
+			padding-left: 3rem;
+		}
+	}
+	.slax-hero-title {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.4rem, 5vw, 4rem);
+		line-height: 1.02;
+		letter-spacing: -0.03em;
+		color: var(--ink);
+		margin: 0 0 1.75rem;
+	}
+	.slax-hero-title em {
+		font-style: italic;
+		font-weight: 300;
+		color: var(--accent);
+	}
+	.slax-hero-sub {
+		font-family: var(--serif);
+		font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+		line-height: 1.5;
+		color: var(--ink-soft);
+		margin: 0 0 2.5rem;
+		max-width: 36ch;
+	}
+	.slax-hero-cta {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+	.slax-hero-btn {
+		display: inline-block;
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--ink);
+		padding: 0.85rem 1.4rem;
+		border: 1px solid var(--ink);
+		text-decoration: none;
+		transition:
+			background 0.2s ease,
+			color 0.2s ease;
+	}
+	.slax-hero-btn:hover {
+		background: var(--ink);
+		color: var(--bg);
+	}
+
+	/* beliefs — nested inside hero aside */
+	.beliefs-eyebrow {
+		display: block;
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 1.5rem;
+	}
+	.beliefs-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	.belief {
+		display: grid;
+		grid-template-columns: 36px 1fr;
+		gap: 1rem;
+		align-items: baseline;
+		padding: 1.1rem 0;
+	}
+	.belief + .belief {
+		border-top: 1px solid var(--rule-soft);
+	}
+	.belief-num {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.14em;
+		color: var(--ink-mute);
+	}
+	.belief-body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+	.belief-line {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+		line-height: 1.3;
+		letter-spacing: -0.01em;
+		color: var(--ink);
+	}
+	.belief-note {
+		font-family: var(--serif);
+		font-size: 0.92rem;
+		line-height: 1.55;
+		color: var(--ink-mute);
+		margin: 0;
+	}
+
+	/* ─── 屏 2 · Products ─── */
+	.products {
+		width: 100%;
+		background: var(--bg);
+		padding: clamp(3.5rem, 6vw, 5rem) 0;
+	}
+	.products-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.products-eyebrow {
+		display: block;
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 2rem;
+	}
+	.products-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+	@media (min-width: 820px) {
+		.products-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.product {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 1.5rem;
+		align-items: start;
+		padding: clamp(2.25rem, 3.5vw, 3rem) clamp(1.5rem, 2.5vw, 2.25rem);
+		text-decoration: none;
+		background: var(--bg);
+		transition:
+			background 0.25s ease,
+			transform 0.25s ease;
+	}
+	.product + .product {
+		border-top: 1px solid var(--rule-soft);
+	}
+	@media (min-width: 820px) {
+		.product + .product {
+			border-top: 0;
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.product:hover {
+		background: var(--bg-deep);
+	}
+	.product:hover .product-logo-frame {
+		transform: translateY(-2px);
+	}
+	.product-body {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+	}
+	.product-logo-frame {
+		width: 88px;
+		height: 88px;
+		border-radius: 20px;
+		overflow: hidden;
+		box-shadow: 0 8px 26px -14px rgba(27, 26, 23, 0.28);
+		transition: transform 0.25s ease;
+		align-self: start;
+		flex-shrink: 0;
+		display: block;
+	}
+	.product-logo {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+	.product-reader .product-logo {
+		transform: scale(1.06);
+		transform-origin: center;
+	}
+	@media (max-width: 520px) {
+		.product-logo-frame {
+			width: 64px;
+			height: 64px;
+			border-radius: 14px;
+		}
+	}
+	.product-name {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+		letter-spacing: -0.02em;
+		color: var(--ink);
+		margin: 0 0 0.6rem;
+	}
+	.product-headline {
+		font-family: var(--serif);
+		font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+		line-height: 1.4;
+		color: var(--ink-soft);
+		margin: 0 0 1.5rem;
+		max-width: 28ch;
+	}
+	.product-bullets {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 2rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+	}
+	.product-bullets li {
+		position: relative;
+		padding-left: 1.5rem;
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 44ch;
+	}
+	.product-bullets li::before {
+		content: "—";
+		position: absolute;
+		left: 0;
+		top: 0;
+		color: var(--ink-mute);
+		font-weight: 300;
+	}
+	.product-cta {
+		margin-top: auto;
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--accent);
+		align-self: flex-start;
+		padding-bottom: 2px;
+		border-bottom: 1px solid transparent;
+		transition: border-color 0.2s ease;
+	}
+	.product:hover .product-cta {
+		border-bottom-color: var(--accent);
+	}
+
+	/* ─── shared section helpers ─── */
+	.section-eyebrow {
+		display: block;
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 2rem;
+	}
+
+	/* ─── 屏 3 · What's new ─── */
+	.whats-new {
+		width: 100%;
+		background: var(--bg);
+		padding: clamp(3.5rem, 6vw, 5rem) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.whats-new-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.whats-new-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+	@media (min-width: 820px) {
+		.whats-new-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.release-card {
+		display: flex;
+		flex-direction: column;
+		padding: clamp(2rem, 3vw, 2.5rem) clamp(1.5rem, 2.5vw, 2.25rem);
+	}
+	.release-card + .release-card {
+		border-top: 1px solid var(--rule-soft);
+	}
+	@media (min-width: 820px) {
+		.release-card + .release-card {
+			border-top: 0;
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.release-product {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 1rem;
+	}
+	.release-meta {
+		font-family: var(--serif);
+		font-size: clamp(1.2rem, 1.7vw, 1.5rem);
+		line-height: 1.2;
+		color: var(--ink);
+		margin: 0 0 0.4rem;
+		display: flex;
+		gap: 0.55rem;
+		align-items: baseline;
+		flex-wrap: wrap;
+	}
+	.release-version {
+		font-weight: 500;
+		letter-spacing: -0.01em;
+	}
+	.release-sep {
+		color: var(--ink-mute);
+	}
+	.release-platforms {
+		font-family: var(--mono);
+		font-size: 0.74rem;
+		letter-spacing: 0.06em;
+		color: var(--accent);
+		margin: 0 0 1rem;
+	}
+	.release-teaser {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0 0 1.5rem;
+		max-width: 44ch;
+	}
+	.release-cta {
+		margin-top: auto;
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--accent);
+		text-decoration: none;
+		align-self: flex-start;
+		padding-bottom: 2px;
+		border-bottom: 1px solid transparent;
+		transition: border-color 0.2s ease;
+	}
+	.release-cta:hover {
+		border-bottom-color: var(--accent);
+	}
+
+	/* ─── 屏 4 · From the blog ─── */
+	.from-blog {
+		width: 100%;
+		background: var(--bg);
+		padding: clamp(3.5rem, 6vw, 5rem) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.from-blog-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.from-blog-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+	@media (min-width: 820px) {
+		.from-blog-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.post-card {
+		display: flex;
+		flex-direction: column;
+		padding: clamp(2rem, 3vw, 2.5rem) clamp(1.5rem, 2.5vw, 2.25rem);
+	}
+	.post-card + .post-card {
+		border-top: 1px solid var(--rule-soft);
+	}
+	@media (min-width: 820px) {
+		.post-card + .post-card {
+			border-top: 0;
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.post-product {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 0.75rem;
+	}
+	.post-date {
+		font-family: var(--mono);
+		font-size: 0.74rem;
+		letter-spacing: 0.06em;
+		color: var(--accent);
+		margin: 0 0 0.85rem;
+		display: block;
+	}
+	.post-title {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: clamp(1.25rem, 1.8vw, 1.55rem);
+		line-height: 1.25;
+		letter-spacing: -0.01em;
+		margin: 0 0 0.85rem;
+		color: var(--ink);
+	}
+	.post-title a {
+		color: inherit;
+		text-decoration: none;
+		transition: color 0.2s ease;
+	}
+	.post-title a:hover {
+		color: var(--accent);
+	}
+	.post-desc {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0 0 1.5rem;
+		max-width: 44ch;
+	}
+	.post-cta {
+		margin-top: auto;
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--accent);
+		text-decoration: none;
+		align-self: flex-start;
+		padding-bottom: 2px;
+		border-bottom: 1px solid transparent;
+		transition: border-color 0.2s ease;
+	}
+	.post-cta:hover {
+		border-bottom-color: var(--accent);
+	}
+	.from-blog-all {
+		display: inline-block;
+		margin-top: 2.25rem;
+		font-family: var(--mono);
+		font-size: 0.74rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		text-decoration: none;
+		padding-bottom: 2px;
+		border-bottom: 1px solid transparent;
+		transition: color 0.2s ease, border-color 0.2s ease;
+	}
+	.from-blog-all:hover {
+		color: var(--accent);
+		border-bottom-color: var(--accent);
+	}
+</style>

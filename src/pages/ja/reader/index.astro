@@ -1,0 +1,1074 @@
+---
+import Button from '~/components/Button.astro';
+import DownloadSection from '~/components/DownloadSection.astro';
+import FaqList from '~/components/FaqList.astro';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+
+// Content sourced verbatim from original apps/reader-home components
+// (archive/apps-backup): HomeHero / HomeFeatures / HomeHowItWorks /
+// HomeComparison / HomeCTA / PricingTable / DownloadPage.
+// Plan decision: merge features + pricing + download into single
+// anchor-navigable /reader/ page.
+
+const features = [
+	{
+		title: 'AI を活用した理解',
+		body: 'どんな記事でも、要約、要点、質問への回答が一瞬で手に入ります。読むものすべてに、専属の家庭教師がついているような感覚です。',
+	},
+	{
+		title: 'コンテンツは消えない',
+		body: '一度保存した記事は永久にバックアップされます。「404 Page Not Found」でがっかりすることはもうありません。あなたのデジタル書庫は本当の意味で恒久的です。',
+	},
+	{
+		title: 'スマートな整理',
+		body: 'AI が自動でタグ付けと分類を行います。強力なセマンティック検索で、必要なときに必要なものをすぐに見つけられます。',
+	},
+	{
+		title: 'つながる読書',
+		body: '保存したどんな記事にもハイライトとコメントを残せます。コンテンツを共有して、他の人を招き、考察を加えて議論できます。すべての記事が、対話の場になります。',
+	},
+];
+
+const steps = [
+	{
+		title: 'なんでも保存',
+		body: 'ワンクリックで、ウェブ上のどこからでも記事、論文、ブログを保存できます。',
+	},
+	{
+		title: 'AI が分析',
+		body: 'AI の要約が、じっくり読むべき記事か、ざっと目を通すべきかを判断する助けになります。よいコンテンツに、あなたの時間を残しましょう。',
+	},
+	{
+		title: 'AI に質問',
+		body: '保存したコンテンツについて AI と会話して、理解を深めましょう。',
+	},
+	{
+		title: 'コンテンツとつながる',
+		body: 'ハイライト、コメント、他の人との議論。あなたが書くものは、あなたが読むものよりも価値があります。',
+	},
+];
+
+// Cell value: 'ok' → ● accent,   'no' → — muted,   any other string → inline text (muted italic)
+const compareRows: Array<[string, string, string, string]> = [
+	['無制限の無料ブックマーク（早期ユーザー向け）', 'ok', 'ok', '有料'],
+	['コンテンツの永久バックアップ', 'ok', '有料', '有料'],
+	['AI アウトライン', '有料', 'ok', '有料'],
+	['読みながら AI と会話', '有料', 'no', '有料'],
+	[
+		'オリジナルページとスナップショットへのハイライト＆コメント、双方向同期',
+		'ok',
+		'no',
+		'有料',
+	],
+	['リーダー同士の議論に参加', 'ok', 'no', '共有のみ'],
+	['AI 自動タグ付け', '有料', '手動', '手動'],
+];
+
+const matrixRows: Array<[string, string, string]> = [
+	['無制限の記事保存', 'ok', 'ok'],
+	['永久スナップショット（リンク切れなし）', 'ok', 'ok'],
+	['無制限のハイライト＆コメント', 'ok', 'ok'],
+	['全文検索', 'ok', 'ok'],
+	['全デバイス間で同期', 'ok', 'ok'],
+	['記事の共有と議論への参加', 'ok', 'ok'],
+	['オープンソース＆プライバシー優先', 'ok', 'ok'],
+	['タグの作成と管理', 'ok', 'ok'],
+	['スマート AI 自動タグ付け', 'no', 'ai'],
+	['一瞬で AI 要約', 'no', 'ai'],
+	['インタラクティブな AI アウトライン', 'no', 'ai'],
+	['AI チャットボット——書庫に何でも質問', 'no', 'ai'],
+];
+
+const faqs = [
+	{
+		q: 'Free プランは本当にずっと無料ですか？',
+		a: 'はい——早期ユーザーには無料です。早期アクセス期間中は、無制限のブックマークと永久バックアップを無料で提供しています。制限がかかる前に、無料利用を確保してください。',
+	},
+	{
+		q: 'Slax Reader は本当に毎週何時間も節約できますか？',
+		a: 'そのために作ったツールです。クリック可能な AI アウトラインを使えば、長い記事をすべて読まずに目的の箇所へ移動できます。自動タグ付けが整理を引き受けるので、あなたは読むことに集中できます。',
+	},
+	{
+		q: 'Pro サブスクリプションはいつでも解約できますか？',
+		a: 'もちろんです。アカウント設定からいつでも解約でき、ペナルティはありません。保存した記事とハイライトは Free プランでも引き続き利用できます。',
+	},
+	{
+		q: '1 ヶ月無料トライアルはどう使えますか？',
+		a: 'ログインしてすぐにトライアルを開始できます——クレジットカードは不要です。30 日後、Pro を月額 $5.99（通常価格 $9.99）で継続するかどうかを確認します。',
+	},
+];
+
+const platforms = [
+	{
+		icon: '📱',
+		title: 'iPhone、iPad、Android',
+		bullets: [
+			'無料で永久に保存。',
+			'ワンタップで記事を保存。',
+			'AI アウトラインと素早いナビゲーション。',
+			'クロスプラットフォーム同期。',
+		],
+		downloads: [
+			{
+				href: 'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
+				small: 'Download on the',
+				main: 'App Store',
+			},
+			{
+				href: 'https://play.google.com/store/apps/details?id=com.slax.reader',
+				small: 'GET IT ON',
+				main: 'Google Play',
+			},
+		],
+	},
+	{
+		icon: '💻',
+		title: 'Mac',
+		bullets: ['プロのように保存、読書、整理。'],
+		downloads: [
+			{
+				href: 'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
+				small: 'Download on the',
+				main: 'Mac App Store',
+			},
+		],
+	},
+	{
+		icon: '🌐',
+		title: 'ブラウザ拡張',
+		bullets: [
+			'ワンタップでウェブページを保存＆バックアップ——あなたの手元に永遠に。',
+			'同じページ上で、あなたの記事と AI チャット。',
+			'強力なセマンティック検索で、必要なものをすぐに発見。',
+		],
+		downloads: [
+			{
+				href: 'https://chromewebstore.google.com/detail/gdnhaajlomjkhahnmiijphnodkcfikfd?utm_source=web_homepage',
+				small: '',
+				main: 'Chrome Extension',
+			},
+		],
+	},
+];
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'SoftwareApplication',
+	name: 'Slax Reader',
+	applicationCategory: 'ProductivityApplication',
+	operatingSystem: 'Web, iOS, iPadOS, Android, macOS',
+	url: 'https://slax.com/reader/',
+	image: 'https://slax.com/og/reader.png',
+	screenshot: 'https://slax.com/reader/hero.png',
+	description:
+		'オープンソースで、純粋な、あとで読むアプリ。永遠に保存して、もっと速く学ぶ。高い効率と深い理解のためのインテリジェントな書庫。',
+	downloadUrl: [
+		'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
+		'https://play.google.com/store/apps/details?id=com.slax.reader',
+		'https://chromewebstore.google.com/detail/gdnhaajlomjkhahnmiijphnodkcfikfd',
+	],
+	offers: [
+		{
+			'@type': 'Offer',
+			name: 'Free',
+			price: '0',
+			priceCurrency: 'USD',
+		},
+		{
+			'@type': 'Offer',
+			name: 'Pro Reader',
+			price: '5.99',
+			priceCurrency: 'USD',
+			priceSpecification: {
+				'@type': 'UnitPriceSpecification',
+				price: '5.99',
+				priceCurrency: 'USD',
+				billingDuration: 'P1M',
+			},
+		},
+	],
+	publisher: {
+		'@type': 'Organization',
+		name: 'Slax Lab',
+		url: 'https://slax.com',
+		logo: 'https://slax.com/images/slax-logo.png',
+	},
+};
+---
+<Base
+	title="Slax Reader——オープンソースで、純粋な、あとで読むアプリ"
+	description="オープンソースで、純粋な、あとで読むアプリ。アルゴリズムなし。フィードなし。次に読むのはあなたが決める。無制限のスナップショット、無料。"
+	ogImage="/og/reader.png"
+	schema={schema}
+>
+	<Nav active="reader" />
+
+	<main>
+		<!-- HERO -->
+		<section class="r-hero">
+			<div class="r-hero-inner">
+				<div>
+					<h1 class="r-h1">
+						オープンソースで、純粋な<em>あとで読むアプリ。</em>
+					</h1>
+					<ul class="r-bullets">
+						<li>アルゴリズムなし。フィードなし。次に読むのはあなたが決める。</li>
+						<li>無制限のスナップショット、無料。</li>
+						<li>オープンソース。</li>
+					</ul>
+					<div class="r-hero-stores">
+						<a
+							class="r-store-btn is-primary"
+							href="https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="r-store-small">Download on the</span>
+							<span class="r-store-main">App Store</span>
+						</a>
+						<a
+							class="r-store-btn"
+							href="https://play.google.com/store/apps/details?id=com.slax.reader"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="r-store-small">GET IT ON</span>
+							<span class="r-store-main">Google Play</span>
+						</a>
+					</div>
+					<p class="r-web-link">
+						または<a href="https://r.slax.com/login">Web 版を開く</a>。
+					</p>
+				</div>
+				<div class="r-preview" aria-hidden="true">
+					<img
+						src="/reader/hero.png"
+						alt="Slax Reader インターフェースのプレビュー"
+						loading="eager"
+						decoding="async"
+					/>
+				</div>
+			</div>
+		</section>
+
+		<!-- FEATURES -->
+		<section class="features" id="features">
+			<div class="features-inner">
+				<div class="features-head">
+					<h2 class="features-title">ただのあとで読むツールではありません</h2>
+					<p class="features-sub">
+						インテリジェントな読書の未来を作っています。
+					</p>
+				</div>
+				<div class="feat-grid">
+					{features.map((f, i) => (
+						<div class="feat">
+							<div class="feat-num">{String(i + 1).padStart(2, '0')}</div>
+							<h3 class="feat-h">{f.title}</h3>
+							<p class="feat-p">{f.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- HOW IT WORKS -->
+		<section class="how">
+			<div class="how-inner">
+				<h2 class="how-head">ブックマークから、ひらめきへ。</h2>
+				<p class="how-sub">
+					4 つのシンプルなステップで、あなたの読み方と学び方が変わります。
+				</p>
+				<div class="how-steps">
+					{steps.map((s, i) => (
+						<div class="how-step">
+							<div class="how-step-num">{String(i + 1).padStart(2, '0')}</div>
+							<h3 class="how-step-h">{s.title}</h3>
+							<p class="how-step-body">{s.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- COMPARE -->
+		<section class="compare">
+			<div class="compare-inner">
+				<h2 class="compare-head">読み手が Slax に乗り換える理由</h2>
+				<p class="compare-sub">
+					従来のあとで読むツールとの違いをご覧ください。
+				</p>
+				<div class="compare-table">
+					<div class="compare-row head">
+						<div>機能</div>
+						<div class="highlight">Slax Reader</div>
+						<div>Instapaper</div>
+						<div>Readwise</div>
+					</div>
+					{compareRows.map((row) => (
+						<div class="compare-row">
+							<div>{row[0]}</div>
+							{[1, 2, 3].map((i) => {
+								const v = row[i];
+								const isHighlight = i === 1;
+								let cls = 'cell';
+								let content: string = v;
+								if (v === 'ok') {
+									cls += ' cell-ok';
+									content = '●';
+								} else if (v === 'no') {
+									cls += ' cell-no';
+									content = '—';
+								} else {
+									cls += ' cell-text';
+								}
+								if (isHighlight) cls += ' highlight';
+								return <div class={cls}>{content}</div>;
+							})}
+						</div>
+					))}
+				</div>
+				<p class="compare-more">
+					<a href="/ja/reader/alternatives/">
+						詳しい比較——Readwise、Omnivore、Cubox など →
+					</a>
+				</p>
+			</div>
+		</section>
+
+		<!-- PRICING -->
+		<section class="pricing" id="pricing">
+			<div class="pricing-inner">
+				<h2 class="pricing-head">賢く読む、<em>「あとで」だけじゃなく。</em></h2>
+				<p class="pricing-dek">
+					永遠に保存して、もっと速く学ぶ。高い効率と深い理解のためのインテリジェントな書庫。
+				</p>
+				<a class="pricing-promo" href="https://r.slax.com/login">
+					🎉 今日登録すると Pro が 1 ヶ月無料
+				</a>
+
+				<div class="plans-grid">
+					<div class="plan">
+						<div class="plan-eyebrow">Free</div>
+						<div class="plan-price">
+							<span class="num">$0</span><span class="unit">/ 月</span>
+						</div>
+						<p class="plan-tag">
+							無制限のブックマークとバックアップを永久に——制限がかかる前に今すぐ参加を！
+						</p>
+						<a href="https://r.slax.com/login" class="btn-primary">無料で始める</a>
+					</div>
+					<div class="plan featured">
+						<div class="plan-eyebrow">Pro Reader</div>
+						<div class="plan-price">
+							<span class="num">$5.99</span><span class="unit">/ 月</span>
+							<span class="was">$9.99</span>
+						</div>
+						<p class="plan-tag">
+							統合された AI 分析で、あなたの読書力を解き放ちます。
+						</p>
+						<a href="https://r.slax.com/login" class="btn-primary">1 ヶ月無料で試す</a>
+					</div>
+				</div>
+
+				<div class="matrix" aria-label="機能マトリックス">
+					<div class="matrix-row head">
+						<div class="cell-feat">機能</div>
+						<div class="cell">Free</div>
+						<div class="cell">Pro Reader</div>
+					</div>
+					{matrixRows.map((row) => (
+						<div class="matrix-row">
+							<div class="cell-feat">{row[0]}</div>
+							{[1, 2].map((i) => {
+								const v = row[i];
+								if (v === 'ok') return <div class="cell ok">✓</div>;
+								if (v === 'ai') return <div class="cell ai">AI</div>;
+								return <div class="cell no">✕</div>;
+							})}
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- FAQ -->
+		<section class="faq">
+			<div class="faq-inner">
+				<h2 class="faq-head">よくある質問</h2>
+				<FaqList items={faqs} />
+			</div>
+		</section>
+
+
+		<!-- DOWNLOAD -->
+		<DownloadSection platforms={platforms}>
+			<Fragment slot="heading">
+				Slax Reader——<em>永遠に保存。もっと賢く読む。</em>
+			</Fragment>
+			<Fragment slot="dek">
+				無料でダウンロード、お好きなプラットフォームすべてに対応。
+			</Fragment>
+		</DownloadSection>
+
+		<!-- FINALE -->
+		<section class="finale">
+			<div class="finale-inner">
+				<h2 class="finale-h">
+					今日から、<em>インテリジェントな</em>読書の旅を始めましょう
+				</h2>
+				<p class="finale-p">賢く読み、速く学び、もっと記憶に残す。</p>
+				<div class="actions actions-center">
+					<Button variant="primary" href="https://r.slax.com/login" arrow>
+						始める——無料です
+					</Button>
+					<Button variant="secondary" href="https://github.com/slax-lab/slax-reader">
+						コードを読む
+					</Button>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+</Base>
+
+<style>
+	/* HERO */
+	.r-hero {
+		padding: 6rem 0 5rem;
+	}
+	.r-hero-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 4rem;
+		align-items: center;
+	}
+	@media (min-width: 960px) {
+		.r-hero-inner {
+			grid-template-columns: 1.1fr 1fr;
+		}
+	}
+	.r-h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 4vw, 3.2rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 1.75rem;
+		color: var(--ink);
+		max-width: 22ch;
+	}
+	.r-h1 :global(em) {
+		font-style: italic;
+		font-weight: 300;
+		color: var(--accent);
+	}
+	.r-bullets {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 2.25rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		max-width: 48ch;
+	}
+	.r-bullets li {
+		position: relative;
+		padding-left: 1.5rem;
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+	}
+	.r-bullets li::before {
+		content: "—";
+		position: absolute;
+		left: 0;
+		top: 0;
+		color: var(--ink-mute);
+		font-weight: 300;
+	}
+	.r-hero-stores {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+	.r-web-link {
+		margin: 0.9rem 0 0;
+		font-family: var(--serif);
+		font-size: 0.95rem;
+		color: var(--ink-mute);
+	}
+	.r-web-link a {
+		color: var(--ink-soft);
+		text-decoration: underline;
+		text-decoration-color: var(--rule);
+		text-underline-offset: 3px;
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
+	.r-web-link a:hover {
+		color: var(--accent);
+		text-decoration-color: var(--accent);
+	}
+	.r-store-btn {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.15rem;
+		background: transparent;
+		color: var(--ink);
+		text-decoration: none;
+		padding: 0.7rem 1.2rem;
+		border: 1px solid var(--ink);
+		transition:
+			background 0.2s ease,
+			color 0.2s ease;
+		min-width: 160px;
+	}
+	.r-store-btn:hover {
+		background: var(--ink);
+		color: var(--bg);
+	}
+	.r-store-btn.is-primary,
+	.r-store-btn.is-primary:hover {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: var(--bg);
+	}
+	.r-store-btn.is-primary .r-store-small,
+	.r-store-btn.is-primary:hover .r-store-small {
+		color: var(--bg);
+		opacity: 0.8;
+	}
+	.r-store-small {
+		font-family: var(--mono);
+		font-size: 0.62rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		line-height: 1.2;
+	}
+	.r-store-btn:hover .r-store-small {
+		color: var(--bg);
+		opacity: 0.75;
+	}
+	.r-store-main {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		font-weight: 500;
+		line-height: 1.3;
+	}
+	.actions {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+	.actions-center {
+		justify-content: center;
+	}
+	.r-preview {
+		display: flex;
+		justify-content: center;
+	}
+	.r-preview img {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-width: 480px;
+	}
+
+	/* FEATURES */
+	.features {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.features-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.features-head {
+		margin-bottom: 4rem;
+	}
+	.features-title {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 0.5rem;
+	}
+	.features-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 44ch;
+	}
+	.feat-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.feat-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@media (min-width: 1040px) {
+		.feat-grid {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+	.feat {
+		padding: 2.5rem 2rem;
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.feat:nth-child(2n) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	@media (min-width: 1040px) {
+		.feat:nth-child(2n) {
+			border-left: 0;
+		}
+		.feat:not(:nth-child(4n + 1)) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.feat-num {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.2em;
+		color: var(--ink-mute);
+		margin-bottom: 1.5rem;
+	}
+	.feat-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.2rem;
+		letter-spacing: -0.015em;
+		margin: 0 0 0.75rem;
+		line-height: 1.25;
+	}
+	.feat-p {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 38ch;
+	}
+
+	/* HOW */
+	.how {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		background: var(--bg-deep);
+	}
+	.how-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.how-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 0.5rem;
+	}
+	.how-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0 0 4rem;
+	}
+	.how-steps {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+	}
+	@media (min-width: 820px) {
+		.how-steps {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+	.how-step {
+		text-align: left;
+	}
+	.how-step-num {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.2em;
+		color: var(--ink-mute);
+		margin: 0 0 1.5rem;
+	}
+	.how-step-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.3rem;
+		letter-spacing: -0.015em;
+		line-height: 1.2;
+		margin: 0 0 0.6rem;
+	}
+	.how-step-body {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 32ch;
+	}
+
+	/* COMPARE */
+	.compare {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.compare-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.compare-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 0.5rem;
+	}
+	.compare-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0 0 3rem;
+	}
+	.compare-table {
+		border-top: 1px solid var(--rule);
+		font-family: var(--serif);
+		font-size: 1rem;
+		overflow-x: auto;
+	}
+	.compare-row {
+		display: grid;
+		grid-template-columns: 1.5fr 1fr 1fr 1fr;
+		border-bottom: 1px solid var(--rule);
+		min-width: 640px;
+	}
+	.compare-row > div {
+		padding: 1.1rem 1rem;
+		color: var(--ink-soft);
+	}
+	.compare-row > div:first-child {
+		color: var(--ink);
+	}
+	.compare-row > div.highlight {
+		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 5%, transparent);
+	}
+	.compare-row.head > div {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		padding: 0.8rem 1rem;
+	}
+	.compare-row.head > div:not(:first-child) {
+		text-align: center;
+	}
+	.compare-row.head > div.highlight {
+		color: var(--accent);
+		font-weight: 500;
+	}
+	.compare-row .cell {
+		text-align: center;
+	}
+	.compare-row .cell-ok {
+		color: var(--accent);
+		font-size: 1.05rem;
+	}
+	.compare-row .cell-no {
+		color: var(--ink-mute);
+		font-size: 1.2rem;
+	}
+	.compare-row .cell-text {
+		color: var(--ink-mute);
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		letter-spacing: 0.04em;
+	}
+	.compare-row .cell-ok.highlight {
+		background: color-mix(in srgb, var(--accent) 5%, transparent);
+	}
+	.compare-more {
+		margin: 2rem 0 0;
+		font-family: var(--mono);
+		font-size: 0.85rem;
+	}
+	.compare-more a {
+		color: var(--ink);
+		text-decoration: none;
+		border-bottom: 1px dotted var(--ink-mute);
+		transition:
+			color 0.2s,
+			border-color 0.2s;
+	}
+	.compare-more a:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+
+	/* PRICING */
+	.pricing {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		background: var(--bg-deep);
+		scroll-margin-top: 5rem;
+	}
+	.pricing-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.pricing-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 3.5vw, 3rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 1rem 0 0.5rem;
+	}
+	.pricing-head :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.pricing-dek {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 48ch;
+		margin: 0 0 1.5rem;
+	}
+	.pricing-promo {
+		display: inline-block;
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		letter-spacing: 0.04em;
+		padding: 0.5rem 1rem;
+		border: 1px solid var(--accent);
+		border-radius: 999px;
+		color: var(--accent);
+		text-decoration: none;
+		margin-bottom: 3rem;
+	}
+	.pricing-promo:hover {
+		background: var(--accent);
+		color: var(--bg);
+	}
+	.plans-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 820px) {
+		.plans-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.plan {
+		padding: 2.5rem 2.25rem;
+		background: var(--bg);
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.plan > .btn-primary {
+		margin-top: auto;
+	}
+	.plan.featured > .btn-primary {
+		background: var(--accent);
+		color: #fff;
+	}
+	.plan.featured > .btn-primary:hover {
+		background: var(--accent-hover, #2E4D3E);
+	}
+	@media (min-width: 820px) {
+		.plan + .plan {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	@media (max-width: 819px) {
+		.plan + .plan {
+			border-top: 1px solid var(--rule);
+		}
+	}
+	.plan.featured {
+		background: var(--bg-deeper);
+		position: relative;
+	}
+	.plan.featured::before {
+		content: "おすすめ";
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		font-family: var(--mono);
+		font-size: 0.68rem;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+	.plan-eyebrow {
+		font-family: var(--serif);
+		font-size: 1.5rem;
+		font-weight: 500;
+		color: var(--ink);
+	}
+	.plan.featured .plan-eyebrow {
+		color: var(--accent);
+	}
+	.plan-price {
+		display: flex;
+		align-items: baseline;
+		gap: 0.5rem;
+		margin: 0.5rem 0 1rem;
+	}
+	.plan-price .num {
+		font-family: var(--serif);
+		font-size: 2.75rem;
+		font-weight: 400;
+		color: var(--ink);
+		letter-spacing: -0.03em;
+	}
+	.plan-price .unit {
+		font-family: var(--sans);
+		font-size: 0.92rem;
+		color: var(--ink-mute);
+	}
+	.plan-price .was {
+		font-family: var(--mono);
+		font-size: 0.85rem;
+		color: var(--ink-mute);
+		text-decoration: line-through;
+		margin-left: 0.4rem;
+	}
+	.plan-tag {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1rem;
+		color: var(--ink-soft);
+		margin: 0 0 1.5rem;
+		max-width: 38ch;
+		line-height: 1.45;
+	}
+
+	.matrix {
+		margin-top: 3rem;
+		font-family: var(--serif);
+		font-size: 1rem;
+	}
+	.matrix-row {
+		display: grid;
+		grid-template-columns: 1.6fr 0.6fr 0.6fr;
+		padding: 0.9rem 1rem;
+		border-bottom: 1px solid var(--rule);
+		align-items: baseline;
+	}
+	.matrix-row.head {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		border-bottom: 1px solid var(--ink);
+		padding: 0.6rem 1rem;
+	}
+	.matrix-row .cell-feat {
+		color: var(--ink);
+	}
+	.matrix-row .cell {
+		text-align: center;
+		color: var(--ink-soft);
+	}
+	.matrix-row .cell.ok {
+		color: var(--accent);
+	}
+	.matrix-row .cell.ai {
+		color: var(--accent);
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.05em;
+	}
+	.matrix-row .cell.no {
+		color: var(--ink-mute);
+	}
+
+	/* FAQ */
+	.faq {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.faq-inner {
+		max-width: 1080px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.faq-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		letter-spacing: -0.02em;
+		margin: 1rem 0 3rem;
+	}
+
+	/* DOWNLOAD */
+	/* FINALE */
+	.finale {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		text-align: center;
+	}
+	.finale-inner {
+		max-width: 820px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.finale-h {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.2rem, 4vw, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 1.5rem auto 1.5rem;
+		max-width: 22ch;
+	}
+	.finale-h :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.finale-p {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 42ch;
+		margin: 0 auto 2.25rem;
+	}
+</style>

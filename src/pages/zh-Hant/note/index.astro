@@ -1,0 +1,1303 @@
+---
+import Button from '~/components/Button.astro';
+import DownloadSection from '~/components/DownloadSection.astro';
+import FaqList from '~/components/FaqList.astro';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+
+// All content below is copied verbatim from note.slax.com (the live
+// marketing landing) plus n.slax.com product i18n where relevant.
+// Single source of truth: fetched from note.slax.com 2026-04-19.
+
+const notePlatforms = [
+	{
+		icon: '📱',
+		title: 'iPhone、iPad、Android',
+		bullets: [
+			'一鍵錄下你的想法。',
+			'AI 自動轉寫並標點、潤飾文字。',
+			'文字或圖片格式，複製或分享到任何地方。',
+			'所有裝置即時同步。',
+		],
+		downloads: [
+			{
+				href: 'https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286',
+				small: 'Download on the',
+				main: 'App Store',
+			},
+			{
+				href: 'https://play.google.com/store/apps/details?id=app.slax.notes',
+				small: 'GET IT ON',
+				main: 'Google Play',
+			},
+		],
+	},
+];
+
+// Efficiency Boost 🚀 — "save your time on what matters"
+const efficiencyFeatures = [
+	{
+		title: '一鍵捕捉靈感',
+		body: '輕鬆一按就開始錄。你只要專心想，其餘交給我們。',
+		video: '/note/videos/click.mp4',
+	},
+	{
+		title: '自動優化文字與標點',
+		body: '我們的 AI 語音轉寫服務精準辨識，再潤飾文字、加上合適的標點，符合你的語氣。',
+		video: '/note/videos/polish.mp4',
+	},
+	{
+		title: '隨處複製、分享筆記',
+		body: '文字或圖片，輕鬆分享你的見解，融入你的工作流程。',
+		video: '/note/videos/copy-share.mp4',
+	},
+];
+
+// Intelligent Ghostwriting ✍️ — "let AI perfect your text with ease"
+const ghostwritingFeatures = [
+	{
+		title: '為各種場景選擇現成風格',
+		body: '內建多種風格，包含摘要、推文、讚美等。更多風格陸續推出。',
+		video: '/note/videos/choose-ready-made.mp4',
+	},
+	{
+		title: '自訂提示詞，貼近個人需求',
+		body: '量身打造提示詞，配合你的獨特需求與工作方式。',
+		video: '/note/videos/customize.mp4',
+	},
+];
+
+// How are others using Slax Note — 5 real use cases from note.slax.com
+const useCases = [
+	{
+		title: '個人語音備忘',
+		body: '散步或開車時抓住稍縱即逝的想法。我們把你的語音備忘變成清晰好讀的文字。不再讓靈光乍現的瞬間溜走。',
+	},
+	{
+		title: '內容創作',
+		body: '比過去更快、更輕鬆地產出內容。說出你的想法，Slax Note 的 AI 數秒內就能生成漂亮的文章，不必動鍵盤！',
+	},
+	{
+		title: '行程整理',
+		body: '把待辦事項告訴 Slax Note，它會幫你整理行程，把時間留給真正重要的事。',
+	},
+	{
+		title: '會議紀要',
+		body: '開會沒帶電腦時喚醒 Slax Note，它就是你的 AI 助理，自動錄音、轉寫並整理會議摘要。',
+	},
+	{
+		title: '學習筆記',
+		body: '你的 AI 學習夥伴。打開 Slax Note 捕捉你可能漏聽的課堂內容，或練習演講後讓它幫你整理成漂亮的講稿。',
+	},
+];
+
+// Real testimonials from note.slax.com — 6 named users
+const testimonials = [
+	{
+		quote:
+			'如果你經常需要寫東西或記錄靈感，我強烈推薦 Slax Note。它能把我口語化的內容潤色得比我平常寫的還精準。',
+		author: 'Cao Jiang',
+		title: '獨立內容創作者',
+	},
+	{
+		quote: '這個工具相當優雅。能幫我養成隨時用它記錄想法的習慣，真的很受用。',
+		author: 'Fenng',
+		title: '科技部落客',
+	},
+	{
+		quote:
+			'Slax Note 用 LLM 技術自動轉寫語音、整理內容。比起傳統工具，它能去掉口語裡的贅字和停頓，輸出清晰有邏輯，幫使用者捕捉並整理想法。',
+		author: '輝哥奇譚',
+		title: '作家',
+	},
+	{
+		quote:
+			'我不缺內容可寫，缺的是寫作的時間。用 Slax Note 之後我省下大量時間，這對我來說太珍貴了。',
+		author: 'Investor Fan',
+		title: '投資人 / 高漲資本創辦人',
+	},
+	{
+		quote:
+			'不管是和朋友聊天還是做訪談，我都會打開 Slax Note。它直接把對話變成文章，不必再人工整理逐字稿。Slax Note 都幫我搞定。',
+		author: '劉容',
+		title: '網路公司行銷經理',
+	},
+	{
+		quote:
+			'家人群組裡我常分享日常行程和重要事項，我都用 Slax Note 來系統化地記錄、整理。家人溝通因此更清楚，我也把各種事情安排得井井有條。',
+		author: 'Vivian',
+		title: '資深經理',
+	},
+];
+
+// FAQ — verbatim from note.slax.com
+const faqs = [
+	{
+		q: '如何訂閱？',
+		a: '打開 Slax Note App，選擇你想要的訂閱方案，依照畫面提示建立帳號並完成付款。訂閱完成後即可立刻使用進階功能。',
+	},
+	{
+		q: '支援上傳檔案嗎？',
+		a: '目前還不支援音訊檔案上傳，這個功能已在計畫中，未來會推出。',
+	},
+	{
+		q: '語音轉文字準確度如何？',
+		a: '我們使用最新的 AI 技術，準確度非常高。清晰的音訊輸入下，準確度可達 95% 以上。',
+	},
+	{
+		q: '錄音有時間限制嗎？',
+		a: '每段錄音最長 30 分鐘。',
+	},
+	{
+		q: '轉換後的文字可以編輯嗎？',
+		a: '可以，轉換後的文字完全可編輯，並支援多種文字風格轉換。',
+	},
+	{
+		q: '音訊檔案存放在哪裡？安全嗎？',
+		a: '所有錄音都儲存在本機，確保使用者隱私與安全。',
+	},
+	{
+		q: '要怎麼匯出筆記？',
+		a: '筆記可以輕鬆以文字或圖片格式分享到其他應用程式。',
+	},
+	{
+		q: '可以離線使用嗎？',
+		a: '錄音功能可離線使用，但語音轉文字需要連網。',
+	},
+	{
+		q: '如何套用不同風格？',
+		a: '打開 App 開始錄音，或點「文字筆記」輸入內容，系統會帶你進入自動潤飾頁面。在右側點「預設」按鈕即可切換不同寫作風格，也可以自由自訂你想要的風格。',
+	},
+	{
+		q: 'Slax Note 的語音辨識支援哪些語言？',
+		a: '目前支援英文、中文、德文、日文等主要語言，未來會新增更多語言。',
+	},
+];
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'SoftwareApplication',
+	name: 'Slax Note',
+	alternateName: 'Slax Note —— AI 語音筆記',
+	applicationCategory: 'ProductivityApplication',
+	operatingSystem: 'iOS, Android, Web',
+	url: 'https://slax.com/zh-Hant/note/',
+	image: 'https://slax.com/og/note.png',
+	screenshot: 'https://slax.com/images/note/cover.png',
+	description:
+		'AI 語音筆記。你說，我記。用 Slax Note 錄音，讓 AI 把你的想法抓下來，潤飾成你想要的任何風格的文字。',
+	downloadUrl: [
+		'https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286',
+		'https://play.google.com/store/apps/details?id=app.slax.notes',
+	],
+	offers: [
+		{
+			'@type': 'Offer',
+			name: 'Free',
+			price: '0',
+			priceCurrency: 'USD',
+		},
+		{
+			'@type': 'Offer',
+			name: 'Premium Monthly',
+			price: '4.99',
+			priceCurrency: 'USD',
+			priceSpecification: {
+				'@type': 'UnitPriceSpecification',
+				price: '4.99',
+				priceCurrency: 'USD',
+				billingDuration: 'P1M',
+			},
+		},
+		{
+			'@type': 'Offer',
+			name: 'Premium Annual',
+			price: '49.99',
+			priceCurrency: 'USD',
+			priceSpecification: {
+				'@type': 'UnitPriceSpecification',
+				price: '49.99',
+				priceCurrency: 'USD',
+				billingDuration: 'P1Y',
+			},
+		},
+	],
+	publisher: {
+		'@type': 'Organization',
+		name: 'Starry Tech Pte. Ltd.',
+		url: 'https://slax.com',
+		logo: 'https://slax.com/images/slax-logo.png',
+	},
+};
+---
+<Base
+	title="Slax Note —— AI 語音筆記。你說，我記。"
+	description="你說，我記。一段錄音，多種樣貌 —— 由你選的提示詞決定。陪你年復一年，持續成長。"
+	ogImage="/og/note.png"
+	schema={schema}
+>
+	<Nav active="note" />
+
+	<main>
+		<!-- HERO -->
+		<section class="n-hero">
+			<div class="n-hero-inner">
+				<div>
+					<h1 class="n-h1">
+						AI 語音筆記。<em>你說，我記。</em>
+					</h1>
+					<ul class="n-bullets">
+						<li>念頭一冒出就說出口。不必打字，不必整理。</li>
+						<li>一段錄音，多種樣貌 —— 由你選的提示詞決定。</li>
+						<li>陪你年復一年，持續成長。</li>
+					</ul>
+					<div class="n-stores">
+						<a
+							class="store-btn is-primary"
+							href="https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="store-small">Download on the</span>
+							<span class="store-main">App Store</span>
+						</a>
+						<a
+							class="store-btn"
+							href="https://play.google.com/store/apps/details?id=app.slax.notes"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="store-small">GET IT ON</span>
+							<span class="store-main">Google Play</span>
+						</a>
+					</div>
+					<p class="n-web-link">
+						或<a href="https://n.slax.com/">前往網頁版</a>。
+					</p>
+				</div>
+				<div class="n-visual">
+					<img
+						src="/images/note/cover.png"
+						alt="Slax Note —— AI 語音筆記"
+						class="n-img"
+						loading="eager"
+					/>
+				</div>
+			</div>
+		</section>
+
+		<!-- EFFICIENCY BOOST -->
+		<section class="features" id="features" data-demo-group="efficiency">
+			<div class="features-inner">
+				<div class="feat-head">
+					<h2 class="feat-title">效率加成</h2>
+					<p class="feat-sub">把時間花在重要的事上。</p>
+				</div>
+				<div class="feat-demo-body">
+					<div class="feat-list" role="tablist" aria-label="效率加成功能">
+						{efficiencyFeatures.map((f, i) => (
+							<button
+								class="feat-item"
+								type="button"
+								role="tab"
+								data-idx={i}
+								aria-selected={i === 0 ? 'true' : 'false'}
+								aria-controls={`efficiency-video-${i}`}
+							>
+								<div class="feat-item-head">
+									<span class="feat-num">{String(i + 1).padStart(2, '0')}</span>
+									<h3 class="feat-h">{f.title}</h3>
+								</div>
+								<p class="feat-p">{f.body}</p>
+							</button>
+						))}
+					</div>
+					<div class="feat-stage">
+						<div class="feat-frame">
+							{efficiencyFeatures.map((f, i) => (
+								<video
+									id={`efficiency-video-${i}`}
+									class="feat-video"
+									data-idx={i}
+									src={f.video}
+									muted
+									loop
+									playsinline
+									preload={i === 0 ? 'auto' : 'metadata'}
+									aria-hidden={i === 0 ? 'false' : 'true'}
+								></video>
+							))}
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- INTELLIGENT GHOSTWRITING -->
+		<section class="features features-alt" data-demo-group="ghostwriting">
+			<div class="features-inner">
+				<div class="feat-head">
+					<h2 class="feat-title">智慧代筆</h2>
+					<p class="feat-sub">讓 AI 輕鬆潤飾你的文字。</p>
+				</div>
+				<div class="feat-demo-body feat-demo-body--reverse">
+					<div class="feat-stage">
+						<div class="feat-frame">
+							{ghostwritingFeatures.map((f, i) => (
+								<video
+									id={`ghostwriting-video-${i}`}
+									class="feat-video"
+									data-idx={i}
+									src={f.video}
+									muted
+									loop
+									playsinline
+									preload="metadata"
+									aria-hidden={i === 0 ? 'false' : 'true'}
+								></video>
+							))}
+						</div>
+					</div>
+					<div class="feat-list" role="tablist" aria-label="智慧代筆功能">
+						{ghostwritingFeatures.map((f, i) => (
+							<button
+								class="feat-item"
+								type="button"
+								role="tab"
+								data-idx={i}
+								aria-selected={i === 0 ? 'true' : 'false'}
+								aria-controls={`ghostwriting-video-${i}`}
+							>
+								<div class="feat-item-head">
+									<span class="feat-num">{String(i + 1).padStart(2, '0')}</span>
+									<h3 class="feat-h">{f.title}</h3>
+								</div>
+								<p class="feat-p">{f.body}</p>
+							</button>
+						))}
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- USE CASES -->
+		<section class="usecases">
+			<div class="usecases-inner">
+				<h2 class="usecases-head">大家都怎麼用 Slax Note</h2>
+				<div class="uc-grid">
+					{useCases.map((uc) => (
+						<div class="uc">
+							<h3 class="uc-h">{uc.title}</h3>
+							<p class="uc-p">{uc.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- TESTIMONIALS -->
+		<section class="testimonials">
+			<div class="testimonials-inner">
+				<h2 class="t-head">數千名使用者愛用</h2>
+				<p class="t-sub">
+					準備好讓筆記方式煥然一新嗎？現在就試試 Slax Note。
+				</p>
+				<div class="t-grid">
+					{testimonials.map((t) => (
+						<figure class="testimonial">
+							<blockquote class="t-quote">「{t.quote}」</blockquote>
+							<figcaption class="t-caption">
+								<span class="t-author">{t.author}</span>
+								<span class="t-title">{t.title}</span>
+							</figcaption>
+						</figure>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- PRICING -->
+		<section class="pricing" id="pricing">
+			<div class="pricing-inner">
+				<h2 class="pricing-head">價格方案</h2>
+				<p class="pricing-dek">用早鳥優惠價升級你的方案。</p>
+
+				<div class="plans-grid plans-grid-3">
+					<!-- FREE -->
+					<div class="plan">
+						<div class="plan-eyebrow">Free</div>
+						<div class="plan-price">
+							<span class="num">$0</span>
+						</div>
+						<p class="plan-note">終身免費。</p>
+						<ul class="plan-list">
+							<li><span class="plan-feat-label">語音筆記</span><span class="plan-feat-value">5 則</span></li>
+							<li><span class="plan-feat-label">AI 潤飾</span><span class="plan-feat-value">總共 10 次</span></li>
+							<li><span class="plan-feat-label">錄音時長</span><span class="plan-feat-value">5 分鐘</span></li>
+						</ul>
+						<a href="https://n.slax.com/" class="btn-primary">免費試用</a>
+					</div>
+
+					<!-- PREMIUM — MONTHLY -->
+					<div class="plan">
+						<div class="plan-eyebrow">Monthly</div>
+						<div class="plan-price">
+							<span class="num">$4.99</span><span class="unit">/ 月</span>
+						</div>
+						<p class="plan-note">隨時取消。</p>
+						<ul class="plan-list">
+							<li><span class="plan-feat-label">語音筆記</span><span class="plan-feat-value">無限</span></li>
+							<li><span class="plan-feat-label">AI 潤飾</span><span class="plan-feat-value">每天 300 次</span></li>
+							<li><span class="plan-feat-label">錄音時長</span><span class="plan-feat-value">30 分鐘</span></li>
+							<li><span class="plan-feat-label">潤飾品質</span><span class="plan-feat-value">進階版</span></li>
+						</ul>
+						<div class="plan-actions">
+							<a
+								class="btn-primary"
+								href="https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								App Store
+							</a>
+							<a
+								class="btn-primary btn-primary-outline"
+								href="https://play.google.com/store/apps/details?id=app.slax.notes"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Google Play
+							</a>
+						</div>
+					</div>
+
+					<!-- PREMIUM — ANNUAL -->
+					<div class="plan featured">
+						<div class="plan-eyebrow">
+							Annual <span class="plan-badge">省 2 個月</span>
+						</div>
+						<div class="plan-price">
+							<span class="num">$49.99</span><span class="unit">/ 年</span>
+						</div>
+						<p class="plan-note">平均每月只要 $4.16。隨時取消。</p>
+						<ul class="plan-list">
+							<li><span class="plan-feat-label">語音筆記</span><span class="plan-feat-value">無限</span></li>
+							<li><span class="plan-feat-label">AI 潤飾</span><span class="plan-feat-value">每天 300 次</span></li>
+							<li><span class="plan-feat-label">錄音時長</span><span class="plan-feat-value">30 分鐘</span></li>
+							<li><span class="plan-feat-label">潤飾品質</span><span class="plan-feat-value">進階版</span></li>
+						</ul>
+						<div class="plan-actions">
+							<a
+								class="btn-primary"
+								href="https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								App Store
+							</a>
+							<a
+								class="btn-primary btn-primary-outline"
+								href="https://play.google.com/store/apps/details?id=app.slax.notes"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Google Play
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- FAQ -->
+		<section class="faq">
+			<div class="faq-inner">
+				<h2 class="faq-head">常見問題</h2>
+				<p class="faq-sub">
+					其他問題或建議，歡迎到
+					<a href="https://discord.gg/kznNsZvWSk">Discord</a> 找我們，或寄信到
+					<a href="mailto:note@slax.com">note@slax.com</a>。
+				</p>
+				<FaqList items={faqs} />
+			</div>
+		</section>
+
+		<!-- DOWNLOAD -->
+		<DownloadSection platforms={notePlatforms}>
+			<Fragment slot="heading">
+				Slax Note —— <em>讓你的聲音輕鬆出彩。</em>
+			</Fragment>
+			<Fragment slot="dek">
+				免費下載，iOS 與 Android 都能用。
+			</Fragment>
+		</DownloadSection>
+
+		<!-- FINALE -->
+		<section class="finale">
+			<div class="finale-inner">
+				<h2 class="finale-h">記錄每一個<em>靈感</em>。</h2>
+				<p class="finale-p">
+					免費下載，iPhone、Android、網頁版都能用。
+				</p>
+				<div class="actions actions-center">
+					<Button variant="primary" href="https://n.slax.com/" arrow>打開 Slax Note</Button>
+					<Button variant="secondary" href="#pricing">查看方案</Button>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+</Base>
+
+<style>
+	/* HERO */
+	.n-hero {
+		padding: 6rem 0 5rem;
+	}
+	.n-hero-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 4rem;
+		align-items: center;
+	}
+	@media (min-width: 960px) {
+		.n-hero-inner {
+			grid-template-columns: 1.1fr 1fr;
+		}
+	}
+	.n-h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 4vw, 3.2rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 1.75rem;
+		color: var(--ink);
+		max-width: 20ch;
+	}
+	.n-h1 :global(em) {
+		font-style: italic;
+		font-weight: 300;
+		color: var(--accent);
+	}
+	.n-bullets {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 2.25rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		max-width: 48ch;
+	}
+	.n-bullets li {
+		position: relative;
+		padding-left: 1.5rem;
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+	}
+	.n-bullets li::before {
+		content: "—";
+		position: absolute;
+		left: 0;
+		top: 0;
+		color: var(--ink-mute);
+		font-weight: 300;
+	}
+	.n-stores {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+	.n-web-link {
+		margin: 0.9rem 0 0;
+		font-family: var(--serif);
+		font-size: 0.95rem;
+		color: var(--ink-mute);
+	}
+	.n-web-link a {
+		color: var(--ink-soft);
+		text-decoration: underline;
+		text-decoration-color: var(--rule);
+		text-underline-offset: 3px;
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
+	.n-web-link a:hover {
+		color: var(--accent);
+		text-decoration-color: var(--accent);
+	}
+	.store-btn {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.15rem;
+		background: transparent;
+		color: var(--ink);
+		text-decoration: none;
+		padding: 0.7rem 1.2rem;
+		border: 1px solid var(--ink);
+		transition:
+			background 0.2s ease,
+			color 0.2s ease;
+		min-width: 160px;
+	}
+	.store-btn:hover {
+		background: var(--ink);
+		color: var(--bg);
+	}
+	.store-btn.is-primary,
+	.store-btn.is-primary:hover {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: var(--bg);
+	}
+	.store-btn.is-primary .store-small,
+	.store-btn.is-primary:hover .store-small {
+		color: var(--bg);
+		opacity: 0.8;
+	}
+	.store-small {
+		font-family: var(--mono);
+		font-size: 0.62rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		line-height: 1.2;
+	}
+	.store-btn:hover .store-small {
+		color: var(--bg);
+		opacity: 0.75;
+	}
+	.store-main {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		font-weight: 500;
+		line-height: 1.3;
+	}
+	.n-visual {
+		display: flex;
+		justify-content: center;
+	}
+	.n-img {
+		width: 100%;
+		max-width: 480px;
+		height: auto;
+		display: block;
+	}
+
+	/* FEATURES (shared by Efficiency Boost + Intelligent Ghostwriting) */
+	.features {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.features-alt {
+		background: var(--bg-deep);
+	}
+	.features-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.feat-head {
+		margin-bottom: 3.5rem;
+	}
+	.feat-title {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0 0 0.5rem;
+		color: var(--ink);
+	}
+	.feat-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0;
+		font-style: italic;
+	}
+
+	/* Accordion + video demo layout */
+	.feat-demo-body {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+		align-items: start;
+	}
+	@media (min-width: 860px) {
+		.feat-demo-body {
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+			gap: 4rem;
+		}
+	}
+	.feat-list {
+		display: flex;
+		flex-direction: column;
+		border-top: 1px solid var(--rule);
+	}
+	.feat-item {
+		all: unset;
+		display: block;
+		cursor: pointer;
+		padding: 1.5rem 0 1.5rem 1.25rem;
+		border-bottom: 1px solid var(--rule);
+		border-left: 2px solid transparent;
+		color: var(--ink-mute);
+		transition: color 0.2s ease, border-color 0.2s ease;
+	}
+	.feat-item:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 4px;
+	}
+	.feat-item-head {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: baseline;
+		gap: 1rem;
+		margin-bottom: 0.6rem;
+	}
+	.feat-num {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.2em;
+		color: var(--ink-mute);
+		transition: color 0.2s ease;
+	}
+	.feat-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.15rem;
+		letter-spacing: -0.01em;
+		line-height: 1.3;
+		margin: 0;
+		color: inherit;
+		transition: color 0.2s ease;
+	}
+	.feat-p {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.6;
+		color: var(--ink-mute);
+		margin: 0;
+		max-width: 46ch;
+		padding-left: calc(1rem + 2ch);
+		transition: color 0.2s ease;
+	}
+	.feat-item[aria-selected="true"] {
+		border-left-color: var(--accent);
+	}
+	.feat-item[aria-selected="true"] .feat-num {
+		color: var(--accent);
+	}
+	.feat-item[aria-selected="true"] .feat-h {
+		color: var(--ink);
+	}
+	.feat-item[aria-selected="true"] .feat-p {
+		color: var(--ink-soft);
+	}
+	.feat-item:hover:not([aria-selected="true"]) .feat-h,
+	.feat-item:hover:not([aria-selected="true"]) .feat-p {
+		color: var(--ink-soft);
+	}
+
+	/* Video stage */
+	.feat-stage {
+		position: relative;
+	}
+	.feat-frame {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 4 / 3;
+	}
+	.feat-video {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		opacity: 0;
+		transition: opacity 0.25s ease;
+		pointer-events: none;
+	}
+	.feat-video[aria-hidden="false"] {
+		opacity: 1;
+	}
+
+	/* Mobile: stage stays above list for the reversed section too */
+	@media (max-width: 859px) {
+		.feat-demo-body--reverse {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.feat-item,
+		.feat-h,
+		.feat-p,
+		.feat-num,
+		.feat-video {
+			transition: none;
+		}
+	}
+
+	/* USE CASES */
+	.usecases {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.usecases-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.usecases-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0 0 3rem;
+	}
+	.uc-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.uc-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.uc {
+		padding: 2rem;
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.uc:nth-child(2n) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.uc-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.25rem;
+		letter-spacing: -0.015em;
+		margin: 0 0 0.75rem;
+		line-height: 1.25;
+	}
+	.uc-p {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 44ch;
+	}
+
+	/* TESTIMONIALS */
+	.testimonials {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		background: var(--bg-deep);
+	}
+	.testimonials-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.t-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 0 0 0.5rem;
+	}
+	.t-sub {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1.15rem;
+		color: var(--ink-soft);
+		margin: 0 0 3.5rem;
+	}
+	.t-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1.5rem;
+	}
+	@media (min-width: 760px) {
+		.t-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@media (min-width: 1040px) {
+		.t-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+	.testimonial {
+		padding: 2rem 1.75rem;
+		background: var(--bg);
+		border: 1px solid var(--rule);
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 1.5rem;
+	}
+	.t-quote {
+		font-family: var(--serif);
+		font-size: 1.02rem;
+		line-height: 1.6;
+		color: var(--ink);
+		margin: 0;
+		font-style: italic;
+	}
+	.t-caption {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		border-top: 1px solid var(--rule-soft);
+		padding-top: 1rem;
+	}
+	.t-author {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 0.98rem;
+		color: var(--ink);
+	}
+	.t-title {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.05em;
+		color: var(--ink-mute);
+	}
+
+	/* PRICING */
+	.pricing {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		scroll-margin-top: 5rem;
+	}
+	.pricing-inner {
+		max-width: 1120px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.pricing-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 3.5vw, 2.8rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 0 0 0.5rem;
+	}
+	.pricing-dek {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0 0 2rem;
+	}
+
+	.plans-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.plans-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+		.plans-grid-3 {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+	.plan {
+		padding: 2.5rem 2rem;
+		background: var(--bg);
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.plan > .btn-primary,
+	.plan > .plan-actions {
+		margin-top: auto;
+	}
+	.plan.featured > .btn-primary,
+	.plan.featured .btn-primary:not(.btn-primary-outline) {
+		background: var(--accent);
+		color: #fff;
+	}
+	.plan.featured > .btn-primary:hover,
+	.plan.featured .btn-primary:not(.btn-primary-outline):hover {
+		background: var(--accent-hover, #2E4D3E);
+	}
+	@media (min-width: 760px) {
+		.plan + .plan {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	@media (max-width: 759px) {
+		.plan + .plan {
+			border-top: 1px solid var(--rule);
+		}
+	}
+	.plan.featured {
+		background: var(--bg-deep);
+	}
+	.plan-eyebrow {
+		font-family: var(--serif);
+		font-size: 1.4rem;
+		font-weight: 500;
+		color: var(--ink);
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		flex-wrap: wrap;
+	}
+	.plan.featured .plan-eyebrow {
+		color: var(--accent);
+	}
+	.plan-badge {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 12%, transparent);
+		padding: 0.25rem 0.6rem;
+		border-radius: 999px;
+	}
+	.plan-price {
+		display: flex;
+		align-items: baseline;
+		gap: 0.4rem;
+		margin: 0.5rem 0 1rem;
+	}
+	.plan-price .num {
+		font-family: var(--serif);
+		font-size: 2.3rem;
+		font-weight: 400;
+		color: var(--ink);
+		letter-spacing: -0.025em;
+	}
+	.plan-price .unit {
+		font-family: var(--sans);
+		font-size: 0.92rem;
+		color: var(--ink-mute);
+	}
+	.plan-note {
+		font-family: var(--serif);
+		font-size: 0.95rem;
+		font-style: italic;
+		color: var(--ink-mute);
+		margin: 0 0 1.5rem;
+	}
+	.plan-list {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 2rem;
+		display: grid;
+		gap: 0.75rem;
+		width: 100%;
+	}
+	.plan-list li {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		padding: 0.6rem 0;
+		border-bottom: 1px solid var(--rule-soft);
+		gap: 1rem;
+		font-family: var(--serif);
+	}
+	.plan-list li:last-child {
+		border-bottom: none;
+	}
+	.plan-feat-label {
+		color: var(--ink-soft);
+		font-size: 0.95rem;
+	}
+	.plan-feat-value {
+		color: var(--ink);
+		font-weight: 500;
+		font-size: 0.98rem;
+	}
+	.plan-actions {
+		display: flex;
+		gap: 0.6rem;
+		flex-wrap: wrap;
+	}
+	.plan-actions .btn-primary-outline {
+		background: transparent;
+		color: var(--ink);
+		border: 1px solid var(--ink);
+	}
+	.plan-actions .btn-primary-outline:hover {
+		background: var(--ink);
+		color: var(--bg);
+	}
+	.plan.featured .btn-primary-outline {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+	.plan.featured .btn-primary-outline:hover {
+		background: var(--accent);
+		color: #fff;
+	}
+
+	/* FAQ */
+	.faq {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.faq-inner {
+		max-width: 1080px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.faq-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		letter-spacing: -0.02em;
+		margin: 0 0 0.5rem;
+	}
+	.faq-sub {
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		color: var(--ink-soft);
+		margin: 0 0 3rem;
+		max-width: 56ch;
+	}
+	.faq-sub a {
+		color: var(--ink);
+		text-decoration: none;
+		border-bottom: 1px dotted var(--ink-mute);
+		transition:
+			color 0.2s,
+			border-color 0.2s;
+	}
+	.faq-sub a:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+
+	/* FINALE */
+	.finale {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		text-align: center;
+	}
+	.finale-inner {
+		max-width: 820px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.finale-h {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.2rem, 4vw, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 1.5rem auto 1.5rem;
+		max-width: 22ch;
+	}
+	.finale-h :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.finale-p {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 44ch;
+		margin: 0 auto 2.25rem;
+	}
+	.actions {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+	.actions-center {
+		justify-content: center;
+	}
+</style>
+
+<script>
+	const groups = document.querySelectorAll<HTMLElement>('[data-demo-group]');
+
+	groups.forEach((section) => {
+		const items = Array.from(
+			section.querySelectorAll<HTMLButtonElement>('.feat-item'),
+		);
+		const videos = Array.from(
+			section.querySelectorAll<HTMLVideoElement>('.feat-video'),
+		);
+		if (items.length === 0 || videos.length === 0) return;
+
+		let activeIdx = 0;
+
+		const activate = (idx: number) => {
+			if (idx === activeIdx || idx < 0 || idx >= items.length) return;
+			items.forEach((it, i) =>
+				it.setAttribute('aria-selected', i === idx ? 'true' : 'false'),
+			);
+			videos.forEach((v, i) => {
+				const active = i === idx;
+				v.setAttribute('aria-hidden', active ? 'false' : 'true');
+				if (active) {
+					try {
+						v.currentTime = 0;
+					} catch (_) {
+						/* noop */
+					}
+					v.play().catch(() => {});
+				} else {
+					v.pause();
+				}
+			});
+			activeIdx = idx;
+		};
+
+		items.forEach((item) => {
+			item.addEventListener('click', () => {
+				const idx = Number(item.dataset.idx);
+				activate(idx);
+			});
+		});
+
+		// Lazy start: only kick off the first video once the section enters view.
+		const first = videos[0];
+		if (first) {
+			const io = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((e) => {
+						if (e.isIntersecting) {
+							first.play().catch(() => {});
+							io.disconnect();
+						}
+					});
+				},
+				{ rootMargin: '0px 0px -10% 0px' },
+			);
+			io.observe(section);
+		}
+	});
+</script>
+</content>
+</invoke>

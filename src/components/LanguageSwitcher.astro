@@ -1,0 +1,155 @@
+---
+import { t } from '~/i18n';
+import { LOCALES, type Locale, NATIVE_NAMES } from '~/i18n/locales';
+import { detectLocale, unprefixed, withLocale } from '~/lib/hreflang';
+
+interface Props {
+	/** Where to render: "nav" (compact dropdown) or "footer" (inline list). */
+	variant?: 'nav' | 'footer';
+	/** Locales available for the current page. Defaults to all. */
+	available?: readonly Locale[];
+}
+
+const { variant = 'nav', available = LOCALES } = Astro.props;
+const current = detectLocale(Astro.url.pathname);
+const stem = unprefixed(Astro.url.pathname);
+
+const items = available.map((lang) => ({
+	lang,
+	name: NATIVE_NAMES[lang],
+	href: withLocale(stem, lang),
+	current: lang === current,
+}));
+
+const label = t(current, 'nav.languageSwitcher');
+---
+{variant === 'nav' ? (
+	<details class="lang-switch lang-switch-nav" aria-label={label}>
+		<summary>
+			<span class="lang-current">{NATIVE_NAMES[current]}</span>
+			<span class="lang-caret" aria-hidden="true">▾</span>
+		</summary>
+		<ul role="menu">
+			{items.map((item) => (
+				<li role="none">
+					<a
+						role="menuitem"
+						href={item.href}
+						hreflang={item.lang}
+						lang={item.lang}
+						class:list={[{ active: item.current }]}
+						aria-current={item.current ? 'true' : undefined}
+					>
+						{item.name}
+					</a>
+				</li>
+			))}
+		</ul>
+	</details>
+) : (
+	<nav class="lang-switch lang-switch-footer" aria-label={label}>
+		<h4>{label}</h4>
+		<ul>
+			{items.map((item) => (
+				<li>
+					<a
+						href={item.href}
+						hreflang={item.lang}
+						lang={item.lang}
+						class:list={[{ active: item.current }]}
+						aria-current={item.current ? 'true' : undefined}
+					>
+						{item.name}
+					</a>
+				</li>
+			))}
+		</ul>
+	</nav>
+)}
+
+<style>
+	.lang-switch-nav {
+		position: relative;
+		font-size: 0.88rem;
+	}
+	.lang-switch-nav summary {
+		list-style: none;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		cursor: pointer;
+		opacity: 0.72;
+		transition: opacity 0.2s;
+		font-family: var(--sans);
+	}
+	.lang-switch-nav summary::-webkit-details-marker {
+		display: none;
+	}
+	.lang-switch-nav summary:hover {
+		opacity: 1;
+	}
+	.lang-caret {
+		font-size: 0.7em;
+		opacity: 0.6;
+	}
+	.lang-switch-nav ul {
+		position: absolute;
+		top: calc(100% + 0.5rem);
+		right: 0;
+		list-style: none;
+		padding: 0.4rem 0;
+		margin: 0;
+		background: var(--bg);
+		border: 1px solid var(--rule);
+		border-radius: 8px;
+		min-width: 8.5rem;
+		box-shadow: 0 6px 20px -8px rgba(0, 0, 0, 0.12);
+		z-index: 50;
+	}
+	.lang-switch-nav ul li a {
+		display: block;
+		padding: 0.45rem 1rem;
+		text-decoration: none;
+		color: var(--ink);
+		opacity: 0.78;
+		transition: opacity 0.15s, background 0.15s;
+		white-space: nowrap;
+	}
+	.lang-switch-nav ul li a:hover {
+		opacity: 1;
+		background: var(--bg-deep);
+	}
+	.lang-switch-nav ul li a.active {
+		opacity: 1;
+		color: var(--accent);
+		font-weight: 500;
+	}
+
+	.lang-switch-footer h4 {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		margin: 0 0 1rem;
+		font-weight: 500;
+	}
+	.lang-switch-footer ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 0.55rem;
+	}
+	.lang-switch-footer ul li a {
+		text-decoration: none;
+		color: var(--ink);
+		opacity: 0.72;
+		transition: opacity 0.2s, color 0.2s;
+	}
+	.lang-switch-footer ul li a:hover,
+	.lang-switch-footer ul li a.active {
+		opacity: 1;
+		color: var(--accent);
+	}
+</style>

@@ -1,0 +1,28 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import LegalPage from '~/components/LegalPage.astro';
+import { type Locale, PREFIXED_LOCALES } from '~/i18n/locales';
+import { availableLocalesForSlug } from '~/lib/content';
+
+export async function getStaticPaths() {
+	const all = await getCollection('legal');
+	const available = availableLocalesForSlug(all, 'terms');
+	return PREFIXED_LOCALES.filter((l) => available.includes(l)).map((lang) => ({
+		params: { lang },
+		props: { lang, available },
+	}));
+}
+
+const { lang, available } = Astro.props as {
+	lang: Locale;
+	available: Locale[];
+};
+const entry = await getEntry('legal', `${lang}/terms`);
+if (!entry) throw new Error(`Missing legal/${lang}/terms.mdx`);
+---
+<LegalPage
+	entry={entry}
+	lang={lang}
+	availableLocales={available}
+	titleKey="meta.termsTitle"
+/>

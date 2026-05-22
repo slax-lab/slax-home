@@ -1,0 +1,66 @@
+---
+import Button from '~/components/Button.astro';
+import Eyebrow from '~/components/Eyebrow.astro';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import { t } from '~/i18n';
+import { DEFAULT_LOCALE, type Locale } from '~/i18n/locales';
+import Base from '~/layouts/Base.astro';
+import { withLocale } from '~/lib/hreflang';
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const homeHref = lang === DEFAULT_LOCALE ? '/' : `/${lang}/`;
+const blogHref = withLocale('/blog/', lang);
+const ogImage = lang === DEFAULT_LOCALE ? '/og/404.png' : `/og/${lang}/404.png`;
+---
+<Base
+	title={`${t(lang, 'meta.notFoundTitle')} — Slax`}
+	lang={lang}
+	ogImage={ogImage}
+	noindex
+>
+	<Nav />
+	<main class="error-page">
+		<Eyebrow>Error · 404</Eyebrow>
+		<h1>{t(lang, 'notFound.heading')}</h1>
+		<p>{t(lang, 'notFound.body')}</p>
+		<div class="actions">
+			<Button variant="primary" href={homeHref} arrow>{t(lang, 'notFound.homeLink')}</Button>
+			<Button variant="secondary" href={blogHref}>{t(lang, 'notFound.readBlogLink')}</Button>
+		</div>
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.error-page {
+		max-width: 680px;
+		margin: 0 auto;
+		padding: 10rem 2rem 6rem;
+		text-align: center;
+	}
+	h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.5rem, 5vw, 4rem);
+		line-height: 1.05;
+		letter-spacing: -0.025em;
+		margin: 2.5rem 0 1.5rem;
+	}
+	p {
+		font-family: var(--serif);
+		font-size: 1.25rem;
+		color: var(--ink-soft);
+		margin: 0 0 3rem;
+	}
+	.actions {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+</style>

@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import AlternativePage from '~/components/AlternativePage.astro';
+import { type Locale, PREFIXED_LOCALES } from '~/i18n/locales';
+import {
+	availableLocalesForSlug,
+	entrySlug,
+	filterByLocale,
+} from '~/lib/content';
+
+export async function getStaticPaths() {
+	const all = await getCollection('noteAlternatives');
+	const paths: Array<{
+		params: { lang: Locale; slug: string };
+		props: {
+			entry: (typeof all)[number];
+			slug: string;
+			available: Locale[];
+		};
+	}> = [];
+	for (const lang of PREFIXED_LOCALES) {
+		for (const entry of filterByLocale(all, lang)) {
+			const slug = entrySlug(entry);
+			paths.push({
+				params: { lang, slug },
+				props: { entry, slug, available: availableLocalesForSlug(all, slug) },
+			});
+		}
+	}
+	return paths;
+}
+
+const { entry, slug, available } = Astro.props;
+const lang = Astro.params.lang as Locale;
+---
+<AlternativePage
+	entry={entry}
+	slug={slug}
+	lang={lang}
+	availableLocales={available}
+	product="note"
+/>
