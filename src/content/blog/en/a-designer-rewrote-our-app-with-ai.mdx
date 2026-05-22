@@ -1,0 +1,177 @@
+---
+title: "I'm a designer. I rewrote our app with AI."
+description: "A UI designer's month rewriting Slax Note with Claude Code. Where AI guessed, where it 'helpfully' broke things, and the rulebook I had to write so it would stop forgetting."
+pubDate: 2026-05-22T00:00:00.000Z
+tags: ['note', 'vibe-coding', 'ai-coding']
+product: note
+---
+
+I'm a UI designer. Code has always lived on a planet I don't visit. Then one day my boss said: you and the PM, go rewrite [Slax Note](https://slax.com/note/) with AI. I sat there for a second. *Can I actually do this?*
+
+## 1. At first I thought it was a god
+
+The first time I used it, I was floored. An engineer set up Claude Code (I'll just call it "it" from here), gave us a short tour, and turned us loose.
+
+I started small. The membership modal on the Slax Note web app — a static page. I dropped the design in. It generated something roughly right. A couple of tweaks and it matched the comp. *Code isn't that hard,* I caught myself thinking.
+
+Then we actually started the project. I handed it the engineering docs. It scaffolded the whole thing. The app ran. The main features were there. My confidence went up another notch.
+
+## 2. Pretty soon, it was driving me nuts
+
+### 2.1 It loves to guess
+
+Early on I was focused on UI fidelity. I pulled together a design spec, hooked up lanhu-mcp (Lanhu is a Chinese design handoff tool, similar to Zeplin), and asked it to use the values from Lanhu to build the UI. It ignored the spec. It guessed.
+
+A link color it decided "felt" gray. The spec said orange-brown.
+
+Spacing, when not explicitly written down, it would invent a number. I'd say no. It would change it. Still wrong. We'd go back and forth a few rounds. Then I'd open the design file and find the value had been annotated all along. It just hadn't looked.
+
+Lesson: tell it to check the spec *before* writing code. Skip that and you pay for it in extra rounds.
+
+If you describe a design to it in microscopic detail (like below), spec-sheet style, it'll nail the implementation. Not exactly designer-friendly, but it works:
+
+> **The record button on the home screen:** A capsule button floats 50pt above the bottom edge of the page. It's 140pt wide, 74pt tall. Subtle shadow — visible, not heavy. Inside the capsule, two round buttons. The left one sits with 8pt padding: a 62pt circular record button, background gradient top-to-bottom from `#04EAC5` to `#00BEC9`, record icon centered. Pressed state adds an 8% `#000000` overlay. The right one has 8pt padding too: a 54pt circular text-input button, `#FFFFFF` background, text icon centered. Pressed state: `#4D4D4D` 8%.
+
+Later I tried this prompt to generate a note poster. Everything matched the spec except the position wasn't centered. Good enough. The thing I figured out: put this in the spec doc once, don't retype it every time:
+
+> Implement the xx page strictly from the design file. Pixel-perfect. Do not modify layout, color, spacing, font, or icon position on your own.
+>
+> Rules:
+>
+> 1. Copy the page structure, hierarchy, and layout exactly.
+> 2. Colors, font sizes, spacing, corner radius, shadows — match the design.
+> 3. Buttons, inputs, cards, nav bars — match position and size.
+> 4. Build only what's in the design. Don't add extras.
+> 5. Code must run, be structured, commented, with no errors.
+
+### 2.2 It loves to "help"
+
+You ask it to fix one small bug. It "helpfully" refactors the surrounding code. Now the feature that was working is broken.
+
+You go back. It fixes that. It also "helpfully" touches something else.
+
+It's like asking a contractor to patch one wall and having them say, *"I'll also move this cabinet — looks better."* And then there's a pipe broken behind the cabinet.
+
+So I made a rule: before you touch any code, tell me what you plan to change and what you plan to leave alone. I'll approve, then you act. Much better after that.
+
+### 2.3 It doesn't remember what it learned last time
+
+This one I didn't see coming.
+
+Every new conversation, it's like amnesia. The hole it stepped in last time? Same hole, this time.
+
+Example: modals.
+
+iOS has two ways to do modals — the system one, and a custom full-screen one you build yourself. The system one comes with its own corner radius and margins. No matter what you tell it, the result doesn't match the design.
+
+First time I caught the issue, I had it switch. Second new page, system modal again. Switch. Third page. Same thing. Switch.
+
+After three rounds I realized: this needs to be written down somewhere it'll see *before* it starts working.
+
+That file is called `CLAUDE.md`. It started empty. Every time we hit a wall, I added a line. By the end it was hundreds of lines.
+
+Think of it as a "how to live with this AI" handbook. If you don't write it down, it won't remember.
+
+## 3. The things that actually broke me
+
+### 3.1 Swipe-to-delete. Roughly a dozen rounds.
+
+The single feature I spent the most time on.
+
+The design: swipe a note card left, two buttons appear — archive and delete, with custom colors and rounded corners. Looks dead simple. I figured it would take five minutes.
+
+First version came out with the wrong button colors. I asked it to fix. Still wrong. Eventually I figured out: iOS's built-in swipe-to-delete component locks its colors. Whatever you write, iOS overrides it back to plain rectangular blocks with white text. The design we drew? Can't be built with the system component. Period.
+
+So we built it ourselves. It rewrote the whole swipe with custom gesture handling. After some work, it ran — and a new problem appeared. The swipe gesture and the page's vertical scroll gesture were fighting. Sometimes you tried to scroll, it thought you were swiping. Sometimes you swiped, the card moved out, then snapped back on its own.
+
+That snap-back bug took four rounds to fix. When we finally untangled it, there were four completely separate causes all firing at once — gesture priority, an iOS update that changed a behavior, cards interfering with each other's state, more. We peeled them off one at a time.
+
+The final UI doesn't actually match the design. I just kept walking it through fixes until the result was acceptable. I stopped chasing the original look once I realized that pushing further would trip something new.
+
+Lesson: a feature that looks like "just a swipe" can hide several layers of problems. Don't celebrate after peeling off one.
+
+### 3.2 Tap a note card, the app freezes
+
+Long notes. Tap the card. App freezes. Doesn't move.
+
+Claude started digging. It decided this was about the list's scroll gestures, or some gesture parameter. Stayed in that direction for a long time. Every fix it tried failed.
+
+Eventually we called over a senior engineer, who fired up a different AI (Codex) to investigate independently. Codex scanned a few files for two minutes and went straight to the cause:
+
+It wasn't a gesture problem.
+
+The detail page has a component that handles "expand/collapse long text." When that component renders, it lays out the entire note — five thousand characters — silently in the background to measure the height before displaying. That layout runs synchronously on the main thread. Five thousand characters takes a few seconds. App frozen.
+
+Claude went the wrong direction because the symptom appeared on "tap card." So it stayed in tap-related gesture code. The actual expensive operation was several call layers away, in the text rendering component on the detail page.
+
+The fix: truncate before passing into the text component (card shows the first 300 chars, measurement scans only the first 1,200). For notes over 4,000 characters, skip the auto-expand. Move the detail page's data load to async. Don't block the main thread.
+
+Lesson: AI can get stuck on a wrong direction too. Sometimes you need a human — or a second tool — to break the loop. The symptom shows up at A, but the cause might be anywhere in the A→B→C chain. Two or three failed fixes is the signal to stop and retrace the whole path, not to keep digging at the symptom.
+
+### 3.3 Sign in with Apple breaks
+
+One day, Sign in with Apple stopped working. The feature had already been fixed before. Same error came back.
+
+It started debugging. Eight rounds. Every round it was sure: *"This one's fixed."* Every run, same error. Somewhere in there it managed to make the app render a white screen, which took more time to undo. Eventually I dug up the old fix notes and showed them to it. Then it understood.
+
+The actual cause: not the code. There's a permission toggle inside Xcode (Apple's IDE) that an earlier auto-generated change had silently switched off. The toggle is buried deep — you can't find it unless you literally look at the screen.
+
+Lesson: some bugs aren't in the code. Look at the tool first.
+
+After that, Claude got smarter. When anything Apple-login-related comes up, step one is *send me a screenshot* — not edit the code.
+
+### 3.4 One note on iOS turns into three on the web
+
+You record one note on iOS. You open the web app. There are three.
+
+It started analyzing. Decided the deduplication logic somewhere was off. Edited a few rounds. Nothing changed.
+
+Finally it went and looked at the raw records in the database, and found the truth: the request was actually succeeding. But the response was parsed incorrectly and the app thought it failed, so it retried. Three times. The server obediently created three notes.
+
+Lesson: don't let it just keep editing code. Make it find evidence first — logs, database state — and figure out what's actually broken before touching anything.
+
+### 3.5 My icons always look weird
+
+**Icons too big.** In the design file, an icon is 48px. In iOS code, you divide by 2 — so 24pt. I know that. It doesn't always know that. Sometimes it forgets to write the "display this image at the size I specified" line, and the icon renders at its native size — twice as big as it should be, eating half the screen.
+
+**Icons blurry.** Wrong export scale. Slot @1x / @2x / @3x didn't all update together. If you put a @2x image into the @1x slot, iPhone thinks it's a low-res version and scales it up 2x to fit. Now it's blurry.
+
+**It swears the icon is the right size. Still wrong.** Lanhu has two versions of the same icon: one cropped tight to the edge, one with transparent padding. We want the one with padding. It sometimes grabs the wrong one. Wrong one means the icon goes edge-to-edge and looks misaligned.
+
+The rule I wrote: when downloading icons, always pick the latest Lanhu version, prefer the one with transparent padding, verify pixel size before importing, drop into the @2x slot — not @1x. When replacing assets, check all three slots. Use pt in code, not px.
+
+## 4. So what did AI actually save me
+
+Honest answer: faster, but not as much faster as you'd think.
+
+Where it saved time:
+
+- Base structure for a new page — minutes, not hours
+- Looking up and converting color values, font sizes, spacing from a design
+- Translation across three languages (Chinese, English, Portuguese)
+
+Where it didn't:
+
+- Strange bugs still need a person to take them apart piece by piece
+- Testing on a physical phone — AI can't do it for you. You run it.
+- "Which approach should we use here" — still on you
+
+The most accurate way I can describe it: AI is an assistant with extreme execution speed but a strong need for clear instructions. Spell it out, it's fast and good. Stay vague, it fills in the gaps with its own guesses, and then you spend time undoing them.
+
+## 5. The biggest thing I got out of this isn't code
+
+A month in, fourteen pages done.
+
+I'll say it again — this thing has no memory. Once I started ending each day by having it summarize what we learned, the "how to live with this AI" handbook grew from a few lines to hundreds. Only then did it become smooth to work with. The skill we needed wasn't writing code. It was directing AI.
+
+That handbook keeps getting thicker. Every trap. Every rule. Every off-limits move.
+
+It comes with us to the next project. Every time, the AI knows our habits a little better. Fewer wrong turns.
+
+---
+
+Slax Note is the app we rewrote with AI — a voice-first notes app. You talk, it writes, you pick the shape you want.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)
