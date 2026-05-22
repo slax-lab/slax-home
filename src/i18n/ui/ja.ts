@@ -85,7 +85,7 @@ export const ui: UIDict = {
 		hero: {
 			eyebrow: 'Slax',
 			heading: 'シンプルに、ゆっくりと、長く。',
-			lede: '自分たちが使いたかったソフトウェア。Slax Reader と Slax Note、小さく長く育てる道具。',
+			lede: '自分たちが使いたいソフトウェアを、作る。Slax Reader と Slax Note、長く使えるように作った小さな道具。',
 		},
 		comingSoon:
 			'ローカライズ版のランディングページは準備中です。完全な英語版はこちら:',

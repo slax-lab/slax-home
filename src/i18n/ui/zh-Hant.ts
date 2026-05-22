@@ -86,7 +86,7 @@ export const ui: UIDict = {
 		hero: {
 			eyebrow: 'Slax',
 			heading: '簡單。從容。長期。',
-			lede: '做我們自己想用的小而美且長期的軟體。',
+			lede: '做我們自己想用的軟體。Slax Reader 和 Slax Note —— 小而美，做得久。',
 		},
 		comingSoon: '中文版還在做。完整版在',
 	},
