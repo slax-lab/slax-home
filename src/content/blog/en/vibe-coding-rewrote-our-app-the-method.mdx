@@ -1,0 +1,342 @@
+---
+title: "Rewriting Slax Note with AI: the full retro"
+description: "A PM's method retro on rewriting our app with AI. Spec-driven work, a real Bug Tracker, and what changes when AI gets dropped into a system with rules, docs, and humans correcting it."
+pubDate: 2026-05-22T00:00:00.000Z
+tags: ['note', 'vibe-coding', 'ai-coding']
+product: note
+---
+
+This retro draws on a pile of group chats, a stack of prep docs, the meeting notes from March 18, and daily logs from mid-March through mid-April.
+
+The goal isn't a play-by-play. It's two questions:
+
+1. After March 10, 2026, what was the inner journey of rewriting [Slax Note](https://slax.com/note/) with AI coding?
+2. From this experiment, what's worth reusing, and what needs to be sidestepped next time?
+
+## 1. Conclusion first
+
+Rewriting Slax Note with AI was not an "AI builds the whole app while we relax" win. It was a stretch of excitement, then doubt, then frustration, then method adjustments, and finally rebuilt confidence.
+
+In one sentence:
+
+> AI really did lower the bar to entry. But what decides whether you ship efficiently isn't "can you use AI." It's whether you can define the problem, constrain the context, manage quality, and build the collaboration around it.
+
+The most valuable thing we got out of this rewrite wasn't a new iOS version. It was confirming a few things:
+
+- Designers and PMs can do more than write requirements and sign off on builds — with AI they can drive implementation
+- AI is great at scaffolding fast, filling in UIs, and doing small and mid-size fixes or batched trial-and-error
+- The moment you hit real business flows, real devices, complex sync, and multi-platform handoffs — AI stops closing the loop for you. It actually raises the bar on specs, context, validation, and code review
+- What pulled people apart later wasn't "who can write code." It was who could find root causes, control regressions, and turn lessons into something reusable
+
+The real shape of this experiment: take what used to be implicit engineering skill, break it apart, and rebuild it as a flow that humans and AI can run together.
+
+## 2. Why we started the rewrite
+
+Pull the timeline earlier and you'll see this didn't actually begin in mid-March. It surfaced clearly around March 10, 2026.
+
+The team conversation was already direct: use Slax Note as a more aggressive AI coding experiment. Some people even floated the idea of deleting the entire Slax Note codebase and letting a smaller team rebuild and maintain it with AI. The framing was no longer *"can AI make us a little faster."* It was *"is this a new way to build a product."*
+
+From mid-March on, the team stopped seeing AI as a small productivity tool and started taking a more aggressive setup seriously:
+
+- Product defines the requirement
+- It does not get passed down through layers of engineering
+- The designer or PM uses AI to generate, debug, and verify the code directly
+- Later, review and bug fixes go through AI too as much as possible
+
+But there was one critical precondition:
+
+> This wasn't *"throw the requirements at AI and let it improvise from scratch."* This was a spec-driven AI coding effort.
+
+Before the rewrite kicked off, Yujie, our engineer, took the existing codebase and pulled out the key structures, capability boundaries, page logic, API contracts, and module relationships into a set of spec files AI could consume. From then on, the work wasn't a free-for-all. It was: read this spec, execute this step.
+
+That changes everything:
+
+- AI isn't generating in a vacuum — it's consuming context that was engineered for it
+- The designer and PM aren't staring down an entire complex repo — they're working against structured task descriptions
+- When things go wrong, you don't fall back to verbal description — you go back to the spec and adjust
+
+Put differently: this experiment didn't prove "AI means we don't need engineers." It proved that engineers can encode their experience, architectural understanding, and system knowledge into specs, and then a much wider set of people can step into implementation through AI.
+
+## 3. What made the rewrite actually move: the collaboration underneath
+
+If you look at the surface, it's easy to read this as "PM + designer + AI rewrote the app."
+
+The more honest version: the rewrite moved because engineers, the backend team, and AI were all supporting it together.
+
+### 1) Engineers turned the system into spec
+
+This was the load-bearing step.
+
+Yujie took the existing repo and turned scattered product structure, module relationships, page logic, API info, and implementation constraints into roughly a dozen spec files. After that, AI coding wasn't blind generation. It was step-by-step execution against a spec.
+
+Why this mattered:
+
+- Cut down on hallucination and unsolicited refactors
+- Lowered the bar for non-engineers to engage with complex engineering
+- Turned development from "trial-and-error by prompt" into "execution against spec"
+
+### 2) Engineers wrote down the implicit knowledge
+
+Beyond spec files, a lot of critical know-how doesn't live in requirement docs. It comes out during the work. The team kept adding things like:
+
+- What this tech stack can and can't handle for certain UI or interactions
+- Where to simplify, where you absolutely shouldn't push
+- The real constraints around specific API fields, naming conventions, state handling
+- Which problems need root cause work first, which can be skipped
+
+Every time this kind of thing made it into a doc, AI got steadier and team coordination got faster.
+
+### 3) Backend was in the loop the whole way
+
+Beyond the frontend spec work and bug hunting, this rewrite kept moving because Yaokun, our backend engineer, was deeply involved.
+
+**Early on: prompts, hotword extraction, multi-language.** On March 10, Yaokun was already tweaking the hotword extraction prompt, improving Portuguese and English support, and discussing things like extraction quality, processing speed, and acceptability with us. From day one, his work wasn't just backend APIs — it was the AI capability and output quality of the product itself.
+
+**Mid-project: API additions, migrations, documentation.** As we hit real business flows, he kept extending — migrating and adding endpoints, filling out API docs, helping us understand the real server-side constraints. AI coding can't enter real business by guessing at APIs.
+
+**Late stage: pulling API docs / Apifox / MCP into the AI workflow.** By the end his support had evolved past Q&A. We were having AI cross-reference Apifox (an API spec tool) docs to analyze problems, refreshing the doc cache before debugging against the spec, configuring Apifox's MCP, and getting his direct callouts on parameter mistakes, duplicate requests, malformed request bodies.
+
+> This rewrite didn't move because "AI was writing code." It moved because human engineers kept giving AI the right boundaries, context, conventions, and feedback.
+
+### 4) The win was cross-role collaboration
+
+Looking back, the rewrite succeeded not because one role got stronger. It succeeded because:
+
+- Engineers turned existing repo knowledge into spec
+- Product / design drove implementation and validation through AI
+- Backend kept extending APIs, docs, interaction details, and diagnostics
+- Everyone together pushed the question from "can AI write this" to "can the product actually run."
+
+The more honest description: this was a combined practice of spec-driven, doc-driven, tight frontend/backend coordination, and human-AI collaboration.
+
+## 4. The inner journey: how I walked through this month
+
+### 1) Kickoff: fresh, excited, still very unsure
+
+March 10 through March 18, the mood was excited but not confident.
+
+On one hand, the team was prepping and aligning. The designer started installing and learning Claude Code. We debated how far the AI rewrite should actually go. Native vs cross-platform, cloud vs local — all on the table.
+
+On the other hand, my own first reactions were pretty raw:
+
+- *"Folks, the weather has changed."*
+- *"I don't even know how to use version control, and you want me to maintain a product?"*
+- *"This is wild."*
+
+That captures the state honestly. Not "I knew this would work." More like excited and shocked at once, wanting to try and also feeling this was too aggressive.
+
+The most important shift in this stretch wasn't code. It was a mental switch. Implementation used to be engineering's turf. For the first time, AI opened that turf up to product and design.
+
+On March 18, the first demo built off the docs already had a shape. The feeling at that point was closer to:
+
+- This isn't fantasy
+- AI doesn't only build toy demos
+- Give it clear docs, context, and a goal, and it really can scaffold a product UI and main flow quickly
+
+But the next stretch's pain was already seeded right there. AI is great at "making something." That's not the same as "making it right, making it stable, making it a product."
+
+### 2) The push: from "watching AI write code" to actually shipping
+
+March 20 to March 23, the mood changed.
+
+The earlier days were "can it do it." Now the question was "is what it makes actually usable." The team stopped hitting abstract problems and started hitting very specific, very draining ones:
+
+- UI details that wouldn't land
+- Looks fine in the simulator, breaks on device
+- Hook up backend APIs and performance, interaction, and state problems all surface at once
+- Fix one place, break another
+- AI claims it's fixed. The result is nowhere near what was asked for.
+
+In my March 23 reflection I'd already named the core pain.
+
+**First layer of setback: problems chain into other problems.** What looks like an interaction detail can pull in gesture conflicts, page performance, navigation choices, ScrollView vs List tradeoffs. AI isn't incapable of fixing it — but it often hands you a local solution that *kind of* works without being actually right.
+
+**Second layer of setback: if you don't understand the layer underneath, you can't direct AI.** I started to see the real problem wasn't that AI wasn't trying hard. The real problem was that if I didn't understand iOS internals, I couldn't tell whether AI's solution was optimal, second-best, or a band-aid.
+
+**Third layer: a cognitive upgrade — some requirements you don't muscle through.** Once you're inside AI coding, you start to understand what engineers mean by "we need to change the approach." Some things make sense from a product angle but are completely uneconomic given the current tech path. Pushing harder just locks you into a low-efficiency loop.
+
+### 3) Adjusting: forming my own playbook, no more head-down grinding
+
+Late March, the state shifted. "Problems pushing me around" became "I know how to work with AI."
+
+A few clear turns:
+
+**Turn one: accepting that not every problem gets solved today.** Things that kept missing the mark after many tries — skip, move on. Protect the main flow. Protect what we can demo. Protect what runs on device. One of the biggest risks of AI coding is the illusion that *it's almost there*, which pulls you into endless micro-adjustments.
+
+**Turn two: write the lessons into docs, not just into the chat.** Chat context isn't enough. On-the-spot description isn't enough. Write the constraints down. Only then does AI get reliably stable. Stop re-teaching AI each time. Turn the rules into an asset.
+
+**Turn three: tool fluency is also productivity.** A lot of "bugs" turn out to be: I was in the wrong folder, Xcode was compiling an old file, I couldn't read the English error message, the context window was getting long and I was scared to open a new window. The bar to AI coding isn't only "can you write a requirement." It's "can you use the whole development environment."
+
+### 4) Convergence: from "runs" to "ships," from solo experiment to team work
+
+Early April through April 10 was another visible shift. We weren't a demo project anymore. We were pushing toward actual delivery: in-room demos, real-device testing, TestFlight, team usage, multi-person feedback.
+
+The biggest change: the problem center moved from *"the page isn't finished"* to *"real usage is exposing real problems."*
+
+**Bug count exploded.** Once it got into more teammates' hands, issues piled up fast. On April 10, I realized our bug management had to graduate from "tracked in a doc" to a structured ledger. Bug Tracker moved from long doc into a multi-dimensional table. Project management upgraded for real.
+
+**Started separating "demo-ready" from "release-ready."** Early demos looked 80% feature complete and could be shown in person. But TestFlight, store release, and putting it in front of more people — the bugs there are a different category of magnitude. AI gets you to "looks like it works" fast. The gap between that and "ships and stays up" is a full engineering quality bar.
+
+**Team workflow upgraded too.** No longer just "ask AI to change it." We started doing PRs, reviews, code reviews, automated deploys, and proper fix loops. I called it out explicitly: use Claude Code to write, use Codex to review. Scalable AI coding isn't one model writing top to bottom. It's different AIs handling different parts of the flow.
+
+### 5) The sprint: the hardest part wasn't development, it was systemic root causes
+
+April 13 to April 17 was a textbook "engineering deep water" stretch. The problems weren't surface UI or single-page logic anymore. They were systemic:
+
+- A 401 token cascade silently killing all sync
+- Wrong field types on session sync, wrong naming, duplicated sync paths
+- audioFileId type mismatch making PUT note fail repeatedly
+- Upload race condition overwriting success state back to "recognizing"
+- SwiftUI `.refreshable` canceling tasks and causing chains of failures
+- Background task time limits cutting ASR off mid-run
+- Archive state from Android not syncing to iOS
+
+This stretch is demoralizing because every fix pulls out another mechanism issue. The visible bug sits on top of an architectural assumption that doesn't hold. AI helps with diagnosis, but really closing the loop still needs strong problem decomposition and verification skills.
+
+By here, we weren't "people who can have AI write code" anymore. We were getting good at: reading logs, root-causing, doing minimal fixes, controlling regressions, writing PR summaries, building real fix loops.
+
+The first stretch proved AI can build things. The second stretch proved we were learning to turn things into product.
+
+## 5. The actual psychological arc
+
+If you cut the technical layer and just track the mental state, it looks like this:
+
+1. **Start:** Excited but uncertain. Things that used to require engineering involvement, I could just do. AI wasn't a toy — it actually produced UI and features. At the same time, the whole setup felt overly aggressive, with an undertone of *"wait, this is allowed?"*
+
+2. **Soon after:** Doubt sets in. Once you hit APIs, real devices, complex state, and detail fidelity, the problems exceed expectations. AI sounds confident. The results often aren't great. *Did I overestimate this path?*
+
+3. **Middle:** Most frustrated. The real frustration isn't bug count — it's that without understanding the layer below, I can't direct AI the way an engineer would. I'm stuck testing, feeding back, testing again. The highest psychological cost of the experiment is here.
+
+4. **Later on:** Adjusting the playbook. Stop demanding one-shot solutions. Stage the goals — main flow first, then details. Demo-ready first, release-ready next. Write rules into docs. Move bugs into a tracker. Bring AI into review too.
+
+5. **Now:** Confidence rebuilt, but not naive. Get the process right, the spec clear, the verification rigorous — AI really can do a lot of what wasn't possible before.
+
+## 6. The lessons most worth carrying forward
+
+### 1. Don't treat AI like an "auto-programmer." Treat it like a high-execution collaborator that needs constraints.
+
+AI's profile is sharp: fast, prolific, willing to retry, hands you confident-sounding explanations. Its problems are just as sharp: prone to local optima, prone to digging down the wrong path, overconfident, and good at "fixed one, broke another."
+
+A better way to use it: don't toss the task over the wall and wait. Clarify the goal, tighten the context, scope the change, verify every round.
+
+### 2. Docs aren't auxiliary. They're the core material of AI coding.
+
+This experiment made one thing very clear: **the ceiling of AI coding is largely set by the quality of your docs.**
+
+Good docs directly improve requirement comprehension, UI fidelity, API alignment, multi-person consistency, and how fast new problems get handled. The flip side: bad docs and AI is guessing. Once it's guessing, rework is almost guaranteed.
+
+At minimum, docs should be three layers:
+
+- **Product spec:** goal, boundaries, priority
+- **Implementation constraints:** naming, API fields, state machines, component conventions
+- **Lessons:** holes we've already stepped in, paths we've banned from being retried
+
+### 3. The real time sink isn't "writing." It's "verifying."
+
+Early on you think the hardest part of AI coding is generation. Do it long enough and you realize the time goes to verification:
+
+- Verify it matches the requirement
+- Verify it didn't break other features
+- Verify simulator and device behave the same
+- Verify multi-platform state is consistent
+- Verify the fix isn't just surface-level
+
+AI brought down the cost of writing code. That made verification cost matter more, not less.
+
+### 4. Once bug count climbs, structure it immediately. Don't keep doing this in chat and long docs.
+
+Standing up the Bug Tracker on April 10 was the right call. Once the volume scales, no structure means: the same bug gets argued about multiple times, priorities get tangled, ownership is unclear, fix status isn't trackable, and which version contains what gets lost.
+
+The minute you enter multi-person testing: numbers, priority, owner, current status, repro path, target version. Day one.
+
+### 5. "Can you direct AI" sets the efficiency ceiling
+
+Not knowing how to write code doesn't mean you can't do AI coding. But if you have zero understanding of the layer below, there's a real ceiling: you can describe symptoms but you can't judge solution quality, you can't spot a fake fix, and you can't proactively pivot the approach.
+
+Both paths are worth investing in:
+
+**Path A: raise non-engineering roles' engineering literacy.** At minimum: how to read logs, how to read file relationships, how to read the build chain, how to recognize common errors.
+
+**Path B: have AI fill in the "explanation layer" and "audit layer."** For example: require AI to output a root-cause hypothesis, change scope, risk points, verification steps, and rollback method.
+
+### 6. Real AI coding efficiency isn't about clever prompts
+
+The longer we ran this, the clearer it got:
+
+> What makes AI coding actually efficient isn't magical prompting. It's that AI gets dropped into a system with conventions, docs, tools, and human feedback.
+
+What we actually wound up running wasn't "say the requirement to AI." It was: define the boundary with spec, define constraints with docs, hook in API conventions via Apifox / MCP, let human teammates correct and supplement, then have AI execute against all of that material.
+
+### 7. Get to a working loop first. Chase fidelity second.
+
+A lot of pain comes from one real problem: before you have a stable loop, chasing details too early drags you into low-efficiency tuning.
+
+The right order:
+
+1. Main flow runs
+2. Works on device
+3. Core state is stable
+4. Multi-person testable
+5. *Then* push UI, animation, interaction polish
+
+### 8. Don't skip code review. The further in you are, the more important it gets.
+
+By the end we were clearly in a new mode: not just AI writing — also AI doing code review, hunting risks, filling in tests, writing PR notes.
+
+Which says something important: as an AI coding project progresses, review's importance goes up, not down.
+
+If you want to scale this, front-load review as the default: every write gets reviewed, critical flows require root-cause notes, key changes ship with verification plans, high-risk fixes have explicit change scope control.
+
+## 7. The most valuable takeaway
+
+The most valuable takeaway wasn't shipping a version. It was getting closer to a real understanding:
+
+1. **AI coding isn't a miracle. It also isn't a gimmick.** It's not as automatic as people think. It's also not the demo-only toy outsiders suspect.
+
+2. **The lines between product, design, and engineering will be redrawn.** It's not about who replaces whom. It's about who can get to the problem scene fastest — that's who has the push.
+
+3. **The future competition isn't "who uses AI." It's who builds the better AI collaboration system.** Docs system, constraints system, review system, bug management, testing and release.
+
+4. **Non-engineers can push into implementation.** Before, product would try to step into implementation and get blocked by tooling and technical detail. This was hard, but it proved the point: you're no longer only the person handing requirements over the wall. You can drive things to ship.
+
+## 8. Suggestions for the next AI coding experiment
+
+**Before kickoff:**
+
+- Define the goal precisely: demo, in-person showcase, TestFlight, or production
+- Lock priorities: main flow > stability > UI detail
+- Prep the spec docs, API docs, design constraints
+
+**During development:**
+
+- Write the lessons into docs every day. Don't leave them in chat.
+- Two or three failed tries on a single problem? Skip or change approach.
+- Every AI change should come with risk callouts and verification steps
+- Critical issues need root cause work. Don't only patch the symptom.
+
+**Once in testing:**
+
+- Stand up the Bug Tracker immediately
+- Layer issues as P0 / P1 / P2
+- Each round, only close the highest-priority items. Don't get greedy.
+- Bring in AI review, PR conventions, regression verification
+
+**Before release:**
+
+- Be explicit about the line between "demoable" and "shippable"
+- Sync, login, payment, audio, state management — top priority paths
+- Anything in the high-frequency core path gets verified on a real device. Don't trust the simulator.
+
+## 9. Last line
+
+If you only look at the process, this rewrite was rough. Painful even. If you look at the result, it was worth it.
+
+The next challenges are still there. This time we rewrote the app. How to find new requirements and how to iterate the product through AI — we haven't tried that yet.
+
+---
+
+Slax Note is the app we rewrote with AI — a voice-first notes app. You talk, it writes, you pick the shape you want.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)
