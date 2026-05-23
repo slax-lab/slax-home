@@ -1,0 +1,51 @@
+---
+title: "Como precificar um app de ler-depois que dure"
+description: "Pocket e Omnivore morreram por matemática, não por usuários. O custo real de manter um app por dez anos — e os dois modelos que sobrevivem."
+pubDate: 2026-05-07T00:00:00.000Z
+tags: ['reader', 'pricing']
+product: reader
+---
+
+O Pocket foi comprado pela Mozilla, abandonado e fechou em julho de 2025 — dezoito anos depois de lançado. O Omnivore foi adquirido pela ElevenLabs em 29 de outubro de 2024 e sumiu dezessete dias depois, com os usuários tendo duas semanas para exportar antes que todos os dados fossem apagados. O Instapaper trocou de mãos pelo menos três vezes. Ler-depois é um cemitério.
+
+Os usuários culpam os compradores gananciosos. Os usuários culpam "os ternos". Às vezes é verdade. Mais frequentemente, a causa é mais simples: o produto nunca teve um modelo financeiro que funcionasse por dez anos.
+
+## O formato do custo
+
+Um app de ler-depois tem uma coisa cara e uma coisa barata.
+
+**Barata:** a linha no banco "Usuário X salvou a URL Y no momento Z". Poucos bytes. Trivial.
+
+**Cara:** o snapshot. O HTML renderizado, as imagens, o CSS. Cerca de 200 KB a 2 MB por artigo, dependendo de quão pesado em imagem ele é. Armazenamento não é caro por gigabyte — é caro por *ano-de-permanência por usuário*.
+
+Faça as contas. Um power user salva 5.000 artigos por ano, com tamanho mediano de 800 KB. Isso dá 4 GB por usuário por ano. Em dez anos, 40 GB. Armazenamento no R2 a US$ 0,015/GB/mês custa US$ 0,60 por usuário por mês, só de armazenamento, só para o power user.
+
+Some banda, processamento de parsing, chamadas de IA para resumos, índices de busca, embeddings vetoriais, e você está em US$ 1 a US$ 3 por power user ativo por mês — mais perto de US$ 1 se ficar numa stack econômica Cloudflare-native com um modelo de IA pequeno, mais perto de US$ 3 se rodar um modelo de fronteira em cada salvamento e cada chat. Nada disso inclui o salário do seu time.
+
+Se o seu plano gratuito é "tudo ilimitado", o power user está te custando dinheiro para sempre. Se ele não converte para pago, você está bancando o vício dele com dinheiro de investidor. Quando o investidor sai, a matemática fica visível.
+
+## Os dois formatos viáveis
+
+Existem exatamente dois modelos de preço que sobrevivem dez anos:
+
+**1. Um plano pago de verdade com um plano gratuito de verdade.** O plano gratuito tem limites — número de salvamentos, tempo de retenção do snapshot, cota de IA. O plano pago tem os recursos caros. A conta de conversão é honesta: você paga pelo que usa.
+
+**2. Ser um recurso dentro de um produto lucrativo.** O Pinboard cobrou uma taxa única e sobreviveu porque o formato do custo era diferente (sem snapshots, sem IA). A Lista de Leitura da Apple existe porque a Apple vende celulares. O Notion Web Clipper existe porque o Notion vende equipes.
+
+Ler-depois como produto de consumo isolado e gratuito para sempre não é um formato viável. A conta não fecha.
+
+## No que a gente chegou
+
+Foi aqui que pousamos depois de rodar as contas do [Slax Reader](https://r.slax.com).
+
+Um plano gratuito de fato útil: salvamentos ilimitados, busca em texto completo, snapshots que não expiram nem para os usuários grátis. As funções de IA (resumo, tópicos, sugestão de tags, busca) são medidas.
+
+Um plano pago que paga a conta da IA e a conta do armazenamento, com uma margem. Não uma margem grande o bastante para bancar uma Series A. Uma margem grande o bastante para sobreviver sem ela.
+
+A empresa-mãe tem 21 anos. Somos lucrativos desde 2018 — oito anos e contando. Nunca levantamos capital externo. O custo de infraestrutura por usuário ativo é um número que sabemos até a segunda casa decimal, porque não temos dinheiro de outra pessoa para queimar.
+
+## O que isso significa para você
+
+Se você está escolhendo um app de ler-depois hoje, a pergunta não é "qual tem a melhor UI". É "qual tem matemática que sobrevive à próxima oferta de aquisição".
+
+Se a página de preços de uma ferramenta não faz sentido óbvio — se o plano gratuito é suspeitamente generoso, se não existe plano pago, se o blog do fundador fala de crescimento mas nunca de custo por usuário — você está olhando para uma ferramenta com data de shutdown anexada. Você só ainda não sabe qual data.

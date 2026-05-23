@@ -1,0 +1,129 @@
+---
+title: "Slax Reader CLI: pustaka baca-nanti untuk AI agent"
+description: "CLI yang mengubah Slax Reader jadi penyimpan bacaan persisten — bisa dibaca dan ditulis AI agent apa pun: Claude Code, Codex, Gemini CLI, Cursor."
+pubDate: 2026-05-19T00:00:00.000Z
+tags: ['reader', 'cli', 'ai-agents']
+product: reader
+---
+
+Kami merilis CLI untuk Slax Reader, app baca-nanti kami. Bagian menariknya bukan CLI itu sendiri — tapi pustaka bacaanmu kini jadi alat kelas satu yang bisa dipanggil AI agent. Bookmark, list, dan pipe-into-prompt semuanya bisa di-script.
+
+Repo: [github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli) (MIT). Cara pasang dan pakai di bawah.
+
+---
+
+## Kenapa CLI
+
+Kebanyakan AI agent tidak punya tempat untuk menaruh barang.
+
+Suruh Claude Code "simpan artikel ini untuk nanti" — tidak bisa. ChatGPT bisa meringkas URL tapi tidak bisa menulis tautannya di tempat yang akan kamu temukan besok. Browser agent yang memindai timeline-mu tidak punya penyimpanan persisten. Setiap percakapan terpagar di dalam alat tempat percakapan itu terjadi.
+
+CLI mengisi celah itu. Slax Reader jadi penyimpan bacaan persisten yang bisa dibaca dan ditulis oleh agent mana pun — Claude Code, Claude Desktop, Codex, Gemini CLI, OpenClaw, Cursor, Windsurf.
+
+Konkretnya:
+
+- Browser agent memindai timeline X-mu → `reader-cli add` menyimpan tautannya.
+- Claude Code menulis draf → memanggil `reader-cli list --filter inbox` untuk menarik penyimpanan hari ini sebagai bahan sumber.
+- Skrip akhir pekanmu menarik `reader-cli list --filter archive --json` dari 30 hari terakhir dan memasukkannya ke pipeline-mu sendiri.
+
+Pustaka berhenti jadi tumpukan bookmark pasif. Ia jadi korpus yang bisa dipakai agent-mu.
+
+---
+
+## Yang bisa kamu lakukan dengannya
+
+### 1. Saring, jangan ringkas
+
+Kebanyakan alat "AI baca artikel panjang untukmu" default-nya merangkum. Menurut kami menyaring lebih berguna.
+
+Bilang ke Claude Code: *"Ambil tulisan panjang yang aku simpan pagi ini, kasih aku 3 poin paling berlawanan intuisi dan 1 poin yang kemungkinan aku tidak setuju."*
+
+Di belakang layar agent menjalankan `reader-cli list --filter inbox --json`, memilih bookmark yang tepat, lalu `reader-cli get <id> --markdown` untuk menarik kontennya. Kamu tidak pernah lihat UUID-nya.
+
+Kamu tidak butuh artikelnya dipadatkan. Kamu butuh tahu apakah dia layak waktumu, dan 5 menit mana di dalamnya yang penting.
+
+### 2. Batch save berdasarkan aturan
+
+`reader-cli add` menerima URL, tapi alur kerja yang menarik adalah membiarkan agent yang memilihnya:
+
+- "Pindai HN front page, simpan post mana pun yang lebih dari 200 poin dalam mode arsip (snapshot penuh)."
+- "Awasi timeline X-ku. Simpan tautan yang diposting oleh 8 akun yang paling sering kusimpan."
+- "Pindai 30 post terakhir publikasi Substack ini. Simpan yang ada kata 'agent' di judulnya."
+
+Ini scraping. Bedanya kamu deskripsikan aturannya dalam bahasa biasa alih-alih menulis scrapernya.
+
+### 3. Alur RSS, dibalik
+
+Alur reader tradisional:
+
+1. Langganan N feed.
+2. Reader RSS menarik semuanya.
+3. Kamu memindai judulnya.
+4. Kamu menyimpan untuk dibaca nanti.
+5. Kamu sungguh-sungguh membacanya.
+
+Langkah 3 — "pindai judulnya sendiri" — adalah bagian yang seharusnya kini jadi milik AI.
+
+Dibalik:
+
+1. Agent berlangganan feed.
+2. Agent memindai, mengirimkanmu ringkasan.
+3. Kamu tunjuk 3 yang layak dibaca.
+4. Agent menyimpannya ke Reader.
+
+Contoh konkret yang kujalankan:
+
+- **Pelacakan rilis LLM open-source.** Agent memindai HuggingFace trending, halaman rilis Anthropic / Mistral / Meta / Qwen / DeepSeek, r/LocalLLaMA, dan arxiv-sanity. Menyimpan kartu model atau benchmark baru yang layak dibaca, ditag `models`. Ringkasan mingguan.
+
+Setelah menyiapkan ini, aku berhenti dari kebanyakan langganan RSS. Bukan karena mereka jelek — tapi karena langkah memindai sudah tidak seharusnya jadi tugasku lagi.
+
+### 4. Bertanya ke diri-masa-lalu
+
+Setiap penulis menemukan kembali roda yang sama. Kamu membaca sesuatu bulan lalu yang menjelaskan ide dengan jelas. Sekarang tidak ketemu.
+
+Sebelum mulai menulis, tanyakan ke Claude Code: *"Di arsip Slax Reader-ku, cari semuanya tentang agent design pattern dari 90 hari terakhir."* Agent memanggil `reader-cli list --filter archive --json`, menyaring dalam konteksnya, dan mengembalikan rangkuman riset dari diri-masa-lalumu. Tanpa perlu membaca ulang seluruh arsip sendiri.
+
+**Tingkat lanjut:** setiap kali kamu membaca sesuatu yang berlawanan dengan pandangan yang sekarang kamu pegang, simpan dengan `#self-challenge`. Sekali per kuartal, baca ulang. Itu opinimu yang berkembang, jadi bisa dicari.
+
+---
+
+## Beberapa hal tentang produknya
+
+Untuk yang skeptis:
+
+- **Sumber terbuka, bisa self-host.** Slax Reader sendiri Apache 2.0 ([github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader)). CLI-nya MIT. Ekspor kapan saja.
+- **Arus kas kami stabil dan kami menjalankan ini jangka panjang.** Pocket dihentikan Mozilla pada 2025 dan meninggalkan banyak orang dengan trauma ditinggal app baca-nanti. Kami tidak akan melakukannya padamu.
+- **Backup permanen gratis.** Bookmark + cache teks penuh, gratis selamanya. Readwise, Instapaper Premium, Matter, dan eks-Pocket semua memungut biaya untuk ini. Kami tidak.
+- **Pencarian teks penuh dan sorotan gratis.** Alasannya sama.
+- **Kami terus berinvestasi di parser khusus per platform.** X, Threads, dan Substack didukung dengan baik. Di sisi Tionghoa kami punya parser khusus untuk WeChat Official Accounts, Xiaohongshu, Weibo, dan Zhihu.
+- **iOS, Android, web, browser extension.**
+
+---
+
+## Pasang
+
+```bash
+# Satu langkah: pasang CLI dan skill AI agent
+npx @slax-lab/reader-cli@latest install
+
+# Autentikasi (tempel API key dari reader.slax.com → Settings → API Keys)
+reader-cli login
+
+# Pakai
+reader-cli add https://example.com --tags "models,ai" --archive
+reader-cli list --filter inbox
+reader-cli get <bookmark-id> --markdown
+```
+
+Atau arahkan saja agent-mu ke install guide dan biarkan dia melakukan semuanya:
+
+> *"Bantu aku pasang dan setup Slax Reader CLI: https://github.com/slax-lab/slax-reader-cli/blob/main/docs/ai-agent-installation-guide.md"*
+
+---
+
+## Tautan
+
+- Repo & docs: [github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)
+- Daftar: [reader.slax.com](https://reader.slax.com)
+
+> Daftar lewat referral-ku kasih kamu beberapa bulan Pro: [r.slax.com/luca-reader](https://r.slax.com/luca-reader). Tidak ada alur kerja di atas yang membutuhkan Pro — backup permanen, pencarian teks penuh, dan CLI semuanya jalan di paket gratis.

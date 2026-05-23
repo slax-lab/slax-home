@@ -1,0 +1,1074 @@
+---
+import Button from '~/components/Button.astro';
+import DownloadSection from '~/components/DownloadSection.astro';
+import FaqList from '~/components/FaqList.astro';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+
+// Content sourced verbatim from original apps/reader-home components
+// (archive/apps-backup): HomeHero / HomeFeatures / HomeHowItWorks /
+// HomeComparison / HomeCTA / PricingTable / DownloadPage.
+// Plan decision: merge features + pricing + download into single
+// anchor-navigable /reader/ page.
+
+const features = [
+	{
+		title: 'Comprensión con IA',
+		body: 'Saca el resumen, los puntos clave y respuestas a lo que quieras preguntar de cada artículo. Como llevar un tutor personal a tu lado que te ayuda a leer cada texto.',
+	},
+	{
+		title: 'El contenido no muere',
+		body: 'Lo que guardas una vez queda respaldado para siempre. Se acabó abrir un enlace y ver "404 página no encontrada". Tu biblioteca digital es de verdad tuya.',
+	},
+	{
+		title: 'Organización inteligente',
+		body: 'La IA etiqueta y clasifica el contenido por ti. Cuando lo necesitas, usas una búsqueda semántica potente para dar con el artículo exacto.',
+	},
+	{
+		title: 'Lectura conectada',
+		body: 'Resalta y comenta en los artículos guardados. Comparte contenido, invita a otros a discutirlo. Cada artículo puede convertirse en una conversación.',
+	},
+];
+
+const steps = [
+	{
+		title: 'Guarda al vuelo',
+		body: 'Un clic para guardar cualquier artículo, paper o post de la web.',
+	},
+	{
+		title: 'La IA analiza por ti',
+		body: 'Vistazos generados por IA te ayudan a decidir cuáles merecen lectura profunda y cuáles basta con ojear. Reserva el tiempo para lo mejor.',
+	},
+	{
+		title: 'Pregúntale a la IA',
+		body: 'Conversa con la IA sobre lo que guardaste y lleva tu comprensión más hondo.',
+	},
+	{
+		title: 'Interactúa de verdad con el contenido',
+		body: 'Resalta, comenta, discute con otros. Lo que escribes vale más que lo que leíste.',
+	},
+];
+
+// Cell value: 'ok' → ● accent,   'no' → — muted,   any other string → inline text (muted italic)
+const compareRows: Array<[string, string, string, string]> = [
+	['Colecciones gratis ilimitadas (primeros usuarios)', 'ok', 'ok', 'De pago'],
+	['Respaldo permanente del contenido', 'ok', 'De pago', 'De pago'],
+	['Esquema con IA', 'De pago', 'ok', 'De pago'],
+	['Chat con IA mientras lees', 'De pago', 'no', 'De pago'],
+	[
+		'Resaltar y comentar en el original y en la captura, sync bidireccional',
+		'ok',
+		'no',
+		'De pago',
+	],
+	['Unirte a debates de lectores', 'ok', 'no', 'Solo compartir'],
+	['Auto-etiquetado por IA', 'De pago', 'Manual', 'Manual'],
+];
+
+const matrixRows: Array<[string, string, string]> = [
+	['Guardado ilimitado de artículos', 'ok', 'ok'],
+	['Capturas permanentes (se acabaron los enlaces rotos)', 'ok', 'ok'],
+	['Resaltados y comentarios ilimitados', 'ok', 'ok'],
+	['Búsqueda de texto completo', 'ok', 'ok'],
+	['Sincronización en todos los dispositivos', 'ok', 'ok'],
+	['Compartir artículos y debatir', 'ok', 'ok'],
+	['Código abierto y privacidad primero', 'ok', 'ok'],
+	['Crear y gestionar etiquetas', 'ok', 'ok'],
+	['Auto-etiquetado inteligente por IA', 'no', 'ai'],
+	['Resumen al instante con IA', 'no', 'ai'],
+	['Esquema interactivo con IA', 'no', 'ai'],
+	['Chat con IA — pregúntale a tu biblioteca', 'no', 'ai'],
+];
+
+const faqs = [
+	{
+		q: '¿El plan gratis es de verdad gratis para siempre?',
+		a: 'Sí — para los primeros usuarios. Durante el early access ofrecemos guardado ilimitado y respaldo permanente, todo gratis. Aprovecha que aún no hay límites y bloquea tu plan gratuito ahora.',
+	},
+	{
+		q: '¿Slax Reader me ahorra de verdad varias horas de lectura a la semana?',
+		a: 'Para eso lo construimos. El esquema con IA clicable te deja saltar por los textos largos sin leerlos palabra por palabra. El auto-etiquetado se ocupa de organizar; tú solo lees.',
+	},
+	{
+		q: '¿Puedo cancelar Pro cuando quiera?',
+		a: 'Por supuesto. Cancela en cualquier momento desde la configuración de la cuenta, sin coste. Tus artículos guardados y resaltados siguen accesibles en el plan gratis.',
+	},
+	{
+		q: '¿Cómo va el mes gratis de prueba?',
+		a: 'Empieza la prueba al iniciar sesión, sin tarjeta de crédito. A los 30 días te preguntamos si quieres seguir con Pro a 5,99 $/mes (en vez de 9,99 $).',
+	},
+];
+
+const platforms = [
+	{
+		icon: '📱',
+		title: 'iPhone, iPad, Android',
+		bullets: [
+			'Guardado permanente, totalmente gratis.',
+			'Un clic para guardar cualquier artículo.',
+			'Saca el esquema con IA al instante y léelo saltando.',
+			'Sincronización en todas las plataformas.',
+		],
+		downloads: [
+			{
+				href: 'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
+				small: 'Descárgalo en',
+				main: 'App Store',
+			},
+			{
+				href: 'https://play.google.com/store/apps/details?id=com.slax.reader',
+				small: 'Disponible en',
+				main: 'Google Play',
+			},
+		],
+	},
+	{
+		icon: '💻',
+		title: 'Mac',
+		bullets: ['Guarda, lee y organiza como un experto.'],
+		downloads: [
+			{
+				href: 'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
+				small: 'Descárgalo en',
+				main: 'Mac App Store',
+			},
+		],
+	},
+	{
+		icon: '🌐',
+		title: 'Extensión de navegador',
+		bullets: [
+			'Un clic para guardar y respaldar cualquier web — tuya para siempre.',
+			'Conversa con la IA sobre el artículo directamente desde la página original.',
+			'Encuentra lo que buscas en segundos con búsqueda semántica potente.',
+		],
+		downloads: [
+			{
+				href: 'https://chromewebstore.google.com/detail/gdnhaajlomjkhahnmiijphnodkcfikfd?utm_source=web_homepage',
+				small: '',
+				main: 'Chrome Extension',
+			},
+		],
+	},
+];
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'SoftwareApplication',
+	name: 'Slax Reader',
+	applicationCategory: 'ProductivityApplication',
+	operatingSystem: 'Web, iOS, iPadOS, Android, macOS',
+	url: 'https://slax.com/reader/',
+	image: 'https://slax.com/og/reader.png',
+	screenshot: 'https://slax.com/reader/hero.png',
+	description:
+		'Una herramienta de leer después, de código abierto y sin adornos. Guarda para siempre, aprende más rápido. Tu biblioteca inteligente para una lectura más eficiente y una comprensión más profunda.',
+	downloadUrl: [
+		'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
+		'https://play.google.com/store/apps/details?id=com.slax.reader',
+		'https://chromewebstore.google.com/detail/gdnhaajlomjkhahnmiijphnodkcfikfd',
+	],
+	offers: [
+		{
+			'@type': 'Offer',
+			name: 'Free',
+			price: '0',
+			priceCurrency: 'USD',
+		},
+		{
+			'@type': 'Offer',
+			name: 'Pro Reader',
+			price: '5.99',
+			priceCurrency: 'USD',
+			priceSpecification: {
+				'@type': 'UnitPriceSpecification',
+				price: '5.99',
+				priceCurrency: 'USD',
+				billingDuration: 'P1M',
+			},
+		},
+	],
+	publisher: {
+		'@type': 'Organization',
+		name: 'Slax Lab',
+		url: 'https://slax.com',
+		logo: 'https://slax.com/images/slax-logo.png',
+	},
+};
+---
+<Base
+	title="Slax Reader — Leer después, de código abierto y sin adornos"
+	description="Una herramienta de leer después, de código abierto y sin adornos. Sin algoritmo, sin feed. Tú eliges qué leer ahora. Capturas ilimitadas, gratis."
+	ogImage="/og/reader.png"
+	schema={schema}
+>
+	<Nav active="reader" />
+
+	<main>
+		<!-- HERO -->
+		<section class="r-hero">
+			<div class="r-hero-inner">
+				<div>
+					<h1 class="r-h1">
+						Leer después, de código abierto y <em>sin adornos.</em>
+					</h1>
+					<ul class="r-bullets">
+						<li>Sin algoritmo, sin feed. Tú eliges qué leer ahora.</li>
+						<li>Capturas ilimitadas, gratis.</li>
+						<li>Código abierto.</li>
+					</ul>
+					<div class="r-hero-stores">
+						<a
+							class="r-store-btn is-primary"
+							href="https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="r-store-small">Descárgalo en</span>
+							<span class="r-store-main">App Store</span>
+						</a>
+						<a
+							class="r-store-btn"
+							href="https://play.google.com/store/apps/details?id=com.slax.reader"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="r-store-small">Disponible en</span>
+							<span class="r-store-main">Google Play</span>
+						</a>
+					</div>
+					<p class="r-web-link">
+						O <a href="https://r.slax.com/login">entra desde la web</a>.
+					</p>
+				</div>
+				<div class="r-preview" aria-hidden="true">
+					<img
+						src="/reader/hero.png"
+						alt="Vista previa de la interfaz de Slax Reader"
+						loading="eager"
+						decoding="async"
+					/>
+				</div>
+			</div>
+		</section>
+
+		<!-- FEATURES -->
+		<section class="features" id="features">
+			<div class="features-inner">
+				<div class="features-head">
+					<h2 class="features-title">No es otra app más de leer-después</h2>
+					<p class="features-sub">
+						Estamos haciendo la siguiente forma de la lectura inteligente.
+					</p>
+				</div>
+				<div class="feat-grid">
+					{features.map((f, i) => (
+						<div class="feat">
+							<div class="feat-num">{String(i + 1).padStart(2, '0')}</div>
+							<h3 class="feat-h">{f.title}</h3>
+							<p class="feat-p">{f.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- HOW IT WORKS -->
+		<section class="how">
+			<div class="how-inner">
+				<h2 class="how-head">De un guardado a un momento de claridad.</h2>
+				<p class="how-sub">
+					Cuatro pasos sencillos para cambiar cómo lees y aprendes.
+				</p>
+				<div class="how-steps">
+					{steps.map((s, i) => (
+						<div class="how-step">
+							<div class="how-step-num">{String(i + 1).padStart(2, '0')}</div>
+							<h3 class="how-step-h">{s.title}</h3>
+							<p class="how-step-body">{s.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- COMPARE -->
+		<section class="compare">
+			<div class="compare-inner">
+				<h2 class="compare-head">Por qué los lectores se están pasando a Slax</h2>
+				<p class="compare-sub">
+					Mira la distancia con las herramientas tradicionales de leer-después.
+				</p>
+				<div class="compare-table">
+					<div class="compare-row head">
+						<div>Función</div>
+						<div class="highlight">Slax Reader</div>
+						<div>Instapaper</div>
+						<div>Readwise</div>
+					</div>
+					{compareRows.map((row) => (
+						<div class="compare-row">
+							<div>{row[0]}</div>
+							{[1, 2, 3].map((i) => {
+								const v = row[i];
+								const isHighlight = i === 1;
+								let cls = 'cell';
+								let content: string = v;
+								if (v === 'ok') {
+									cls += ' cell-ok';
+									content = '●';
+								} else if (v === 'no') {
+									cls += ' cell-no';
+									content = '—';
+								} else {
+									cls += ' cell-text';
+								}
+								if (isHighlight) cls += ' highlight';
+								return <div class={cls}>{content}</div>;
+							})}
+						</div>
+					))}
+				</div>
+				<p class="compare-more">
+					<a href="/es/reader/alternatives/">
+						Comparativa completa — Readwise, Omnivore, Cubox y más →
+					</a>
+				</p>
+			</div>
+		</section>
+
+		<!-- PRICING -->
+		<section class="pricing" id="pricing">
+			<div class="pricing-inner">
+				<h2 class="pricing-head">Lee con más cabeza, <em>no solo "después".</em></h2>
+				<p class="pricing-dek">
+					Guarda para siempre, aprende más rápido. Tu biblioteca inteligente para una lectura más eficiente y una comprensión más profunda.
+				</p>
+				<a class="pricing-promo" href="https://r.slax.com/login">
+					🎉 Únete hoy y llévate 1 mes de Pro gratis
+				</a>
+
+				<div class="plans-grid">
+					<div class="plan">
+						<div class="plan-eyebrow">Free</div>
+						<div class="plan-price">
+							<span class="num">0 $</span><span class="unit">/ mes</span>
+						</div>
+						<p class="plan-tag">
+							Guardado ilimitado, respaldo permanente — ¡aprovecha que aún no hay límites!
+						</p>
+						<a href="https://r.slax.com/login" class="btn-primary">Empezar gratis</a>
+					</div>
+					<div class="plan featured">
+						<div class="plan-eyebrow">Pro Reader</div>
+						<div class="plan-price">
+							<span class="num">5,99 $</span><span class="unit">/ mes</span>
+							<span class="was">9,99 $</span>
+						</div>
+						<p class="plan-tag">
+							Conecta el análisis con IA y lleva tu lectura al límite.
+						</p>
+						<a href="https://r.slax.com/login" class="btn-primary">Prueba 1 mes gratis</a>
+					</div>
+				</div>
+
+				<div class="matrix" aria-label="Tabla comparativa de funciones">
+					<div class="matrix-row head">
+						<div class="cell-feat">Función</div>
+						<div class="cell">Free</div>
+						<div class="cell">Pro Reader</div>
+					</div>
+					{matrixRows.map((row) => (
+						<div class="matrix-row">
+							<div class="cell-feat">{row[0]}</div>
+							{[1, 2].map((i) => {
+								const v = row[i];
+								if (v === 'ok') return <div class="cell ok">✓</div>;
+								if (v === 'ai') return <div class="cell ai">AI</div>;
+								return <div class="cell no">✕</div>;
+							})}
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- FAQ -->
+		<section class="faq">
+			<div class="faq-inner">
+				<h2 class="faq-head">Preguntas frecuentes</h2>
+				<FaqList items={faqs} />
+			</div>
+		</section>
+
+
+		<!-- DOWNLOAD -->
+		<DownloadSection platforms={platforms}>
+			<Fragment slot="heading">
+				Slax Reader — <em>guarda para siempre, lee con más cabeza.</em>
+			</Fragment>
+			<Fragment slot="dek">
+				Descarga gratis para todas las plataformas que usas a diario.
+			</Fragment>
+		</DownloadSection>
+
+		<!-- FINALE -->
+		<section class="finale">
+			<div class="finale-inner">
+				<h2 class="finale-h">
+					Empieza hoy tu camino de lectura <em>inteligente</em>
+				</h2>
+				<p class="finale-p">Lee con más cabeza, aprende más rápido, recuerda más.</p>
+				<div class="actions actions-center">
+					<Button variant="primary" href="https://r.slax.com/login" arrow>
+						Empezar — totalmente gratis
+					</Button>
+					<Button variant="secondary" href="https://github.com/slax-lab/slax-reader">
+						Ver el código fuente
+					</Button>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+</Base>
+
+<style>
+	/* HERO */
+	.r-hero {
+		padding: 6rem 0 5rem;
+	}
+	.r-hero-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 4rem;
+		align-items: center;
+	}
+	@media (min-width: 960px) {
+		.r-hero-inner {
+			grid-template-columns: 1.1fr 1fr;
+		}
+	}
+	.r-h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 4vw, 3.2rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 1.75rem;
+		color: var(--ink);
+		max-width: 22ch;
+	}
+	.r-h1 :global(em) {
+		font-style: italic;
+		font-weight: 300;
+		color: var(--accent);
+	}
+	.r-bullets {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 2.25rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		max-width: 48ch;
+	}
+	.r-bullets li {
+		position: relative;
+		padding-left: 1.5rem;
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+	}
+	.r-bullets li::before {
+		content: "—";
+		position: absolute;
+		left: 0;
+		top: 0;
+		color: var(--ink-mute);
+		font-weight: 300;
+	}
+	.r-hero-stores {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+	.r-web-link {
+		margin: 0.9rem 0 0;
+		font-family: var(--serif);
+		font-size: 0.95rem;
+		color: var(--ink-mute);
+	}
+	.r-web-link a {
+		color: var(--ink-soft);
+		text-decoration: underline;
+		text-decoration-color: var(--rule);
+		text-underline-offset: 3px;
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
+	.r-web-link a:hover {
+		color: var(--accent);
+		text-decoration-color: var(--accent);
+	}
+	.r-store-btn {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.15rem;
+		background: transparent;
+		color: var(--ink);
+		text-decoration: none;
+		padding: 0.7rem 1.2rem;
+		border: 1px solid var(--ink);
+		transition:
+			background 0.2s ease,
+			color 0.2s ease;
+		min-width: 160px;
+	}
+	.r-store-btn:hover {
+		background: var(--ink);
+		color: var(--bg);
+	}
+	.r-store-btn.is-primary,
+	.r-store-btn.is-primary:hover {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: var(--bg);
+	}
+	.r-store-btn.is-primary .r-store-small,
+	.r-store-btn.is-primary:hover .r-store-small {
+		color: var(--bg);
+		opacity: 0.8;
+	}
+	.r-store-small {
+		font-family: var(--mono);
+		font-size: 0.62rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		line-height: 1.2;
+	}
+	.r-store-btn:hover .r-store-small {
+		color: var(--bg);
+		opacity: 0.75;
+	}
+	.r-store-main {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		font-weight: 500;
+		line-height: 1.3;
+	}
+	.actions {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+	.actions-center {
+		justify-content: center;
+	}
+	.r-preview {
+		display: flex;
+		justify-content: center;
+	}
+	.r-preview img {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-width: 480px;
+	}
+
+	/* FEATURES */
+	.features {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.features-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.features-head {
+		margin-bottom: 4rem;
+	}
+	.features-title {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 0.5rem;
+	}
+	.features-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 44ch;
+	}
+	.feat-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.feat-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@media (min-width: 1040px) {
+		.feat-grid {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+	.feat {
+		padding: 2.5rem 2rem;
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.feat:nth-child(2n) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	@media (min-width: 1040px) {
+		.feat:nth-child(2n) {
+			border-left: 0;
+		}
+		.feat:not(:nth-child(4n + 1)) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.feat-num {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.2em;
+		color: var(--ink-mute);
+		margin-bottom: 1.5rem;
+	}
+	.feat-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.2rem;
+		letter-spacing: -0.015em;
+		margin: 0 0 0.75rem;
+		line-height: 1.25;
+	}
+	.feat-p {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 38ch;
+	}
+
+	/* HOW */
+	.how {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		background: var(--bg-deep);
+	}
+	.how-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.how-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 0.5rem;
+	}
+	.how-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0 0 4rem;
+	}
+	.how-steps {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+	}
+	@media (min-width: 820px) {
+		.how-steps {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+	.how-step {
+		text-align: left;
+	}
+	.how-step-num {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.2em;
+		color: var(--ink-mute);
+		margin: 0 0 1.5rem;
+	}
+	.how-step-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.3rem;
+		letter-spacing: -0.015em;
+		line-height: 1.2;
+		margin: 0 0 0.6rem;
+	}
+	.how-step-body {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 32ch;
+	}
+
+	/* COMPARE */
+	.compare {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.compare-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.compare-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 0.5rem;
+	}
+	.compare-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0 0 3rem;
+	}
+	.compare-table {
+		border-top: 1px solid var(--rule);
+		font-family: var(--serif);
+		font-size: 1rem;
+		overflow-x: auto;
+	}
+	.compare-row {
+		display: grid;
+		grid-template-columns: 1.5fr 1fr 1fr 1fr;
+		border-bottom: 1px solid var(--rule);
+		min-width: 640px;
+	}
+	.compare-row > div {
+		padding: 1.1rem 1rem;
+		color: var(--ink-soft);
+	}
+	.compare-row > div:first-child {
+		color: var(--ink);
+	}
+	.compare-row > div.highlight {
+		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 5%, transparent);
+	}
+	.compare-row.head > div {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		padding: 0.8rem 1rem;
+	}
+	.compare-row.head > div:not(:first-child) {
+		text-align: center;
+	}
+	.compare-row.head > div.highlight {
+		color: var(--accent);
+		font-weight: 500;
+	}
+	.compare-row .cell {
+		text-align: center;
+	}
+	.compare-row .cell-ok {
+		color: var(--accent);
+		font-size: 1.05rem;
+	}
+	.compare-row .cell-no {
+		color: var(--ink-mute);
+		font-size: 1.2rem;
+	}
+	.compare-row .cell-text {
+		color: var(--ink-mute);
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		letter-spacing: 0.04em;
+	}
+	.compare-row .cell-ok.highlight {
+		background: color-mix(in srgb, var(--accent) 5%, transparent);
+	}
+	.compare-more {
+		margin: 2rem 0 0;
+		font-family: var(--mono);
+		font-size: 0.85rem;
+	}
+	.compare-more a {
+		color: var(--ink);
+		text-decoration: none;
+		border-bottom: 1px dotted var(--ink-mute);
+		transition:
+			color 0.2s,
+			border-color 0.2s;
+	}
+	.compare-more a:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+
+	/* PRICING */
+	.pricing {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		background: var(--bg-deep);
+		scroll-margin-top: 5rem;
+	}
+	.pricing-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.pricing-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 3.5vw, 3rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 1rem 0 0.5rem;
+	}
+	.pricing-head :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.pricing-dek {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 48ch;
+		margin: 0 0 1.5rem;
+	}
+	.pricing-promo {
+		display: inline-block;
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		letter-spacing: 0.04em;
+		padding: 0.5rem 1rem;
+		border: 1px solid var(--accent);
+		border-radius: 999px;
+		color: var(--accent);
+		text-decoration: none;
+		margin-bottom: 3rem;
+	}
+	.pricing-promo:hover {
+		background: var(--accent);
+		color: var(--bg);
+	}
+	.plans-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 820px) {
+		.plans-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.plan {
+		padding: 2.5rem 2.25rem;
+		background: var(--bg);
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.plan > .btn-primary {
+		margin-top: auto;
+	}
+	.plan.featured > .btn-primary {
+		background: var(--accent);
+		color: #fff;
+	}
+	.plan.featured > .btn-primary:hover {
+		background: var(--accent-hover, #2E4D3E);
+	}
+	@media (min-width: 820px) {
+		.plan + .plan {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	@media (max-width: 819px) {
+		.plan + .plan {
+			border-top: 1px solid var(--rule);
+		}
+	}
+	.plan.featured {
+		background: var(--bg-deeper);
+		position: relative;
+	}
+	.plan.featured::before {
+		content: "Recomendado";
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		font-family: var(--mono);
+		font-size: 0.68rem;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+	.plan-eyebrow {
+		font-family: var(--serif);
+		font-size: 1.5rem;
+		font-weight: 500;
+		color: var(--ink);
+	}
+	.plan.featured .plan-eyebrow {
+		color: var(--accent);
+	}
+	.plan-price {
+		display: flex;
+		align-items: baseline;
+		gap: 0.5rem;
+		margin: 0.5rem 0 1rem;
+	}
+	.plan-price .num {
+		font-family: var(--serif);
+		font-size: 2.75rem;
+		font-weight: 400;
+		color: var(--ink);
+		letter-spacing: -0.03em;
+	}
+	.plan-price .unit {
+		font-family: var(--sans);
+		font-size: 0.92rem;
+		color: var(--ink-mute);
+	}
+	.plan-price .was {
+		font-family: var(--mono);
+		font-size: 0.85rem;
+		color: var(--ink-mute);
+		text-decoration: line-through;
+		margin-left: 0.4rem;
+	}
+	.plan-tag {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1rem;
+		color: var(--ink-soft);
+		margin: 0 0 1.5rem;
+		max-width: 38ch;
+		line-height: 1.45;
+	}
+
+	.matrix {
+		margin-top: 3rem;
+		font-family: var(--serif);
+		font-size: 1rem;
+	}
+	.matrix-row {
+		display: grid;
+		grid-template-columns: 1.6fr 0.6fr 0.6fr;
+		padding: 0.9rem 1rem;
+		border-bottom: 1px solid var(--rule);
+		align-items: baseline;
+	}
+	.matrix-row.head {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		border-bottom: 1px solid var(--ink);
+		padding: 0.6rem 1rem;
+	}
+	.matrix-row .cell-feat {
+		color: var(--ink);
+	}
+	.matrix-row .cell {
+		text-align: center;
+		color: var(--ink-soft);
+	}
+	.matrix-row .cell.ok {
+		color: var(--accent);
+	}
+	.matrix-row .cell.ai {
+		color: var(--accent);
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.05em;
+	}
+	.matrix-row .cell.no {
+		color: var(--ink-mute);
+	}
+
+	/* FAQ */
+	.faq {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.faq-inner {
+		max-width: 1080px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.faq-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		letter-spacing: -0.02em;
+		margin: 1rem 0 3rem;
+	}
+
+	/* DOWNLOAD */
+	/* FINALE */
+	.finale {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		text-align: center;
+	}
+	.finale-inner {
+		max-width: 820px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.finale-h {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.2rem, 4vw, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 1.5rem auto 1.5rem;
+		max-width: 22ch;
+	}
+	.finale-h :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.finale-p {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 42ch;
+		margin: 0 auto 2.25rem;
+	}
+</style>

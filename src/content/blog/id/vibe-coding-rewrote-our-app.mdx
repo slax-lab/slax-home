@@ -1,0 +1,126 @@
+---
+title: "Aku menulis ulang app kami dengan vibe coding"
+description: "Seorang PM dan desainer menulis ulang Slax Note dengan Claude Code. Bug, panik, momen aku tak bisa berhenti, dan yang akhirnya kuubah. Bagian 2 menyusul."
+pubDate: 2026-04-29T00:00:00.000Z
+heroImage: "/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-what-did-i-do.png"
+tags: ['note', 'vibe-coding']
+product: note
+author: jane
+---
+
+Enam minggu lalu, kami berdua tidak bisa diandalkan untuk sekadar menjalankan build. Slax Note baru rilis minggu ini. Aku masih tidak bisa baca kodenya.
+
+Aku PM. Rekan timku desainer. Bos kami menyuruh kami berdua menulis ulang [Slax Note](https://slax.com/note/) — app catatan voice-first kami — dari nol. Pakai AI.
+
+Inilah yang terjadi, sesuai urutannya. Ketidakpercayaan, kemarahan, malam saat aku tak merasakan apa-apa, dan agent Claude Code yang akhirnya kami panggil Rocky.
+
+---
+
+## "Tunggu, apa yang baru saja kulakukan?"
+
+![Dua rekan kerja mengobrol di meja mereka. Engineer: "Kamu barusan ngapain?" PM: "Nggak tahu, tapi jalan."](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-what-did-i-do.png)
+
+Suatu siang aku duduk di sebelah salah satu engineer asli kami. Sesuatu yang baru saja kuketik ke Rocky berhasil di-build. Di-compile. Berjalan. Fiturnya bekerja.
+
+Dia menoleh. *"Kamu barusan ngapain?"*
+
+*"Nggak tahu,"* kataku. *"Tapi jalan."*
+
+Perasaan itu — bahagia tanpa bisa menjelaskan kenapa — jadi emosi berulang sebulan ke depan. Aku akan merilis sesuatu, melihatnya, dan tidak tahu bagaimana sampai ke situ. Membingungkan. Juga agak menakjubkan.
+
+---
+
+## Mulainya dengan panik
+
+![Bos memberitahu dua non-developer bahwa mereka akan memimpin membangun app. Desainer berpikir: "Aku percaya AI… tapi aku belum percaya diri sendiri."](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-rewrite-task.png)
+
+Mundur ke awal Maret. Feed-ku isinya pendapat soal AI coding semua. *Vibe coding.* *Cursor.* *Claude Code.* *"Siapa pun bisa ngeluarin produk sekarang."* Rekan desainerku dapat siraman api yang sama. Kami saling kirim tautan dan diam-diam panik.
+
+Pertanyaan yang tak terucap: *apa yang tersisa untuk orang seperti kami?*
+
+Lalu bos kami datang dan membuatnya konkret. *"Kalian berdua. Tulis ulang Slax Note. Pakai AI."*
+
+Sebagian dari diriku ingin menolak. Sebagian lagi sudah membuka jendela VS Code baru. Panik membuatmu cepat sampai ke keyboard. (Lebih sulit soal kapan harus meninggalkannya. Akan kita bahas nanti.)
+
+---
+
+## Kebanyakan bug-nya adalah aku sendiri
+
+![Empat panel: error environment, salah buka folder, debugging layar putih bersama AI selama dua jam, dan senior dev menemukan bug-nya dalam hitungan detik.](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-bugs-were-me.png)
+
+Minggu pertama, setiap kali ada yang tidak jalan, reaksiku: *AI-nya rusak.*
+
+Lalu mulai kucatat. Kira-kira separuh masalahku sama sekali tidak ada hubungannya dengan modelnya:
+
+- Konfigurasi environment-ku salah.
+- VPN-ku putus di tengah request.
+- Aku menyuruh Rocky meng-edit file di folder yang salah. Dua kali.
+- Aku membiarkan Rocky men-debug layar putih bersamaku selama dua jam, hanya untuk seorang senior engineer melirik laptopku dan berkata, *"Kamu pasang breakpoint di sini. Itu sebabnya."*
+
+Setengah hari hilang. Modelnya sudah melakukan tugasnya. Aku saja yang tidak tahu cara mengemudikan benda-benda di sekitarnya — editor, terminal, di mana file-nya. Memalukan, tapi agak melegakan: bagian itu bisa kupelajari.
+
+---
+
+## Aku membentaknya seminggu
+
+![Kiri: fase amarah, membentak AI. Kanan: memberi konteks, memberi petunjuk, menunjukkan kesabaran. Bawah: berkolaborasi seperti rekan tim, lalu sadar — "Kenapa aku lupa cara bicara saat lagi bicara dengan AI?"](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-rocky-rage-phase.png)
+
+Aku pulang dari perjalanan kerja dan rekan desainerku sudah membangun sebagian besar app-nya. Lalu kami sampai di bagian yang tak ada yang memperingatkan: bug.
+
+Bug adalah bagian terburuk. Awalnya aku menanganinya dengan buruk. Tempel error, dapat jawaban salah, teriak ke layar. *"Kamu nggak berguna. Bisa nggak sih?"* Amarah murni. Token habis. Tak ada yang terselesaikan.
+
+Akhirnya aku menyadari sesuatu yang memalukan. Aku memberi Rocky instruksi yang lebih buruk daripada yang akan kuberikan ke rekan tim manusia mana pun.
+
+Jadi aku berganti:
+
+- **Beri konteks.** Fiturnya untuk apa. Yang sudah kucoba. Yang dikatakan log.
+- **Beri petunjuk.** "Cek endpoint ini. Dia mengembalikan 500 saat user logout." Bukan "perbaiki."
+- **Sabar.** Kalau dia macet, kasih dia docs-nya. Dia belum baca codebase-nya. Kamu sudah.
+
+Pertama kali aku melakukannya dengan benar, bug-nya selesai dalam satu putaran. Aku duduk dan berpikir: *kenapa aku lupa cara bicara, hanya karena rekan timnya AI?*
+
+Aku masih belum punya jawaban yang rapi.
+
+---
+
+## Aku tak bisa berhenti
+
+Tidak ada komik untuk bagian ini. Saat aku sadar masalahnya, aku sudah tidak tertawa.
+
+Aku berhenti pulang tepat waktu. Aku berhenti menutup laptop saat makan malam. Aku ada di tempat tidur jam 11:30 malam berpikir, *"kalau aku jalankan satu run lagi, pagi akan selesai."* Setiap beberapa menit: terima diff ini? Tolak? Prompt ulang? Roll back?
+
+Sebuah fitur dulu butuh sepuluh keputusan sehari. Sekarang seratus dalam sejam. Aku kehilangan benang kalimat yang sedang kuucapkan keras-keras.
+
+Suatu Selasa sekitar tengah malam aku di tempat tidur dengan laptopku, menyaksikan tanda centang hijau bergulir di terminal saat Rocky menyelesaikan run. Aku menahan napas untuk itu. Untuk tanda centang. Dari robot. Pasanganku sudah berkata sesuatu padaku dua kali dan aku tidak mendengar sekali pun.
+
+Aku menutup laptop dan berkata keras: *bukannya AI seharusnya memberiku waktu kembali? Kenapa malah ngikat aku ke layar ini?*
+
+Jawaban jujurnya, aku tidak pernah perlu menunggu apa pun lagi. Aku-yang-lama akan menyeduh kopi sembari build berjalan. Aku-yang-baru tidak punya yang ditunggu. Jadi aku terus saja.
+
+---
+
+## Tiga hal yang kuubah
+
+Akhirnya, aku mengubah tiga kebiasaan.
+
+1. **Jam.** Setelah makan malam, laptop tutup. Rocky akan ada di sana besok. Bug-nya tidak akan kabur.
+2. **Cakupan.** Separuh yang sudah kubangun tidak ada yang minta. Vibe coding membuat menambah fitur jadi murah, artinya menambah fitur yang salah juga murah. Aku mulai membunuh tiket alih-alih menyelesaikannya.
+3. **Jangan lepas Rocky.** Kamu tidak bisa cuma melempar tugas dan pergi. Kamu harus mencakupkannya, mem-briefing-nya, dan kembali memeriksa. Lebih lambat per langkah. Lebih cepat secara keseluruhan, menurut pengalamanku.
+
+---
+
+Aku masih tidak bisa membaca sebagian besar kode di repo kami. Fitur yang kurilis ada di sana di suatu tempat, dan user nyata memakainya. Enam minggu lalu aku tidak bisa mengatakan dua hal itu.
+
+Tadi malam Rocky memintaku mengonfirmasi refactor jam 10 malam. Kubilang nggak, sudah malam, kita besok saja. Dia bilang oke. Aku menutup laptop.
+
+Itulah bagian yang tidak kuduga.
+
+---
+
+Slax Note adalah app yang kami tulis ulang. Ini app catatan voice-first — kamu bicara, dia menulis, kamu pilih mau bentuk apa.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)
+
+Bagian 2 adalah tulisan teknisnya — stack, pipeline, yang rusak. Segera hadir di [Slax blog](https://slax.com/blog/).

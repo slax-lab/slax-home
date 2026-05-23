@@ -17,7 +17,18 @@ import { join, relative } from 'node:path';
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
 const BASELINE = join(ROOT, 'evals/baselines/url-snapshot.json');
-const PREFIXED = ['zh-Hans', 'zh-Hant', 'ja', 'ko'];
+const PREFIXED = [
+	'zh-Hans',
+	'zh-Hant',
+	'ja',
+	'ko',
+	'de',
+	'fr',
+	'es',
+	'pt-BR',
+	'id',
+	'vi',
+];
 
 if (!existsSync(DIST)) {
 	console.error('❌ dist/ missing. Run `pnpm build` first.');

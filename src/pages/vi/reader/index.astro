@@ -1,0 +1,1074 @@
+---
+import Button from '~/components/Button.astro';
+import DownloadSection from '~/components/DownloadSection.astro';
+import FaqList from '~/components/FaqList.astro';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+
+// Content sourced verbatim from original apps/reader-home components
+// (archive/apps-backup): HomeHero / HomeFeatures / HomeHowItWorks /
+// HomeComparison / HomeCTA / PricingTable / DownloadPage.
+// Plan decision: merge features + pricing + download into single
+// anchor-navigable /reader/ page.
+
+const features = [
+	{
+		title: 'Hiểu nội dung nhờ AI',
+		body: 'Tóm tắt tức thì, ý chính và câu trả lời cho mọi thứ bạn đọc. Như có một gia sư riêng cho từng bài.',
+	},
+	{
+		title: 'Nội dung không bao giờ mất',
+		body: 'Bài đã lưu được sao lưu vĩnh viễn. Không còn nỗi thất vọng "404 không tìm thấy trang". Thư viện số của bạn thực sự thuộc về bạn.',
+	},
+	{
+		title: 'Sắp xếp thông minh',
+		body: 'AI tự gắn thẻ và phân loại nội dung. Khi cần, tìm chính xác bằng tìm kiếm ngữ nghĩa mạnh mẽ.',
+	},
+	{
+		title: 'Đọc kết nối',
+		body: 'Đánh dấu và bình luận trên mọi bài đã lưu. Chia sẻ, mời người khác cùng góp ý và thảo luận. Mỗi bài viết thành một nơi để trò chuyện.',
+	},
+];
+
+const steps = [
+	{
+		title: 'Lưu mọi thứ',
+		body: 'Một chạm để lưu bài viết, tài liệu hay bài blog ở bất cứ đâu trên web.',
+	},
+	{
+		title: 'AI phân tích',
+		body: 'Bản tóm lược tức thì giúp bạn quyết bài nào đáng đọc kỹ, bài nào lướt là đủ. Dành thời gian cho những gì hay nhất.',
+	},
+	{
+		title: 'Đặt câu hỏi',
+		body: 'Trò chuyện với AI về nội dung đã lưu để hiểu sâu hơn.',
+	},
+	{
+		title: 'Tương tác với nội dung',
+		body: 'Đánh dấu, bình luận và thảo luận với người khác. Những gì bạn viết ra còn giá trị hơn những gì bạn đọc.',
+	},
+];
+
+// Cell value: 'ok' → ● accent,   'no' → — muted,   any other string → inline text (muted italic)
+const compareRows: Array<[string, string, string, string]> = [
+	['Lưu không giới hạn miễn phí (cho người dùng sớm)', 'ok', 'ok', 'Trả phí'],
+	['Sao lưu nội dung vĩnh viễn', 'ok', 'Trả phí', 'Trả phí'],
+	['Đề cương AI', 'Trả phí', 'ok', 'Trả phí'],
+	['Trò chuyện với AI khi đọc', 'Trả phí', 'no', 'Trả phí'],
+	[
+		'Đánh dấu & bình luận trên bài gốc và bản chụp, đồng bộ hai chiều',
+		'ok',
+		'no',
+		'Trả phí',
+	],
+	['Tham gia thảo luận giữa độc giả', 'ok', 'no', 'Chỉ chia sẻ'],
+	['Tự gắn thẻ bằng AI', 'Trả phí', 'Thủ công', 'Thủ công'],
+];
+
+const matrixRows: Array<[string, string, string]> = [
+	['Lưu bài không giới hạn', 'ok', 'ok'],
+	['Bản chụp vĩnh viễn (không còn link chết)', 'ok', 'ok'],
+	['Đánh dấu & bình luận không giới hạn', 'ok', 'ok'],
+	['Tìm kiếm toàn văn', 'ok', 'ok'],
+	['Đồng bộ trên mọi thiết bị', 'ok', 'ok'],
+	['Chia sẻ bài & tham gia thảo luận', 'ok', 'ok'],
+	['Mã nguồn mở & ưu tiên quyền riêng tư', 'ok', 'ok'],
+	['Tạo & quản lý thẻ', 'ok', 'ok'],
+	['Tự gắn thẻ thông minh bằng AI', 'no', 'ai'],
+	['Tóm tắt AI tức thì', 'no', 'ai'],
+	['Đề cương AI tương tác', 'no', 'ai'],
+	['Trò chuyện AI — hỏi gì cũng được với thư viện của bạn', 'no', 'ai'],
+];
+
+const faqs = [
+	{
+		q: 'Gói Free có thực sự miễn phí mãi mãi không?',
+		a: 'Có — với người dùng sớm. Trong giai đoạn early access, chúng tôi cho lưu không giới hạn và sao lưu vĩnh viễn, hoàn toàn miễn phí. Khoá luôn quyền dùng miễn phí trước khi giới hạn được áp.',
+	},
+	{
+		q: 'Slax Reader có thực sự tiết kiệm cho bạn vài giờ đọc mỗi tuần?',
+		a: 'Đó là lý do nó được làm ra. Đề cương AI có thể bấm giúp bạn nhảy quanh bài dài thay vì đọc từng chữ. Tự gắn thẻ lo phần sắp xếp, bạn chỉ việc đọc.',
+	},
+	{
+		q: 'Có thể huỷ Pro bất cứ lúc nào không?',
+		a: 'Đương nhiên. Huỷ bất cứ lúc nào trong phần cài đặt tài khoản, không phạt. Bài đã lưu và phần đánh dấu vẫn dùng được trên gói Free.',
+	},
+	{
+		q: 'Bản dùng thử 1 tháng miễn phí hoạt động thế nào?',
+		a: 'Đăng nhập và bắt đầu dùng thử — không cần thẻ tín dụng. Sau 30 ngày bạn sẽ được hỏi có muốn tiếp tục Pro với giá $5.99 / tháng (giá gốc $9.99) hay không.',
+	},
+];
+
+const platforms = [
+	{
+		icon: '📱',
+		title: 'iPhone, iPad, Android',
+		bullets: [
+			'Lưu mãi mãi, miễn phí.',
+			'Một chạm để lưu mọi bài viết.',
+			'Có ngay đề cương AI để lướt nhanh.',
+			'Đồng bộ đa nền tảng.',
+		],
+		downloads: [
+			{
+				href: 'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
+				small: 'Tải về trên',
+				main: 'App Store',
+			},
+			{
+				href: 'https://play.google.com/store/apps/details?id=com.slax.reader',
+				small: 'Lấy trên',
+				main: 'Google Play',
+			},
+		],
+	},
+	{
+		icon: '💻',
+		title: 'Mac',
+		bullets: ['Lưu, đọc và sắp xếp như dân chuyên.'],
+		downloads: [
+			{
+				href: 'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
+				small: 'Tải về trên',
+				main: 'Mac App Store',
+			},
+		],
+	},
+	{
+		icon: '🌐',
+		title: 'Tiện ích trình duyệt',
+		bullets: [
+			'Một chạm để lưu và sao lưu mọi trang web — của bạn, mãi mãi.',
+			'Trò chuyện với AI ngay trên trang gốc.',
+			'Tìm thứ bạn cần thật nhanh bằng tìm kiếm ngữ nghĩa.',
+		],
+		downloads: [
+			{
+				href: 'https://chromewebstore.google.com/detail/gdnhaajlomjkhahnmiijphnodkcfikfd?utm_source=web_homepage',
+				small: '',
+				main: 'Chrome Extension',
+			},
+		],
+	},
+];
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'SoftwareApplication',
+	name: 'Slax Reader',
+	applicationCategory: 'ProductivityApplication',
+	operatingSystem: 'Web, iOS, iPadOS, Android, macOS',
+	url: 'https://slax.com/reader/',
+	image: 'https://slax.com/og/reader.png',
+	screenshot: 'https://slax.com/reader/hero.png',
+	description:
+		'Ứng dụng đọc-sau mã nguồn mở, gọn gàng. Lưu mãi mãi, học nhanh hơn. Thư viện thông minh của bạn để đọc hiệu quả và hiểu sâu.',
+	downloadUrl: [
+		'https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998',
+		'https://play.google.com/store/apps/details?id=com.slax.reader',
+		'https://chromewebstore.google.com/detail/gdnhaajlomjkhahnmiijphnodkcfikfd',
+	],
+	offers: [
+		{
+			'@type': 'Offer',
+			name: 'Free',
+			price: '0',
+			priceCurrency: 'USD',
+		},
+		{
+			'@type': 'Offer',
+			name: 'Pro Reader',
+			price: '5.99',
+			priceCurrency: 'USD',
+			priceSpecification: {
+				'@type': 'UnitPriceSpecification',
+				price: '5.99',
+				priceCurrency: 'USD',
+				billingDuration: 'P1M',
+			},
+		},
+	],
+	publisher: {
+		'@type': 'Organization',
+		name: 'Slax Lab',
+		url: 'https://slax.com',
+		logo: 'https://slax.com/images/slax-logo.png',
+	},
+};
+---
+<Base
+	title="Slax Reader — Ứng dụng đọc-sau không cố làm tất cả"
+	description="Không thuật toán, không feed. Bài kế tiếp do bạn chọn. Bản chụp không giới hạn, miễn phí. Mã nguồn mở."
+	ogImage="/og/vi/reader.png"
+	schema={schema}
+>
+	<Nav active="reader" />
+
+	<main>
+		<!-- HERO -->
+		<section class="r-hero">
+			<div class="r-hero-inner">
+				<div>
+					<h1 class="r-h1">
+						Một ứng dụng đọc-sau <em>không cố làm tất cả.</em>
+					</h1>
+					<ul class="r-bullets">
+						<li>Không thuật toán, không feed. Bài kế tiếp do bạn chọn.</li>
+						<li>Bản chụp trang web không giới hạn, miễn phí.</li>
+						<li>Mã nguồn mở.</li>
+					</ul>
+					<div class="r-hero-stores">
+						<a
+							class="r-store-btn is-primary"
+							href="https://apps.apple.com/us/app/slax-reader-ai-read-it-later/id6596730998"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="r-store-small">Tải về trên</span>
+							<span class="r-store-main">App Store</span>
+						</a>
+						<a
+							class="r-store-btn"
+							href="https://play.google.com/store/apps/details?id=com.slax.reader"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="r-store-small">Lấy trên</span>
+							<span class="r-store-main">Google Play</span>
+						</a>
+					</div>
+					<p class="r-web-link">
+						Hoặc <a href="https://r.slax.com/login">mở trên trình duyệt</a>.
+					</p>
+				</div>
+				<div class="r-preview" aria-hidden="true">
+					<img
+						src="/reader/hero.png"
+						alt="Xem trước giao diện Slax Reader"
+						loading="eager"
+						decoding="async"
+					/>
+				</div>
+			</div>
+		</section>
+
+		<!-- FEATURES -->
+		<section class="features" id="features">
+			<div class="features-inner">
+				<div class="features-head">
+					<h2 class="features-title">Không chỉ là một công cụ đọc-sau khác</h2>
+					<p class="features-sub">
+						Chúng tôi đang dựng nên hình hài kế tiếp của việc đọc thông minh.
+					</p>
+				</div>
+				<div class="feat-grid">
+					{features.map((f, i) => (
+						<div class="feat">
+							<div class="feat-num">{String(i + 1).padStart(2, '0')}</div>
+							<h3 class="feat-h">{f.title}</h3>
+							<p class="feat-p">{f.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- HOW IT WORKS -->
+		<section class="how">
+			<div class="how-inner">
+				<h2 class="how-head">Từ một lần lưu, đến một lần vỡ ra.</h2>
+				<p class="how-sub">
+					Bốn bước đơn giản, đổi cách bạn đọc và học.
+				</p>
+				<div class="how-steps">
+					{steps.map((s, i) => (
+						<div class="how-step">
+							<div class="how-step-num">{String(i + 1).padStart(2, '0')}</div>
+							<h3 class="how-step-h">{s.title}</h3>
+							<p class="how-step-body">{s.body}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- COMPARE -->
+		<section class="compare">
+			<div class="compare-inner">
+				<h2 class="compare-head">Vì sao độc giả đang chuyển sang Slax</h2>
+				<p class="compare-sub">
+					Xem chúng tôi khác gì với các công cụ đọc-sau truyền thống.
+				</p>
+				<div class="compare-table">
+					<div class="compare-row head">
+						<div>Tính năng</div>
+						<div class="highlight">Slax Reader</div>
+						<div>Instapaper</div>
+						<div>Readwise</div>
+					</div>
+					{compareRows.map((row) => (
+						<div class="compare-row">
+							<div>{row[0]}</div>
+							{[1, 2, 3].map((i) => {
+								const v = row[i];
+								const isHighlight = i === 1;
+								let cls = 'cell';
+								let content: string = v;
+								if (v === 'ok') {
+									cls += ' cell-ok';
+									content = '●';
+								} else if (v === 'no') {
+									cls += ' cell-no';
+									content = '—';
+								} else {
+									cls += ' cell-text';
+								}
+								if (isHighlight) cls += ' highlight';
+								return <div class={cls}>{content}</div>;
+							})}
+						</div>
+					))}
+				</div>
+				<p class="compare-more">
+					<a href="/vi/reader/alternatives/">
+						So sánh đầy đủ — Readwise, Omnivore, Cubox và nhiều hơn →
+					</a>
+				</p>
+			</div>
+		</section>
+
+		<!-- PRICING -->
+		<section class="pricing" id="pricing">
+			<div class="pricing-inner">
+				<h2 class="pricing-head">Đọc thông minh hơn, <em>không chỉ là "để sau".</em></h2>
+				<p class="pricing-dek">
+					Lưu mãi mãi, học nhanh hơn. Thư viện thông minh của bạn để đọc hiệu quả và hiểu sâu.
+				</p>
+				<a class="pricing-promo" href="https://r.slax.com/login">
+					🎉 Tham gia hôm nay, nhận 1 tháng Pro miễn phí
+				</a>
+
+				<div class="plans-grid">
+					<div class="plan">
+						<div class="plan-eyebrow">Free</div>
+						<div class="plan-price">
+							<span class="num">$0</span><span class="unit">/ tháng</span>
+						</div>
+						<p class="plan-tag">
+							Lưu không giới hạn & sao lưu mãi mãi — vào ngay trước khi giới hạn được áp!
+						</p>
+						<a href="https://r.slax.com/login" class="btn-primary">Bắt đầu miễn phí</a>
+					</div>
+					<div class="plan featured">
+						<div class="plan-eyebrow">Pro Reader</div>
+						<div class="plan-price">
+							<span class="num">$5.99</span><span class="unit">/ tháng</span>
+							<span class="was">$9.99</span>
+						</div>
+						<p class="plan-tag">
+							Mở khoá năng lực đọc đỉnh cao với phân tích AI tích hợp.
+						</p>
+						<a href="https://r.slax.com/login" class="btn-primary">Dùng thử miễn phí 1 tháng</a>
+					</div>
+				</div>
+
+				<div class="matrix" aria-label="Bảng tính năng">
+					<div class="matrix-row head">
+						<div class="cell-feat">Tính năng</div>
+						<div class="cell">Free</div>
+						<div class="cell">Pro Reader</div>
+					</div>
+					{matrixRows.map((row) => (
+						<div class="matrix-row">
+							<div class="cell-feat">{row[0]}</div>
+							{[1, 2].map((i) => {
+								const v = row[i];
+								if (v === 'ok') return <div class="cell ok">✓</div>;
+								if (v === 'ai') return <div class="cell ai">AI</div>;
+								return <div class="cell no">✕</div>;
+							})}
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- FAQ -->
+		<section class="faq">
+			<div class="faq-inner">
+				<h2 class="faq-head">Câu hỏi thường gặp</h2>
+				<FaqList items={faqs} />
+			</div>
+		</section>
+
+
+		<!-- DOWNLOAD -->
+		<DownloadSection platforms={platforms}>
+			<Fragment slot="heading">
+				Slax Reader — <em>Lưu mãi mãi. Đọc thông minh hơn.</em>
+			</Fragment>
+			<Fragment slot="dek">
+				Tải miễn phí, có mặt trên mọi nền tảng bạn dùng.
+			</Fragment>
+		</DownloadSection>
+
+		<!-- FINALE -->
+		<section class="finale">
+			<div class="finale-inner">
+				<h2 class="finale-h">
+					Bắt đầu hành trình đọc <em>thông minh</em> của bạn hôm nay
+				</h2>
+				<p class="finale-p">Đọc thông minh hơn, học nhanh hơn, nhớ nhiều hơn.</p>
+				<div class="actions actions-center">
+					<Button variant="primary" href="https://r.slax.com/login" arrow>
+						Bắt đầu — hoàn toàn miễn phí
+					</Button>
+					<Button variant="secondary" href="https://github.com/slax-lab/slax-reader">
+						Xem mã nguồn
+					</Button>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+</Base>
+
+<style>
+	/* HERO */
+	.r-hero {
+		padding: 6rem 0 5rem;
+	}
+	.r-hero-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 4rem;
+		align-items: center;
+	}
+	@media (min-width: 960px) {
+		.r-hero-inner {
+			grid-template-columns: 1.1fr 1fr;
+		}
+	}
+	.r-h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 4vw, 3.2rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 1.75rem;
+		color: var(--ink);
+		max-width: 22ch;
+	}
+	.r-h1 :global(em) {
+		font-style: italic;
+		font-weight: 300;
+		color: var(--accent);
+	}
+	.r-bullets {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 2.25rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		max-width: 48ch;
+	}
+	.r-bullets li {
+		position: relative;
+		padding-left: 1.5rem;
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+	}
+	.r-bullets li::before {
+		content: "—";
+		position: absolute;
+		left: 0;
+		top: 0;
+		color: var(--ink-mute);
+		font-weight: 300;
+	}
+	.r-hero-stores {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+	.r-web-link {
+		margin: 0.9rem 0 0;
+		font-family: var(--serif);
+		font-size: 0.95rem;
+		color: var(--ink-mute);
+	}
+	.r-web-link a {
+		color: var(--ink-soft);
+		text-decoration: underline;
+		text-decoration-color: var(--rule);
+		text-underline-offset: 3px;
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
+	.r-web-link a:hover {
+		color: var(--accent);
+		text-decoration-color: var(--accent);
+	}
+	.r-store-btn {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.15rem;
+		background: transparent;
+		color: var(--ink);
+		text-decoration: none;
+		padding: 0.7rem 1.2rem;
+		border: 1px solid var(--ink);
+		transition:
+			background 0.2s ease,
+			color 0.2s ease;
+		min-width: 160px;
+	}
+	.r-store-btn:hover {
+		background: var(--ink);
+		color: var(--bg);
+	}
+	.r-store-btn.is-primary,
+	.r-store-btn.is-primary:hover {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: var(--bg);
+	}
+	.r-store-btn.is-primary .r-store-small,
+	.r-store-btn.is-primary:hover .r-store-small {
+		color: var(--bg);
+		opacity: 0.8;
+	}
+	.r-store-small {
+		font-family: var(--mono);
+		font-size: 0.62rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		line-height: 1.2;
+	}
+	.r-store-btn:hover .r-store-small {
+		color: var(--bg);
+		opacity: 0.75;
+	}
+	.r-store-main {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		font-weight: 500;
+		line-height: 1.3;
+	}
+	.actions {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+	.actions-center {
+		justify-content: center;
+	}
+	.r-preview {
+		display: flex;
+		justify-content: center;
+	}
+	.r-preview img {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-width: 480px;
+	}
+
+	/* FEATURES */
+	.features {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.features-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.features-head {
+		margin-bottom: 4rem;
+	}
+	.features-title {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 0.5rem;
+	}
+	.features-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 44ch;
+	}
+	.feat-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.feat-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@media (min-width: 1040px) {
+		.feat-grid {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+	.feat {
+		padding: 2.5rem 2rem;
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 760px) {
+		.feat:nth-child(2n) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	@media (min-width: 1040px) {
+		.feat:nth-child(2n) {
+			border-left: 0;
+		}
+		.feat:not(:nth-child(4n + 1)) {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	.feat-num {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.2em;
+		color: var(--ink-mute);
+		margin-bottom: 1.5rem;
+	}
+	.feat-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.2rem;
+		letter-spacing: -0.015em;
+		margin: 0 0 0.75rem;
+		line-height: 1.25;
+	}
+	.feat-p {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 38ch;
+	}
+
+	/* HOW */
+	.how {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		background: var(--bg-deep);
+	}
+	.how-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.how-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 0.5rem;
+	}
+	.how-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0 0 4rem;
+	}
+	.how-steps {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+	}
+	@media (min-width: 820px) {
+		.how-steps {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+	.how-step {
+		text-align: left;
+	}
+	.how-step-num {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.2em;
+		color: var(--ink-mute);
+		margin: 0 0 1.5rem;
+	}
+	.how-step-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.3rem;
+		letter-spacing: -0.015em;
+		line-height: 1.2;
+		margin: 0 0 0.6rem;
+	}
+	.how-step-body {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 32ch;
+	}
+
+	/* COMPARE */
+	.compare {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.compare-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.compare-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 0.5rem;
+	}
+	.compare-sub {
+		font-family: var(--serif);
+		font-size: 1.1rem;
+		color: var(--ink-soft);
+		margin: 0 0 3rem;
+	}
+	.compare-table {
+		border-top: 1px solid var(--rule);
+		font-family: var(--serif);
+		font-size: 1rem;
+		overflow-x: auto;
+	}
+	.compare-row {
+		display: grid;
+		grid-template-columns: 1.5fr 1fr 1fr 1fr;
+		border-bottom: 1px solid var(--rule);
+		min-width: 640px;
+	}
+	.compare-row > div {
+		padding: 1.1rem 1rem;
+		color: var(--ink-soft);
+	}
+	.compare-row > div:first-child {
+		color: var(--ink);
+	}
+	.compare-row > div.highlight {
+		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 5%, transparent);
+	}
+	.compare-row.head > div {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		padding: 0.8rem 1rem;
+	}
+	.compare-row.head > div:not(:first-child) {
+		text-align: center;
+	}
+	.compare-row.head > div.highlight {
+		color: var(--accent);
+		font-weight: 500;
+	}
+	.compare-row .cell {
+		text-align: center;
+	}
+	.compare-row .cell-ok {
+		color: var(--accent);
+		font-size: 1.05rem;
+	}
+	.compare-row .cell-no {
+		color: var(--ink-mute);
+		font-size: 1.2rem;
+	}
+	.compare-row .cell-text {
+		color: var(--ink-mute);
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		letter-spacing: 0.04em;
+	}
+	.compare-row .cell-ok.highlight {
+		background: color-mix(in srgb, var(--accent) 5%, transparent);
+	}
+	.compare-more {
+		margin: 2rem 0 0;
+		font-family: var(--mono);
+		font-size: 0.85rem;
+	}
+	.compare-more a {
+		color: var(--ink);
+		text-decoration: none;
+		border-bottom: 1px dotted var(--ink-mute);
+		transition:
+			color 0.2s,
+			border-color 0.2s;
+	}
+	.compare-more a:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+
+	/* PRICING */
+	.pricing {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		background: var(--bg-deep);
+		scroll-margin-top: 5rem;
+	}
+	.pricing-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.pricing-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 3.5vw, 3rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 1rem 0 0.5rem;
+	}
+	.pricing-head :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.pricing-dek {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 48ch;
+		margin: 0 0 1.5rem;
+	}
+	.pricing-promo {
+		display: inline-block;
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		letter-spacing: 0.04em;
+		padding: 0.5rem 1rem;
+		border: 1px solid var(--accent);
+		border-radius: 999px;
+		color: var(--accent);
+		text-decoration: none;
+		margin-bottom: 3rem;
+	}
+	.pricing-promo:hover {
+		background: var(--accent);
+		color: var(--bg);
+	}
+	.plans-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		border-top: 1px solid var(--rule);
+		border-bottom: 1px solid var(--rule);
+	}
+	@media (min-width: 820px) {
+		.plans-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.plan {
+		padding: 2.5rem 2.25rem;
+		background: var(--bg);
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.plan > .btn-primary {
+		margin-top: auto;
+	}
+	.plan.featured > .btn-primary {
+		background: var(--accent);
+		color: #fff;
+	}
+	.plan.featured > .btn-primary:hover {
+		background: var(--accent-hover, #2E4D3E);
+	}
+	@media (min-width: 820px) {
+		.plan + .plan {
+			border-left: 1px solid var(--rule);
+		}
+	}
+	@media (max-width: 819px) {
+		.plan + .plan {
+			border-top: 1px solid var(--rule);
+		}
+	}
+	.plan.featured {
+		background: var(--bg-deeper);
+		position: relative;
+	}
+	.plan.featured::before {
+		content: "Được khuyến nghị";
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		font-family: var(--mono);
+		font-size: 0.68rem;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+	.plan-eyebrow {
+		font-family: var(--serif);
+		font-size: 1.5rem;
+		font-weight: 500;
+		color: var(--ink);
+	}
+	.plan.featured .plan-eyebrow {
+		color: var(--accent);
+	}
+	.plan-price {
+		display: flex;
+		align-items: baseline;
+		gap: 0.5rem;
+		margin: 0.5rem 0 1rem;
+	}
+	.plan-price .num {
+		font-family: var(--serif);
+		font-size: 2.75rem;
+		font-weight: 400;
+		color: var(--ink);
+		letter-spacing: -0.03em;
+	}
+	.plan-price .unit {
+		font-family: var(--sans);
+		font-size: 0.92rem;
+		color: var(--ink-mute);
+	}
+	.plan-price .was {
+		font-family: var(--mono);
+		font-size: 0.85rem;
+		color: var(--ink-mute);
+		text-decoration: line-through;
+		margin-left: 0.4rem;
+	}
+	.plan-tag {
+		font-family: var(--serif);
+		font-style: italic;
+		font-size: 1rem;
+		color: var(--ink-soft);
+		margin: 0 0 1.5rem;
+		max-width: 38ch;
+		line-height: 1.45;
+	}
+
+	.matrix {
+		margin-top: 3rem;
+		font-family: var(--serif);
+		font-size: 1rem;
+	}
+	.matrix-row {
+		display: grid;
+		grid-template-columns: 1.6fr 0.6fr 0.6fr;
+		padding: 0.9rem 1rem;
+		border-bottom: 1px solid var(--rule);
+		align-items: baseline;
+	}
+	.matrix-row.head {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		border-bottom: 1px solid var(--ink);
+		padding: 0.6rem 1rem;
+	}
+	.matrix-row .cell-feat {
+		color: var(--ink);
+	}
+	.matrix-row .cell {
+		text-align: center;
+		color: var(--ink-soft);
+	}
+	.matrix-row .cell.ok {
+		color: var(--accent);
+	}
+	.matrix-row .cell.ai {
+		color: var(--accent);
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.05em;
+	}
+	.matrix-row .cell.no {
+		color: var(--ink-mute);
+	}
+
+	/* FAQ */
+	.faq {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.faq-inner {
+		max-width: 1080px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.faq-head {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+		letter-spacing: -0.02em;
+		margin: 1rem 0 3rem;
+	}
+
+	/* DOWNLOAD */
+	/* FINALE */
+	.finale {
+		padding: var(--section-pad) 0;
+		border-top: 1px solid var(--rule-soft);
+		text-align: center;
+	}
+	.finale-inner {
+		max-width: 820px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+	.finale-h {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2.2rem, 4vw, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 1.5rem auto 1.5rem;
+		max-width: 22ch;
+	}
+	.finale-h :global(em) {
+		font-style: italic;
+		color: var(--accent);
+		font-weight: 300;
+	}
+	.finale-p {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		max-width: 42ch;
+		margin: 0 auto 2.25rem;
+	}
+</style>

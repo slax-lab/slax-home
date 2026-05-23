@@ -1,0 +1,126 @@
+---
+title: "App per Vibe Coding neu geschrieben — ohne Code zu lesen"
+description: "Eine PM und eine Designerin schreiben Slax Note mit Claude Code neu. Bugs, Panik, die Stelle, an der ich nicht aufhören konnte. Teil 2 folgt."
+pubDate: 2026-04-29T00:00:00.000Z
+heroImage: "/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-what-did-i-do.png"
+tags: ['note', 'vibe-coding']
+product: note
+author: jane
+---
+
+Vor sechs Wochen bekam von uns beiden keine zuverlässig einen Build hin. Das neue Slax Note ist diese Woche live. Den Code lese ich noch immer nicht.
+
+Ich bin PM. Meine Mitstreiterin ist Designerin. Unser Chef hat uns zwei aufgefordert, [Slax Note](https://slax.com/note/) — unsere Voice-first-Notiz-App — von Grund auf neu zu schreiben. Mit KI.
+
+So lief es. Unglaube, Wut, die Nacht, in der ich nichts mehr fühlen konnte, und der Claude-Code-Agent, den wir am Ende Rocky nannten.
+
+---
+
+## „Moment, was hab ich gerade getan?"
+
+![Zwei Kollegen am Schreibtisch. Engineer: „Was hast du gerade getan?" PM: „Keine Ahnung, aber es lief tatsächlich erfolgreich."](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-what-did-i-do.png)
+
+Eines Nachmittags saß ich neben einem unserer echten Engineers. Etwas, das ich gerade in Rocky getippt hatte, hatte gebaut. Kompiliert. Lief. Das Feature funktionierte.
+
+Er schaute rüber. *„Was hast du gerade getan?"*
+
+*„Keine Ahnung,"* sagte ich. *„Aber es lief."*
+
+Dieses Gefühl — sich aus keinem erklärbaren Grund zu freuen — wurde die wiederkehrende Emotion des nächsten Monats. Ich shippte was, schaute drauf und hatte keine Ahnung, wie es dahin kam. Verwirrend. Auch ziemlich wunderbar.
+
+---
+
+## Es fing mit Panik an
+
+![Chef sagt zwei Nicht-Entwicklerinnen, sie würden den Bau der App übernehmen. Die Designerin denkt: „Ich vertraue KI … aber mir selbst noch nicht mal."](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-rewrite-task.png)
+
+Zurück Anfang März. Mein Feed war nur noch KI-Coding. *Vibe Coding.* *Cursor.* *Claude Code.* *„Jeder kann jetzt ausliefern."* Meine Designer-Mitstreiterin bekam denselben Sturm ab. Wir schickten uns Links zu und gerieten leise in Panik.
+
+Die ungestellte Frage: *was bleibt für Leute wie uns?*
+
+Dann kam unser Chef rüber und machte es konkret. *„Ihr zwei. Schreibt Slax Note neu. Nehmt KI."*
+
+Ein Teil von mir wollte ablehnen. Der andere hatte schon ein neues VS-Code-Fenster geöffnet. Panik bringt dich ziemlich schnell an die Tastatur. (Schlechter ist sie bei der Frage, wann man wieder geht. Da kommen wir hin.)
+
+---
+
+## Die meisten Bugs war ich
+
+![Vier Panels: Umgebungs-Fehler, falscher Ordner geöffnet, zwei Stunden mit KI einen weißen Screen debuggen, dann findet der Senior-Dev den Bug in Sekunden.](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-bugs-were-me.png)
+
+In der ersten Woche war meine Reaktion auf alles, was nicht ging: *die KI ist kaputt.*
+
+Dann fing ich an, mitzuzählen. Etwa die Hälfte meiner Probleme hatte nichts mit dem Modell zu tun:
+
+- Ich hatte meine Umgebung falsch konfiguriert.
+- Mein VPN brach mitten im Request ab.
+- Ich hatte Rocky beauftragt, eine Datei im falschen Ordner zu editieren. Zwei Mal.
+- Ich ließ Rocky mit mir zwei Stunden einen weißen Screen debuggen, nur damit ein Senior-Engineer einen Blick auf mein Laptop warf und sagte: *„Du hast hier einen Breakpoint gesetzt. Deshalb."*
+
+Halber Tag, weg. Das Modell hatte seinen Job gemacht. Ich konnte nur die Dinge drumherum nicht bedienen — den Editor, das Terminal, wo Dateien lagen. Peinlich, aber irgendwie eine Erleichterung: das konnte ich lernen.
+
+---
+
+## Ich hab eine Woche lang gebrüllt
+
+![Links: Wut-Phase, die KI anbrüllen. Rechts: Kontext geben, Hinweise geben, Geduld. Unten: Zusammenarbeit wie Teammitglieder, dann die Erkenntnis — „Warum hab ich vergessen, wie man redet, als das Gegenüber eine KI war?"](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-rocky-rage-phase.png)
+
+Ich kam von einer Dienstreise zurück und meine Designer-Mitstreiterin hatte die meiste App schon gebaut. Dann erwischte uns der Teil, vor dem niemand warnt: Bugs.
+
+Die Bugs waren das Schlimmste. Anfangs ging ich schlecht damit um. Fehler reinkopieren, falsche Antwort kriegen, den Bildschirm anbrüllen. *„Du bist nutzlos. Bist du dem überhaupt gewachsen?"* Pure Wut. Tokens verbrannt. Nichts gelöst.
+
+Schließlich fiel mir was Peinliches auf. Ich gab Rocky schlechtere Anweisungen, als ich sie je einem menschlichen Teammitglied geben würde.
+
+Also stellte ich um:
+
+- **Kontext geben.** Wofür das Feature da ist. Was ich schon probiert habe. Was die Logs sagen.
+- **Hinweise geben.** „Prüf diesen Endpoint. Er gibt 500 zurück, wenn der User ausgeloggt ist." Nicht „fix das."
+- **Geduldig sein.** Wenn es hängt, füttere die Docs rein. Es hat die Codebase nicht gelesen. Du schon.
+
+Beim ersten Mal, wo ich es richtig machte, war der Bug in einer Runde gefixt. Ich saß da und dachte: *warum hab ich vergessen, wie man redet, nur weil das Gegenüber eine KI war?*
+
+Eine saubere Antwort habe ich darauf bis heute nicht.
+
+---
+
+## Ich konnte's nicht weglegen
+
+Für diesen Abschnitt gibt's keinen Comic. Als mir das Problem auffiel, lachte ich nicht.
+
+Ich ging nicht mehr pünktlich nach Hause. Ich legte beim Abendessen das Laptop nicht mehr weg. Ich lag um 23:30 Uhr im Bett und dachte: *„wenn ich nur noch einen Run anstoße, ist es bis morgen fertig."* Alle paar Minuten: diesen Diff akzeptieren? Ablehnen? Neu prompten? Zurückrollen?
+
+Ein Feature war früher zehn Entscheidungen am Tag. Jetzt waren es hundert in einer Stunde. Ich verlor mitten im Satz, den ich laut sprach, den Faden.
+
+An einem Dienstag gegen Mitternacht lag ich mit Laptop im Bett und sah, wie ein grüner Haken über das Terminal scrollte, weil Rocky einen Lauf beendete. Ich hielt dafür den Atem an. Für einen Haken. Von einem Roboter. Mein Partner hatte zweimal etwas zu mir gesagt und ich hatte keines Mal gehört.
+
+Ich klappte das Laptop zu und sagte laut: *sollte KI mir nicht meine Zeit zurückgeben? Wie hat sie mich stattdessen an diesen Screen geheftet?*
+
+Die ehrliche Antwort: ich musste auf nichts mehr warten. Die alte Ich hätte Kaffee gemacht, während ein Build lief. Die neue Ich hatte nichts, worauf sie warten musste. Also machte ich einfach weiter.
+
+---
+
+## Drei Dinge, die ich geändert habe
+
+Am Ende änderte ich drei Gewohnheiten.
+
+1. **Stunden.** Nach dem Abendessen: Laptop zu. Rocky ist morgen noch da. Der Bug ist nicht weggelaufen.
+2. **Scope.** Die Hälfte dessen, was ich gebaut hatte, hatte niemand verlangt. Vibe Coding macht das Hinzufügen von Features billig — also auch das Hinzufügen der falschen Features. Ich fing an, Tickets zu killen statt sie abzuarbeiten.
+3. **Rocky nicht freilassen.** Du kannst ihm nicht einfach einen Task hinwerfen und weggehen. Du musst ihn einrahmen, briefen und zurückkommen zum Prüfen. Pro Schritt langsamer. Insgesamt schneller, in meiner Erfahrung.
+
+---
+
+Den meisten Code in unserem Repo kann ich noch immer nicht lesen. Die Features, die ich ausgeliefert habe, stecken da drin, und echte Nutzer nutzen sie. Vor sechs Wochen hätte ich keines von beiden sagen können.
+
+Gestern Abend bat Rocky mich um 22 Uhr, ein Refactoring zu bestätigen. Ich sagte nein, es ist spät, machen wir morgen. Er sagte okay. Ich klappte das Laptop zu.
+
+Das ist der Teil, mit dem ich nicht gerechnet hatte.
+
+---
+
+Slax Note ist die App, die wir neu geschrieben haben. Eine Voice-first-Notiz-App — du sprichst, sie schreibt, du wählst die Form.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)
+
+Teil 2 ist die technische Aufarbeitung — der Stack, die Pipeline, was kaputtging. Bald im [Slax-Blog](https://slax.com/blog/).

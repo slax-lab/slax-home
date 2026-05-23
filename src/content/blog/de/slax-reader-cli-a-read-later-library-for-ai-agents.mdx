@@ -1,0 +1,129 @@
+---
+title: "Slax Reader CLI: Später-lesen-Bibliothek für KI-Agenten"
+description: "Ein CLI, das Slax Reader zum Lese-Speicher macht, aus dem jeder KI-Agent — Claude Code, Codex, Gemini CLI, Cursor — lesen und schreiben kann."
+pubDate: 2026-05-19T00:00:00.000Z
+tags: ['reader', 'cli', 'ai-agents']
+product: reader
+---
+
+Wir haben ein CLI für Slax Reader veröffentlicht, unsere Später-lesen-App. Das Interessante ist nicht das CLI selbst — sondern dass deine Lese-Bibliothek jetzt ein Werkzeug ist, das KI-Agenten ansteuern können. Bookmarken, auflisten, in den Prompt pipen — alles skriptbar.
+
+Repo: [github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli) (MIT). Installation und Nutzung unten.
+
+---
+
+## Warum ein CLI
+
+Die meisten KI-Agenten haben keinen Ort, an dem sie Dinge ablegen können.
+
+Bitte Claude Code, „speicher diesen Artikel für später" — er kann es nicht. ChatGPT fasst eine URL zusammen, kann den Link aber nirgends ablegen, wo du ihn morgen findest. Ein Browser-Agent, der deine Timeline scannt, hat keinen dauerhaften Speicher. Jede Konversation bleibt im Tool gefangen, in dem sie stattfand.
+
+Das CLI schließt diese Lücke. Slax Reader wird zum dauerhaften Lese-Speicher, aus dem jeder Agent — Claude Code, Claude Desktop, Codex, Gemini CLI, OpenClaw, Cursor, Windsurf — lesen und in den er schreiben kann.
+
+Konkret:
+
+- Browser-Agent scannt deine X-Timeline → `reader-cli add` speichert die Links.
+- Claude Code schreibt einen Text → ruft `reader-cli list --filter inbox` auf, um die heutigen Speicherungen als Quellmaterial zu ziehen.
+- Dein Wochenend-Skript zieht `reader-cli list --filter archive --json` der letzten 30 Tage und füttert deine eigene Pipeline.
+
+Die Bibliothek ist nicht mehr nur ein passiver Lesezeichen-Haufen. Sie wird zum Korpus, mit dem deine Agenten arbeiten.
+
+---
+
+## Was du damit machen kannst
+
+### 1. Filtern, nicht zusammenfassen
+
+Die meisten „KI liest lange Artikel für dich"-Tools springen reflexartig auf Zusammenfassen. Wir halten Filtern für nützlicher.
+
+Sag Claude Code: *„Nimm den langen Artikel, den ich heute Morgen gespeichert habe. Gib mir die 3 kontraintuitivsten Punkte — und 1 Punkt, dem ich vermutlich widerspreche."*
+
+Im Hintergrund läuft `reader-cli list --filter inbox --json`, der Agent wählt das passende Bookmark, dann `reader-cli get <id> --markdown` für den Inhalt. Die UUID siehst du nie.
+
+Du brauchst keine Zusammenfassung. Du musst wissen, ob der Artikel deine Zeit wert ist und welche 5 Minuten darin zählen.
+
+### 2. Stapelweise speichern nach Regel
+
+`reader-cli add` nimmt URLs, aber spannend wird es, wenn ein Agent auswählt:
+
+- „Scanne die HN-Frontseite. Speicher jeden Post mit über 200 Punkten im Archiv-Modus (voller Snapshot)."
+- „Beobachte meine X-Timeline. Speicher Links von den 8 Accounts, von denen ich am häufigsten speichere."
+- „Scanne die letzten 30 Posts dieser Substack-Publikation. Speicher alles mit 'agent' im Titel."
+
+Das ist Scraping. Der Unterschied: du beschreibst die Regel auf Deutsch, statt einen Scraper zu schreiben.
+
+### 3. Der RSS-Workflow, umgedreht
+
+Klassischer Reader-Workflow:
+
+1. N Feeds abonnieren.
+2. RSS-Reader zieht alles.
+3. Du scannst Schlagzeilen.
+4. Du speicherst Dinge für später.
+5. Du liest sie wirklich.
+
+Schritt 3 — „Schlagzeilen selber scannen" — ist die Aufgabe, die heute Sache der KI sein sollte.
+
+Umgedreht:
+
+1. Agent abonniert Feeds.
+2. Agent scannt, schickt dir einen Digest.
+3. Du zeigst auf die 3, die lesenswert sind.
+4. Agent speichert sie im Reader.
+
+Ein konkretes Beispiel, das ich selber laufen habe:
+
+- **Open-Source-LLM-Release-Tracking.** Der Agent scannt HuggingFace Trending, die Release-Seiten von Anthropic / Mistral / Meta / Qwen / DeepSeek, r/LocalLLaMA und arxiv-sanity. Er speichert jede neue Model-Card oder jedes Benchmark, das lesenswert ist, mit dem Tag `models`. Wöchentlicher Digest.
+
+Nach diesem Setup habe ich die meisten meiner RSS-Abos gestrichen. Nicht weil sie schlecht sind — sondern weil der Scan-Schritt nicht mehr mein Job sein sollte.
+
+### 4. Das vergangene Ich abfragen
+
+Jede Autorin erfindet das Rad neu. Du hast letzten Monat etwas gelesen, das eine Idee klar erklärt hat. Jetzt findest du es nicht mehr.
+
+Bevor du einen Text anfängst, frag Claude Code: *„Such in meinem Slax-Reader-Archiv alles zu Agent-Design-Patterns aus den letzten 90 Tagen."* Der Agent ruft `reader-cli list --filter archive --json` auf, filtert in seinem Kontext und liefert ein Research-Briefing aus deinem Archiv. Ohne dass du alles selbst neu liest.
+
+**Fortgeschritten:** Wenn du etwas liest, das einer aktuellen Position widerspricht, speicher es mit `#self-challenge`. Einmal pro Quartal durchgehen. Deine Meinungen entwickeln sich — und werden abfragbar.
+
+---
+
+## Ein paar Dinge zum Produkt
+
+Für die Skeptischen:
+
+- **Open Source, selbst hostbar.** Slax Reader selbst ist Apache 2.0 ([github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader)). Das CLI ist MIT. Jederzeit exportierbar.
+- **Unser Cashflow ist stabil, wir bleiben langfristig dran.** Mozilla hat Pocket 2025 eingestellt und vielen Nutzern ein Später-lesen-Trauma hinterlassen. Das ziehen wir dir nicht durch.
+- **Dauerhaftes Backup ist kostenlos.** Lesezeichen plus Volltext-Cache, für immer frei. Readwise, Instapaper Premium, Matter und das alte Pocket nehmen dafür Geld. Wir nicht.
+- **Volltextsuche und Markierungen sind kostenlos.** Gleiche Logik.
+- **Wir investieren laufend in plattformspezifische Parser.** X, Threads und Substack sind gut unterstützt. Auf chinesischer Seite gibt es eigene Parser für WeChat Official Accounts, Xiaohongshu, Weibo und Zhihu.
+- **iOS, Android, Web, Browser-Erweiterung.**
+
+---
+
+## Installation
+
+```bash
+# Ein Schritt: installiert das CLI und den KI-Agent-Skill
+npx @slax-lab/reader-cli@latest install
+
+# Authentifizieren (API-Key aus reader.slax.com → Settings → API Keys einfügen)
+reader-cli login
+
+# Nutzen
+reader-cli add https://example.com --tags "models,ai" --archive
+reader-cli list --filter inbox
+reader-cli get <bookmark-id> --markdown
+```
+
+Oder zeig deinem Agenten einfach den Install-Guide und lass ihn alles machen:
+
+> *„Help me install and set up Slax Reader CLI: https://github.com/slax-lab/slax-reader-cli/blob/main/docs/ai-agent-installation-guide.md"*
+
+---
+
+## Links
+
+- Repo & Docs: [github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)
+- Anmelden: [reader.slax.com](https://reader.slax.com)
+
+> Anmeldung über meinen Referral bringt dir ein paar Monate Pro: [r.slax.com/luca-reader](https://r.slax.com/luca-reader). Keiner der Workflows oben braucht Pro — dauerhaftes Backup, Volltextsuche und das CLI laufen alle im Free-Tier.

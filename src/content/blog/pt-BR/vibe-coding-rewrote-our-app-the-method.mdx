@@ -1,0 +1,343 @@
+---
+title: "Reescrevendo o Slax Note com IA: o retro completo"
+description: "Retro de uma PM sobre reescrever nosso app com IA. Trabalho dirigido por spec, Bug Tracker de verdade, e o que muda com regras, docs e humanos."
+pubDate: 2026-05-22T00:00:00.000Z
+tags: ['note', 'vibe-coding', 'ai-coding']
+product: note
+author: jane
+---
+
+Este retro vem de uma pilha de chats de grupo, uma pilha de docs de preparação, as notas da reunião de 18 de março e logs diários do meio de março até meados de abril.
+
+O objetivo não é narrar o passo a passo. São duas perguntas:
+
+1. Depois de 10 de março de 2026, qual foi a jornada interior de reescrever o [Slax Note](https://slax.com/note/) com IA codando?
+2. Desse experimento, o que vale a pena reaproveitar, e o que precisa ser desviado da próxima vez?
+
+## 1. A conclusão primeiro
+
+Reescrever o Slax Note com IA não foi um "a IA constrói o app inteiro enquanto a gente relaxa". Foi um trecho de empolgação, depois dúvida, depois frustração, depois ajustes de método, e finalmente confiança reconstruída.
+
+Em uma frase:
+
+> A IA realmente baixou o sarrafo de entrada. Mas o que decide se você entrega com eficiência não é "você sabe usar IA". É se você sabe definir o problema, restringir o contexto, gerenciar qualidade e construir a colaboração em volta disso.
+
+A coisa mais valiosa que tiramos desse reescreve não foi uma nova versão para iOS. Foi confirmar algumas coisas:
+
+- Designers e PMs podem ir além de escrever requisitos e aprovar builds — com IA, podem dirigir a implementação
+- A IA é ótima para esboçar rápido, preencher UIs e fazer correções pequenas e médias ou tentativas em lote
+- No momento em que você bate em fluxos reais de negócio, dispositivos reais, sincronização complexa e handoffs multiplataforma — a IA para de fechar o loop para você. Na verdade, sobe o sarrafo em specs, contexto, validação e code review
+- O que separou as pessoas depois não foi "quem sabe escrever código". Foi quem conseguia achar causa raiz, controlar regressões e transformar lições em coisas reaproveitáveis
+
+O formato real desse experimento: pegar o que era skill implícito de engenharia, dividir, e remontar como um fluxo que humanos e IA conseguem rodar juntos.
+
+## 2. Por que começamos a reescrever
+
+Puxe a linha do tempo um pouco mais para trás e dá para ver que isso não começou de fato no meio de março. Apareceu com clareza por volta de 10 de março de 2026.
+
+A conversa no time já era direta: usar o Slax Note como um experimento mais agressivo de IA codando. Algumas pessoas até levantaram a ideia de apagar a base de código inteira do Slax Note e deixar um time menor reconstruir e manter com IA. O enquadramento não era mais *"a IA pode nos deixar um pouco mais rápidos"*. Era *"isso é um jeito novo de construir produto."*
+
+Do meio de março em diante, o time parou de ver IA como uma ferramentazinha de produtividade e começou a levar a sério uma configuração mais agressiva:
+
+- Produto define o requisito
+- O requisito não é passado por camadas de engenharia
+- O designer ou PM usa IA para gerar, depurar e validar o código direto
+- Depois, revisão e correções de bug também passam pela IA, na medida do possível
+
+Mas havia uma pré-condição crítica:
+
+> Isso não era *"joga os requisitos para a IA e deixa ela improvisar do zero"*. Isso era um esforço de IA codando dirigido por spec.
+
+Antes do reescreve começar, o Yujie, nosso engenheiro, pegou a base de código existente e extraiu as estruturas principais, fronteiras de capacidade, lógica de página, contratos de API e relações entre módulos para um conjunto de arquivos de spec que a IA conseguia consumir. Daí em diante, o trabalho não era um vale-tudo. Era: leia esse spec, execute esse passo.
+
+Isso muda tudo:
+
+- A IA não gera no vácuo — ela consome contexto engenheirado para ela
+- O designer e o PM não encaram um repo complexo inteiro — trabalham contra descrições de tarefa estruturadas
+- Quando algo dá errado, você não volta para descrição verbal — volta para o spec e ajusta
+
+Em outras palavras: esse experimento não provou "IA significa que não precisamos de engenheiros". Provou que engenheiros conseguem codificar a experiência, o entendimento arquitetural e o conhecimento do sistema em specs, e aí um grupo muito mais amplo de pessoas consegue entrar na implementação via IA.
+
+## 3. O que de fato fez o reescreve andar: a colaboração por baixo
+
+Se você olha de fora, é fácil ler como "PM + designer + IA reescreveram o app".
+
+A versão mais honesta: o reescreve andou porque engenheiros, time de backend e IA estavam todos sustentando juntos.
+
+### 1) Engenheiros transformaram o sistema em spec
+
+Esse foi o passo que sustentou o peso.
+
+O Yujie pegou o repo existente e transformou estrutura de produto, relações de módulo, lógica de página, info de API e restrições de implementação espalhadas em cerca de uma dúzia de arquivos de spec. Depois disso, IA codando não era geração cega. Era execução passo a passo contra um spec.
+
+Por que isso importou:
+
+- Reduziu alucinação e refactors não solicitados
+- Baixou o sarrafo para não engenheiros se envolverem com engenharia complexa
+- Transformou o desenvolvimento de "tentativa e erro por prompt" em "execução contra spec"
+
+### 2) Engenheiros escreveram o conhecimento implícito
+
+Além dos arquivos de spec, muito know-how crítico não vive em doc de requisito. Aparece durante o trabalho. O time foi adicionando coisas como:
+
+- O que essa stack consegue e não consegue fazer para certas UIs ou interações
+- Onde simplificar, onde absolutamente não se deve forçar
+- As restrições reais em torno de certos campos de API, convenções de nomenclatura, tratamento de estado
+- Quais problemas precisam de trabalho de causa raiz primeiro, quais podem ser pulados
+
+Toda vez que esse tipo de coisa entrava num doc, a IA ficava mais firme e a coordenação do time ficava mais rápida.
+
+### 3) Backend esteve no loop o tempo todo
+
+Além do trabalho de spec no frontend e da caça aos bugs, esse reescreve continuou se movendo porque o Yaokun, nosso engenheiro de backend, estava profundamente envolvido.
+
+**No começo: prompts, extração de hotwords, multilíngue.** Em 10 de março, o Yaokun já estava ajustando o prompt de extração de hotwords, melhorando o suporte a português e inglês, e discutindo conosco coisas como qualidade da extração, velocidade de processamento e aceitabilidade. Desde o primeiro dia, o trabalho dele não era só APIs de backend — era a capacidade de IA e a qualidade da saída do próprio produto.
+
+**No meio do projeto: adição de APIs, migrações, documentação.** À medida que batíamos em fluxos reais de negócio, ele seguiu estendendo — migrando e adicionando endpoints, preenchendo a doc das APIs, ajudando a gente a entender as restrições reais do lado do servidor. IA codando não consegue entrar em negócio real chutando APIs.
+
+**No final: trazendo docs de API / Apifox / MCP para o workflow de IA.** No fim, o suporte dele já tinha evoluído além de Q&A. A gente estava fazendo a IA cruzar as docs do Apifox (uma ferramenta de spec de API) para analisar problemas, atualizando o cache da doc antes de depurar contra o spec, configurando o MCP do Apifox e recebendo apontamentos diretos dele sobre erros de parâmetro, requisições duplicadas, corpos de requisição mal formados.
+
+> Esse reescreve não se moveu porque "a IA estava escrevendo código". Se moveu porque engenheiros humanos continuaram dando à IA os limites, contexto, convenções e feedback certos.
+
+### 4) A vitória foi colaboração entre papéis
+
+Olhando para trás, o reescreve deu certo não porque um papel ficou mais forte. Deu certo porque:
+
+- Engenheiros transformaram o conhecimento do repo existente em spec
+- Produto / design dirigiu implementação e validação via IA
+- Backend seguiu estendendo APIs, docs, detalhes de interação e diagnósticos
+- Todo mundo junto empurrou a pergunta de "a IA consegue escrever isso" para "o produto consegue rodar de fato".
+
+A descrição mais honesta: foi uma prática combinada de dirigida-por-spec, dirigida-por-doc, coordenação apertada frontend/backend e colaboração humano-IA.
+
+## 4. A jornada interior: como caminhei nesse mês
+
+### 1) Kickoff: animada, empolgada, ainda bem insegura
+
+De 10 a 18 de março, o clima era animado, mas não confiante.
+
+De um lado, o time estava se preparando e alinhando. A designer começou a instalar e aprender Claude Code. Debatíamos até onde o reescreve com IA deveria ir. Nativo vs multiplataforma, nuvem vs local — tudo na mesa.
+
+Do outro lado, minhas primeiras reações eram bem cruas:
+
+- *"Galera, o tempo mudou."*
+- *"Nem sei usar controle de versão, e vocês querem que eu mantenha um produto?"*
+- *"Isso é uma loucura."*
+
+Isso captura o estado honestamente. Não era "eu sabia que ia dar certo". Mais como animada e chocada ao mesmo tempo, querendo tentar e também sentindo que era agressivo demais.
+
+A mudança mais importante desse trecho não foi código. Foi um clique mental. Implementação costumava ser o território de engenharia. Pela primeira vez, a IA abriu esse território para produto e design.
+
+Em 18 de março, a primeira demo construída a partir das docs já tinha um formato. A sensação naquele ponto era mais próxima de:
+
+- Isso não é fantasia
+- A IA não constrói só demos de brinquedo
+- Dê docs claras, contexto e um objetivo, e ela consegue mesmo esboçar uma UI de produto e fluxo principal rapidamente
+
+Mas a dor do trecho seguinte já estava semeada ali. A IA é ótima em "fazer alguma coisa". Não é a mesma coisa que "fazer certo, fazer estável, fazer ser produto".
+
+### 2) O empurrão: de "ver a IA escrever código" para entregar de verdade
+
+De 20 a 23 de março, o clima mudou.
+
+Os dias anteriores eram "ela consegue fazer". Agora a pergunta era "o que ela faz é usável de verdade". O time parou de bater em problemas abstratos e começou a bater em problemas bem específicos e bem cansativos:
+
+- Detalhes de UI que não encaixavam
+- No simulador parece tudo bem, no aparelho quebra
+- Pluga APIs do backend e problemas de performance, interação e estado aparecem todos juntos
+- Conserta um lugar, quebra outro
+- A IA jura que está corrigido. O resultado está longe do pedido.
+
+Na minha reflexão de 23 de março eu já tinha nomeado a dor central.
+
+**Primeira camada de revés: problemas se encadeiam em outros problemas.** O que parece um detalhe de interação pode puxar conflitos de gesto, performance de página, escolhas de navegação, tradeoffs ScrollView vs List. A IA não é incapaz de resolver — mas costuma te entregar uma solução local que *meio que* funciona sem estar realmente certa.
+
+**Segunda camada de revés: se você não entende a camada de baixo, não consegue dirigir a IA.** Comecei a ver que o problema real não era que a IA não estivesse se esforçando. O problema real era que se eu não entendesse o interior do iOS, não conseguia dizer se a solução da IA era ótima, segunda melhor ou um band-aid.
+
+**Terceira camada: um upgrade cognitivo — alguns requisitos você não força a passar.** Quando você está dentro da IA codando, começa a entender o que os engenheiros querem dizer com "precisamos mudar a abordagem". Algumas coisas fazem sentido pelo ângulo de produto mas são completamente antieconômicas dada a trilha técnica atual. Forçar mais só te tranca num loop de baixa eficiência.
+
+### 3) Ajustando: formando meu próprio playbook, chega de cabeça baixa
+
+Fim de março, o estado mudou. "Problemas me empurrando" virou "eu sei como trabalhar com IA".
+
+Algumas viradas claras:
+
+**Virada um: aceitar que nem todo problema é resolvido hoje.** Coisas que vinham errando o alvo depois de muitas tentativas — pula, segue. Proteja o fluxo principal. Proteja o que dá para demoar. Proteja o que roda no aparelho. Um dos maiores riscos de IA codando é a ilusão de que *está quase lá*, que te puxa para microajustes sem fim.
+
+**Virada dois: escreva as lições em docs, não só no chat.** Contexto de chat não é suficiente. Descrição na hora não é suficiente. Escreva as restrições. Só assim a IA fica confiavelmente estável. Pare de reensinar a IA toda vez. Transforme as regras num ativo.
+
+**Virada três: fluência em ferramenta também é produtividade.** Muitos "bugs" acabam sendo: eu estava na pasta errada, o Xcode estava compilando um arquivo antigo, eu não conseguia ler a mensagem de erro em inglês, a janela de contexto estava ficando longa e eu tinha medo de abrir uma nova. O sarrafo da IA codando não é só "você sabe escrever um requisito". É "você sabe usar todo o ambiente de desenvolvimento".
+
+### 4) Convergência: de "roda" para "lança", do experimento solo para trabalho de time
+
+Do começo de abril até 10 de abril foi outra virada visível. Não éramos mais um projeto de demo. Estávamos empurrando para entrega real: demos presenciais, teste em aparelho real, TestFlight, uso pelo time, feedback de várias pessoas.
+
+A maior mudança: o centro do problema saiu de *"a página não está pronta"* para *"o uso real está expondo problemas reais"*.
+
+**Contagem de bugs explodiu.** Quando chegou na mão de mais colegas de time, problemas se acumulavam rápido. Em 10 de abril, percebi que nossa gestão de bug tinha que graduar de "rastreado num doc" para um livro razão estruturado. O Bug Tracker saiu de um doc longo para uma tabela multidimensional. Gestão de projeto subiu de nível de verdade.
+
+**Comecei a separar "pronto para demo" de "pronto para release".** Demos iniciais pareciam 80% completas em recurso e dava para mostrar pessoalmente. Mas TestFlight, lançamento na loja e colocar na frente de mais gente — os bugs ali são uma categoria de magnitude diferente. A IA te leva até "parece que funciona" rápido. A distância entre isso e "lança e fica de pé" é um sarrafo inteiro de qualidade de engenharia.
+
+**Workflow de time também subiu.** Não era mais só "peça à IA para mudar". Começamos a fazer PRs, reviews, code reviews, deploys automáticos e loops de correção apropriados. Eu disse explicitamente: usar Claude Code para escrever, usar Codex para revisar. IA codando escalável não é um modelo escrevendo de cima a baixo. É IAs diferentes lidando com partes diferentes do fluxo.
+
+### 5) O sprint: a parte mais difícil não foi desenvolvimento, foi causa raiz sistêmica
+
+De 13 a 17 de abril foi um trecho clássico de "água funda de engenharia". Os problemas não eram mais UI de superfície ou lógica de página única. Eram sistêmicos:
+
+- Uma cascata de token 401 matando silenciosamente toda a sincronização
+- Tipos de campo errados na sincronização de sessão, nomenclatura errada, caminhos de sync duplicados
+- Mismatch de tipo em audioFileId fazendo o PUT note falhar repetidamente
+- Race condition no upload sobrescrevendo o estado de sucesso para "reconhecendo"
+- `.refreshable` do SwiftUI cancelando tasks e causando cadeias de falhas
+- Limites de tempo de background task cortando ASR no meio
+- Estado de arquivado vindo do Android não sincronizando para o iOS
+
+Esse trecho é desmoralizante porque toda correção puxa outro problema de mecanismo para fora. O bug visível está em cima de uma suposição arquitetural que não se sustenta. A IA ajuda no diagnóstico, mas fechar o loop de verdade ainda exige habilidades fortes de decomposição de problema e verificação.
+
+Aqui, não éramos mais "pessoas que sabem fazer a IA escrever código". Estávamos ficando bons em: ler logs, achar causa raiz, fazer correções mínimas, controlar regressões, escrever resumo de PR, montar loops de correção reais.
+
+O primeiro trecho provou que a IA pode construir coisas. O segundo trecho provou que estávamos aprendendo a transformar coisas em produto.
+
+## 5. O arco psicológico real
+
+Se você corta a camada técnica e só acompanha o estado mental, fica assim:
+
+1. **Início:** Animada mas insegura. Coisas que antes exigiam envolvimento de engenharia, eu conseguia simplesmente fazer. A IA não era um brinquedo — produzia mesmo UI e funções. Ao mesmo tempo, a configuração toda parecia agressiva demais, com um fundo de *"calma, isso é permitido?"*
+
+2. **Logo em seguida:** Dúvida se instala. Quando você bate em APIs, dispositivos reais, estado complexo e fidelidade de detalhe, os problemas superam a expectativa. A IA soa confiante. O resultado costuma não ser ótimo. *Será que superestimei essa trilha?*
+
+3. **Meio:** Mais frustrada. A frustração real não é contagem de bug — é que sem entender a camada de baixo, não consigo dirigir a IA do jeito que um engenheiro dirigiria. Fico presa testando, dando feedback, testando de novo. O custo psicológico mais alto do experimento está aqui.
+
+4. **Mais tarde:** Ajustando o playbook. Para de exigir solução de uma tacada. Estagia os objetivos — fluxo principal primeiro, depois detalhes. Pronto para demo primeiro, pronto para release depois. Escreve regras em docs. Move bugs para um tracker. Traz a IA também para o review.
+
+5. **Agora:** Confiança reconstruída, mas não ingênua. Acerte o processo, deixe o spec claro, faça a verificação rigorosa — a IA realmente consegue fazer muita coisa que antes não dava.
+
+## 6. As lições que mais vale carregar adiante
+
+### 1. Não trate a IA como um "auto-programador". Trate como um colaborador de alta execução que precisa de restrições.
+
+O perfil da IA é nítido: rápida, prolífica, disposta a tentar de novo, te entrega explicações que soam confiantes. Os problemas são igualmente nítidos: propensa a ótimos locais, propensa a cavar pela trilha errada, confiante demais, e boa em "consertou um, quebrou outro".
+
+Jeito melhor de usar: não jogue a tarefa por cima do muro e espere. Esclareça o objetivo, aperte o contexto, defina o escopo da mudança, verifique a cada rodada.
+
+### 2. Docs não são auxiliares. São o material central da IA codando.
+
+Esse experimento deixou uma coisa muito clara: **o teto da IA codando é em grande medida definido pela qualidade das suas docs.**
+
+Docs boas melhoram diretamente a compreensão do requisito, a fidelidade de UI, o alinhamento de API, a consistência entre múltiplas pessoas, e a rapidez com que novos problemas são tratados. O reverso: docs ruins e a IA está chutando. Quando ela chuta, retrabalho é praticamente garantido.
+
+No mínimo, docs devem ter três camadas:
+
+- **Spec do produto:** objetivo, fronteiras, prioridade
+- **Restrições de implementação:** nomenclatura, campos de API, máquinas de estado, convenções de componente
+- **Lições:** buracos em que já pisamos, trilhas que proibimos retentar
+
+### 3. O verdadeiro sumidouro de tempo não é "escrever". É "verificar".
+
+No começo você acha que a parte mais difícil da IA codando é a geração. Faz por tempo suficiente e percebe que o tempo vai para verificação:
+
+- Verificar que bate com o requisito
+- Verificar que não quebrou outras funções
+- Verificar que simulador e aparelho se comportam igual
+- Verificar que o estado multiplataforma é consistente
+- Verificar que a correção não é só de superfície
+
+A IA baixou o custo de escrever código. Isso fez o custo de verificação importar mais, não menos.
+
+### 4. Quando a contagem de bug subir, estruture na hora. Não continue isso no chat e em docs longas.
+
+Levantar o Bug Tracker em 10 de abril foi a decisão certa. Quando o volume escala, sem estrutura significa: o mesmo bug é discutido várias vezes, prioridades se embaralham, ownership fica confuso, status de correção não é rastreável, e fica perdido qual versão contém o quê.
+
+No minuto em que você entra em testes com várias pessoas: número, prioridade, responsável, status atual, caminho de reprodução, versão alvo. Desde o primeiro dia.
+
+### 5. "Você sabe dirigir a IA" define o teto de eficiência
+
+Não saber escrever código não quer dizer que você não consegue fazer IA codando. Mas se você tem zero entendimento da camada de baixo, há um teto real: você consegue descrever sintomas, mas não consegue julgar a qualidade da solução, não consegue identificar uma correção falsa, e não consegue mudar de abordagem proativamente.
+
+Vale a pena investir nas duas trilhas:
+
+**Trilha A: subir o letramento de engenharia dos papéis não engenheiros.** No mínimo: como ler logs, como ler relações entre arquivos, como ler a cadeia de build, como reconhecer erros comuns.
+
+**Trilha B: fazer a IA preencher a "camada de explicação" e a "camada de auditoria".** Por exemplo: exigir que a IA gere uma hipótese de causa raiz, escopo da mudança, pontos de risco, passos de verificação e método de rollback.
+
+### 6. A eficiência real da IA codando não é sobre prompts espertos
+
+Quanto mais rodamos isso, mais ficou claro:
+
+> O que torna a IA codando eficiente de fato não é prompt mágico. É a IA ser jogada num sistema com convenções, docs, ferramentas e feedback humano.
+
+O que de fato acabamos rodando não foi "fale o requisito para a IA". Foi: definir a fronteira com spec, definir restrições com docs, plugar convenções de API via Apifox / MCP, deixar colegas humanos corrigirem e complementarem, e então fazer a IA executar contra todo esse material.
+
+### 7. Chegue num loop funcionando primeiro. Persiga fidelidade depois.
+
+Muita dor vem de um problema real: antes de ter um loop estável, perseguir detalhes cedo demais te arrasta para tuning de baixa eficiência.
+
+A ordem certa:
+
+1. Fluxo principal roda
+2. Funciona no aparelho
+3. Estado central é estável
+4. Testável por várias pessoas
+5. *Aí* empurre UI, animação, polimento de interação
+
+### 8. Não pule o code review. Quanto mais fundo você está, mais importante fica.
+
+No fim já estávamos claramente em um modo novo: não só IA escrevendo — também IA fazendo code review, caçando riscos, preenchendo testes, escrevendo notas de PR.
+
+O que diz algo importante: à medida que um projeto de IA codando avança, a importância do review sobe, não desce.
+
+Se você quer escalar isso, antecipe o review como padrão: toda escrita é revisada, fluxos críticos exigem notas de causa raiz, mudanças importantes saem com plano de verificação, correções de alto risco têm controle explícito de escopo de mudança.
+
+## 7. A lição mais valiosa
+
+A lição mais valiosa não foi lançar uma versão. Foi chegar mais perto de um entendimento real:
+
+1. **IA codando não é milagre. Também não é gimmick.** Não é tão automática quanto as pessoas pensam. Também não é o brinquedo só-para-demo que os de fora suspeitam.
+
+2. **As fronteiras entre produto, design e engenharia vão ser redesenhadas.** Não se trata de quem substitui quem. Se trata de quem consegue chegar no palco do problema mais rápido — é quem tem o empurrão.
+
+3. **A competição do futuro não é "quem usa IA". É quem constrói o melhor sistema de colaboração com IA.** Sistema de docs, de restrições, de review, de gestão de bug, de teste e release.
+
+4. **Não engenheiros podem empurrar para dentro da implementação.** Antes, produto tentava entrar na implementação e era bloqueado por ferramenta e detalhe técnico. Foi difícil, mas provou o ponto: você não é mais só a pessoa que entrega requisito por cima do muro. Você pode dirigir as coisas até o lançamento.
+
+## 8. Sugestões para o próximo experimento de IA codando
+
+**Antes do kickoff:**
+
+- Defina o objetivo com precisão: demo, showcase presencial, TestFlight ou produção
+- Trave prioridades: fluxo principal > estabilidade > detalhe de UI
+- Prepare os docs de spec, docs de API, restrições de design
+
+**Durante o desenvolvimento:**
+
+- Escreva as lições em docs todo dia. Não deixe no chat.
+- Duas ou três tentativas falhas no mesmo problema? Pule ou mude a abordagem.
+- Toda mudança de IA deve vir com pontos de risco e passos de verificação
+- Problemas críticos precisam de trabalho de causa raiz. Não só remende o sintoma.
+
+**Quando entrar em teste:**
+
+- Levante o Bug Tracker imediatamente
+- Estratifique problemas como P0 / P1 / P2
+- A cada rodada, só feche os itens de prioridade mais alta. Não fique guloso.
+- Traga review por IA, convenções de PR, verificação de regressão
+
+**Antes do release:**
+
+- Seja explícito sobre a linha entre "demoável" e "lançável"
+- Sync, login, pagamento, áudio, gestão de estado — caminhos de prioridade máxima
+- Qualquer coisa no caminho central de alta frequência se verifica em aparelho real. Não confie no simulador.
+
+## 9. Linha final
+
+Se você só olha para o processo, esse reescreve foi áspero. Doloroso, até. Se você olha para o resultado, valeu a pena.
+
+Os próximos desafios continuam aí. Dessa vez reescrevemos o app. Como achar requisitos novos e como iterar o produto via IA — ainda não tentamos.
+
+---
+
+Slax Note é o app que reescrevemos com IA — um app de notas que começa pela voz. Você fala, ele escreve, você escolhe a forma que quer.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)

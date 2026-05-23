@@ -1,0 +1,129 @@
+---
+title: "Slax Reader CLI: thư viện đọc-sau cho các AI agent dùng"
+description: "Một CLI biến Slax Reader thành kho đọc bền vững mà mọi AI agent — Claude Code, Codex, Gemini CLI, Cursor — đều có thể đọc và ghi vào."
+pubDate: 2026-05-19T00:00:00.000Z
+tags: ['reader', 'cli', 'ai-agents']
+product: reader
+---
+
+Chúng tôi vừa ra một CLI cho Slax Reader, ứng dụng đọc-sau của chúng tôi. Điểm thú vị không nằm ở CLI — mà ở chỗ thư viện đọc của bạn giờ là công cụ hạng nhất mà AI agent có thể gọi. Bookmark, list, và pipe-vào-prompt đều script được.
+
+Repo: [github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli) (MIT). Cài đặt và cách dùng ở dưới.
+
+---
+
+## Vì sao cần một CLI
+
+Phần lớn AI agent chẳng có chỗ nào để chứa đồ.
+
+Bảo Claude Code "lưu bài này để sau" — nó không lưu được. ChatGPT tóm tắt được một URL nhưng không ghi link vào bất kỳ chỗ nào để ngày mai bạn tìm. Một browser agent đang quét timeline cho bạn cũng không có kho bền. Mọi hội thoại bị nhốt trong chính công cụ nó xảy ra.
+
+CLI lấp khe đó. Slax Reader trở thành kho đọc bền mà mọi agent — Claude Code, Claude Desktop, Codex, Gemini CLI, OpenClaw, Cursor, Windsurf — đều có thể đọc và ghi vào.
+
+Cụ thể:
+
+- Browser agent quét timeline X của bạn → `reader-cli add` lưu các link.
+- Claude Code đang nháp một bài → gọi `reader-cli list --filter inbox` để rút các bài lưu hôm nay làm tư liệu.
+- Script cuối tuần của bạn rút `reader-cli list --filter archive --json` trong 30 ngày qua và đẩy vào pipeline riêng của bạn.
+
+Thư viện thôi là đống bookmark thụ động. Nó thành một kho tài liệu mà agent của bạn làm việc được.
+
+---
+
+## Bạn có thể làm gì với nó
+
+### 1. Lọc, đừng tóm tắt
+
+Phần lớn công cụ "AI đọc bài dài giùm bạn" mặc định là tóm tắt. Chúng tôi thấy lọc hữu ích hơn.
+
+Bảo Claude Code: *"Lấy bài dài tôi lưu sáng nay, cho tôi 3 luận điểm trái khoáy nhất và 1 luận điểm tôi có lẽ sẽ không đồng tình."*
+
+Bên dưới, agent chạy `reader-cli list --filter inbox --json`, chọn bookmark đúng, rồi `reader-cli get <id> --markdown` để rút nội dung. Bạn không bao giờ thấy UUID.
+
+Bạn không cần bài bị thu gọn. Bạn cần biết nó có đáng thời gian không, và 5 phút nào trong đó là quan trọng.
+
+### 2. Lưu hàng loạt theo quy tắc
+
+`reader-cli add` nhận URL, nhưng workflow thú vị là để agent đứng ra chọn:
+
+- "Quét trang nhất HN, lưu mọi bài trên 200 điểm ở chế độ archive (snapshot đầy đủ)."
+- "Canh timeline X của tôi. Lưu link từ 8 tài khoản tôi hay lưu nhất."
+- "Quét 30 bài mới nhất của Substack publication này. Lưu bài nào có chữ 'agent' trong tiêu đề."
+
+Đây là scraping. Khác biệt là bạn mô tả quy tắc bằng tiếng Anh đời thường thay vì viết scraper.
+
+### 3. Workflow RSS, đảo ngược
+
+Workflow đọc truyền thống:
+
+1. Đăng ký N feed.
+2. RSS reader kéo tất cả về.
+3. Bạn lướt tiêu đề.
+4. Bạn lưu thứ để đọc sau.
+5. Bạn thật sự đọc chúng.
+
+Bước 3 — "tự lướt tiêu đề" — là phần giờ đáng giao cho AI.
+
+Đảo lại:
+
+1. Agent đăng ký feed.
+2. Agent quét, gửi bạn một bản tin tóm.
+3. Bạn chỉ vào 3 bài đáng đọc.
+4. Agent lưu chúng vào Reader.
+
+Một ví dụ cụ thể tôi đang chạy:
+
+- **Theo dõi phát hành LLM mã nguồn mở.** Agent quét trending HuggingFace, các trang phát hành của Anthropic / Mistral / Meta / Qwen / DeepSeek, r/LocalLLaMA, và arxiv-sanity. Lưu mọi model card hoặc benchmark mới đáng đọc, gắn thẻ `models`. Bản tin tuần.
+
+Sau khi cấu hình xong, tôi bỏ phần lớn đăng ký RSS. Không phải vì chúng dở — vì bước quét không nên là việc của tôi nữa.
+
+### 4. Truy vấn bạn-trong-quá-khứ
+
+Người viết nào cũng phát minh lại bánh xe. Tháng trước bạn đọc thứ gì đó giải thích một ý rất rõ. Giờ tìm không ra.
+
+Trước khi bắt đầu một bài, hỏi Claude Code: *"Trong kho lưu trữ Slax Reader của tôi, tìm mọi thứ về mẫu thiết kế agent trong 90 ngày qua."* Agent gọi `reader-cli list --filter archive --json`, lọc trong context của nó, và trả về bản tóm nghiên cứu từ bạn-trong-quá-khứ. Không phải đọc lại cả kho.
+
+**Nâng cao:** mỗi khi bạn đọc thứ gì đó mâu thuẫn với quan điểm hiện tại của bạn, lưu với `#self-challenge`. Mỗi quý, đọc lại. Đó là quan điểm của bạn tiến hoá, làm thành truy vấn được.
+
+---
+
+## Vài thứ về sản phẩm
+
+Cho người hoài nghi:
+
+- **Mã nguồn mở, self-host được.** Bản thân Slax Reader theo Apache 2.0 ([github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader)). CLI theo MIT. Xuất dữ liệu bất cứ lúc nào.
+- **Dòng tiền của chúng tôi ổn định và chúng tôi cam kết vận hành dài hạn.** Pocket bị Mozilla khai tử năm 2025 và để lại không ít người chấn thương vì bị bỏ rơi giữa đường đọc-sau. Chúng tôi sẽ không làm bạn vậy.
+- **Sao lưu vĩnh viễn miễn phí.** Bookmark + cache toàn văn, miễn phí mãi mãi. Readwise, Instapaper Premium, Matter và Pocket cũ đều thu phí cho cái này. Chúng tôi thì không.
+- **Tìm kiếm toàn văn và đánh dấu miễn phí.** Cùng lý do.
+- **Chúng tôi liên tục đầu tư cho parser theo nền tảng.** X, Threads và Substack được hỗ trợ tốt. Phía Trung văn chúng tôi có parser chuyên cho WeChat Official Accounts, Xiaohongshu, Weibo và Zhihu.
+- **iOS, Android, web, tiện ích trình duyệt.**
+
+---
+
+## Cài đặt
+
+```bash
+# Một bước: cài CLI và skill cho AI agent
+npx @slax-lab/reader-cli@latest install
+
+# Xác thực (dán API key từ reader.slax.com → Settings → API Keys)
+reader-cli login
+
+# Dùng
+reader-cli add https://example.com --tags "models,ai" --archive
+reader-cli list --filter inbox
+reader-cli get <bookmark-id> --markdown
+```
+
+Hoặc cứ chỉ agent vào hướng dẫn cài và để nó làm toàn bộ:
+
+> *"Giúp tôi cài và cấu hình Slax Reader CLI: https://github.com/slax-lab/slax-reader-cli/blob/main/docs/ai-agent-installation-guide.md"*
+
+---
+
+## Liên kết
+
+- Repo & tài liệu: [github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)
+- Đăng ký: [reader.slax.com](https://reader.slax.com)
+
+> Đăng ký qua referral của tôi tặng bạn vài tháng Pro: [r.slax.com/luca-reader](https://r.slax.com/luca-reader). Không workflow nào ở trên cần Pro — sao lưu vĩnh viễn, tìm kiếm toàn văn và CLI đều chạy trên gói miễn phí.

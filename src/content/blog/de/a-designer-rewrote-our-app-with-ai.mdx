@@ -1,0 +1,178 @@
+---
+title: "Designerin, die unsere App mit KI neu geschrieben hat"
+description: "Ein Monat als UI-Designerin, die Slax Note mit Claude Code neu schreibt. Wo die KI riet, wo sie Dinge kaputt machte — und das Regelbuch dafür."
+pubDate: 2026-05-22T00:00:00.000Z
+tags: ['note', 'vibe-coding', 'ai-coding']
+product: note
+author: lin-chen
+---
+
+Ich bin UI-Designerin. Code lebte schon immer auf einem Planeten, den ich nicht besuche. Dann sagte mein Chef eines Tages: Du und der PM, schreibt [Slax Note](https://slax.com/note/) mit KI neu. Ich saß da, eine Sekunde lang. *Kann ich das wirklich?*
+
+## 1. Anfangs hielt ich es für einen Gott
+
+Beim ersten Mal war ich umgehauen. Ein Entwickler richtete Claude Code ein (ich nenne es ab jetzt einfach „es"), gab uns eine kurze Tour und ließ uns laufen.
+
+Ich fing klein an. Das Mitglieder-Modal in der Slax Note Web-App — eine statische Seite. Ich warf das Design rein. Es generierte etwas, das in etwa stimmte. Ein paar Anpassungen und es saß. *So schwer ist Code ja gar nicht,* dachte ich.
+
+Dann starteten wir das Projekt richtig. Ich gab ihm die Engineering-Dokumente. Es zog das ganze Gerüst hoch. Die App lief. Die Hauptfunktionen waren da. Mein Vertrauen stieg eine Stufe weiter.
+
+## 2. Bald trieb es mich in den Wahnsinn
+
+### 2.1 Es rät gern
+
+Am Anfang war ich auf UI-Treue fixiert. Ich stellte eine Design-Spec zusammen, koppelte lanhu-mcp dran (Lanhu ist ein chinesisches Design-Handoff-Tool, ähnlich Zeplin), und bat es, die Werte aus Lanhu zu übernehmen. Es ignorierte die Spec. Es riet.
+
+Eine Linkfarbe entschied es „fühlt sich grau an". Die Spec sagte orange-braun.
+
+Abstände, wenn nicht ausdrücklich notiert, erfand es eine Zahl. Ich sagte nein. Es änderte. Immer noch falsch. Wir gingen ein paar Runden hin und her. Dann öffnete ich die Designdatei und fand den Wert dort die ganze Zeit annotiert. Es hatte einfach nicht hingesehen.
+
+Lektion: sag ihm, dass es die Spec *vor* dem Code-Schreiben prüft. Wenn du das überspringst, zahlst du es in Extra-Runden.
+
+Wenn du ein Design mikroskopisch genau beschreibst (wie unten), im Stil eines Datenblatts, trifft es die Umsetzung. Nicht gerade designerfreundlich, aber es funktioniert:
+
+> **Der Aufnahme-Button auf der Startseite:** Ein Kapsel-Button schwebt 50pt über der unteren Kante. 140pt breit, 74pt hoch. Dezenter Schatten — sichtbar, nicht schwer. In der Kapsel zwei runde Buttons. Der linke sitzt mit 8pt Padding: ein 62pt kreisförmiger Aufnahme-Button, Hintergrund-Gradient von oben nach unten von `#04EAC5` zu `#00BEC9`, Aufnahme-Icon zentriert. Pressed-State legt 8% `#000000` darüber. Der rechte hat ebenfalls 8pt Padding: ein 54pt kreisförmiger Text-Eingabe-Button, `#FFFFFF` Hintergrund, Text-Icon zentriert. Pressed-State: `#4D4D4D` 8%.
+
+Später probierte ich diesen Prompt, um ein Notiz-Poster zu generieren. Alles passte zur Spec, außer die Position war nicht zentriert. Gut genug. Was ich rausgefunden habe: schreib das einmal ins Spec-Dokument, nicht jedes Mal neu:
+
+> Setze die xx-Seite strikt nach der Designdatei um. Pixelgenau. Layout, Farbe, Abstände, Schrift oder Icon-Position nicht eigenmächtig verändern.
+>
+> Regeln:
+>
+> 1. Seitenstruktur, Hierarchie und Layout exakt übernehmen.
+> 2. Farben, Schriftgrößen, Abstände, Eckradien, Schatten — passend zum Design.
+> 3. Buttons, Inputs, Karten, Navigation — Position und Größe passend.
+> 4. Nur das bauen, was im Design steht. Keine Extras hinzufügen.
+> 5. Code muss laufen, strukturiert sein, kommentiert, ohne Fehler.
+
+### 2.2 Es will gern „helfen"
+
+Du bittest es, einen kleinen Bug zu fixen. Es refaktoriert „hilfsbereit" den Code drumherum. Jetzt ist die Funktion kaputt, die eben noch lief.
+
+Du gehst zurück. Es fixt das. Es fasst „hilfsbereit" noch was anderes an.
+
+Wie wenn du einen Handwerker bittest, eine Wand zu flicken, und er sagt: *„Ich schieb auch gleich diesen Schrank — sieht besser aus."* Und dann ist hinter dem Schrank eine Leitung kaputt.
+
+Also machte ich eine Regel: bevor du Code anfasst, sag mir, was du ändern willst und was du in Ruhe lässt. Ich nicke ab, dann handelst du. Danach lief es viel besser.
+
+### 2.3 Es merkt sich nicht, was es letztes Mal gelernt hat
+
+Damit habe ich nicht gerechnet.
+
+Jede neue Konversation, wie Amnesie. Das Loch von letztem Mal? Gleiches Loch, diesmal wieder.
+
+Beispiel: Modale.
+
+iOS hat zwei Wege für Modale — das System-Modal und ein eigenes, vollflächiges, das du selbst baust. Das System-Modal bringt eigene Eckradien und Ränder mit. Egal was du ihm sagst, das Ergebnis passt nicht zum Design.
+
+Beim ersten Mal ließ ich es umstellen. Zweite neue Seite, wieder System-Modal. Umstellen. Dritte Seite. Dasselbe. Umstellen.
+
+Nach drei Runden begriff ich: das muss irgendwo stehen, wo es das *vor* der Arbeit sieht.
+
+Diese Datei heißt `CLAUDE.md`. Sie startete leer. Jedes Mal, wenn wir gegen eine Wand liefen, schrieb ich eine Zeile rein. Am Ende waren es hunderte.
+
+Stell es dir vor als Handbuch „Wie lebt man mit dieser KI". Wenn du es nicht aufschreibst, merkt sie sich's nicht.
+
+## 3. Was mich wirklich fertiggemacht hat
+
+### 3.1 Swipe-to-delete. Etwa ein Dutzend Runden.
+
+Die Funktion, an der ich am längsten saß.
+
+Das Design: Notizkarte nach links wischen, zwei Buttons erscheinen — archivieren und löschen, eigene Farben, runde Ecken. Sieht tot-einfach aus. Ich dachte, fünf Minuten.
+
+Erste Version kam mit falschen Button-Farben. Ich bat um Fix. Immer noch falsch. Irgendwann begriff ich: die System-Swipe-to-delete-Komponente von iOS sperrt ihre Farben. Egal was du schreibst, iOS überschreibt sie zurück zu flachen Rechtecken mit weißem Text. Das Design, das wir gezeichnet hatten? Lässt sich mit der Systemkomponente schlicht nicht bauen.
+
+Also bauten wir's selbst. Es schrieb das ganze Swipe neu, mit eigenem Gesture-Handling. Nach etwas Arbeit lief es — und ein neues Problem tauchte auf. Die Swipe-Geste und die vertikale Scroll-Geste der Seite stritten sich. Mal versuchtest du zu scrollen, es dachte du wischst. Mal wischtest du, die Karte ging raus, sprang dann von selbst zurück.
+
+Dieser Snap-back-Bug brauchte vier Runden. Als wir ihn endlich entwirrt hatten, waren da vier völlig getrennte Ursachen, die alle gleichzeitig feuerten — Gesten-Priorität, ein iOS-Update, das Verhalten geändert hat, Karten, die sich gegenseitig den State zerschossen, mehr. Wir schälten sie einzeln ab.
+
+Das finale UI passt eigentlich nicht zum Design. Ich habe es einfach so lange durch Fixes geführt, bis das Ergebnis akzeptabel war. Ich hörte auf, dem Original-Look hinterherzulaufen, als ich merkte, dass weiteres Drücken etwas Neues stolpern lassen würde.
+
+Lektion: eine Funktion, die wie „nur ein Swipe" aussieht, kann mehrere Schichten Probleme verstecken. Nicht feiern, wenn du eine abgeschält hast.
+
+### 3.2 Notizkarte antippen, App friert ein
+
+Lange Notizen. Karte antippen. App friert ein. Nichts bewegt sich.
+
+Claude fing an zu graben. Es entschied, es liege an den Scroll-Gesten der Liste oder einem Geste-Parameter. Blieb lange in dieser Richtung. Jeder Fix scheiterte.
+
+Schließlich riefen wir einen Senior-Engineer dazu, der eine andere KI (Codex) anwarf, um unabhängig zu untersuchen. Codex scannte ein paar Dateien für zwei Minuten und ging direkt zur Ursache:
+
+Es war kein Gesten-Problem.
+
+Die Detailseite hat eine Komponente, die „langen Text aufklappen/einklappen" handhabt. Wenn die rendert, layoutet sie die ganze Notiz — fünftausend Zeichen — leise im Hintergrund, um die Höhe zu messen, bevor sie anzeigt. Dieses Layout läuft synchron auf dem Main-Thread. Fünftausend Zeichen brauchen ein paar Sekunden. App eingefroren.
+
+Claude lief in die falsche Richtung, weil das Symptom beim „Karte antippen" auftrat. Also blieb es im Code rund um Tap-Gesten. Die teure Operation lag mehrere Aufruf-Schichten weiter, in der Text-Render-Komponente der Detailseite.
+
+Der Fix: vor der Übergabe an die Text-Komponente kürzen (Karte zeigt die ersten 300 Zeichen, Messung scannt nur die ersten 1.200). Bei Notizen über 4.000 Zeichen das Auto-Aufklappen überspringen. Den Daten-Load der Detailseite asynchron machen. Den Main-Thread nicht blockieren.
+
+Lektion: KI kann sich auch in eine falsche Richtung verbeißen. Manchmal braucht es einen Menschen — oder ein zweites Tool — um die Schleife zu brechen. Das Symptom zeigt sich bei A, aber die Ursache kann irgendwo in der A→B→C-Kette liegen. Zwei oder drei gescheiterte Fixes sind das Signal, anzuhalten und den ganzen Pfad nochmal zurückzugehen, nicht weiter am Symptom zu buddeln.
+
+### 3.3 Sign in with Apple kaputt
+
+Eines Tages funktionierte Sign in with Apple nicht mehr. Die Funktion war schon mal gefixt. Gleicher Fehler kam zurück.
+
+Es fing an zu debuggen. Acht Runden. Jede Runde war es sicher: *„Diesmal gefixt."* Jeder Lauf, gleicher Fehler. Irgendwo dazwischen brachte es die App so weit, dass sie einen weißen Screen rendert, was nochmal Zeit kostete, das rückgängig zu machen. Schließlich grub ich die alten Fix-Notizen aus und zeigte sie ihm. Da verstand es.
+
+Die wirkliche Ursache: nicht der Code. Es gibt einen Berechtigungsschalter in Xcode (Apples IDE), den eine frühere automatische Änderung still ausgeschaltet hatte. Der Schalter sitzt tief vergraben — du findest ihn nicht, ohne wirklich auf den Bildschirm zu schauen.
+
+Lektion: manche Bugs sind nicht im Code. Schau zuerst aufs Werkzeug.
+
+Danach wurde Claude klüger. Sobald irgendwas mit Apple-Login auftaucht, ist Schritt eins *Schick mir einen Screenshot* — nicht Code editieren.
+
+### 3.4 Eine Notiz auf iOS wird zu drei im Web
+
+Du nimmst eine Notiz auf iOS auf. Öffnest die Web-App. Da sind drei.
+
+Es fing an zu analysieren. Entschied, die Deduplizierungs-Logik irgendwo sei falsch. Editierte ein paar Runden. Nichts änderte sich.
+
+Schließlich ging es und schaute sich die Rohdaten in der Datenbank an, und fand die Wahrheit: der Request war eigentlich erfolgreich. Aber die Antwort wurde falsch geparst und die App dachte, es sei fehlgeschlagen, also versuchte sie es erneut. Drei Mal. Der Server legte brav drei Notizen an.
+
+Lektion: lass es nicht einfach weiter Code editieren. Zwing es, erst Beweise zu suchen — Logs, Datenbank-Zustand — und herauszufinden, was wirklich kaputt ist, bevor es irgendwas anfasst.
+
+### 3.5 Meine Icons sehen immer komisch aus
+
+**Icons zu groß.** In der Designdatei ist ein Icon 48px. Im iOS-Code teilst du durch 2 — also 24pt. Ich weiß das. Es weiß das nicht immer. Manchmal vergisst es, die Zeile „dieses Bild in der angegebenen Größe anzeigen" zu schreiben, und das Icon rendert in seiner nativen Größe — doppelt so groß wie es soll, frisst den halben Screen.
+
+**Icons unscharf.** Falscher Export-Scale. Slot @1x / @2x / @3x wurden nicht alle zusammen aktualisiert. Wenn du ein @2x-Bild in den @1x-Slot packst, denkt das iPhone, es sei eine niedrig aufgelöste Version, und skaliert es 2x hoch. Jetzt ist es unscharf.
+
+**Es schwört, das Icon habe die richtige Größe. Immer noch falsch.** Lanhu hat zwei Versionen desselben Icons: eine knapp bis zum Rand zugeschnitten, eine mit transparentem Padding. Wir wollen die mit Padding. Es greift manchmal die falsche. Falsche heißt, das Icon geht von Kante zu Kante und sieht verschoben aus.
+
+Die Regel, die ich schrieb: beim Herunterladen von Icons immer die neueste Lanhu-Version nehmen, die mit transparentem Padding bevorzugen, Pixelgröße vor dem Import prüfen, in den @2x-Slot ablegen — nicht @1x. Beim Ersetzen von Assets alle drei Slots prüfen. Im Code pt verwenden, nicht px.
+
+## 4. Was hat KI mir wirklich gespart
+
+Ehrliche Antwort: schneller, aber nicht so viel schneller, wie du denken würdest.
+
+Wo sie Zeit sparte:
+
+- Grundstruktur für eine neue Seite — Minuten, nicht Stunden
+- Farbwerte, Schriftgrößen, Abstände aus einem Design nachschlagen und konvertieren
+- Übersetzung über drei Sprachen (Chinesisch, Englisch, Portugiesisch)
+
+Wo nicht:
+
+- Seltsame Bugs braucht weiterhin ein Mensch, der sie Stück für Stück auseinandernimmt
+- Test auf einem echten Gerät — KI kann das nicht für dich. Du machst es.
+- „Welcher Ansatz hier" — bleibt bei dir
+
+Am genausten beschreibe ich es so: KI ist eine Assistentin mit extremer Ausführungsgeschwindigkeit, aber starkem Bedarf an klaren Anweisungen. Sag's deutlich, sie ist schnell und gut. Bleib vage, sie füllt die Lücken mit eigenen Vermutungen, und du verbringst Zeit damit, die rückgängig zu machen.
+
+## 5. Das Größte, was ich daraus mitgenommen habe, ist kein Code
+
+Einen Monat drin, vierzehn Seiten fertig.
+
+Ich sag's nochmal — dieses Ding hat kein Gedächtnis. Erst als ich jeden Tag damit endete, es zusammenfassen zu lassen, was wir gelernt haben, wuchs das „Wie lebt man mit dieser KI"-Handbuch von ein paar Zeilen auf hunderte. Erst dann lief die Arbeit damit rund. Was wir können mussten, war nicht Code schreiben. Es war KI führen.
+
+Das Handbuch wird immer dicker. Jede Falle. Jede Regel. Jeder verbotene Zug.
+
+Es kommt mit ins nächste Projekt. Jedes Mal kennt die KI unsere Gewohnheiten ein bisschen besser. Weniger Abwege.
+
+---
+
+Slax Note ist die App, die wir mit KI neu geschrieben haben — eine Voice-first-Notiz-App. Du sprichst, sie schreibt, du wählst die Form.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)

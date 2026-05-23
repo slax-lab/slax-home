@@ -1,0 +1,178 @@
+---
+title: "Tôi là designer. Tôi đã viết lại app của chúng tôi bằng AI."
+description: "Một tháng UI designer viết lại Slax Note cùng Claude Code. Chỗ AI đoán mò, chỗ nó phá hỏng, và sổ luật tôi phải viết để nó ngừng quên."
+pubDate: 2026-05-22T00:00:00.000Z
+tags: ['note', 'vibe-coding', 'ai-coding']
+product: note
+author: lin-chen
+---
+
+Tôi là UI designer. Code vốn ở một hành tinh tôi không lui tới. Rồi một hôm sếp bảo: cậu với PM, đi viết lại [Slax Note](https://slax.com/note/) bằng AI. Tôi ngồi thừ ra một giây. *Mình làm nổi thật à?*
+
+## 1. Lúc đầu tôi tưởng nó là thần
+
+Lần đầu dùng, tôi sửng sốt. Một bạn engineer cài Claude Code (tôi gọi tắt là "nó"), dẫn tham quan nhanh, rồi thả chúng tôi tự bơi.
+
+Tôi khởi động nhỏ. Modal hội viên trong web app Slax Note — một trang tĩnh. Tôi quăng thiết kế vào. Nó sinh ra thứ gần đúng. Tinh chỉnh vài lần là khớp bản comp. *Code đâu khó vậy,* tôi bắt gặp mình nghĩ thế.
+
+Rồi chúng tôi thật sự khởi động dự án. Tôi đưa nó tài liệu kỹ thuật. Nó dựng cả khung. App chạy. Các tính năng chính có sẵn. Tự tin của tôi nhích thêm một bậc.
+
+## 2. Chẳng bao lâu, nó làm tôi phát điên
+
+### 2.1 Nó mê đoán mò
+
+Hồi đầu tôi tập trung vào độ trung thực UI. Tôi gom một spec thiết kế, đấu nối lanhu-mcp (Lanhu là công cụ handoff thiết kế của Trung Quốc, giống Zeplin) và bảo nó dùng giá trị từ Lanhu để dựng UI. Nó bỏ qua spec. Nó đoán.
+
+Một màu link nó quyết là "có vẻ" xám. Spec ghi nâu-cam.
+
+Khoảng cách, khi không viết rõ ra, nó sẽ nghĩ ra một con số. Tôi bảo sai. Nó đổi. Vẫn sai. Chúng tôi đi qua đi lại vài vòng. Rồi tôi mở file thiết kế ra và thấy giá trị đã được chú thích sẵn từ đầu. Chẳng qua nó không nhìn.
+
+Bài học: bảo nó kiểm spec *trước khi* viết code. Bỏ qua bước đó là bạn trả giá bằng thêm vài vòng.
+
+Nếu bạn mô tả thiết kế cho nó tỉ mỉ đến từng vi mô (như dưới), kiểu bảng spec, nó sẽ làm rất chuẩn. Không thân thiện gì với designer, nhưng có hiệu quả:
+
+> **Nút ghi âm ở màn hình chính:** Một nút capsule nổi cách mép dưới trang 50pt. Rộng 140pt, cao 74pt. Bóng nhẹ — thấy được, không nặng. Trong capsule có hai nút tròn. Nút trái có padding 8pt: một nút ghi âm tròn 62pt, gradient nền từ trên xuống dưới từ `#04EAC5` đến `#00BEC9`, biểu tượng record đặt giữa. Trạng thái nhấn thêm lớp phủ `#000000` 8%. Nút phải cũng có padding 8pt: một nút tròn 54pt cho nhập văn bản, nền `#FFFFFF`, biểu tượng text đặt giữa. Trạng thái nhấn: `#4D4D4D` 8%.
+
+Sau đó tôi thử prompt này để tạo một poster ghi chú. Mọi thứ khớp spec, chỉ trừ vị trí không nằm giữa. Tạm chấp nhận. Thứ tôi rút ra: viết phần này vào tài liệu spec một lần, đừng gõ lại mỗi lần:
+
+> Hiện thực hoá trang xx đúng theo file thiết kế. Pixel-perfect. Không tự ý đổi layout, màu, khoảng cách, font hay vị trí biểu tượng.
+>
+> Quy tắc:
+>
+> 1. Sao chép đúng cấu trúc, thứ bậc và layout của trang.
+> 2. Màu sắc, cỡ chữ, khoảng cách, bo góc, bóng — khớp thiết kế.
+> 3. Nút, ô nhập, thẻ, thanh điều hướng — khớp vị trí và kích thước.
+> 4. Chỉ làm những gì có trong thiết kế. Không thêm thắt.
+> 5. Code phải chạy, có cấu trúc, có chú thích, không lỗi.
+
+### 2.2 Nó mê "giúp"
+
+Bạn nhờ nó sửa một lỗi nhỏ. Nó "nhiệt tình" refactor luôn đoạn code xung quanh. Giờ tính năng đang chạy được lại hỏng.
+
+Bạn quay lại. Nó sửa. Nó cũng "nhiệt tình" động vào chỗ khác.
+
+Giống nhờ thợ vá một mảng tường, rồi thợ bảo, *"Tôi dời cái tủ này luôn — nhìn đẹp hơn."* Rồi phía sau cái tủ có ống nước vỡ.
+
+Nên tôi đặt một quy tắc: trước khi đụng vào bất kỳ đoạn code nào, nói cho tôi biết bạn định đổi gì và để yên gì. Tôi duyệt rồi bạn mới ra tay. Sau đó mọi việc trôi hơn nhiều.
+
+### 2.3 Nó không nhớ những gì đã học lần trước
+
+Cái này tôi không lường được.
+
+Mỗi cuộc hội thoại mới, nó như mất trí nhớ. Cái hố lần trước nó vấp? Lần này, vẫn cái hố đó.
+
+Ví dụ: modal.
+
+iOS có hai cách làm modal — cách hệ thống, và cách tự dựng full-screen. Cách hệ thống đi kèm bo góc và lề riêng. Bạn nói gì nó cũng không khớp thiết kế.
+
+Lần đầu bắt được, tôi bảo nó đổi. Trang mới thứ hai, vẫn modal hệ thống. Đổi. Trang thứ ba. Vẫn vậy. Đổi.
+
+Sau ba vòng tôi nhận ra: việc này phải viết xuống chỗ nào đó nó sẽ thấy *trước khi* bắt tay.
+
+File đó tên là `CLAUDE.md`. Khởi đầu trống không. Mỗi lần đụng tường, tôi thêm một dòng. Đến cuối nó dài hàng trăm dòng.
+
+Hãy coi đó là cẩm nang "cách chung sống với con AI này". Không viết xuống, nó sẽ không nhớ.
+
+## 3. Những thứ thật sự khiến tôi gục
+
+### 3.1 Vuốt-để-xoá. Tầm chục vòng.
+
+Tính năng duy nhất tôi đốt thời gian nhiều nhất.
+
+Thiết kế: vuốt thẻ ghi chú sang trái, hai nút hiện ra — lưu trữ và xoá, màu tuỳ chỉnh và bo góc. Nhìn đơn giản chết người. Tôi tưởng năm phút là xong.
+
+Phiên bản đầu ra với màu nút sai. Tôi nhờ sửa. Vẫn sai. Cuối cùng tôi đoán ra: component vuốt-để-xoá có sẵn của iOS khoá màu của nó. Bạn viết gì iOS cũng override về thành khối chữ nhật trơn với chữ trắng. Thiết kế chúng tôi vẽ? Không dựng được bằng component hệ thống. Hết chuyện.
+
+Nên chúng tôi tự dựng. Nó viết lại toàn bộ phần vuốt bằng xử lý cử chỉ tuỳ chỉnh. Sau một hồi, nó chạy — và vấn đề mới hiện ra. Cử chỉ vuốt và cử chỉ cuộn dọc của trang đánh nhau. Có lúc bạn cố cuộn, nó tưởng bạn đang vuốt. Có lúc bạn vuốt, thẻ trượt ra, rồi tự bật lại.
+
+Lỗi tự-bật-lại đó mất bốn vòng để dứt. Khi cuối cùng tháo gỡ ra, có bốn nguyên nhân hoàn toàn riêng biệt cùng nổ một lúc — ưu tiên cử chỉ, một bản cập nhật iOS đổi hành vi, các thẻ can thiệp trạng thái lẫn nhau, và còn nữa. Chúng tôi bóc từng lớp một.
+
+UI cuối cùng thật ra không khớp với thiết kế. Tôi cứ dắt nó qua các bản sửa cho đến khi kết quả chấp nhận được. Tôi ngừng đuổi theo diện mạo ban đầu khi nhận ra cứ đẩy thêm sẽ kích hoạt một thứ mới.
+
+Bài học: một tính năng nhìn như "chỉ là cú vuốt" có thể giấu nhiều lớp vấn đề. Đừng ăn mừng sau khi bóc xong một lớp.
+
+### 3.2 Chạm vào thẻ ghi chú, app đứng hình
+
+Note dài. Chạm thẻ. App đứng. Không nhúc nhích.
+
+Claude bắt đầu đào. Nó cho rằng đây là về cử chỉ cuộn của danh sách, hoặc một tham số cử chỉ nào đó. Đi theo hướng đó suốt một thời gian. Mỗi bản sửa nó thử đều thất bại.
+
+Cuối cùng chúng tôi gọi một senior engineer, anh ấy bật một AI khác (Codex) để điều tra độc lập. Codex quét vài file trong hai phút và đi thẳng vào nguyên nhân:
+
+Không phải vấn đề cử chỉ.
+
+Trang chi tiết có một component xử lý "mở rộng/thu gọn văn bản dài". Khi component đó render, nó dàn trải toàn bộ ghi chú — năm nghìn ký tự — âm thầm dưới nền để đo chiều cao trước khi hiển thị. Quá trình dàn trải đó chạy đồng bộ trên main thread. Năm nghìn ký tự mất vài giây. App đứng.
+
+Claude đi sai hướng vì triệu chứng xuất hiện ở "chạm thẻ". Nên nó cứ ở trong code cử chỉ liên quan đến chạm. Thao tác tốn kém thật ra cách đó vài lớp gọi hàm, nằm trong component render văn bản ở trang chi tiết.
+
+Cách sửa: cắt bớt trước khi đưa vào component văn bản (thẻ hiện 300 ký tự đầu, đo chỉ quét 1.200 ký tự đầu). Với ghi chú trên 4.000 ký tự, bỏ tự-mở-rộng. Đưa việc tải dữ liệu trang chi tiết sang chế độ async. Đừng chặn main thread.
+
+Bài học: AI cũng có thể kẹt ở một hướng sai. Đôi lúc cần một con người — hoặc một công cụ thứ hai — để bẻ vòng lặp. Triệu chứng hiện ở A, nhưng nguyên nhân có thể ở bất kỳ đâu trong chuỗi A→B→C. Hai hoặc ba bản sửa thất bại là tín hiệu dừng lại và xem lại toàn bộ đường đi, không phải tiếp tục đào ở triệu chứng.
+
+### 3.3 Sign in with Apple hỏng
+
+Một hôm, Sign in with Apple ngừng chạy. Tính năng này đã từng được sửa trước đó. Cùng lỗi quay lại.
+
+Nó bắt đầu debug. Tám vòng. Mỗi vòng nó chắc mẩm: *"Lần này dứt rồi."* Mỗi lần chạy, vẫn lỗi cũ. Đâu đó trong đám đó nó còn xoay xở khiến app render màn hình trắng, mất thêm thời gian undo. Cuối cùng tôi đào lại ghi chú sửa lỗi cũ và đưa cho nó. Lúc đó nó mới hiểu.
+
+Nguyên nhân thật: không phải code. Có một công tắc quyền trong Xcode (IDE của Apple) mà một thay đổi tự sinh trước đó đã âm thầm tắt đi. Công tắc đó nằm sâu — không tìm ra trừ khi bạn thật sự nhìn vào màn hình.
+
+Bài học: có những lỗi không nằm trong code. Nhìn vào công cụ trước đã.
+
+Sau lần đó, Claude khôn ra. Khi có bất kỳ chuyện gì liên quan Apple-login, bước một là *gửi cho tôi ảnh chụp màn hình* — chứ không phải sửa code.
+
+### 3.4 Một ghi chú trên iOS biến thành ba trên web
+
+Bạn ghi một ghi chú trên iOS. Bạn mở web app. Có ba.
+
+Nó bắt đầu phân tích. Quyết rằng đâu đó logic chống trùng đã hỏng. Sửa vài vòng. Không có gì thay đổi.
+
+Cuối cùng nó đi xem bản ghi thô trong database, và tìm ra sự thật: yêu cầu thực ra đang thành công. Nhưng phản hồi bị parse sai và app tưởng là thất bại, nên nó thử lại. Ba lần. Server ngoan ngoãn tạo ba ghi chú.
+
+Bài học: đừng để nó cứ sửa code mãi. Bắt nó tìm bằng chứng trước — log, trạng thái database — rồi xác định cái gì thực sự hỏng trước khi đụng bất kỳ thứ gì.
+
+### 3.5 Icon của tôi lúc nào cũng nhìn lạ
+
+**Icon to quá.** Trong file thiết kế, một icon là 48px. Trong code iOS, bạn chia hai — thành 24pt. Tôi biết điều đó. Nó không phải lúc nào cũng biết. Đôi khi nó quên viết dòng "hiển thị ảnh này ở kích thước tôi chỉ định", và icon render ở kích thước gốc — to gấp đôi, ăn mất nửa màn hình.
+
+**Icon mờ.** Sai tỉ lệ xuất. Slot @1x / @2x / @3x không được cập nhật cùng nhau. Nếu bạn nhét ảnh @2x vào slot @1x, iPhone tưởng đó là bản độ phân giải thấp và phóng nó lên 2x cho vừa. Thế là mờ.
+
+**Nó thề icon đúng kích thước. Vẫn sai.** Lanhu có hai phiên bản của cùng một icon: một cái cắt sát mép, một cái có padding trong suốt. Chúng tôi cần cái có padding. Nó đôi khi tóm nhầm. Nhầm cái nào là icon dính sát hai mép và nhìn lệch.
+
+Quy tắc tôi viết: khi tải icon, luôn chọn bản Lanhu mới nhất, ưu tiên cái có padding trong suốt, kiểm pixel size trước khi import, thả vào slot @2x — không phải @1x. Khi thay asset, kiểm cả ba slot. Trong code dùng pt, không phải px.
+
+## 4. Vậy AI thật sự tiết kiệm cho tôi cái gì
+
+Trả lời thật: nhanh hơn, nhưng không nhanh hơn nhiều như bạn tưởng.
+
+Chỗ nó tiết kiệm thời gian:
+
+- Cấu trúc khung cho một trang mới — phút, không phải giờ
+- Tra cứu và quy đổi giá trị màu, cỡ chữ, khoảng cách từ thiết kế
+- Dịch qua ba ngôn ngữ (Trung, Anh, Bồ)
+
+Chỗ nó không:
+
+- Bug kỳ cục vẫn cần một con người tháo từng mảnh
+- Test trên điện thoại thật — AI không thay được. Bạn phải chạy.
+- "Hướng nào cho chỗ này" — vẫn là việc của bạn
+
+Cách mô tả chính xác nhất tôi nghĩ ra: AI là một trợ lý có tốc độ thực thi cực mạnh nhưng rất cần chỉ dẫn rõ ràng. Nói toạc ra, nó nhanh và tốt. Cứ mập mờ, nó tự lấp khoảng trống bằng phỏng đoán của nó, rồi bạn mất thời gian gỡ ra.
+
+## 5. Thứ lớn nhất tôi rút ra không phải là code
+
+Một tháng đi qua, mười bốn trang xong.
+
+Tôi nhắc lại — con này không có trí nhớ. Khi tôi bắt đầu kết mỗi ngày bằng việc bảo nó tóm tắt những gì hai bên đã học, cuốn cẩm nang "cách chung sống với con AI này" lớn từ vài dòng lên hàng trăm dòng. Chỉ khi đó việc cùng nó mới trơn tru. Kỹ năng chúng tôi cần không phải viết code. Là điều phối AI.
+
+Cuốn cẩm nang đó vẫn dày lên. Mỗi cái bẫy. Mỗi quy tắc. Mỗi nước đi cấm.
+
+Nó theo chúng tôi qua dự án kế tiếp. Mỗi lần, AI biết thói quen của chúng tôi rõ hơn một chút. Bớt rẽ nhầm hơn.
+
+---
+
+Slax Note là app chúng tôi viết lại bằng AI — một ứng dụng ghi chú lấy giọng nói làm gốc. Bạn nói, nó viết, bạn chọn hình thức bạn muốn.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)

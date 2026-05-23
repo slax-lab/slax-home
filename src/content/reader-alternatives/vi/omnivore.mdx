@@ -1,0 +1,156 @@
+---
+title: "Thay thế Omnivore: Slax Reader — Mã nguồn mở, vẫn chạy"
+competitor: "Omnivore"
+description: "Omnivore tắt cuối 2024. Slax Reader là trình đọc-sau mã nguồn mở vẫn được duy trì — Apache 2.0, lưu trữ vĩnh viễn, đề cương AI."
+updatedDate: 2026-04-26T00:00:00.000Z
+---
+
+Omnivore từng được yêu. Mã nguồn mở, thiết kế đẹp, miễn phí, cộng đồng sôi nổi. Rồi cuối 2024 đội ngũ thông báo gia nhập ElevenLabs, và bản hosted tắt. Người tự host có thể giữ instance chạy, nhưng với phần lớn người dùng, đó không phải lựa chọn thật.
+
+Nếu bạn là người tị nạn Omnivore — và có rất nhiều — Slax Reader là thứ gần nhất với "Omnivore, nhưng vẫn còn chạy". Mã nguồn mở theo Apache 2.0, lưu trữ vĩnh viễn miễn phí cho founding member, đề cương AI mà Omnivore chưa kịp ra.
+
+Trang này dành cho bất kỳ ai chọn Omnivore *vì* nó mã nguồn mở, và giờ cần cùng tính chất đó ở công cụ kế tiếp.
+
+[**Thử Slax Reader miễn phí →**](https://r.slax.com/)
+
+---
+
+## Thoáng nhìn
+
+**Slax Reader là phương án thay thế gọn nếu…**
+
+- Bạn chọn Omnivore vì nó mã nguồn mở
+- Bạn dùng Omnivore chủ yếu cho bài web
+- Bạn muốn snapshot vĩnh viễn để 404 không gây đau
+- Bạn muốn tính năng AI mà Omnivore đang hướng tới nhưng chưa ra
+- Bạn không muốn tự host
+
+**Ở lại với Omnivore tự host nếu…**
+
+- Bạn đã chạy instance riêng và nó hoạt động tốt
+- Bạn nhất quyết toàn quyền kiểm soát local, không phụ thuộc đám mây
+- Bạn quen với việc duy trì stack Docker lâu dài
+
+> Một câu: **Omnivore có nguyên tắc đúng nhưng dừng ra bản. Slax Reader tiếp tục từ chỗ đó.**
+
+---
+
+## So sánh tính năng
+
+| Tính năng | Omnivore (R.I.P. hosted) | Slax Reader |
+|---|---|---|
+| **Trạng thái** | ⚠️ Hosted tắt 2024; chỉ còn tự host | ✅ Đang hoạt động, hosted + mã nguồn mở |
+| **Mã nguồn mở** | ✅ AGPL | ✅ Apache 2.0 |
+| **Tuỳ chọn tự host** | ✅ (giờ bắt buộc) | 🚧 Roadmap |
+| **Bài web** | ✅ | ✅ |
+| **Lưu trữ vĩnh viễn (chống 404)** | ✅ | ✅ Miễn phí cho founding member |
+| **Đánh dấu không giới hạn** | ✅ | ✅ Miễn phí |
+| **Tóm tắt AI** | Giới hạn | ✅ Miễn phí |
+| **Đề cương AI nhấp được** | ✗ | ✅ Pro |
+| **Chat AI với bài viết** | ✗ | ✅ Pro |
+| **Tự gắn thẻ** | ✗ | ✅ |
+| **Tìm kiếm toàn văn** | ✅ | ✅ Miễn phí |
+| **PDF / EPUB** | ✅ | 🚧 Roadmap |
+| **TTS** | ✅ | ✗ |
+| **RSS** | ✅ | 🚧 Roadmap |
+| **Đồng bộ Obsidian / Notion / Logseq** | ✅ | 🚧 Roadmap |
+| **Đa nền tảng (Web · iOS · Android · Mac)** | ✅ | ✅ |
+| **Nhập từ Omnivore** | — | 🚧 Roadmap |
+| **Giá** | Miễn phí (khi còn hosted) | Miễn phí / 5,99 USD/tháng |
+
+---
+
+## Vì sao Omnivore đóng cửa?
+
+Đội Omnivore được ElevenLabs mua lại cuối 2024 và thông báo dừng vận hành dịch vụ hosted. Repo vẫn còn; mã vẫn công khai. Nhưng "mã nguồn mở" thôi không giữ một app sống — chạy dịch vụ hosted tốn tiền, và không có mô hình tài chính bền, ngay cả app mã nguồn mở tốt cũng bị nghỉ.
+
+Đây là phần ít ai nói trong "miễn phí + mã nguồn mở". Nguyên tắc có thật, nhưng nguyên tắc không trả hoá đơn hạ tầng. Câu trả lời của Slax Reader: mở mã (Apache 2.0), nhưng tính gói Pro để vận hành bền vững. Founding member nhận tính năng được yêu nhất — lưu trữ vĩnh viễn, đánh dấu không giới hạn, tóm tắt AI — miễn phí, mãi mãi. Pro tài trợ phần còn lại.
+
+Chúng tôi đã vận hành công ty gần 20 năm. Chúng tôi không đi đâu cả.
+
+---
+
+## Slax Reader kế thừa gì từ Omnivore
+
+Những điểm làm Omnivore khác Pocket / Instapaper:
+
+### Lưu trữ vĩnh viễn, miễn phí
+
+Omnivore lưu toàn bộ nội dung bài khi bạn save — không phải chỉ bookmark, mà giữ luôn nội dung. Slax Reader làm y vậy. Nguồn 404? Bản của bạn vẫn còn.
+
+### Mã nguồn mở
+
+Apache 2.0, trên [GitHub](https://github.com/slax-lab). Frontend, backend, client mobile đều công khai. Chúng tôi chọn Apache 2.0 (so với AGPL của Omnivore) vì thân thiện hơn cho người tự host và tích hợp. Nguyên tắc thì giống nhau: dữ liệu đọc của bạn không nên phụ thuộc vào runway của một đội.
+
+### Đánh dấu và ghi chú đi xa
+
+Omnivore xuất sạch sang Obsidian, Notion, Logseq. Chúng tôi ra dần — trong roadmap. Đến khi đó, mọi đánh dấu đều thấy được trong Slax và xuất thủ công được.
+
+---
+
+## Slax Reader thêm gì
+
+### Tính năng AI Omnivore chưa kịp ra
+
+- **Đề cương AI nhấp được** — thấy cấu trúc bài 5.000 chữ trong 10 giây, nhảy tới đoạn cần
+- **Tóm tắt AI** — gạch đầu dòng, ~100 chữ, miễn phí
+- **Chat AI** — hỏi gì cũng được về bài từ sidebar
+- **Tự gắn thẻ** — Slax học hệ thống thẻ của bạn và áp dụng giúp
+
+### Một lớp cộng đồng
+
+Slax Reader có thảo luận độc giả hai chiều: đánh dấu một câu, để lại ghi chú, thấy người khác chú thích gì. Omnivore cá nhân; Slax có thể cá nhân hoặc xã hội, bạn chọn.
+
+### Một đội vẫn ở đây
+
+Hai thập kỷ vận hành cùng một công ty. Slax Reader là cái chúng tôi dùng mỗi ngày. Mã trên GitHub. Roadmap công khai. Chúng tôi không bị mua vào cái khác năm sau.
+
+---
+
+## Chuyển từ Omnivore
+
+Nếu bạn có bản xuất Omnivore (JSON hay HTML — chức năng "Export Library" chính thức vẫn chạy trên instance tự host), nhập từ Omnivore nằm trong roadmap. Chúng tôi sẽ tải lại từng URL vào snapshot vĩnh viễn mới của Slax, giữ thẻ, ngày và ghi chú.
+
+[**Để lại email →**](https://r.slax.com/) và chúng tôi sẽ ping ngày nhập từ Omnivore ra.
+
+Nếu không có bản xuất và instance hosted đã biến mất, bạn không kẹt. Đăng ký ở [r.slax.com](https://r.slax.com/), bắt đầu lưu mới vào Slax hôm nay, khoá quyền lợi snapshot vĩnh viễn của founding member trước khi đặc quyền đó đóng.
+
+---
+
+## Các thay thế khác chúng tôi cân nhắc
+
+Nếu Slax Reader chưa phải lựa chọn đúng:
+
+- **Tự host Omnivore** — Mã vẫn công khai trên [GitHub](https://github.com/omnivore-app/omnivore). Tốt nếu bạn quen chạy Docker và Postgres.
+- **[Readwise Reader](https://readwise.io/read)** — Tập tính năng lớn hơn: PDF, EPUB, transcript YouTube. Mã đóng, 9,99–12,99 USD/tháng. [Xem so sánh →](/reader/alternatives/readwise-reader/)
+- **[Instapaper](https://www.instapaper.com)** — Mười tám năm trau chuốt, không AI. Mã đóng. [Xem so sánh →](/reader/alternatives/instapaper/)
+- **[Cubox](https://cubox.cc)** — Trau chuốt, nhiều tính năng, mạnh cho nội dung Trung. Mã đóng. [Xem so sánh →](/reader/alternatives/cubox/)
+
+---
+
+## Câu hỏi thường gặp
+
+**Tôi nhập được thư viện Omnivore không?**
+Nhập từ Omnivore nằm trong roadmap. Nếu bạn có file xuất JSON hay HTML từ instance hosted hay tự host, [để lại email](https://r.slax.com/) và chúng tôi sẽ báo ngày nó ra.
+
+**Slax Reader có thật sự mã nguồn mở không?**
+Có — Apache 2.0, trên [GitHub](https://github.com/slax-lab). Frontend (Vue), backend (TypeScript) và client Android (Kotlin) đều công khai.
+
+**Vì sao Apache 2.0 mà không phải AGPL?**
+AGPL chặt hơn (sửa phía server phải mở). Apache 2.0 thân thiện hơn cho người tự host, fork và tích hợp. Chúng tôi không muốn khó cho người muốn remix.
+
+**Tôi tự host Slax Reader được không?**
+Tự host nằm trong roadmap. Mã đã công khai, nhưng chúng tôi chưa ra bản Docker / cài-một-bước. Nếu đây là yêu cầu cứng, [báo chúng tôi](mailto:hi@slax.com) — là yêu cầu được hỏi nhiều nhất từ người tị nạn Omnivore.
+
+**Còn quyền riêng tư của tôi?**
+Chúng tôi không bán dữ liệu. Dữ liệu đọc là của bạn. Xem [chính sách quyền riêng tư](https://r.slax.com/privacy).
+
+---
+
+## Thử Slax Reader miễn phí
+
+Nếu bạn chọn Omnivore vì nguyên tắc và giờ cần công cụ vẫn còn chạy:
+
+[**Cho Slax Reader một cơ hội →**](https://r.slax.com/)
+
+Tham gia làm **Founding Member** hôm nay: được 1 tháng Pro miễn phí ([xem giá](https://r.slax.com/pricing)) và giữ snapshot không giới hạn mãi mãi.

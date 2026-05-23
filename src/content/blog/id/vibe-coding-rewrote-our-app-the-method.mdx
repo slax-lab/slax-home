@@ -1,0 +1,343 @@
+---
+title: "Menulis ulang Slax Note dengan AI: retro lengkap"
+description: "Retro PM tentang menulis ulang app kami dengan AI. Kerja spec-driven, Bug Tracker nyata, apa yang berubah saat AI masuk sistem beraturan."
+pubDate: 2026-05-22T00:00:00.000Z
+tags: ['note', 'vibe-coding', 'ai-coding']
+product: note
+author: jane
+---
+
+Retro ini diambil dari tumpukan obrolan grup, setumpuk dokumen persiapan, catatan rapat 18 Maret, dan log harian dari pertengahan Maret sampai pertengahan April.
+
+Tujuannya bukan kronologi langkah-demi-langkah. Tapi dua pertanyaan:
+
+1. Setelah 10 Maret 2026, seperti apa perjalanan batin menulis ulang [Slax Note](https://slax.com/note/) dengan AI coding?
+2. Dari eksperimen ini, apa yang layak dipakai ulang, dan apa yang perlu dihindari lain kali?
+
+## 1. Kesimpulan dulu
+
+Menulis ulang Slax Note dengan AI bukan kemenangan ala "AI membangun seluruh app sementara kami santai." Ini deretan kegembiraan, lalu keraguan, lalu frustrasi, lalu penyesuaian metode, dan akhirnya kepercayaan diri yang dibangun ulang.
+
+Dalam satu kalimat:
+
+> AI memang menurunkan ambang masuk. Tapi yang menentukan apakah kamu rilis dengan efisien bukan "kamu bisa pakai AI." Tapi apakah kamu bisa mendefinisikan masalah, membatasi konteks, mengelola kualitas, dan membangun kolaborasi di sekelilingnya.
+
+Hal paling berharga yang kami dapat dari rewrite ini bukan versi iOS baru. Tapi konfirmasi beberapa hal:
+
+- Desainer dan PM bisa lebih dari sekadar menulis requirement dan menyetujui build — dengan AI mereka bisa menggerakkan implementasi
+- AI hebat di scaffolding cepat, mengisi UI, dan menangani perbaikan kecil-menengah atau trial-and-error batch
+- Begitu kamu masuk ke alur bisnis nyata, perangkat nyata, sinkronisasi kompleks, dan handoff multi-platform — AI berhenti menutup loop untukmu. Justru ia menaikkan ambang untuk spec, konteks, validasi, dan code review
+- Yang memisahkan orang di akhir bukan "siapa yang bisa nulis kode." Tapi siapa yang bisa menemukan akar masalah, mengontrol regresi, dan mengubah pelajaran jadi sesuatu yang bisa dipakai ulang
+
+Bentuk sebenarnya dari eksperimen ini: ambil yang dulu skill engineering implisit, urai, dan bangun ulang sebagai alur yang bisa dijalankan manusia dan AI bersama-sama.
+
+## 2. Kenapa kami mulai rewrite
+
+Tarik timeline lebih awal dan kamu lihat ini sebenarnya tidak mulai pertengahan Maret. Ia muncul jelas sekitar 10 Maret 2026.
+
+Pembicaraan tim sudah langsung: pakai Slax Note sebagai eksperimen AI coding yang lebih agresif. Beberapa orang bahkan melontarkan ide menghapus seluruh codebase Slax Note dan membiarkan tim kecil membangun ulang dan merawatnya dengan AI. Framingnya bukan lagi *"bisakah AI bikin kami sedikit lebih cepat."* Tapi *"apakah ini cara baru untuk membangun produk."*
+
+Sejak pertengahan Maret, tim berhenti melihat AI sebagai alat produktivitas kecil dan mulai serius dengan setup yang lebih agresif:
+
+- Produk mendefinisikan requirement
+- Tidak diteruskan turun lewat berlapis-lapis engineering
+- Desainer atau PM pakai AI untuk men-generate, men-debug, dan memverifikasi kode langsung
+- Lalu, review dan bug fix juga lewat AI sebanyak mungkin
+
+Tapi ada satu prasyarat kritis:
+
+> Ini bukan *"lempar requirement ke AI dan biarkan dia improvisasi dari nol."* Ini upaya AI coding yang spec-driven.
+
+Sebelum rewrite dimulai, Yujie, engineer kami, mengambil codebase yang ada dan menarik struktur kunci, batas kapabilitas, logika halaman, kontrak API, dan hubungan modul ke serangkaian file spec yang bisa dikonsumsi AI. Sejak itu, kerjanya bukan bebas-untuk-semua. Tapi: baca spec ini, eksekusi langkah ini.
+
+Itu mengubah semuanya:
+
+- AI tidak men-generate dalam ruang hampa — ia mengonsumsi konteks yang sudah direkayasa untuknya
+- Desainer dan PM tidak menatap seluruh repo kompleks — mereka bekerja terhadap deskripsi tugas yang terstruktur
+- Saat ada yang salah, kamu tidak kembali ke deskripsi verbal — kamu kembali ke spec dan menyesuaikan
+
+Cara lain mengatakannya: eksperimen ini tidak membuktikan "AI berarti kita tidak butuh engineer." Ia membuktikan engineer bisa mengkodifikasi pengalaman, pemahaman arsitektur, dan pengetahuan sistem mereka ke dalam spec, lalu sekumpulan orang yang jauh lebih luas bisa masuk ke implementasi lewat AI.
+
+## 3. Yang sungguh menggerakkan rewrite: kolaborasi di bawah
+
+Kalau kamu lihat permukaan, mudah membaca ini sebagai "PM + desainer + AI menulis ulang app."
+
+Versi yang lebih jujur: rewrite-nya bergerak karena engineer, tim backend, dan AI semuanya mendukung bersama.
+
+### 1) Engineer mengubah sistem jadi spec
+
+Ini langkah penopang utama.
+
+Yujie mengambil repo yang ada dan mengubah struktur produk yang berserak, hubungan modul, logika halaman, info API, dan kendala implementasi jadi kira-kira selusin file spec. Setelah itu, AI coding bukan generasi buta. Tapi eksekusi langkah demi langkah terhadap spec.
+
+Kenapa ini penting:
+
+- Mengurangi halusinasi dan refactor tak diminta
+- Menurunkan ambang bagi non-engineer untuk terlibat di engineering kompleks
+- Mengubah development dari "trial-and-error lewat prompt" jadi "eksekusi terhadap spec"
+
+### 2) Engineer menulis pengetahuan implisit
+
+Selain file spec, banyak know-how kritis tidak ada di dokumen requirement. Ia muncul saat pekerjaan berjalan. Tim terus menambah hal seperti:
+
+- Apa yang bisa dan tidak bisa ditangani tech stack ini untuk UI atau interaksi tertentu
+- Di mana harus menyederhanakan, di mana tidak boleh dipaksakan
+- Kendala nyata di sekitar field API tertentu, konvensi naming, penanganan state
+- Masalah mana yang butuh kerja root cause dulu, mana yang bisa dilewati
+
+Setiap kali hal seperti ini masuk ke dokumen, AI jadi lebih mantap dan koordinasi tim jadi lebih cepat.
+
+### 3) Backend ikut dalam loop sepanjang jalan
+
+Selain kerja spec frontend dan berburu bug, rewrite ini terus bergerak karena Yaokun, backend engineer kami, terlibat mendalam.
+
+**Di awal: prompt, ekstraksi hotword, multi-bahasa.** Pada 10 Maret, Yaokun sudah menyetel prompt ekstraksi hotword, meningkatkan dukungan Portugis dan Inggris, dan mendiskusikan hal seperti kualitas ekstraksi, kecepatan pemrosesan, dan akseptabilitas dengan kami. Sejak hari pertama, kerjanya bukan cuma API backend — tapi kapabilitas AI dan kualitas output produk itu sendiri.
+
+**Pertengahan proyek: penambahan API, migrasi, dokumentasi.** Saat kami mulai mengenai alur bisnis nyata, ia terus memperluas — memigrasi dan menambah endpoint, mengisi docs API, membantu kami memahami kendala server-side nyata. AI coding tidak bisa masuk ke bisnis nyata dengan menebak API.
+
+**Tahap akhir: menarik docs API / Apifox / MCP ke alur kerja AI.** Di akhir, dukungannya berkembang melampaui Q&A. Kami menyuruh AI cross-reference docs Apifox (alat spec API) untuk menganalisis masalah, me-refresh cache docs sebelum debugging terhadap spec, mengonfigurasi MCP Apifox, dan dapat panggilan langsung darinya soal kesalahan parameter, request duplikat, body request yang malformed.
+
+> Rewrite ini bergerak bukan karena "AI menulis kode." Ia bergerak karena engineer manusia terus memberi AI batasan, konteks, konvensi, dan feedback yang tepat.
+
+### 4) Kemenangannya adalah kolaborasi lintas-peran
+
+Mundur sebentar, rewrite-nya berhasil bukan karena satu peran jadi lebih kuat. Tapi karena:
+
+- Engineer mengubah pengetahuan repo yang ada jadi spec
+- Produk / desain menggerakkan implementasi dan validasi lewat AI
+- Backend terus memperluas API, docs, detail interaksi, dan diagnostik
+- Semua orang bersama mendorong pertanyaan dari "bisakah AI menulis ini" ke "apakah produknya benar-benar jalan."
+
+Deskripsi yang lebih jujur: ini praktik gabungan dari spec-driven, doc-driven, koordinasi frontend/backend yang erat, dan kolaborasi manusia-AI.
+
+## 4. Perjalanan batin: bagaimana aku melalui bulan ini
+
+### 1) Kickoff: segar, bersemangat, masih sangat tidak yakin
+
+10 Maret sampai 18 Maret, mood-nya bersemangat tapi tidak percaya diri.
+
+Di satu sisi, tim mempersiapkan dan menyelaraskan. Desainer mulai memasang dan mempelajari Claude Code. Kami berdebat seberapa jauh AI rewrite seharusnya benar-benar berjalan. Native vs cross-platform, cloud vs lokal — semua di atas meja.
+
+Di sisi lain, reaksi pertamaku cukup mentah:
+
+- *"Teman-teman, cuacanya berubah."*
+- *"Aku bahkan tidak tahu cara pakai version control, dan kamu mau aku merawat produk?"*
+- *"Ini liar."*
+
+Itu menggambarkan keadaan dengan jujur. Bukan "aku tahu ini akan berhasil." Lebih seperti bersemangat dan kaget sekaligus, ingin mencoba dan juga merasa ini terlalu agresif.
+
+Pergeseran terpenting di periode ini bukan kode. Tapi sakelar mental. Implementasi dulunya wilayah engineering. Untuk pertama kalinya, AI membuka wilayah itu untuk produk dan desain.
+
+Pada 18 Maret, demo pertama yang dibangun di atas docs sudah punya bentuk. Perasaan saat itu lebih dekat ke:
+
+- Ini bukan fantasi
+- AI tidak hanya bikin demo mainan
+- Beri ia docs jelas, konteks, dan tujuan, dan ia sungguh bisa men-scaffold UI produk dan alur utama dengan cepat
+
+Tapi nyeri berikutnya sudah ditabur di sana. AI hebat di "bikin sesuatu." Itu tidak sama dengan "bikin yang benar, bikin yang stabil, bikin produk."
+
+### 2) Pendorongan: dari "menonton AI menulis kode" ke benar-benar merilis
+
+20 Maret sampai 23 Maret, mood-nya berubah.
+
+Hari-hari awal "bisakah dia melakukannya." Sekarang pertanyaannya "apakah yang dia bikin sungguh bisa dipakai." Tim berhenti menemui masalah abstrak dan mulai menemui yang sangat spesifik, sangat melelahkan:
+
+- Detail UI yang tidak bisa pas
+- Kelihatan bagus di simulator, rusak di perangkat
+- Hubungkan API backend dan performa, interaksi, serta masalah state semua muncul sekaligus
+- Perbaiki satu tempat, rusak yang lain
+- AI mengaku sudah memperbaiki. Hasilnya jauh dari yang diminta.
+
+Di refleksi 23 Maret-ku, aku sudah menamai nyeri intinya.
+
+**Lapis pertama kemunduran: masalah berantai ke masalah lain.** Yang kelihatan seperti detail interaksi bisa menarik konflik gesture, performa halaman, pilihan navigasi, trade-off ScrollView vs List. AI bukannya tidak bisa memperbaikinya — tapi ia sering memberimu solusi lokal yang *kira-kira* berhasil tanpa benar-benar tepat.
+
+**Lapis kedua kemunduran: kalau kamu tidak paham lapisan di bawah, kamu tidak bisa mengarahkan AI.** Aku mulai melihat masalah sebenarnya bukan AI yang tidak mencoba keras. Masalah sebenarnya kalau aku tidak paham internal iOS, aku tidak bisa membedakan apakah solusi AI optimal, kedua terbaik, atau band-aid.
+
+**Lapis ketiga: upgrade kognitif — beberapa requirement tidak bisa dipaksakan.** Begitu kamu di dalam AI coding, kamu mulai memahami yang engineer maksud dengan "kita perlu ubah pendekatan." Beberapa hal masuk akal dari sudut produk tapi sama sekali tidak ekonomis dengan jalur teknis sekarang. Memaksa lebih keras hanya menguncimu di loop efisiensi rendah.
+
+### 3) Penyesuaian: membentuk playbook sendiri, tidak lagi grinding kepala ke bawah
+
+Akhir Maret, keadaan berubah. "Masalah mendorongku ke mana-mana" jadi "aku tahu cara bekerja dengan AI."
+
+Beberapa belokan jelas:
+
+**Pelajaran pertama: menerima bahwa tidak setiap masalah selesai hari ini.** Hal yang terus meleset setelah banyak percobaan — lewati, lanjut. Lindungi alur utama. Lindungi yang bisa di-demo. Lindungi yang jalan di perangkat. Salah satu risiko terbesar AI coding adalah ilusi *hampir selesai*, yang menarikmu ke penyetelan mikro tanpa akhir.
+
+**Pelajaran kedua: tulis pelajaran ke docs, jangan cuma ke chat.** Konteks chat tidak cukup. Deskripsi di tempat tidak cukup. Tulis kendalanya. Hanya itu yang membuat AI benar-benar stabil. Berhenti mengajari AI tiap kali. Ubah aturan jadi aset.
+
+**Pelajaran ketiga: kelancaran alat juga produktivitas.** Banyak "bug" ternyata: aku di folder yang salah, Xcode mengkompilasi file lama, aku tidak bisa membaca pesan error Inggris, jendela konteks memanjang dan aku takut buka jendela baru. Ambang AI coding bukan cuma "bisakah kamu menulis requirement." Tapi "bisakah kamu pakai seluruh environment development."
+
+### 4) Konvergensi: dari "jalan" ke "rilis," dari eksperimen solo ke kerja tim
+
+Awal April sampai 10 April pergeseran terlihat lagi. Kami bukan proyek demo lagi. Kami mendorong ke pengiriman nyata: demo di ruangan, tes perangkat nyata, TestFlight, pemakaian tim, feedback banyak orang.
+
+Perubahan terbesar: pusat masalah berpindah dari *"halamannya belum selesai"* ke *"pemakaian nyata mengekspos masalah nyata."*
+
+**Jumlah bug meledak.** Begitu sampai di tangan lebih banyak teman tim, isu menumpuk cepat. Pada 10 April, aku sadar manajemen bug kami harus naik dari "dilacak di dokumen" ke ledger terstruktur. Bug Tracker pindah dari dokumen panjang ke tabel multi-dimensi. Manajemen proyek di-upgrade sungguhan.
+
+**Mulai memisahkan "siap-demo" dari "siap-rilis."** Demo awal kelihatan 80% fitur lengkap dan bisa ditunjukkan langsung. Tapi TestFlight, rilis store, dan menaruhnya di depan lebih banyak orang — bug di sana kategori magnitude yang berbeda. AI bikin kamu sampai "kelihatan jalan" cepat. Jarak antara itu dan "rilis dan tetap hidup" adalah ambang kualitas engineering penuh.
+
+**Alur kerja tim juga di-upgrade.** Bukan lagi cuma "minta AI ganti." Kami mulai bikin PR, review, code review, deploy otomatis, dan loop perbaikan yang proper. Aku sebut eksplisit: pakai Claude Code untuk menulis, pakai Codex untuk review. AI coding yang bisa diskalakan bukan satu model menulis dari atas ke bawah. Tapi AI berbeda menangani bagian berbeda dari alurnya.
+
+### 5) Sprint: bagian tersulit bukan development, tapi akar masalah sistemik
+
+13 April sampai 17 April adalah periode "engineering air dalam" klasik. Masalahnya bukan UI permukaan atau logika satu halaman lagi. Tapi sistemik:
+
+- Cascade 401 token diam-diam mematikan semua sync
+- Tipe field salah pada session sync, naming salah, jalur sync terduplikasi
+- Mismatch tipe audioFileId membuat PUT note gagal berulang
+- Race condition upload menimpa state sukses kembali ke "recognizing"
+- SwiftUI `.refreshable` membatalkan task dan menyebabkan rantai kegagalan
+- Batas waktu background task memotong ASR di tengah jalan
+- State arsip dari Android tidak tersinkron ke iOS
+
+Periode ini menurunkan moral karena tiap perbaikan menarik keluar isu mekanisme lain. Bug yang kelihatan duduk di atas asumsi arsitektur yang tidak berlaku. AI membantu diagnosis, tapi benar-benar menutup loop tetap butuh kemampuan dekomposisi masalah dan verifikasi yang kuat.
+
+Sampai di sini, kami bukan "orang yang bisa menyuruh AI menulis kode" lagi. Kami jadi mahir membaca log, mencari akar masalah, melakukan perbaikan minimal, mengontrol regresi, menulis ringkasan PR, membangun loop perbaikan nyata.
+
+Periode pertama membuktikan AI bisa membangun. Periode kedua membuktikan kami belajar mengubahnya jadi produk.
+
+## 5. Busur psikologis sebenarnya
+
+Kalau kamu potong lapisan teknis dan cuma lacak keadaan mental, bentuknya begini:
+
+1. **Mulai:** Bersemangat tapi tidak yakin. Hal yang dulu butuh keterlibatan engineering, aku bisa lakukan sendiri. AI bukan mainan — ia benar-benar menghasilkan UI dan fitur. Sekaligus, setup-nya secara keseluruhan terasa terlalu agresif, dengan nada *"tunggu, ini boleh?"*
+
+2. **Tak lama setelah:** Keraguan masuk. Begitu kamu kena API, perangkat nyata, state kompleks, dan kesetiaan detail, masalahnya melampaui ekspektasi. AI terdengar percaya diri. Hasilnya sering tidak bagus. *Apakah aku terlalu menilai tinggi jalur ini?*
+
+3. **Tengah:** Paling frustrasi. Frustrasi sebenarnya bukan jumlah bug — tapi tanpa memahami lapisan bawah, aku tidak bisa mengarahkan AI seperti engineer akan lakukan. Aku terjebak mengetes, memberi feedback, mengetes lagi. Biaya psikologis tertinggi eksperimen ada di sini.
+
+4. **Belakangan:** Menyesuaikan playbook. Berhenti menuntut solusi one-shot. Bertingkatkan tujuannya — alur utama dulu, lalu detail. Siap-demo dulu, siap-rilis berikutnya. Tulis aturan ke docs. Pindahkan bug ke tracker. Bawa AI ke review juga.
+
+5. **Sekarang:** Kepercayaan dibangun ulang, tapi tidak naif. Atur prosesnya benar, spec-nya jelas, verifikasinya ketat — AI benar-benar bisa melakukan banyak yang sebelumnya tidak mungkin.
+
+## 6. Pelajaran yang paling layak dibawa ke depan
+
+### 1. Jangan perlakukan AI seperti "auto-programmer." Perlakukan ia sebagai kolaborator eksekusi tinggi yang butuh batasan.
+
+Profil AI tajam: cepat, produktif, mau coba lagi, memberimu penjelasan terdengar percaya diri. Masalahnya sama tajam: rentan ke optimum lokal, rentan menggali jalur salah, terlalu percaya diri, dan jago "perbaiki satu, rusak yang lain."
+
+Cara lebih baik memakainya: jangan lempar tugas ke balik tembok dan tunggu. Perjelas tujuan, ketatkan konteks, batasi cakupan perubahan, verifikasi tiap putaran.
+
+### 2. Docs bukan tambahan. Ia material inti AI coding.
+
+Eksperimen ini membuat satu hal sangat jelas: **plafon AI coding sebagian besar ditentukan oleh kualitas docs-mu.**
+
+Docs bagus langsung meningkatkan pemahaman requirement, kesetiaan UI, keselarasan API, konsistensi multi-orang, dan seberapa cepat masalah baru ditangani. Sebaliknya: docs jelek dan AI menebak. Begitu ia menebak, rework hampir dijamin.
+
+Minimal, docs harus tiga lapis:
+
+- **Spec produk:** tujuan, batasan, prioritas
+- **Kendala implementasi:** naming, field API, state machine, konvensi komponen
+- **Pelajaran:** lubang yang sudah kami injak, jalur yang dilarang dicoba lagi
+
+### 3. Pemboros waktu sebenarnya bukan "menulis." Tapi "memverifikasi."
+
+Awalnya kamu kira bagian tersulit AI coding adalah generasi. Lakukan cukup lama dan kamu sadar waktunya pergi ke verifikasi:
+
+- Verifikasi cocok dengan requirement
+- Verifikasi tidak merusak fitur lain
+- Verifikasi simulator dan perangkat berperilaku sama
+- Verifikasi state multi-platform konsisten
+- Verifikasi perbaikan tidak cuma di permukaan
+
+AI menurunkan biaya menulis kode. Itu membuat biaya verifikasi makin penting, bukan kurang.
+
+### 4. Begitu jumlah bug naik, strukturkan segera. Jangan terus melakukannya di chat dan dokumen panjang.
+
+Mendirikan Bug Tracker pada 10 April adalah keputusan tepat. Begitu volume meningkat, tanpa struktur berarti: bug yang sama diperdebatkan berkali-kali, prioritas tercampur aduk, ownership tidak jelas, status perbaikan tak terlacak, dan versi mana yang berisi apa hilang.
+
+Begitu kamu masuk ke testing multi-orang: nomor, prioritas, owner, status saat ini, jalur repro, versi target. Hari satu.
+
+### 5. "Bisakah kamu mengarahkan AI" menentukan plafon efisiensi
+
+Tidak bisa menulis kode tidak berarti kamu tidak bisa melakukan AI coding. Tapi kalau kamu nol pemahaman lapisan di bawah, ada plafon nyata: kamu bisa mendeskripsikan gejala tapi tidak bisa menilai kualitas solusi, tidak bisa membedakan perbaikan palsu, dan tidak bisa proaktif mengubah pendekatan.
+
+Kedua jalur layak diinvestasikan:
+
+**Jalur A: tingkatkan literasi engineering peran non-engineering.** Minimal: cara membaca log, cara membaca hubungan file, cara membaca build chain, cara mengenali error umum.
+
+**Jalur B: minta AI mengisi "lapisan penjelasan" dan "lapisan audit."** Misalnya: minta AI mengeluarkan hipotesis akar masalah, cakupan perubahan, titik risiko, langkah verifikasi, dan metode rollback.
+
+### 6. Efisiensi AI coding sebenarnya bukan soal prompt yang pintar
+
+Makin lama kami menjalankan ini, makin jelas:
+
+> Yang membuat AI coding benar-benar efisien bukan prompting ajaib. Tapi AI dijatuhkan ke sistem dengan konvensi, docs, alat, dan feedback manusia.
+
+Yang sebenarnya kami jalankan bukan "ucapkan requirement ke AI." Tapi: definisikan batas dengan spec, definisikan kendala dengan docs, sambungkan konvensi API lewat Apifox / MCP, biarkan teman tim manusia mengoreksi dan menambah, lalu suruh AI mengeksekusi terhadap semua material itu.
+
+### 7. Sampai loop bekerja dulu. Kejar kesetiaan belakangan.
+
+Banyak nyeri datang dari satu masalah nyata: sebelum kamu punya loop stabil, mengejar detail terlalu awal menyeretmu ke tuning efisiensi rendah.
+
+Urutan yang benar:
+
+1. Alur utama jalan
+2. Bekerja di perangkat
+3. State inti stabil
+4. Bisa diuji multi-orang
+5. *Baru* dorong UI, animasi, poles interaksi
+
+### 8. Jangan lewati code review. Makin jauh kamu masuk, makin penting.
+
+Di akhir kami jelas di mode baru: bukan cuma AI menulis — juga AI melakukan code review, berburu risiko, mengisi tes, menulis catatan PR.
+
+Yang mengatakan sesuatu yang penting: saat proyek AI coding berkembang, pentingnya review naik, bukan turun.
+
+Kalau kamu mau menskalakan ini, depan-muatkan review sebagai default: tiap penulisan di-review, alur kritis butuh catatan akar masalah, perubahan kunci rilis dengan rencana verifikasi, perbaikan berisiko tinggi punya kontrol cakupan perubahan eksplisit.
+
+## 7. Takeaway paling berharga
+
+Takeaway paling berharga bukan merilis sebuah versi. Tapi makin dekat ke pemahaman nyata:
+
+1. **AI coding bukan keajaiban. Juga bukan gimmick.** Tidak seotomatis yang orang kira. Juga bukan mainan-cuma-demo yang dicurigai pihak luar.
+
+2. **Batas antara produk, desain, dan engineering akan digambar ulang.** Bukan soal siapa menggantikan siapa. Tapi soal siapa yang bisa sampai ke tempat masalah paling cepat — itu yang punya dorongan.
+
+3. **Kompetisi masa depan bukan "siapa pakai AI." Tapi siapa membangun sistem kolaborasi AI yang lebih baik.** Sistem docs, sistem kendala, sistem review, manajemen bug, testing dan rilis.
+
+4. **Non-engineer bisa mendorong ke implementasi.** Dulu, produk akan mencoba masuk ke implementasi dan terblokir oleh tooling dan detail teknis. Ini sulit, tapi membuktikan poinnya: kamu tidak lagi cuma orang yang melempar requirement ke balik tembok. Kamu bisa menggerakkan hal-hal sampai rilis.
+
+## 8. Saran untuk eksperimen AI coding berikutnya
+
+**Sebelum kickoff:**
+
+- Definisikan tujuan secara presisi: demo, showcase langsung, TestFlight, atau produksi
+- Kunci prioritas: alur utama > stabilitas > detail UI
+- Siapkan dokumen spec, docs API, kendala desain
+
+**Selama development:**
+
+- Tulis pelajaran ke docs tiap hari. Jangan biarkan di chat.
+- Dua atau tiga percobaan gagal pada satu masalah? Lewati atau ubah pendekatan.
+- Tiap perubahan AI harus disertai panggilan risiko dan langkah verifikasi
+- Isu kritis butuh kerja akar masalah. Jangan cuma tambal gejalanya.
+
+**Begitu dalam testing:**
+
+- Dirikan Bug Tracker segera
+- Lapiskan isu sebagai P0 / P1 / P2
+- Tiap putaran, hanya tutup item prioritas tertinggi. Jangan serakah.
+- Bawa review AI, konvensi PR, verifikasi regresi
+
+**Sebelum rilis:**
+
+- Eksplisit soal garis antara "bisa-didemo" dan "bisa-dirilis"
+- Sinkronisasi, login, pembayaran, audio, manajemen state — jalur prioritas teratas
+- Apa pun di jalur inti frekuensi tinggi diverifikasi di perangkat nyata. Jangan percaya simulator.
+
+## 9. Baris terakhir
+
+Kalau kamu lihat prosesnya, rewrite ini kasar. Bahkan menyakitkan. Kalau kamu lihat hasilnya, ia sepadan.
+
+Tantangan berikutnya masih ada. Kali ini kami menulis ulang app-nya. Cara menemukan requirement baru dan cara meng-iterasi produk lewat AI — kami belum coba itu.
+
+---
+
+Slax Note adalah app yang kami tulis ulang dengan AI — app catatan voice-first. Kamu bicara, dia menulis, kamu pilih bentuk yang kamu mau.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)

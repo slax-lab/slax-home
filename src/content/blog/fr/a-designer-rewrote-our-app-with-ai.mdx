@@ -1,0 +1,178 @@
+---
+title: "Je suis designer. J’ai réécrit notre appli avec l’IA."
+description: "Un mois à réécrire Slax Note avec Claude Code. Où l’IA a deviné, où elle a tout cassé, et le manuel qu’il a fallu écrire."
+pubDate: 2026-05-22T00:00:00.000Z
+tags: ['note', 'vibe-coding', 'ai-coding']
+product: note
+author: lin-chen
+---
+
+Je suis designer UI. Le code, c’est une planète où je ne mets jamais les pieds. Et un jour, mon patron nous a dit, à moi et à la PM : allez réécrire [Slax Note](https://slax.com/note/) avec l’IA. Je suis restée bloquée une seconde. *Est-ce que je peux vraiment faire ça ?*
+
+## 1. Au début, j’ai cru à un dieu
+
+La première fois que je m’en suis servie, je suis tombée par terre. Un ingénieur a installé Claude Code (j’écrirai juste « elle » à partir de maintenant), nous a fait une visite rapide, puis nous a laissées y aller.
+
+J’ai commencé petit. La modale d’abonnement de l’appli web Slax Note — une page statique. J’ai déposé la maquette. Elle a sorti un truc à peu près juste. Deux ou trois retouches et ça collait au comp. *Le code n’est pas si dur*, me suis-je surprise à penser.
+
+Puis on a vraiment commencé le projet. Je lui ai passé la doc d’ingénierie. Elle a scaffolded l’ensemble. L’appli tournait. Les fonctions principales étaient là. Ma confiance est encore montée d’un cran.
+
+## 2. Très vite, elle m’a rendue folle
+
+### 2.1 Elle adore deviner
+
+Au début, j’étais focalisée sur la fidélité de l’UI. J’ai préparé un spec design, branché lanhu-mcp (Lanhu est un outil chinois de design handoff, dans le genre de Zeplin), et je lui ai demandé d’utiliser les valeurs de Lanhu pour construire l’UI. Elle a ignoré le spec. Elle a deviné.
+
+La couleur d’un lien, elle a décidé qu’elle « semblait » grise. Le spec disait orange-brun.
+
+Les espacements, quand ils n’étaient pas écrits noir sur blanc, elle inventait un chiffre. Je disais non. Elle changeait. Toujours faux. On faisait quelques allers-retours. Puis j’ouvrais le fichier design et je trouvais la valeur, annotée depuis le début. Elle n’avait juste pas regardé.
+
+Leçon : dites-lui de consulter le spec *avant* d’écrire le code. Sautez cette étape et vous payez en allers-retours.
+
+Si vous lui décrivez un design dans le moindre détail (comme ci-dessous), à la manière d’une fiche technique, elle clouera l’implémentation. Pas vraiment friendly pour une designer, mais ça marche :
+
+> **Le bouton d’enregistrement sur l’écran d’accueil :** un bouton en gélule flotte à 50 pt au-dessus du bord inférieur de la page. Largeur 140 pt, hauteur 74 pt. Ombre discrète — visible, pas lourde. À l’intérieur de la gélule, deux boutons ronds. Celui de gauche, avec 8 pt de padding : un bouton circulaire d’enregistrement de 62 pt, dégradé de fond de haut en bas de `#04EAC5` à `#00BEC9`, icône d’enregistrement centrée. État pressé : ajouter un overlay `#000000` à 8 %. Celui de droite, 8 pt de padding aussi : un bouton circulaire de saisie de texte de 54 pt, fond `#FFFFFF`, icône texte centrée. État pressé : `#4D4D4D` à 8 %.
+
+Plus tard, j’ai tenté ce prompt pour générer une affiche de note. Tout collait au spec sauf la position, pas centrée. Acceptable. Ce que j’ai retenu : mettez ça une fois dans le doc de spec, ne le retapez pas à chaque fois :
+
+> Implémenter la page xx en respectant strictement le fichier design. Pixel-perfect. Ne pas modifier de ta propre initiative la mise en page, la couleur, les espacements, la typographie ou la position des icônes.
+>
+> Règles :
+>
+> 1. Reprendre exactement la structure, la hiérarchie et la mise en page de la page.
+> 2. Couleurs, tailles de police, espacements, rayons d’angle, ombres — coller au design.
+> 3. Boutons, champs, cartes, barres de nav — coller à la position et à la taille.
+> 4. Construire uniquement ce qui est dans le design. Pas d’extras.
+> 5. Le code doit tourner, être structuré, commenté, sans erreur.
+
+### 2.2 Elle adore « aider »
+
+Vous lui demandez de corriger un petit bug. Elle « aide » en refactorisant le code autour. La fonction qui marchait est cassée.
+
+Vous revenez. Elle corrige. Et elle « aide » en touchant autre chose au passage.
+
+C’est comme demander à un artisan de reboucher un mur et l’entendre dire : *« Tant qu’à faire, je déplace cette armoire, c’est mieux. »* Sauf qu’il y a une canalisation pétée derrière l’armoire.
+
+J’ai donc posé une règle : avant de toucher au code, dis-moi ce que tu comptes changer et ce que tu comptes laisser tranquille. Je valide, puis tu agis. C’était bien mieux après ça.
+
+### 2.3 Elle ne se souvient pas de ce qu’elle a appris la veille
+
+Celle-là, je ne l’avais pas vue venir.
+
+À chaque nouvelle conversation, c’est l’amnésie. Le trou dans lequel elle est tombée la dernière fois ? Même trou, cette fois.
+
+Exemple : les modales.
+
+iOS propose deux façons de faire des modales — celle du système, et une plein écran que vous construisez. Celle du système arrive avec ses propres rayons d’angle et marges. Vous avez beau le lui dire, le résultat ne colle pas au design.
+
+La première fois que j’ai repéré le problème, je lui ai fait basculer. Deuxième nouvelle page, modale système à nouveau. Bascule. Troisième page. Pareil. Bascule.
+
+Au bout de trois manches, j’ai compris : il fallait l’écrire quelque part qu’elle lirait *avant* de commencer.
+
+Ce fichier s’appelle `CLAUDE.md`. Il a commencé vide. À chaque mur, j’ajoutais une ligne. À la fin, il faisait des centaines de lignes.
+
+Voyez ça comme un manuel « comment vivre avec cette IA ». Si vous ne l’écrivez pas, elle ne s’en souviendra pas.
+
+## 3. Les trucs qui m’ont vraiment cassée
+
+### 3.1 Le swipe-pour-supprimer. À peu près une douzaine de manches.
+
+La fonctionnalité sur laquelle j’ai passé le plus de temps.
+
+Le design : on swipe une carte de note vers la gauche, deux boutons apparaissent — archiver et supprimer, avec des couleurs et des coins arrondis personnalisés. Ça a l’air bête comme chou. Je pensais que ça prendrait cinq minutes.
+
+Première version : couleurs des boutons fausses. J’ai demandé un fix. Toujours faux. J’ai fini par comprendre : le composant swipe-pour-supprimer natif d’iOS verrouille ses couleurs. Quoi que vous écriviez, iOS rebascule sur des rectangles unis avec du texte blanc. Le design qu’on avait dessiné ? Impossible à construire avec le composant système. Point.
+
+On l’a donc construit nous-mêmes. Elle a réécrit tout le swipe avec une gestion de gestes maison. Après un peu de travail, ça tournait — et un nouveau problème est apparu. Le geste de swipe et le geste de scroll vertical de la page se battaient. Parfois on essayait de scroller, elle croyait à un swipe. Parfois on swipait, la carte sortait, puis elle revenait toute seule.
+
+Ce bug de retour en arrière a pris quatre manches à fixer. Quand on a fini par démêler le tout, il y avait quatre causes complètement séparées qui tiraient en même temps — priorité des gestes, une mise à jour iOS qui avait changé un comportement, des cartes qui interféraient avec l’état des autres, et plus. On les a épluchées une à une.
+
+L’UI finale ne colle pas vraiment au design. J’ai juste continué à la guider sur des fixes jusqu’à ce que le résultat soit acceptable. J’ai arrêté de courir après le rendu d’origine quand j’ai compris qu’insister allait casser autre chose.
+
+Leçon : une fonctionnalité qui ressemble à « juste un swipe » peut cacher plusieurs couches de problèmes. Ne célébrez pas après en avoir épluché une seule.
+
+### 3.2 On touche une carte de note, l’appli gèle
+
+Notes longues. On touche la carte. L’appli gèle. Elle ne bouge plus.
+
+Claude s’est mise à creuser. Elle a décidé que c’était une histoire de gestes de scroll dans la liste, ou un paramètre de geste quelconque. Elle est restée dans cette direction longtemps. Chaque fix tenté échouait.
+
+Au bout d’un moment, on a appelé un ingénieur senior, qui a lancé une autre IA (Codex) pour enquêter en parallèle. Codex a scanné quelques fichiers pendant deux minutes et est allé droit à la cause :
+
+Ce n’était pas un problème de gestes.
+
+La page de détail a un composant qui gère « déplier/replier les textes longs ». Quand ce composant rend, il met en page la note entière — cinq mille caractères — silencieusement en arrière-plan, pour mesurer la hauteur avant d’afficher. Cette mise en page tourne en synchrone sur le main thread. Cinq mille caractères, ça prend quelques secondes. Appli gelée.
+
+Claude est partie dans la mauvaise direction parce que le symptôme apparaissait au « tap sur la carte ». Elle est donc restée dans le code des gestes liés au tap. L’opération coûteuse, en vrai, était à plusieurs couches d’appels de là, dans le composant de rendu de texte de la page de détail.
+
+Le fix : tronquer avant de passer dans le composant texte (la carte affiche les 300 premiers caractères, la mesure n’en scanne que les 1 200 premiers). Pour les notes de plus de 4 000 caractères, sauter l’auto-déploiement. Passer le chargement des données de la page de détail en asynchrone. Ne pas bloquer le main thread.
+
+Leçon : l’IA peut elle aussi s’enfermer dans une mauvaise direction. Parfois, il faut un humain — ou un second outil — pour casser la boucle. Le symptôme apparaît en A, mais la cause peut être n’importe où dans la chaîne A→B→C. Deux ou trois fixes ratés, c’est le signal pour s’arrêter et refaire tout le chemin, pas pour creuser encore le symptôme.
+
+### 3.3 Sign in with Apple casse
+
+Un jour, Sign in with Apple a arrêté de marcher. La fonction avait déjà été corrigée. Même erreur, revenue.
+
+Elle a commencé à débugger. Huit manches. À chaque manche, elle était certaine : *« Cette fois c’est fixé. »* À chaque test, même erreur. Quelque part en chemin, elle a réussi à faire afficher un écran blanc à l’appli, qu’il a fallu défaire. À la fin, j’ai déterré les notes de l’ancien fix et je les lui ai montrées. Là, elle a compris.
+
+La vraie cause : pas le code. Il y a un toggle de permission dans Xcode (l’IDE d’Apple) qu’un changement auto-généré plus tôt avait silencieusement coupé. Le toggle est enterré loin — vous ne le trouvez pas tant que vous n’avez pas littéralement regardé l’écran.
+
+Leçon : certains bugs ne sont pas dans le code. Regardez l’outil d’abord.
+
+Après ça, Claude est devenue plus maligne. Dès qu’un truc lié à la connexion Apple apparaît, première étape : *envoie-moi une capture d’écran* — pas modifier le code.
+
+### 3.4 Une note sur iOS devient trois sur le web
+
+Vous enregistrez une note sur iOS. Vous ouvrez l’appli web. Il y en a trois.
+
+Elle s’est mise à analyser. A décidé que la logique de déduplication, quelque part, déconnait. Quelques manches d’édition. Rien n’a changé.
+
+Au bout du compte, elle est allée regarder les enregistrements bruts dans la base de données, et a trouvé la vérité : la requête, en fait, réussissait. Mais la réponse était mal parsée, l’appli pensait que c’était un échec, donc elle réessayait. Trois fois. Le serveur, docile, créait trois notes.
+
+Leçon : ne la laissez pas juste enchaîner les éditions de code. Forcez-la à trouver des preuves d’abord — logs, état de la base — et à comprendre ce qui casse vraiment avant de toucher quoi que ce soit.
+
+### 3.5 Mes icônes sont toujours bizarres
+
+**Icônes trop grosses.** Dans le fichier design, une icône fait 48 px. En code iOS, on divise par 2 — donc 24 pt. Je le sais. Elle ne le sait pas toujours. Parfois, elle oublie d’écrire la ligne « affiche cette image à la taille que j’ai spécifiée », et l’icône rend à sa taille native — deux fois trop grande, mangeant la moitié de l’écran.
+
+**Icônes floues.** Mauvais facteur d’export. Les emplacements @1x / @2x / @3x n’ont pas tous été mis à jour ensemble. Si vous mettez une image @2x dans l’emplacement @1x, l’iPhone croit à une version basse résolution et la redimensionne ×2 pour remplir. Résultat flou.
+
+**Elle jure que l’icône a la bonne taille. Toujours faux.** Lanhu a deux versions de la même icône : une recadrée au ras du bord, une avec du padding transparent. On veut celle avec padding. Parfois elle prend la mauvaise. Mauvaise version = icône bord à bord, mal alignée.
+
+La règle que j’ai écrite : pour télécharger les icônes, toujours prendre la dernière version Lanhu, préférer celle avec padding transparent, vérifier la taille en pixels avant import, déposer dans l’emplacement @2x — pas @1x. Quand on remplace un asset, vérifier les trois emplacements. Utiliser pt dans le code, pas px.
+
+## 4. Alors, qu’est-ce que l’IA m’a vraiment fait gagner
+
+Réponse honnête : plus rapide, mais pas autant qu’on l’imagine.
+
+Là où ça gagne du temps :
+
+- Structure de base d’une nouvelle page — quelques minutes, pas quelques heures
+- Récupérer et convertir couleurs, tailles de police, espacements depuis un design
+- Traduction sur trois langues (chinois, anglais, portugais)
+
+Là où ça n’en gagne pas :
+
+- Les bugs étranges demandent toujours une personne pour les démonter pièce par pièce
+- Les tests sur un vrai téléphone — l’IA ne les fera pas à votre place. C’est vous qui le tenez.
+- « Quelle approche on prend ici » — toujours sur vos épaules
+
+La façon la plus juste de la décrire : l’IA est une assistante avec une vitesse d’exécution extrême, mais un besoin fort d’instructions claires. Si vous lui détaillez tout, elle est rapide et bonne. Si vous restez vague, elle remplit les blancs avec ses propres devinettes, et vous passez ensuite du temps à les défaire.
+
+## 5. Le truc le plus précieux que j’en retire n’est pas le code
+
+Un mois plus tard, quatorze pages livrées.
+
+Je le redis — cette chose n’a pas de mémoire. À partir du moment où j’ai pris l’habitude de finir chaque journée en lui faisant résumer ce qu’on avait appris, le manuel « comment vivre avec cette IA » est passé de quelques lignes à plusieurs centaines. Seulement à partir de là, le travail est devenu fluide. La compétence dont on avait besoin n’était pas d’écrire du code. C’était de diriger l’IA.
+
+Ce manuel s’épaissit encore. Chaque piège. Chaque règle. Chaque interdit.
+
+Il nous suit sur le projet suivant. À chaque fois, l’IA connaît un peu mieux nos habitudes. Moins de virages ratés.
+
+---
+
+Slax Note est l’appli qu’on a réécrite avec l’IA — une appli de notes pensée voix-d’abord. Vous parlez, elle écrit, vous choisissez la forme.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)

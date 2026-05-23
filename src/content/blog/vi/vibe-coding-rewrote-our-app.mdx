@@ -1,0 +1,126 @@
+---
+title: "Tôi viết lại app bằng vibe coding. Vẫn không đọc nổi code."
+description: "Một PM và một designer viết lại Slax Note bằng Claude Code. Bug, hoảng loạn, đoạn tôi không dừng được, và những thứ tôi đã đổi. Phần 2 sắp tới."
+pubDate: 2026-04-29T00:00:00.000Z
+heroImage: "/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-what-did-i-do.png"
+tags: ['note', 'vibe-coding']
+product: note
+author: jane
+---
+
+Sáu tuần trước, không đứa nào trong chúng tôi build được app cho ổn định. Slax Note bản mới ship trong tuần này. Tôi vẫn không đọc nổi code.
+
+Tôi là PM. Đồng đội tôi là designer. Sếp bảo hai đứa tôi viết lại [Slax Note](https://slax.com/note/) — ứng dụng ghi chú lấy giọng nói làm gốc — từ đầu. Bằng AI.
+
+Đây là chuyện đã xảy ra, theo trình tự. Không tin nổi, giận dữ, cái đêm tôi chẳng cảm thấy gì, và con Claude Code agent cuối cùng chúng tôi gọi là Rocky.
+
+---
+
+## "Khoan, vừa rồi mình vừa làm cái gì vậy?"
+
+![Hai đồng nghiệp tán gẫu ở bàn làm việc. Engineer: "Vừa rồi cậu làm cái gì vậy?" PM: "Không biết, nhưng nó chạy thật rồi."](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-what-did-i-do.png)
+
+Một buổi chiều tôi ngồi cạnh một engineer thật của chúng tôi. Cái tôi vừa gõ cho Rocky đã build. Compile. Chạy. Tính năng hoạt động.
+
+Anh ấy quay sang. *"Vừa rồi cậu làm cái gì vậy?"*
+
+*"Không biết,"* tôi nói. *"Nhưng nó chạy."*
+
+Cảm giác đó — vui mà không giải thích nổi vì sao — trở thành cảm xúc lặp lại của cả tháng kế tiếp. Tôi ship cái gì đó, ngó nó, và không hiểu nó tới đó bằng cách nào. Lú lẫn. Cũng tuyệt theo cách nào đó.
+
+---
+
+## Khởi đầu là hoảng loạn
+
+![Sếp bảo hai người không-biết-code rằng họ sẽ phụ trách dựng app. Designer nghĩ: "Tôi tin AI… nhưng tôi còn chưa tin nổi mình."](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-rewrite-task.png)
+
+Tua lại đầu tháng 3. Feed của tôi không có gì ngoài bài về AI coding. *Vibe coding.* *Cursor.* *Claude Code.* *"Ai cũng ship được rồi."* Bạn designer cùng đội cũng đang nhận cùng vòi rồng. Chúng tôi gửi link cho nhau và lặng lẽ hoảng.
+
+Câu hỏi không nói ra: *còn lại gì cho những người như chúng tôi?*
+
+Rồi sếp đi qua và biến nó thành cụ thể. *"Hai đứa. Viết lại Slax Note. Dùng AI."*
+
+Một phần tôi muốn từ chối. Phần còn lại đã mở cửa sổ VS Code mới rồi. Hoảng loạn đưa bạn tới bàn phím khá nhanh. (Nó tệ hơn ở câu hỏi khi nào nên rời đi. Chúng ta sẽ tới đó.)
+
+---
+
+## Phần lớn lỗi là do tôi
+
+![Bốn khung: lỗi môi trường, mở nhầm thư mục, debug màn hình trắng cùng AI suốt hai giờ, và senior dev tìm ra bug trong vài giây.](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-bugs-were-me.png)
+
+Tuần đầu, mỗi lần một thứ không chạy, phản ứng của tôi là: *AI hỏng rồi.*
+
+Rồi tôi bắt đầu ghi điểm. Chừng nửa số vấn đề chẳng liên quan gì tới mô hình:
+
+- Tôi cấu hình môi trường sai.
+- VPN của tôi rớt giữa yêu cầu.
+- Tôi bảo Rocky sửa một file ở thư mục sai. Hai lần.
+- Tôi để Rocky debug màn hình trắng cùng tôi suốt hai tiếng, chỉ để một senior engineer liếc qua laptop tôi và nói, *"Cậu đặt breakpoint chỗ này. Vậy mới thế."*
+
+Mất nửa ngày. Mô hình đã làm xong việc của nó. Tôi chỉ không biết lái những thứ quanh nó — editor, terminal, file nằm đâu. Xấu hổ, nhưng cũng nhẹ nhõm: phần đó học được.
+
+---
+
+## Tôi quát nó cả tuần
+
+![Trái: pha giận dữ, quát AI. Phải: cho context, cho manh mối, kiên nhẫn. Dưới: cộng tác như đồng đội, rồi nhận ra — "Sao tôi quên cách nói chuyện khi nói với AI vậy?"](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-rocky-rage-phase.png)
+
+Tôi đi công tác về và bạn designer cùng đội đã dựng phần lớn app. Rồi chúng tôi va vào phần không ai cảnh báo bạn: bug.
+
+Bug là phần tệ nhất. Lúc đầu tôi xử lý tệ. Dán một lỗi, nhận câu trả lời sai, quát màn hình. *"Đồ vô dụng. Có nổi việc này không vậy?"* Giận thuần. Tốn token. Chẳng giải quyết gì.
+
+Cuối cùng tôi để ý một điều xấu hổ. Tôi đang đưa cho Rocky chỉ dẫn còn tệ hơn tôi từng đưa cho một đồng đội con người.
+
+Nên tôi đổi:
+
+- **Cho context.** Tính năng để làm gì. Tôi đã thử gì. Log nói gì.
+- **Cho manh mối.** "Kiểm endpoint này. Nó trả 500 khi user đã đăng xuất." Không phải "sửa đi."
+- **Kiên nhẫn.** Nếu nó kẹt, cho nó tài liệu. Nó chưa đọc codebase. Bạn thì có.
+
+Lần đầu làm đúng, bug được sửa trong một vòng. Tôi ngồi và nghĩ: *sao tôi quên cách nói chuyện, chỉ vì đồng đội là một AI?*
+
+Tôi vẫn chưa có câu trả lời gọn cho cái đó.
+
+---
+
+## Tôi không đặt nó xuống được
+
+Không có truyện tranh cho phần này. Đến khi tôi để ý ra vấn đề, tôi không còn cười nổi.
+
+Tôi đã thôi về nhà đúng giờ. Tôi đã thôi đặt laptop xuống lúc ăn tối. Tôi nằm trên giường lúc 23h30 nghĩ, *"Chỉ cần kick off một run nữa, sáng sẽ xong."* Vài phút lại một lần: chấp nhận diff này? Từ chối? Re-prompt? Rollback?
+
+Một tính năng trước đây là mười quyết định trong một ngày. Giờ thành một trăm trong một giờ. Tôi mất luôn mạch câu mình đang nói thành tiếng.
+
+Một thứ Ba khoảng nửa đêm tôi nằm trên giường với laptop, nhìn dấu xanh chạy ngang terminal khi Rocky kết thúc một run. Tôi nín thở vì nó. Vì một dấu tick. Từ một con robot. Bạn đời tôi đã nói gì đó hai lần và cả hai lần tôi không nghe thấy.
+
+Tôi đóng laptop và nói thành tiếng: *AI lẽ ra phải trả tôi lại thời gian chứ? Sao nó khoá tôi vào màn hình này được vậy?*
+
+Câu trả lời thật là tôi không còn phải chờ gì nữa. Tôi cũ sẽ pha cà phê khi build chạy. Tôi mới không có gì để chờ. Nên tôi cứ chạy tiếp.
+
+---
+
+## Ba thứ tôi đã đổi
+
+Cuối cùng, tôi đổi ba thói quen.
+
+1. **Giờ giấc.** Sau bữa tối, gập laptop. Mai Rocky sẽ vẫn ở đó. Bug chưa trốn đi đâu.
+2. **Phạm vi.** Một nửa thứ tôi đang dựng chẳng có ai yêu cầu. Vibe coding làm việc thêm tính năng rẻ đi, nghĩa là thêm tính năng sai cũng rẻ đi. Tôi bắt đầu giết ticket thay vì xong chúng.
+3. **Đừng thả lỏng Rocky.** Bạn không thể quăng task rồi đi. Phải khoanh phạm vi, brief nó, và quay lại kiểm. Chậm hơn mỗi bước. Nhanh hơn tổng thể, theo trải nghiệm của tôi.
+
+---
+
+Tôi vẫn không đọc nổi phần lớn code trong repo của chúng tôi. Tính năng tôi ship nằm đâu đó trong đó, và người dùng thật đang dùng. Sáu tuần trước tôi không thể nói được cả hai câu đó.
+
+Đêm qua Rocky hỏi tôi xác nhận một refactor lúc 10 giờ tối. Tôi nói không, muộn rồi, mai làm. Nó nói được. Tôi gập laptop.
+
+Đó là phần tôi không lường được.
+
+---
+
+Slax Note là app chúng tôi đã viết lại. Đó là ứng dụng ghi chú lấy giọng nói làm gốc — bạn nói, nó viết, bạn chọn hình thức bạn muốn.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)
+
+Phần 2 là bản viết kỹ thuật — stack, pipeline, cái gì hỏng. Sắp ra trên [Slax blog](https://slax.com/blog/).
