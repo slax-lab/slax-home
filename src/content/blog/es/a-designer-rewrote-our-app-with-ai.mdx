@@ -1,0 +1,178 @@
+---
+title: "Soy diseñadora. Reescribí nuestra app con IA."
+description: "Un mes reescribiendo Slax Note con Claude Code. Dónde adivinó la IA, dónde rompió cosas con 'buenas intenciones', y el manual que escribí."
+pubDate: 2026-05-22T00:00:00.000Z
+tags: ['note', 'vibe-coding', 'ai-coding']
+product: note
+author: lin-chen
+---
+
+Soy diseñadora de UI. El código siempre vivió en un planeta que no visito. Hasta que un día mi jefe dijo: tú y la PM, vais a reescribir [Slax Note](https://slax.com/note/) con IA. Me quedé en blanco un segundo. *¿De verdad puedo con esto?*
+
+## 1. Al principio pensé que era un dios
+
+La primera vez que la usé, me quedé alucinada. Un ingeniero montó Claude Code (a partir de aquí lo llamo "la IA"), nos dio una vuelta rápida y nos soltó.
+
+Empecé pequeño. El modal de membresía en la app web de Slax Note — una página estática. Le metí el diseño. Generó algo más o menos correcto. Un par de retoques y coincidía con la maqueta. *El código no es para tanto*, pensé sin querer.
+
+Luego empezamos el proyecto de verdad. Le entregué la documentación de ingeniería. Montó todo el andamiaje. La app corría. Las funciones principales estaban. Mi confianza subió otro escalón.
+
+## 2. Al poco, ya me estaba volviendo loca
+
+### 2.1 Le encanta adivinar
+
+Al principio yo iba a por la fidelidad de UI. Armé una spec de diseño, conecté lanhu-mcp (Lanhu es una herramienta china de handoff de diseño, parecida a Zeplin) y le pedí que usara los valores de Lanhu para construir la UI. Ignoró la spec. Adivinó.
+
+Decidió que un color de enlace "se sentía" gris. La spec decía marrón anaranjado.
+
+El espaciado, si no estaba escrito explícitamente, lo inventaba. Yo decía no. Lo cambiaba. Seguía mal. Íbamos y veníamos varias rondas. Entonces abría el archivo de diseño y veía que el valor había estado anotado todo el tiempo. Simplemente no había mirado.
+
+Lección: dile que revise la spec *antes* de escribir código. Si te lo saltas, pagas con rondas extra.
+
+Si le describes un diseño con detalle microscópico (como abajo), tipo ficha técnica, clava la implementación. No es exactamente amigable para diseñadores, pero funciona:
+
+> **El botón de grabación en la pantalla de inicio:** Un botón en forma de cápsula flota 50pt por encima del borde inferior de la página. Mide 140pt de ancho, 74pt de alto. Sombra sutil — visible, no pesada. Dentro de la cápsula, dos botones redondos. El de la izquierda con 8pt de padding: un botón circular de grabación de 62pt, fondo con gradiente de arriba a abajo de `#04EAC5` a `#00BEC9`, icono de grabar centrado. Estado pulsado añade un overlay de `#000000` al 8%. El de la derecha también con 8pt de padding: un botón circular de entrada de texto de 54pt, fondo `#FFFFFF`, icono de texto centrado. Estado pulsado: `#4D4D4D` al 8%.
+
+Después probé este prompt para generar un poster de nota. Todo coincidía con la spec menos que la posición no estaba centrada. Suficiente. Lo que aprendí: mete esto en el documento de spec una vez, no lo reescribas cada vez:
+
+> Implementa la página xx estrictamente desde el archivo de diseño. Píxel a píxel. No modifiques layout, color, espaciado, fuente o posición de iconos por tu cuenta.
+>
+> Reglas:
+>
+> 1. Copia la estructura, jerarquía y layout de la página exactamente.
+> 2. Colores, tamaños de fuente, espaciado, radio de esquina, sombras — igual que el diseño.
+> 3. Botones, inputs, tarjetas, barras de navegación — misma posición y tamaño.
+> 4. Construye solo lo que está en el diseño. Sin añadidos.
+> 5. El código debe correr, estar estructurado, comentado, sin errores.
+
+### 2.2 Le encanta "ayudar"
+
+Le pides que arregle un bug pequeño. "Servicialmente" refactoriza el código de alrededor. Ahora la función que andaba está rota.
+
+Vuelves. Lo arregla. También "servicialmente" toca otra cosa.
+
+Es como pedir a un albañil que parchee una pared y que te diga: *"Ya que estoy, te muevo este armario — queda mejor."* Y entonces hay una tubería rota detrás del armario.
+
+Así que puse una regla: antes de tocar código, dime qué piensas cambiar y qué piensas dejar. Yo apruebo, después actúas. Después de eso, mucho mejor.
+
+### 2.3 No recuerda lo que aprendió la última vez
+
+Esta no la vi venir.
+
+Cada conversación nueva es como amnesia. ¿El hoyo en el que pisó la última vez? Mismo hoyo, esta vez también.
+
+Ejemplo: los modales.
+
+iOS tiene dos formas de hacer modales — el del sistema y uno personalizado a pantalla completa que construyes tú. El del sistema viene con su propio radio de esquina y márgenes. Le digas lo que le digas, el resultado no coincide con el diseño.
+
+La primera vez que pillé el problema, le hice cambiar. Segunda página nueva, modal del sistema otra vez. Cambiar. Tercera página. Lo mismo. Cambiar.
+
+Después de tres rondas me di cuenta: esto hay que escribirlo en algún sitio que vea *antes* de empezar a trabajar.
+
+Ese archivo se llama `CLAUDE.md`. Empezó vacío. Cada vez que chocábamos contra un muro, añadía una línea. Al final eran cientos.
+
+Piénsalo como un manual de "cómo convivir con esta IA". Si no lo escribes, no se acuerda.
+
+## 3. Lo que de verdad me rompió
+
+### 3.1 Deslizar para borrar. Como una docena de rondas.
+
+La función a la que dediqué más tiempo.
+
+El diseño: deslizas una tarjeta de nota a la izquierda, aparecen dos botones — archivar y borrar, con colores personalizados y esquinas redondeadas. Parece muerto de simple. Pensé que tardaría cinco minutos.
+
+La primera versión salió con los colores de botón equivocados. Le pedí que lo arreglara. Seguían mal. Al final descubrí: el componente de deslizar-para-borrar nativo de iOS bloquea sus colores. Escribas lo que escribas, iOS lo sobrescribe a bloques rectangulares lisos con texto blanco. ¿El diseño que dibujamos? No se puede construir con el componente del sistema. Punto.
+
+Así que nos lo construimos nosotros. Reescribió todo el swipe con manejo de gestos personalizado. Tras algo de trabajo, corría — y apareció un problema nuevo. El gesto de deslizar y el de scroll vertical de la página estaban peleándose. A veces intentabas hacer scroll y pensaba que estabas deslizando. A veces deslizabas, la tarjeta salía, y luego se rebotaba sola hacia dentro.
+
+Ese bug del rebote me llevó cuatro rondas. Cuando por fin lo desenredamos, había cuatro causas completamente separadas disparándose a la vez — prioridad de gestos, una actualización de iOS que cambió un comportamiento, tarjetas interfiriendo con el estado de otras, más. Las fuimos quitando una a una.
+
+La UI final en realidad no coincide con el diseño. Solo seguí guiándola por arreglos hasta que el resultado fue aceptable. Dejé de perseguir el diseño original cuando me di cuenta de que apretar más iba a romper algo nuevo.
+
+Lección: una función que parece "solo un deslizamiento" puede esconder varias capas de problemas. No celebres tras pelar una.
+
+### 3.2 Tocas una tarjeta de nota y la app se congela
+
+Notas largas. Tocas la tarjeta. La app se congela. No se mueve.
+
+Claude se puso a escarbar. Decidió que esto iba sobre los gestos de scroll de la lista, o algún parámetro de gesto. Se quedó en esa dirección mucho rato. Cada arreglo que intentaba fallaba.
+
+Al final llamamos a un ingeniero senior, que arrancó otra IA (Codex) para investigar de forma independiente. Codex escaneó unos archivos durante dos minutos y fue directo a la causa:
+
+No era un problema de gestos.
+
+La página de detalle tiene un componente que maneja "expandir/contraer texto largo". Cuando ese componente se renderiza, hace un layout entero de la nota — cinco mil caracteres — en silencio en segundo plano para medir la altura antes de mostrarla. Ese layout corre síncronamente en el hilo principal. Cinco mil caracteres tardan unos segundos. App congelada.
+
+Claude tiró por mal camino porque el síntoma aparecía al "tocar tarjeta". Así que se quedó en código de gestos relacionado con el tap. La operación cara de verdad estaba a varias llamadas de distancia, en el componente de renderizado de texto de la página de detalle.
+
+El arreglo: truncar antes de pasar al componente de texto (la tarjeta muestra los primeros 300 caracteres, la medición escanea solo los primeros 1.200). Para notas de más de 4.000 caracteres, saltarse el auto-expandir. Mover la carga de datos de la página de detalle a async. No bloquear el hilo principal.
+
+Lección: la IA también puede atrancarse en la dirección equivocada. A veces necesitas un humano — o una segunda herramienta — para romper el bucle. El síntoma aparece en A, pero la causa puede estar en cualquier punto de la cadena A→B→C. Dos o tres arreglos fallidos son la señal de parar y rehacer todo el camino, no de seguir escarbando en el síntoma.
+
+### 3.3 Sign in with Apple se rompe
+
+Un día, Sign in with Apple dejó de funcionar. La función ya había sido arreglada antes. Volvió el mismo error.
+
+Empezó a depurar. Ocho rondas. Cada ronda estaba segura: *"Este sí está arreglado."* En cada ejecución, mismo error. En algún momento se las arregló para que la app renderizara una pantalla en blanco, lo que costó más tiempo deshacer. Al final desempolvé las notas del arreglo viejo y se las enseñé. Entonces lo entendió.
+
+La causa real: no el código. Hay un toggle de permiso dentro de Xcode (el IDE de Apple) que un cambio auto-generado anterior había desactivado en silencio. El toggle está enterrado a profundidad — no lo encuentras a menos que literalmente mires la pantalla.
+
+Lección: algunos bugs no están en el código. Mira primero la herramienta.
+
+Después de eso, Claude se hizo más lista. Cuando aparece cualquier cosa relacionada con Apple login, paso uno es *mándame una captura* — no editar código.
+
+### 3.4 Una nota en iOS se convierte en tres en la web
+
+Grabas una nota en iOS. Abres la app web. Hay tres.
+
+Empezó a analizar. Decidió que la lógica de deduplicación en algún sitio estaba mal. Editó unas rondas. Nada cambió.
+
+Al final fue a mirar los registros crudos en la base de datos y encontró la verdad: la petición sí estaba teniendo éxito. Pero la respuesta se parseaba mal y la app pensaba que había fallado, así que reintentaba. Tres veces. El servidor obedientemente creaba tres notas.
+
+Lección: no la dejes solo editar código. Hazla buscar evidencia primero — logs, estado de la base de datos — y averiguar qué está roto de verdad antes de tocar nada.
+
+### 3.5 Mis iconos siempre se ven raros
+
+**Iconos demasiado grandes.** En el archivo de diseño, un icono es de 48px. En código iOS, divides entre 2 — o sea 24pt. Yo lo sé. La IA no siempre. A veces se olvida de escribir la línea de "muestra esta imagen al tamaño que especifiqué", y el icono se renderiza a su tamaño nativo — el doble de lo que debería, comiéndose media pantalla.
+
+**Iconos borrosos.** Escala de exportación equivocada. Los slots @1x / @2x / @3x no se actualizaron todos a la vez. Si metes una imagen @2x en el slot @1x, el iPhone piensa que es una versión de baja resolución y la escala x2 para encajarla. Borrosa.
+
+**Jura que el icono está al tamaño correcto. Sigue mal.** Lanhu tiene dos versiones del mismo icono: una recortada a borde, otra con padding transparente. Queremos la del padding. A veces coge la equivocada. La equivocada hace que el icono vaya borde a borde y se vea descuadrado.
+
+La regla que escribí: al descargar iconos, siempre coger la última versión de Lanhu, preferir la del padding transparente, verificar el tamaño en píxeles antes de importar, meter en el slot @2x — no @1x. Al reemplazar assets, revisar los tres slots. Usar pt en código, no px.
+
+## 4. Entonces, ¿qué me ahorró de verdad la IA?
+
+Respuesta honesta: más rápido, pero no tan rápido como pensarías.
+
+Donde ahorró tiempo:
+
+- Estructura base para una página nueva — minutos, no horas
+- Buscar y convertir valores de color, tamaños de fuente, espaciado desde un diseño
+- Traducir entre tres idiomas (chino, inglés, portugués)
+
+Donde no:
+
+- Los bugs raros siguen necesitando una persona que los desmonte pieza a pieza
+- Probar en un teléfono físico — la IA no lo hace por ti. Lo corres tú.
+- "Qué enfoque usamos aquí" — sigue siendo cosa tuya
+
+La forma más exacta de describirlo: la IA es una asistente con velocidad de ejecución extrema pero con una fuerte necesidad de instrucciones claras. Si lo deletreas, va rápido y bien. Si te quedas vaga, rellena los huecos con sus propias conjeturas, y tú gastas el tiempo deshaciéndolas.
+
+## 5. Lo más grande que saqué de esto no es código
+
+Un mes después, catorce páginas hechas.
+
+Lo digo otra vez — esta cosa no tiene memoria. Cuando empecé a terminar el día haciéndola resumir lo que habíamos aprendido, el manual de "cómo convivir con esta IA" pasó de unas líneas a cientos. Solo entonces se hizo fluido trabajar con ella. La habilidad que necesitábamos no era escribir código. Era dirigir IA.
+
+Ese manual sigue engordando. Cada trampa. Cada regla. Cada zona prohibida.
+
+Viene con nosotros al siguiente proyecto. Cada vez, la IA conoce nuestras costumbres un poco mejor. Menos giros equivocados.
+
+---
+
+Slax Note es la app que reescribimos con IA — una app de notas con la voz por delante. Hablas, ella escribe, tú eliges la forma que quieres.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)

@@ -1,0 +1,51 @@
+---
+title: "Harga app baca-nanti yang bertahan sepuluh tahun"
+description: "Pocket dan Omnivore mati karena matematika, bukan karena pengguna. Ini biaya nyata menjalankannya 10 tahun — dan model harga yang bertahan."
+pubDate: 2026-05-07T00:00:00.000Z
+tags: ['reader', 'pricing']
+product: reader
+---
+
+Pocket dibeli Mozilla, ditelantarkan, lalu ditutup Juli 2025 — delapan belas tahun setelah peluncuran. Omnivore diakuisisi ElevenLabs pada 29 Oktober 2024 dan tutup tujuh belas hari kemudian, dengan dua minggu untuk ekspor data sebelum semuanya dihapus. Instapaper berpindah tangan setidaknya tiga kali. Baca-nanti itu kuburan.
+
+Pengguna menyalahkan akuisitor yang rakus. Pengguna menyalahkan "para bos." Kadang itu benar. Lebih sering penyebabnya lebih sederhana: produknya tidak pernah punya model keuangan yang bekerja selama sepuluh tahun.
+
+## Bentuk biayanya
+
+App baca-nanti punya satu hal mahal dan satu hal murah.
+
+**Murah:** baris database untuk "User X menyimpan URL Y pada waktu Z." Beberapa byte. Sepele.
+
+**Mahal:** snapshot. HTML yang dirender, gambar, CSS. Sekitar 200KB sampai 2MB per artikel, tergantung seberapa banyak gambarnya. Storage tidak mahal per gigabyte — mahal per *tahun-pengguna-permanen*.
+
+Hitung saja angkanya. Power user menyimpan 5.000 artikel per tahun, ukuran median 800KB. Itu 4GB per pengguna per tahun. Setelah sepuluh tahun, 40GB. Storage R2 dengan harga $0,015/GB/bulan jadi $0,60 per pengguna per bulan, cuma untuk storage, cuma untuk power user itu.
+
+Tambah bandwidth, compute parsing, panggilan ringkasan AI, indeks pencarian, vector embedding, dan kamu di angka $1-3 per active power user per bulan — mendekati $1 kalau pakai stack Cloudflare-native yang hemat dengan model AI kecil, mendekati $3 kalau menjalankan model frontier di setiap penyimpanan dan setiap chat. Belum termasuk gaji tim.
+
+Kalau paket gratismu "tanpa batas untuk semua," power user itu rugi buatmu selamanya. Kalau dia tidak konversi ke berbayar, kamu mendanai kebiasaannya dari uang investor. Saat investor pergi, matematikanya jadi kelihatan.
+
+## Dua bentuk yang layak
+
+Hanya ada dua model harga yang bertahan sepuluh tahun:
+
+**1. Tier berbayar nyata dengan tier gratis nyata.** Tier gratis punya batas — jumlah penyimpanan, periode retensi snapshot, kuota AI. Tier berbayar punya fitur yang mahal. Matematika konversinya jujur: bayar sesuai pemakaianmu.
+
+**2. Jadi fitur di dalam produk yang sudah untung.** Pinboard menarik biaya sekali dan bertahan karena bentuk biayanya berbeda (tanpa snapshot, tanpa AI). Reading List Apple ada karena Apple menjual ponsel. Notion Web Clipper ada karena Notion menjual paket tim.
+
+Baca-nanti sebagai produk konsumen mandiri gratis-selamanya bukan bentuk yang layak. Matematikanya tidak akan ketemu.
+
+## Yang kami pilih
+
+Ini posisi yang kami ambil setelah menghitung-hitung untuk [Slax Reader](https://r.slax.com).
+
+Tier gratis yang benar-benar bisa dipakai: penyimpanan tanpa batas, pencarian teks penuh, snapshot yang tidak kedaluwarsa bahkan untuk pengguna gratis. Fitur AI (ringkasan, outline, saran tag, pencarian) dihitung berdasarkan pemakaian.
+
+Tier berbayar yang membayar tagihan AI dan tagihan storage, dengan margin. Bukan margin besar untuk mendanai Series A. Margin yang cukup untuk bertahan tanpa Series A.
+
+Perusahaan induknya berumur 21 tahun. Kami sudah untung sejak 2018 — delapan tahun dan terus berlanjut. Kami tidak pernah menggalang modal luar. Biaya infrastruktur per active user adalah angka yang kami tahu sampai dua angka di belakang koma, karena kami tidak punya uang orang lain untuk dibakar.
+
+## Apa artinya untukmu
+
+Kalau kamu memilih app baca-nanti hari ini, pertanyaannya bukan "mana yang UI-nya paling bagus." Tapi "mana yang matematikanya bertahan terhadap tawaran akuisisi berikutnya."
+
+Kalau halaman harga sebuah alat tidak masuk akal — kalau tier gratisnya mencurigakan murah hati, kalau sama sekali tidak ada tier berbayar, kalau blog pendiri membicarakan growth tapi tidak pernah membicarakan biaya per pengguna — kamu sedang melihat alat dengan tanggal tutup terpasang. Kamu hanya belum tahu tanggalnya kapan.

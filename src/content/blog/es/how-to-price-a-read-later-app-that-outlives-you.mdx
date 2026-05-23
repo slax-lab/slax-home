@@ -1,0 +1,51 @@
+---
+title: "Cómo poner precio a una app de leer-después que te sobreviva"
+description: "Pocket y Omnivore murieron por matemáticas, no por usuarios. El coste real de diez años de leer-después y los dos modelos de precio que sobreviven."
+pubDate: 2026-05-07T00:00:00.000Z
+tags: ['reader', 'pricing']
+product: reader
+---
+
+Pocket fue comprada por Mozilla, abandonada y cerrada en julio de 2025 — dieciocho años después de su lanzamiento. Omnivore fue adquirida por ElevenLabs el 29 de octubre de 2024 y dejó de existir diecisiete días después, dándoles a los usuarios dos semanas para exportar antes de borrar todos los datos. Instapaper ha cambiado de manos al menos tres veces. Leer-después es un cementerio.
+
+Los usuarios culpan a los compradores avaros. Los usuarios culpan a "los trajes". A veces es verdad. Más a menudo la causa es más sencilla: el producto nunca tuvo un modelo financiero que aguantara diez años.
+
+## La forma del coste
+
+Una app de leer-después tiene una cosa cara y una cosa barata.
+
+**Barato:** la fila en la base de datos para "El usuario X guardó la URL Y en el momento Z". Unos pocos bytes. Trivial.
+
+**Caro:** la captura. El HTML renderizado, las imágenes, el CSS. Unos 200KB a 2MB por artículo, según cuántas imágenes lleve. El almacenamiento no es caro por gigabyte — es caro por *usuario-año-de-permanencia*.
+
+Saca los números. Un usuario power guarda 5.000 artículos al año, con un tamaño mediano de 800KB. Eso son 4GB por usuario y año. Tras diez años, 40GB. Almacenamiento en R2 a 0,015 $/GB/mes son 0,60 $ por usuario y mes, solo por almacenamiento, solo por el usuario power.
+
+Suma ancho de banda, cómputo de parseo, llamadas a resúmenes de IA, índices de búsqueda, embeddings vectoriales, y andas en 1-3 $ por usuario power activo al mes — más cerca de 1 $ si te quedas en un stack frugal nativo de Cloudflare con un modelo de IA pequeño, más cerca de 3 $ si corres un modelo de frontera en cada guardado y cada chat. Nada de eso incluye el salario de tu equipo.
+
+Si tu plan gratis es "ilimitado todo", el usuario power te cuesta dinero para siempre. Si no convierte a pago, le estás financiando el vicio con dinero de inversores. Cuando los inversores se van, las matemáticas se hacen visibles.
+
+## Las dos formas que aguantan
+
+Hay exactamente dos modelos de precio que sobreviven diez años:
+
+**1. Un plan de pago real con un plan gratis real.** El gratis tiene límites — número de guardados, periodo de retención de capturas, cuota de IA. El de pago tiene las funciones caras. Las matemáticas de conversión son honestas: pagas por lo que usas.
+
+**2. Ser una función dentro de un producto rentable.** Pinboard cobraba una cuota única y sobrevivió porque la forma del coste era distinta (sin capturas, sin IA). Reading List de Apple existe porque Apple vende teléfonos. Notion Web Clipper existe porque Notion vende equipos.
+
+Leer-después como producto de consumo independiente, gratis para siempre, no es una forma viable. Los números no cierran.
+
+## Lo que decidimos
+
+Aquí es donde aterrizamos tras hacer las cuentas para [Slax Reader](https://r.slax.com).
+
+Un plan gratis que de verdad se usa: guardados ilimitados, búsqueda de texto completo, capturas que tampoco caducan en los usuarios gratis. Las funciones de IA (resumen, esquema, sugerencias de etiquetas, búsqueda) tienen contador.
+
+Un plan de pago que paga la factura de IA y la de almacenamiento, con margen. No un margen lo bastante grande como para financiar una Serie A. Un margen lo bastante grande para sobrevivir sin una.
+
+La empresa matriz tiene 21 años. Somos rentables desde 2018 — ocho años y contando. Nunca hemos levantado capital externo. El coste de infraestructura por usuario activo es un número que conocemos con dos decimales, porque no tenemos dinero ajeno que quemar.
+
+## Qué significa esto para ti
+
+Si estás eligiendo una app de leer-después hoy, la pregunta no es "cuál tiene la mejor UI". Es "cuál tiene unas matemáticas que sobreviven a la próxima oferta de adquisición".
+
+Si la página de precios de una herramienta no tiene sentido obvio — si el plan gratis es sospechosamente generoso, si no hay plan de pago, si el blog del fundador habla de crecimiento pero nunca de coste por usuario — estás mirando una herramienta con fecha de cierre adjunta. Solo que aún no sabes qué fecha.

@@ -1,0 +1,51 @@
+---
+title: "Định giá một ứng dụng đọc-sau sống lâu hơn bạn"
+description: "Pocket và Omnivore chết vì phép tính, không vì người dùng. Chi phí thật để vận hành đọc-sau mười năm — và hai mô hình giá sống sót."
+pubDate: 2026-05-07T00:00:00.000Z
+tags: ['reader', 'pricing']
+product: reader
+---
+
+Pocket được Mozilla mua, bị bỏ bê và đóng cửa tháng 7 năm 2025 — mười tám năm sau khi ra mắt. Omnivore bị ElevenLabs thâu tóm ngày 29 tháng 10 năm 2024 và biến mất mười bảy ngày sau, người dùng có hai tuần để xuất dữ liệu trước khi mọi thứ bị xoá. Instapaper đã đổi chủ ít nhất ba lần. Đọc-sau là một nghĩa địa.
+
+Người dùng đổ lỗi cho người mua lại tham lam. Người dùng đổ lỗi cho "đám comple". Đôi khi đúng. Thường thì nguyên nhân đơn giản hơn: sản phẩm chưa bao giờ có mô hình tài chính chạy được trong mười năm.
+
+## Hình dạng chi phí
+
+Một ứng dụng đọc-sau có một thứ đắt và một thứ rẻ.
+
+**Rẻ:** dòng cơ sở dữ liệu "User X đã lưu URL Y vào lúc Z". Vài byte. Không đáng kể.
+
+**Đắt:** snapshot. HTML đã render, hình ảnh, CSS. Cỡ 200KB đến 2MB mỗi bài, tuỳ độ nhiều ảnh. Lưu trữ không đắt tính theo gigabyte — đắt tính theo *năm-người-dùng giữ vĩnh viễn*.
+
+Tính thử đi. Một power user lưu 5.000 bài một năm, kích thước trung vị 800KB. Vị chi 4GB mỗi người mỗi năm. Sau mười năm, 40GB. R2 ở mức 0,015 USD/GB/tháng là 0,60 USD mỗi người mỗi tháng, chỉ riêng lưu trữ, chỉ cho power user.
+
+Cộng băng thông, compute parse, gọi AI tóm tắt, index tìm kiếm, vector embedding, bạn ở mức 1-3 USD mỗi power user hoạt động mỗi tháng — gần 1 USD nếu bạn ở trên stack Cloudflare tiết kiệm với mô hình AI nhỏ, gần 3 USD nếu bạn chạy mô hình frontier cho mỗi lần lưu và mỗi lần chat. Chưa bao gồm lương đội của bạn.
+
+Nếu gói miễn phí của bạn là "không giới hạn mọi thứ", thì power user đốt tiền của bạn mãi mãi. Nếu họ không lên gói trả phí, bạn đang nuôi thói quen của họ bằng tiền nhà đầu tư. Khi nhà đầu tư đi, phép tính hiện ra.
+
+## Hai hình dạng khả thi
+
+Có chính xác hai mô hình giá sống được mười năm:
+
+**1. Một gói trả phí thật với gói miễn phí thật.** Gói miễn phí có giới hạn — số bài lưu, thời gian giữ snapshot, hạn mức AI. Gói trả phí có những tính năng tốn kém. Phép tính chuyển đổi trung thực: trả tiền cho thứ bạn dùng.
+
+**2. Là một tính năng bên trong một sản phẩm có lãi.** Pinboard thu phí một lần và sống sót vì hình dạng chi phí khác (không snapshot, không AI). Reading List của Apple tồn tại vì Apple bán điện thoại. Notion Web Clipper tồn tại vì Notion bán cho các đội nhóm.
+
+Đọc-sau như sản phẩm tiêu dùng độc lập, miễn phí mãi mãi, không phải hình dạng khả thi. Phép tính không cộng được.
+
+## Thứ chúng tôi chốt
+
+Đây là chỗ chúng tôi tới sau khi chạy số cho [Slax Reader](https://r.slax.com).
+
+Một gói miễn phí thực sự dùng được: lưu không giới hạn, tìm kiếm toàn văn, snapshot không hết hạn cả với user miễn phí. Các tính năng AI (tóm tắt, đề cương, gợi ý thẻ, tìm kiếm) thì có hạn mức.
+
+Một gói trả phí đủ trả hoá đơn AI và hoá đơn lưu trữ, kèm biên. Không phải biên đủ để gọi vòng Series A. Biên đủ để sống sót mà không cần Series A nào.
+
+Công ty mẹ 21 tuổi. Chúng tôi có lãi từ năm 2018 — tám năm và còn đang đếm. Chúng tôi chưa từng gọi vốn ngoài. Chi phí hạ tầng cho mỗi người dùng hoạt động là con số chúng tôi biết tới hai số thập phân, vì chúng tôi không có tiền của ai khác để đốt.
+
+## Điều này nói gì với bạn
+
+Nếu hôm nay bạn chọn ứng dụng đọc-sau, câu hỏi không phải "UI cái nào đẹp nhất". Mà là "cái nào có phép tính sống sót qua lời chào mua kế tiếp".
+
+Nếu trang giá của một công cụ không có lý rõ ràng — gói miễn phí hào phóng đáng ngờ, không có gói trả phí, blog của nhà sáng lập nói về tăng trưởng nhưng chưa từng nói về chi phí mỗi người dùng — bạn đang nhìn một công cụ đã có ngày đóng cửa đính kèm. Bạn chỉ chưa biết là ngày nào thôi.

@@ -1,0 +1,126 @@
+---
+title: "Reescrevi nosso app com vibe coding"
+description: "Uma PM e uma designer reescreveram o Slax Note com Claude Code. Bugs, pânico, a parte em que eu não conseguia parar, e o que mudei. Parte 2 vem aí."
+pubDate: 2026-04-29T00:00:00.000Z
+heroImage: "/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-what-did-i-do.png"
+tags: ['note', 'vibe-coding']
+product: note
+author: jane
+---
+
+Seis semanas atrás, nenhuma de nós duas conseguia rodar um build de forma confiável. O novo Slax Note saiu essa semana. Eu ainda não consigo ler o código.
+
+Sou PM. Minha colega é designer. Nosso chefe pediu que nós duas reescrevêssemos o [Slax Note](https://slax.com/note/) — nosso app de notas que começa pela voz — do zero. Usando IA.
+
+Foi assim que aconteceu, na ordem. Descrença, raiva, a noite em que não sentia nada, e o agente Claude Code que acabamos chamando de Rocky.
+
+---
+
+## "Espera, o que foi que eu acabei de fazer?"
+
+![Dois colegas conversando nas mesas. Engenheiro: "O que você acabou de fazer?" PM: "Não sei, mas rodou."](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-what-did-i-do.png)
+
+Uma tarde eu estava sentada ao lado de um dos nossos engenheiros de verdade. Algo que eu tinha acabado de digitar no Rocky tinha buildado. Compilado. Rodado. A função funcionava.
+
+Ele olhou. *"O que você acabou de fazer?"*
+
+*"Não faço ideia,"* eu disse. *"Mas rodou."*
+
+Essa sensação — feliz por nenhum motivo que você consiga explicar — virou a emoção recorrente do mês seguinte. Eu lançava algo, olhava, e não tinha ideia de como aquilo tinha chegado ali. Confuso. E meio maravilhoso.
+
+---
+
+## Começou com pânico
+
+![Chefe avisa dois não-devs que serão responsáveis por construir o app. A designer pensa: "Confio na IA… mas ainda não confio em mim."](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-rewrite-task.png)
+
+Voltando para começo de março. Meu feed era só opinião sobre IA codando. *Vibe coding.* *Cursor.* *Claude Code.* *"Qualquer um pode lançar agora."* Minha colega designer recebia a mesma mangueira. A gente trocava links e silenciosamente entrava em pânico.
+
+A pergunta não dita: *o que sobra para gente como a gente?*
+
+Aí nosso chefe chegou e tornou concreto. *"Vocês duas. Reescrevam o Slax Note. Usando IA."*
+
+Uma parte de mim queria recusar. A outra já tinha aberto uma janela nova do VS Code. Pânico te leva pro teclado bem rápido. (Não é tão bom em decidir quando sair dele. A gente chega lá.)
+
+---
+
+## A maior parte dos bugs era eu
+
+![Quatro quadros: erros de ambiente, abrir a pasta errada, depurar uma tela branca com IA por duas horas, e o dev sênior acha o bug em segundos.](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-bugs-were-me.png)
+
+Na primeira semana, toda vez que algo não funcionava, minha reação era: *a IA está quebrada.*
+
+Aí comecei a fazer placar. Mais ou menos metade dos meus problemas não tinha nada a ver com o modelo:
+
+- Configurei meu ambiente errado.
+- Minha VPN caiu no meio de uma requisição.
+- Mandei o Rocky editar um arquivo na pasta errada. Duas vezes.
+- Deixei o Rocky depurar uma tela branca comigo por duas horas, só para um engenheiro sênior olhar de relance e dizer: *"Você colocou um breakpoint aqui. Por isso."*
+
+Meio dia, queimado. O modelo tinha feito o trabalho dele. Eu só não sabia dirigir as coisas em volta — o editor, o terminal, onde os arquivos ficavam. Vergonha, mas meio que um alívio: essa parte eu podia aprender.
+
+---
+
+## Gritei com ele por uma semana
+
+![Esquerda: fase de raiva, gritando com a IA. Direita: dar contexto, dar pistas, ter paciência. Embaixo: colaborando como colegas, e então a percepção — "Por que eu esqueci de falar quando estava falando com IA?"](/note/images/blog/vibe-coding-rewrote-our-app/vibe-coding-rocky-rage-phase.png)
+
+Voltei de uma viagem de trabalho e minha colega designer tinha construído a maior parte do app. Aí batemos na parte que ninguém te avisa: bugs.
+
+Os bugs foram a pior parte. Lidei com eles mal no começo. Colava um erro, recebia uma resposta errada, gritava com a tela. *"Você é inútil. Você é capaz disso?"* Pura raiva. Tokens queimados. Nada resolvido.
+
+Eventualmente notei algo embaraçoso. Eu estava dando ao Rocky instruções piores do que daria a qualquer colega humano.
+
+Então mudei:
+
+- **Dê contexto.** Para que serve a função. O que já tentei. O que dizem os logs.
+- **Dê pistas.** "Verifique este endpoint. Ele retorna 500 quando o usuário está deslogado." Não "conserta."
+- **Tenha paciência.** Se ele travou, mande a docs. Ele não leu a base de código. Você leu.
+
+Da primeira vez que fiz direito, o bug foi corrigido em uma rodada. Sentei ali pensando: *por que esqueci de falar só porque o colega era uma IA?*
+
+Ainda não tenho uma resposta limpa para isso.
+
+---
+
+## Não conseguia largar
+
+Não tem quadrinho para essa seção. Quando percebi o problema, não estava rindo.
+
+Eu tinha parado de ir embora no horário. Parado de largar o notebook na hora do jantar. Estava na cama às 23h30 pensando: *"se eu disparar mais uma execução agora, tá pronto pela manhã."* A cada poucos minutos: aceitar esse diff? Rejeitar? Re-promptar? Desfazer?
+
+Antes uma função era dez decisões num dia. Agora era cem em uma hora. Eu perdia o fio de uma frase que estava falando em voz alta.
+
+Numa terça por volta de meia-noite eu estava na cama com o notebook, vendo um check verde rolar no terminal enquanto o Rocky terminava uma execução. Eu estava prendendo a respiração por ele. Por um check. De um robô. Meu parceiro tinha me falado algo duas vezes e eu não tinha ouvido nenhuma das duas.
+
+Fechei o notebook e falei em voz alta: *não era para a IA me devolver meu tempo? Como ela me prendeu nessa tela?*
+
+A resposta honesta é que eu nunca mais tinha que esperar por nada. A velha eu teria feito café enquanto um build rodava. A nova eu não tinha por que esperar. Então só continuava.
+
+---
+
+## Três coisas que mudei
+
+No fim, mudei três hábitos.
+
+1. **Horário.** Depois do jantar, notebook fechado. O Rocky vai estar lá amanhã. O bug não fugiu.
+2. **Escopo.** Metade do que eu estava construindo, ninguém tinha pedido. Vibe coding torna barato adicionar funções, o que quer dizer que adicionar as funções erradas também fica barato. Comecei a matar tickets em vez de terminar.
+3. **Não deixe o Rocky solto.** Você não pode só entregar uma tarefa e sair andando. Tem que escopar, dar o briefing e voltar para conferir. Mais lento por passo. Mais rápido no geral, pela minha experiência.
+
+---
+
+Ainda não consigo ler a maior parte do código no nosso repo. As funções que lancei estão lá em algum lugar, e usuários reais usam. Seis semanas atrás eu não conseguia dizer nenhuma das duas coisas.
+
+Ontem à noite o Rocky me pediu para confirmar um refactor às 22h. Disse não, é tarde, fazemos amanhã. Ele disse ok. Fechei o notebook.
+
+Essa é a parte que eu não vi vindo.
+
+---
+
+Slax Note é o app que reescrevemos. É um app de notas que começa pela voz — você fala, ele escreve, você escolhe a forma que quer.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)
+
+A parte 2 é o write-up técnico — a stack, o pipeline, o que quebrou. Em breve no [blog da Slax](https://slax.com/blog/).

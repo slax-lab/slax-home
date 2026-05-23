@@ -1,0 +1,343 @@
+---
+title: "Slax Note mit KI neu geschrieben: das volle Retro"
+description: "Methoden-Retro einer PM zum App-Rewrite mit KI. Spec-getrieben, mit echtem Bug-Tracker. Was passiert, wenn KI in ein System mit Regeln fällt."
+pubDate: 2026-05-22T00:00:00.000Z
+tags: ['note', 'vibe-coding', 'ai-coding']
+product: note
+author: jane
+---
+
+Dieses Retro stützt sich auf einen Haufen Gruppenchats, einen Stapel Vorbereitungsdokumente, das Meeting-Protokoll vom 18. März und Tageslogs von Mitte März bis Mitte April.
+
+Es geht nicht um eine Schritt-für-Schritt-Chronik. Es geht um zwei Fragen:
+
+1. Wie sah nach dem 10. März 2026 die innere Reise aus, [Slax Note](https://slax.com/note/) mit KI-Coding neu zu schreiben?
+2. Was aus diesem Experiment lohnt sich für die Wiederverwendung, und was sollte man beim nächsten Mal umgehen?
+
+## 1. Fazit zuerst
+
+Slax Note mit KI neu zu schreiben war kein „KI baut die ganze App, während wir entspannen"-Sieg. Es war eine Strecke aus Aufregung, dann Zweifel, dann Frust, dann Methoden-Anpassungen und am Ende wiederhergestelltem Vertrauen.
+
+In einem Satz:
+
+> KI hat die Einstiegshürde wirklich gesenkt. Aber was darüber entscheidet, ob du effizient ausgeliefert bekommst, ist nicht „kannst du KI nutzen". Es ist, ob du das Problem definieren, den Kontext einrahmen, Qualität managen und die Zusammenarbeit drumherum bauen kannst.
+
+Das Wertvollste, was wir aus diesem Rewrite mitgenommen haben, war keine neue iOS-Version. Es war die Bestätigung von ein paar Dingen:
+
+- Designerinnen und PMs können mehr als Anforderungen schreiben und Builds abnicken — mit KI können sie die Umsetzung selbst treiben
+- KI ist großartig bei schnellem Scaffolding, UI-Befüllen und kleinen bis mittelgroßen Fixes oder gestapelten Trial-and-Error
+- Sobald du auf echte Business-Flows, echte Geräte, komplexes Sync und Multi-Plattform-Übergaben triffst — schließt KI die Schleife nicht mehr für dich. Sie zieht die Latte für Specs, Kontext, Validierung und Code-Review tatsächlich höher
+- Was die Leute später unterschied, war nicht „wer kann Code schreiben". Es war, wer Ursachen finden, Regressionen kontrollieren und Lektionen in etwas Wiederverwendbares verwandeln konnte
+
+Die echte Form dieses Experiments: nimm das, was früher implizites Engineering-Können war, brich es auseinander und baue es als Fluss auf, den Menschen und KI gemeinsam fahren können.
+
+## 2. Warum wir mit dem Rewrite gestartet sind
+
+Zieh die Timeline früher und du siehst, das fing nicht wirklich Mitte März an. Es trat um den 10. März 2026 klar an die Oberfläche.
+
+Das Team-Gespräch war schon direkt: nutzt Slax Note als aggressiveres KI-Coding-Experiment. Manche brachten sogar die Idee ins Spiel, die ganze Slax-Note-Codebase zu löschen und ein kleineres Team mit KI alles neu bauen und pflegen zu lassen. Die Rahmung war nicht mehr *„kann KI uns ein bisschen schneller machen."* Es war *„ist das ein neuer Weg, ein Produkt zu bauen."*
+
+Ab Mitte März hörte das Team auf, KI als kleines Produktivitäts-Tool zu sehen, und nahm ein aggressiveres Setup ernst:
+
+- Produkt definiert die Anforderung
+- Sie wird nicht durch Engineering-Schichten weitergereicht
+- Designerin oder PM nutzt KI, um den Code direkt zu generieren, zu debuggen und zu verifizieren
+- Später laufen Review und Bug-Fixes ebenfalls so viel wie möglich durch KI
+
+Aber es gab eine kritische Vorbedingung:
+
+> Das war nicht *„wirf der KI die Requirements hin und lass sie aus dem Nichts improvisieren."* Das war ein spec-getriebener KI-Coding-Einsatz.
+
+Bevor der Rewrite losging, nahm Yujie, unser Engineer, die bestehende Codebase und destillierte die wichtigsten Strukturen, Capability-Grenzen, Seitenlogik, API-Verträge und Modul-Beziehungen in eine Sammlung von Spec-Dateien, die die KI konsumieren kann. Von da an war die Arbeit kein Freistilringen. Sie war: lies diese Spec, führe diesen Schritt aus.
+
+Das ändert alles:
+
+- KI generiert nicht im Vakuum — sie konsumiert Kontext, der für sie aufgebaut wurde
+- Designerin und PM starren nicht in ein komplexes Repo — sie arbeiten gegen strukturierte Task-Beschreibungen
+- Wenn etwas schiefgeht, fällst du nicht auf mündliche Beschreibung zurück — du gehst zurück zur Spec und passt sie an
+
+Anders gesagt: dieses Experiment bewies nicht „KI heißt, wir brauchen keine Engineers." Es bewies, dass Engineers ihre Erfahrung, ihr Architektur-Verständnis und ihr System-Wissen in Specs codieren können — und dass dann eine viel breitere Gruppe von Leuten durch KI in die Umsetzung einsteigen kann.
+
+## 3. Was den Rewrite wirklich in Bewegung brachte: die Zusammenarbeit darunter
+
+Wer nur die Oberfläche anschaut, liest das schnell als „PM + Designerin + KI haben die App neu geschrieben."
+
+Die ehrlichere Version: der Rewrite kam vom Fleck, weil Engineers, das Backend-Team und KI das gemeinsam getragen haben.
+
+### 1) Engineers haben das System in Spec verwandelt
+
+Das war der tragende Schritt.
+
+Yujie nahm das bestehende Repo und verwandelte verstreute Produktstruktur, Modul-Beziehungen, Seitenlogik, API-Informationen und Umsetzungs-Constraints in etwa ein Dutzend Spec-Dateien. Danach war KI-Coding nicht mehr blindes Generieren. Es war schrittweise Ausführung gegen eine Spec.
+
+Warum das wichtig war:
+
+- Halluzinationen und ungebetene Refactors reduziert
+- Die Schwelle für Nicht-Engineers, sich auf komplexes Engineering einzulassen, gesenkt
+- Entwicklung von „Trial-and-Error per Prompt" zu „Ausführung gegen Spec" gemacht
+
+### 2) Engineers haben implizites Wissen niedergeschrieben
+
+Neben Spec-Dateien lebt viel kritisches Know-how nicht in Requirement-Docs. Es kommt während der Arbeit raus. Das Team trug ständig Sachen wie diese nach:
+
+- Was dieser Tech-Stack für bestimmte UIs oder Interaktionen kann und nicht kann
+- Wo man vereinfachen kann, wo man auf keinen Fall pushen sollte
+- Die echten Constraints rund um spezifische API-Felder, Namenskonventionen, State-Handling
+- Welche Probleme erst Ursachenarbeit brauchen, welche man überspringen kann
+
+Jedes Mal, wenn so etwas in ein Dokument einging, wurde die KI stabiler und die Team-Koordination schneller.
+
+### 3) Backend war die ganze Strecke im Loop
+
+Über die Frontend-Spec-Arbeit und die Bug-Jagd hinaus kam dieser Rewrite voran, weil Yaokun, unser Backend-Engineer, tief involviert war.
+
+**Früh: Prompts, Hotword-Extraktion, Multi-Language.** Am 10. März tunte Yaokun schon den Hotword-Extraction-Prompt, verbesserte die Unterstützung für Portugiesisch und Englisch und diskutierte mit uns Extraktionsqualität, Verarbeitungsgeschwindigkeit und Akzeptanz. Vom ersten Tag an war seine Arbeit nicht nur Backend-APIs — sie war die KI-Fähigkeit und Output-Qualität des Produkts selbst.
+
+**Mittendrin: API-Erweiterungen, Migrationen, Dokumentation.** Als wir auf echte Business-Flows trafen, erweiterte er ständig — Migration und Hinzufügen von Endpunkten, Ausfüllen von API-Docs, half uns, die echten serverseitigen Constraints zu verstehen. KI-Coding kann nicht durch Raten an APIs in echte Business-Logik einsteigen.
+
+**Späte Phase: API-Docs / Apifox / MCP in den KI-Workflow ziehen.** Am Ende war seine Unterstützung über Q&A hinaus gewachsen. Wir ließen die KI gegen Apifox-Docs (ein API-Spec-Tool) Probleme analysieren, frischten den Doc-Cache vor dem Debugging gegen die Spec auf, konfigurierten Apifox' MCP und bekamen seine direkten Hinweise auf Parameter-Fehler, doppelte Requests, falsch geformte Request-Bodies.
+
+> Dieser Rewrite kam nicht voran, weil „KI Code schrieb". Er kam voran, weil menschliche Engineers der KI ständig die richtigen Grenzen, Kontexte, Konventionen und Rückmeldungen gaben.
+
+### 4) Der Sieg war Cross-Role-Kollaboration
+
+Im Rückblick gelang der Rewrite nicht, weil eine Rolle stärker wurde. Er gelang, weil:
+
+- Engineers Repo-Wissen in Spec verwandelten
+- Produkt / Design die Umsetzung und Validierung durch KI trieben
+- Backend APIs, Docs, Interaktionsdetails und Diagnose ständig erweiterte
+- Alle zusammen die Frage von „kann KI das schreiben" zu „läuft das Produkt wirklich" pushten
+
+Die ehrlichere Beschreibung: das war eine kombinierte Praxis aus Spec-getriebener, Doc-getriebener, eng gekoppelter Frontend-/Backend-Koordination und Mensch-KI-Zusammenarbeit.
+
+## 4. Die innere Reise: wie ich durch diesen Monat gegangen bin
+
+### 1) Kickoff: frisch, aufgeregt, noch sehr unsicher
+
+10. bis 18. März, die Stimmung war aufgeregt, aber nicht sicher.
+
+Einerseits bereitete sich das Team vor und richtete sich aus. Die Designerin fing an, Claude Code zu installieren und zu lernen. Wir debattierten, wie weit der KI-Rewrite tatsächlich gehen sollte. Native vs. Cross-Platform, Cloud vs. Lokal — alles auf dem Tisch.
+
+Andererseits waren meine ersten Reaktionen ziemlich roh:
+
+- *„Leute, das Wetter hat sich gedreht."*
+- *„Ich kann nicht mal Versionskontrolle, und ihr wollt, dass ich ein Produkt pflege?"*
+- *„Das ist wild."*
+
+Das fasst den Zustand ehrlich. Nicht „Ich wusste, das würde klappen." Eher aufgeregt und geschockt zugleich, mit Lust drauf und gleichzeitig dem Gefühl, das sei zu aggressiv.
+
+Die wichtigste Verschiebung in dieser Phase war kein Code. Es war eine mentale Umschaltung. Implementierung war früher das Territorium der Engineers. Zum ersten Mal öffnete KI dieses Territorium für Produkt und Design.
+
+Am 18. März hatte das erste Demo, gebaut aus den Docs, schon Gestalt. Das Gefühl war eher:
+
+- Das ist keine Fantasie
+- KI baut nicht nur Spielzeug-Demos
+- Gib ihr klare Docs, Kontext und ein Ziel, und sie kann ein Produkt-UI samt Hauptflow schnell hochziehen
+
+Aber der Schmerz der nächsten Phase war schon hier gesät. KI ist gut darin, „etwas zu bauen". Das ist nicht dasselbe wie „es richtig bauen, stabil bauen, zum Produkt bauen".
+
+### 2) Der Push: vom „KI beim Code-Schreiben zusehen" zum tatsächlichen Ausliefern
+
+20. bis 23. März, die Stimmung kippte.
+
+Die früheren Tage waren „kann sie's". Jetzt war die Frage „ist das Brauchbare auch nutzbar". Das Team stieß nicht mehr auf abstrakte Probleme, sondern auf sehr konkrete, sehr zermürbende:
+
+- UI-Details, die nicht landeten
+- Sieht im Simulator gut aus, kaputt auf dem Gerät
+- Backend-APIs anhängen, und Performance-, Interaktions- und State-Probleme tauchen gleichzeitig auf
+- Hier fixen, dort kaputt machen
+- KI behauptet, es sei gefixt. Das Ergebnis ist meilenweit weg von dem, was gefragt war.
+
+In meiner Reflexion vom 23. März hatte ich den Kernschmerz schon benannt.
+
+**Erste Schicht Rückschlag: Probleme verketten sich.** Was nach einem Interaktionsdetail aussieht, kann Gesten-Konflikte, Seiten-Performance, Navigations-Entscheidungen, ScrollView- vs. List-Tradeoffs heranziehen. KI ist nicht unfähig, das zu fixen — aber sie reicht dir oft eine lokale Lösung, die *irgendwie* funktioniert, ohne wirklich richtig zu sein.
+
+**Zweite Schicht Rückschlag: ohne Verständnis der darunterliegenden Ebene kannst du KI nicht führen.** Mir wurde klar, das echte Problem war nicht, dass KI sich keine Mühe gibt. Das echte Problem war: ohne iOS-Innereien zu verstehen, konnte ich nicht beurteilen, ob KIs Lösung optimal war, zweitbeste oder Pflaster.
+
+**Dritte Schicht: ein kognitives Upgrade — manche Anforderungen drückt man nicht durch.** Sobald du in KI-Coding drin bist, fängst du an zu verstehen, was Engineers meinen mit „wir müssen den Ansatz ändern". Manches macht aus Produktsicht Sinn, ist aber gegeben dem aktuellen Tech-Pfad völlig unwirtschaftlich. Härter pushen sperrt dich nur in eine Schleife mit niedriger Effizienz.
+
+### 3) Anpassen: ein eigenes Playbook formen, kein kopfunter Grinden mehr
+
+Ende März verschob sich der Zustand. „Probleme schubsen mich rum" wurde zu „Ich weiß, wie ich mit KI arbeite".
+
+Ein paar klare Wendungen:
+
+**Wendung eins: akzeptieren, dass nicht jedes Problem heute gelöst wird.** Dinge, die nach vielen Versuchen weiter daneben lagen — überspringen, weiter. Den Hauptflow schützen. Das, was wir vorführen können, schützen. Das, was aufm Gerät läuft, schützen. Eines der größten Risiken von KI-Coding ist die Illusion, *es sei fast geschafft*, die dich in endlose Mikro-Anpassungen zieht.
+
+**Wendung zwei: schreib die Lektionen in Docs, nicht nur in den Chat.** Chat-Kontext reicht nicht. Beschreibung im Moment reicht nicht. Schreib die Constraints auf. Erst dann wird KI verlässlich stabil. Hör auf, der KI jedes Mal alles neu beizubringen. Mach die Regeln zum Asset.
+
+**Wendung drei: Tool-Geläufigkeit ist auch Produktivität.** Viele „Bugs" stellten sich heraus als: ich war im falschen Ordner, Xcode kompilierte eine alte Datei, ich konnte die englische Fehlermeldung nicht lesen, das Kontextfenster wurde lang und ich traute mich nicht, ein neues aufzumachen. Die Schwelle zu KI-Coding ist nicht nur „kannst du eine Anforderung schreiben". Sie ist „kannst du die ganze Entwicklungsumgebung bedienen".
+
+### 4) Konvergenz: vom „läuft" zum „ausliefern", vom Einzelexperiment zur Teamarbeit
+
+Anfang bis 10. April war eine weitere sichtbare Verschiebung. Wir waren kein Demo-Projekt mehr. Wir schoben Richtung echter Auslieferung: Demos im Raum, Tests auf echten Geräten, TestFlight, Team-Nutzung, Feedback von mehreren.
+
+Die größte Änderung: das Problemzentrum wanderte von *„die Seite ist nicht fertig"* zu *„echte Nutzung legt echte Probleme offen"*.
+
+**Bug-Zahl explodierte.** Sobald es in mehr Hände im Team kam, stapelten sich Issues schnell. Am 10. April wurde mir klar, unser Bug-Management musste vom „in einem Doc verfolgt" zu einem strukturierten Ledger aufsteigen. Bug Tracker wanderte vom langen Doc in eine multidimensionale Tabelle. Projektmanagement upgegradet, ernsthaft.
+
+**Wir trennten „demoreif" von „releasereif".** Frühe Demos sahen zu 80 % feature-complete aus und konnten persönlich gezeigt werden. Aber TestFlight, Store-Release und der Blick vor mehr Leuten — die Bugs dort sind eine andere Größenordnung. KI bringt dich schnell zu „sieht aus, als ob's funktioniert". Die Lücke zwischen dem und „liefert aus und bleibt oben" ist eine ganze Engineering-Qualitätslatte.
+
+**Team-Workflow wurde auch upgegradet.** Nicht mehr nur „bitte KI ändert das". Wir fingen mit PRs, Reviews, Code-Reviews, automatischen Deploys und ordentlichen Fix-Schleifen an. Ich sagte es offen: nimm Claude Code zum Schreiben, nimm Codex zum Reviewen. Skalierbares KI-Coding ist nicht ein Modell, das von oben bis unten schreibt. Es sind verschiedene KIs, die verschiedene Teile des Flows handhaben.
+
+### 5) Der Sprint: das Schwierigste war nicht die Entwicklung, sondern systemische Ursachen
+
+13. bis 17. April war eine Lehrbuch-Strecke „Engineering im tiefen Wasser". Die Probleme waren keine Oberflächen-UIs oder Einzelseiten-Logik mehr. Sie waren systemisch:
+
+- Eine 401-Token-Kaskade, die heimlich den ganzen Sync killt
+- Falsche Feldtypen beim Session-Sync, falsche Benennung, doppelte Sync-Pfade
+- audioFileId-Typ-Mismatch lässt PUT note wiederholt fehlschlagen
+- Upload-Race-Condition überschreibt den Erfolgsstatus zurück auf „erkenne"
+- SwiftUI `.refreshable` bricht Tasks ab und löst Folgefehler aus
+- Background-Task-Zeitlimits schneiden ASR mittendrin ab
+- Archive-State von Android synchronisiert nicht nach iOS
+
+Diese Phase ist zermürbend, weil jeder Fix das nächste Mechanik-Problem hervorholt. Der sichtbare Bug sitzt auf einer Architektur-Annahme, die nicht hält. KI hilft bei der Diagnose, aber wirklich die Schleife zu schließen braucht weiterhin starke Problem-Zerlegung und Verifikation.
+
+Hier waren wir nicht mehr „Leute, die KI Code schreiben lassen". Wir wurden gut in: Logs lesen, Ursachen finden, minimale Fixes setzen, Regressionen kontrollieren, PR-Summaries schreiben, echte Fix-Schleifen bauen.
+
+Die erste Phase hat gezeigt: KI kann Dinge bauen. Die zweite Phase hat gezeigt: Wir lernten, Dinge zum Produkt zu machen.
+
+## 5. Der tatsächliche psychologische Bogen
+
+Wenn du die technische Schicht abziehst und nur den mentalen Zustand verfolgst, sieht es so aus:
+
+1. **Start:** Aufgeregt, aber unsicher. Dinge, für die früher Engineering-Beteiligung nötig war, konnte ich einfach machen. KI war kein Spielzeug — sie produzierte tatsächlich UI und Features. Gleichzeitig fühlte sich das Setup übertrieben aggressiv an, mit einem Unterton von *„Moment, das darf ich?"*
+
+2. **Bald danach:** Zweifel setzt ein. Sobald du auf APIs, echte Geräte, komplexen State und Detailtreue triffst, übersteigen die Probleme die Erwartungen. KI klingt selbstsicher. Die Ergebnisse sind oft nicht gut. *Hab ich diesen Weg überschätzt?*
+
+3. **Mitte:** Am frustriertesten. Der echte Frust ist nicht die Bug-Zahl — er ist, dass ich ohne Verständnis der darunterliegenden Ebene KI nicht so führen kann, wie ein Engineer es täte. Ich häng im Testen, Feedback geben, wieder testen. Die höchsten psychologischen Kosten des Experiments sitzen hier.
+
+4. **Später:** Das Playbook anpassen. Aufhören, One-Shot-Lösungen zu fordern. Ziele staffeln — Hauptflow zuerst, dann Details. Demo-reif zuerst, release-reif danach. Regeln in Docs schreiben. Bugs in einen Tracker schieben. KI auch ins Review holen.
+
+5. **Jetzt:** Vertrauen wieder aufgebaut, aber nicht naiv. Wenn der Prozess stimmt, die Spec klar, die Verifikation streng — kann KI wirklich viel von dem, was vorher nicht ging.
+
+## 6. Die Lektionen, die am meisten Wert haben, mitgenommen zu werden
+
+### 1. Behandle KI nicht wie einen „Auto-Programmierer". Behandle sie wie eine Mitstreiterin mit hoher Ausführungsgeschwindigkeit, die Constraints braucht.
+
+KIs Profil ist scharf: schnell, produktiv, retry-bereit, reicht dir selbstbewusst klingende Erklärungen. Ihre Probleme sind genauso scharf: anfällig für lokale Optima, anfällig dafür, die falsche Spur tief zu graben, überzogen selbstsicher und gut darin, „eins gefixt, eins kaputt".
+
+Besserer Weg, sie einzusetzen: wirf den Task nicht über die Mauer und wart. Ziel klären, Kontext eng ziehen, Change-Scope setzen, jede Runde verifizieren.
+
+### 2. Docs sind kein Beiwerk. Sie sind das Kernmaterial von KI-Coding.
+
+Dieses Experiment machte eines sehr klar: **die Decke von KI-Coding wird weitgehend durch die Qualität deiner Docs gesetzt.**
+
+Gute Docs verbessern direkt Anforderungs-Verständnis, UI-Treue, API-Ausrichtung, Multi-Personen-Konsistenz und wie schnell neue Probleme bearbeitet werden. Die Kehrseite: schlechte Docs, und KI rät. Sobald sie rät, ist Nacharbeit fast garantiert.
+
+Minimum: Docs sollten drei Schichten haben:
+
+- **Produkt-Spec:** Ziel, Grenzen, Priorität
+- **Umsetzungs-Constraints:** Benennung, API-Felder, State-Machines, Komponenten-Konventionen
+- **Lektionen:** Löcher, in die wir schon getreten sind, Pfade, die nicht wieder probiert werden dürfen
+
+### 3. Der eigentliche Zeitfresser ist nicht „Schreiben". Es ist „Verifizieren".
+
+Anfangs denkst du, das Schwierigste am KI-Coding sei die Generierung. Mach es lange genug und du merkst, die Zeit geht in die Verifikation:
+
+- Verifizieren, dass es zur Anforderung passt
+- Verifizieren, dass es andere Features nicht kaputt gemacht hat
+- Verifizieren, dass Simulator und Gerät gleich reagieren
+- Verifizieren, dass der Multi-Plattform-State konsistent ist
+- Verifizieren, dass der Fix nicht nur Oberfläche ist
+
+KI hat die Kosten des Code-Schreibens gesenkt. Damit wurden die Kosten der Verifikation wichtiger, nicht weniger wichtig.
+
+### 4. Sobald die Bug-Zahl klettert, struktur sie sofort. Bleib nicht in Chat und langen Docs.
+
+Den Bug Tracker am 10. April hochzuziehen war der richtige Call. Sobald die Menge skaliert, heißt keine Struktur: derselbe Bug wird mehrfach diskutiert, Prioritäten verheddern sich, Ownership ist unklar, Fix-Status ist nicht trackbar, und welche Version was enthält geht verloren.
+
+Sobald du in Multi-Personen-Test gehst: Nummer, Priorität, Owner, aktueller Status, Repro-Pfad, Ziel-Version. Tag eins.
+
+### 5. „Kannst du KI führen" setzt die Effizienz-Decke
+
+Code nicht schreiben können heißt nicht, du kannst kein KI-Coding. Aber wenn du null Verständnis der darunterliegenden Ebene hast, gibt es eine echte Decke: du kannst Symptome beschreiben, aber Lösungsqualität nicht beurteilen, einen Fake-Fix nicht erkennen und den Ansatz nicht proaktiv kippen.
+
+Beide Pfade lohnen sich:
+
+**Pfad A: Engineering-Literacy von Nicht-Engineering-Rollen heben.** Minimum: wie liest man Logs, wie liest man Datei-Beziehungen, wie liest man die Build-Kette, wie erkennt man gängige Fehler.
+
+**Pfad B: KI die „Erklärungs-Schicht" und „Audit-Schicht" füllen lassen.** Zum Beispiel: KI muss eine Ursachen-Hypothese, einen Änderungs-Scope, Risiko-Punkte, Verifikations-Schritte und eine Rollback-Methode ausgeben.
+
+### 6. Echte KI-Coding-Effizienz kommt nicht von cleveren Prompts
+
+Je länger wir das fuhren, desto klarer wurde:
+
+> Was KI-Coding wirklich effizient macht, ist kein magisches Prompting. Es ist, dass KI in ein System mit Konventionen, Docs, Tools und menschlichem Feedback fällt.
+
+Was wir am Ende wirklich fuhren, war nicht „sag der KI die Anforderung". Es war: die Grenze mit Spec definieren, Constraints mit Docs definieren, API-Konventionen via Apifox / MCP einhaken, menschliche Teammitglieder korrigieren und ergänzen lassen, dann KI gegen all dieses Material ausführen.
+
+### 7. Zuerst eine laufende Schleife. Dann Detailtreue jagen.
+
+Viel Schmerz kommt von einem echten Problem: bevor du eine stabile Schleife hast, zieht dich frühes Detail-Chasing in Niedrig-Effizienz-Tuning.
+
+Richtige Reihenfolge:
+
+1. Hauptflow läuft
+2. Funktioniert auf dem Gerät
+3. Core-State ist stabil
+4. Von mehreren Personen testbar
+5. *Dann* UI-, Animations-, Interaktions-Politur
+
+### 8. Überspring Code-Review nicht. Je weiter du drin bist, desto wichtiger wird's.
+
+Am Ende waren wir klar in einem neuen Modus: nicht nur KI schreibt — auch KI macht Code-Review, jagt Risiken, füllt Tests aus, schreibt PR-Notes.
+
+Was etwas Wichtiges sagt: je weiter ein KI-Coding-Projekt fortschreitet, desto wichtiger wird Review, nicht weniger.
+
+Wenn du das skalieren willst, zieh Review als Standard vor: jedes Schreiben wird gereviewt, kritische Flows brauchen Ursachen-Notizen, Schlüsseländerungen liefern mit Verifikationsplänen aus, Hochrisiko-Fixes haben explizite Change-Scope-Kontrolle.
+
+## 7. Die wertvollste Erkenntnis
+
+Die wertvollste Erkenntnis war nicht eine Version ausliefern. Es war, einem echten Verständnis näherzukommen:
+
+1. **KI-Coding ist kein Wunder. Es ist auch kein Gag.** Es ist nicht so automatisch, wie Leute denken. Es ist auch nicht das nur-Demo-Spielzeug, das Außenstehende vermuten.
+
+2. **Die Linien zwischen Produkt, Design und Engineering werden neu gezogen.** Es geht nicht darum, wer wen ersetzt. Es geht darum, wer am schnellsten an die Problem-Szene kommt — der hat den Druck.
+
+3. **Der zukünftige Wettbewerb ist nicht „wer nutzt KI". Es ist, wer das bessere KI-Kollaborations-System baut.** Doc-System, Constraints-System, Review-System, Bug-Management, Test und Release.
+
+4. **Nicht-Engineers können in die Umsetzung vorrücken.** Vorher versuchte Produkt, in die Umsetzung zu schreiten, und wurde von Tooling und technischem Detail geblockt. Das hier war hart, aber bewies den Punkt: du bist nicht mehr nur der Mensch, der Anforderungen über die Mauer reicht. Du kannst Dinge zur Auslieferung treiben.
+
+## 8. Vorschläge für das nächste KI-Coding-Experiment
+
+**Vor dem Kickoff:**
+
+- Definiere das Ziel präzise: Demo, Vor-Ort-Showcase, TestFlight oder Produktion
+- Sperr Prioritäten ein: Hauptflow > Stabilität > UI-Detail
+- Bereite Spec-Docs, API-Docs, Design-Constraints vor
+
+**Während der Entwicklung:**
+
+- Schreib die Lektionen jeden Tag in Docs. Lass sie nicht im Chat.
+- Zwei oder drei gescheiterte Versuche an einem Problem? Überspringen oder Ansatz wechseln.
+- Jede KI-Änderung kommt mit Risiko-Hinweisen und Verifikationsschritten
+- Kritische Probleme brauchen Ursachenarbeit. Nicht nur das Symptom flicken.
+
+**Sobald im Test:**
+
+- Bug Tracker sofort hochziehen
+- Issues nach P0 / P1 / P2 schichten
+- Pro Runde nur die höchste Priorität schließen. Nicht gierig werden.
+- KI-Review, PR-Konventionen, Regressions-Verifikation einbauen
+
+**Vor dem Release:**
+
+- Sei explizit zur Linie zwischen „vorzeigbar" und „auslieferbar"
+- Sync, Login, Payment, Audio, State-Management — Top-Prioritäts-Pfade
+- Alles im Hochfrequenz-Core-Pfad wird auf einem echten Gerät verifiziert. Vertrau dem Simulator nicht.
+
+## 9. Letzte Zeile
+
+Wenn du nur den Prozess anschaust, war dieser Rewrite rau. Schmerzhaft sogar. Wenn du das Ergebnis anschaust, hat es sich gelohnt.
+
+Die nächsten Herausforderungen sind noch da. Diesmal haben wir die App neu geschrieben. Wie man neue Anforderungen findet und wie man das Produkt durch KI iteriert — das haben wir noch nicht ausprobiert.
+
+---
+
+Slax Note ist die App, die wir mit KI neu geschrieben haben — eine Voice-first-Notiz-App. Du sprichst, sie schreibt, du wählst die Form.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)

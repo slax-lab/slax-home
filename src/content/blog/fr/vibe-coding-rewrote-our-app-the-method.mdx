@@ -1,0 +1,343 @@
+---
+title: "Réécrire Slax Note avec l’IA : la rétro complète"
+description: "Rétro d’une PM sur la réécriture de notre appli avec l’IA. Travail piloté par spécifications, vrai tracker, et collaboration humain-IA."
+pubDate: 2026-05-22T00:00:00.000Z
+tags: ['note', 'vibe-coding', 'ai-coding']
+product: note
+author: jane
+---
+
+Cette rétro s’appuie sur une pile de conversations de groupe, un dossier de documents préparatoires, les notes de la réunion du 18 mars et les journaux quotidiens de la mi-mars à la mi-avril.
+
+L’objectif n’est pas un compte-rendu pas à pas. Ce sont deux questions :
+
+1. Après le 10 mars 2026, à quoi a ressemblé le parcours intérieur de la réécriture de [Slax Note](https://slax.com/note/) avec le développement assisté par IA ?
+2. De cette expérimentation, qu’est-ce qui mérite d’être réutilisé, et qu’est-ce qu’il faudra contourner la prochaine fois ?
+
+## 1. La conclusion d’abord
+
+Réécrire Slax Note avec l’IA n’a pas été un «&nbsp;l’IA construit toute l’appli pendant qu’on se détend&nbsp;». Ce fut une phase d’excitation, puis le doute, puis la frustration, puis des ajustements de méthode, et enfin une confiance reconstruite.
+
+En une phrase&nbsp;:
+
+> L’IA a vraiment abaissé le seuil d’entrée. Mais ce qui décide si vous livrez avec efficacité, ce n’est pas «&nbsp;savez-vous vous servir de l’IA&nbsp;». C’est&nbsp;: savez-vous définir le problème, contraindre le contexte, gérer la qualité et bâtir la collaboration autour.
+
+Le plus précieux tiré de cette réécriture, ce n’est pas une nouvelle version iOS. C’est la confirmation de quelques points&nbsp;:
+
+- Designers et PM peuvent faire bien plus qu’écrire un cahier des charges et valider une livraison — avec l’IA, ils peuvent piloter l’implémentation
+- L’IA est très douée pour échafauder vite, remplir des interfaces et produire des correctifs petits et moyens ou des essais-erreurs par lots
+- Dès qu’on touche aux vrais flux métier, aux vrais appareils, à la synchronisation complexe et au multi-plateforme — l’IA ne ferme plus la boucle pour vous. Au contraire, elle relève la barre des spécifications, du contexte, de la vérification et de la revue de code
+- Ce qui a fini par séparer les gens, ce n’était pas «&nbsp;qui sait écrire du code&nbsp;». C’était qui savait remonter à la cause racine, maîtriser les régressions, et transformer les leçons en quelque chose de réutilisable
+
+La vraie forme de cette expérimentation&nbsp;: prendre ce qui était autrefois une compétence d’ingénierie tacite, la décomposer, et la reconstruire en un flux que les humains et l’IA font tourner ensemble.
+
+## 2. Pourquoi nous avons lancé la réécriture
+
+Remontez la frise et vous verrez que tout n’a pas vraiment commencé à la mi-mars. C’est devenu clair vers le 10 mars 2026.
+
+La conversation interne était déjà directe&nbsp;: utilisons Slax Note comme une expérimentation de dév. IA plus ambitieuse. Certains ont même évoqué l’idée de supprimer tout le code de Slax Note et de laisser une équipe plus restreinte le reconstruire et le maintenir avec l’IA. La question n’était plus *«&nbsp;l’IA peut-elle nous rendre un peu plus rapides&nbsp;»*. C’était *«&nbsp;est-ce là une nouvelle façon de bâtir un produit&nbsp;»*.
+
+À partir de la mi-mars, l’équipe a cessé de voir l’IA comme un petit outil de productivité et a pris au sérieux une organisation plus ambitieuse&nbsp;:
+
+- Le produit définit le besoin
+- Il ne descend plus à travers les couches d’ingénierie
+- Le designer ou la PM utilisent l’IA pour générer, déboguer et vérifier le code directement
+- Plus tard, la revue et les correctifs passent eux aussi par l’IA autant que possible
+
+Mais avec une condition critique&nbsp;:
+
+> Ce n’était pas *«&nbsp;lancer le besoin à l’IA et la laisser improviser depuis zéro&nbsp;»*. C’était un travail de dév. IA piloté par les spécifications.
+
+Avant le coup d’envoi, Yujie, notre ingénieur, a repris la base de code existante et en a extrait les structures clés, les limites de capacité, la logique des pages, les contrats d’API et les relations entre modules, le tout dans un ensemble de fichiers de spécifications consommables par l’IA. À partir de là, le travail n’était plus une mêlée générale. C’était&nbsp;: lis cette spécification, exécute cette étape.
+
+Cela change tout&nbsp;:
+
+- L’IA ne génère plus dans le vide — elle consomme un contexte conçu pour elle
+- Le designer et la PM ne font plus face à un dépôt complexe en bloc — ils travaillent contre des descriptions de tâches structurées
+- Quand quelque chose tourne mal, on ne retombe pas dans la description verbale — on revient à la spécification et on l’ajuste
+
+Autrement dit&nbsp;: cette expérimentation n’a pas prouvé «&nbsp;l’IA signifie qu’on n’a plus besoin d’ingénieurs&nbsp;». Elle a prouvé que les ingénieurs peuvent encoder leur expérience, leur compréhension d’architecture et leur connaissance du système en spécifications, et qu’ensuite un public bien plus large peut entrer dans l’implémentation par l’IA.
+
+## 3. Ce qui a vraiment fait avancer la réécriture&nbsp;: la collaboration en dessous
+
+Vu de la surface, on pourrait lire ceci comme «&nbsp;PM&nbsp;+ designer&nbsp;+ IA ont réécrit l’appli&nbsp;».
+
+La version plus honnête&nbsp;: la réécriture a avancé parce qu’ingénieurs, équipe backend et IA la soutenaient tous ensemble.
+
+### 1) Les ingénieurs ont transformé le système en spécifications
+
+C’est l’étape porteuse.
+
+Yujie a repris le dépôt existant et a transformé une structure produit éparse, les relations entre modules, la logique des pages, les informations d’API et les contraintes d’implémentation en une douzaine de fichiers de spécifications, à peu près. Après cela, le dév. IA n’était plus une génération aveugle. C’était une exécution étape par étape contre une spécification.
+
+Pourquoi c’est important&nbsp;:
+
+- Moins d’hallucinations et de refontes non demandées
+- Seuil d’entrée plus bas pour les non-ingénieurs face à une ingénierie complexe
+- Le développement est passé d’«&nbsp;essais-erreurs à la requête&nbsp;» à «&nbsp;exécution contre spécification&nbsp;»
+
+### 2) Les ingénieurs ont consigné la connaissance tacite
+
+Au-delà des fichiers de spécifications, beaucoup de savoir-faire critique ne vit pas dans les cahiers des charges. Il émerge au cours du travail. L’équipe a continué à ajouter&nbsp;:
+
+- Ce que la pile technique peut et ne peut pas absorber pour certaines interfaces ou interactions
+- Où simplifier, où il ne faut absolument pas insister
+- Les vraies contraintes autour de certains champs d’API, conventions de nommage, gestion d’état
+- Quels problèmes exigent un travail de cause racine d’abord, lesquels on peut écarter
+
+Chaque fois qu’une telle remarque atterrissait dans un document, l’IA gagnait en stabilité et la coordination d’équipe en rapidité.
+
+### 3) Le backend dans la boucle, du début à la fin
+
+Au-delà du travail de spécifications côté front et de la chasse aux bugs, cette réécriture a continué d’avancer parce que Yaokun, notre ingénieur backend, y était profondément impliqué.
+
+**Au début&nbsp;: requêtes IA, extraction de mots-clés, multilingue.** Le 10 mars, Yaokun ajustait déjà la requête d’extraction de mots-clés, améliorait la prise en charge du portugais et de l’anglais, et discutait avec nous de qualité d’extraction, de vitesse de traitement et d’acceptabilité. Dès le premier jour, son travail n’était pas seulement des API backend — c’était la capacité IA et la qualité de sortie du produit lui-même.
+
+**En milieu de projet&nbsp;: ajouts d’API, migrations, documentation.** À mesure qu’on touchait aux vrais flux métier, il a poursuivi l’extension — migration et ajout d’endpoints, complétion de la documentation d’API, aide à comprendre les vraies contraintes côté serveur. Le dév. IA ne peut pas entrer dans le vrai métier en devinant les API.
+
+**En phase tardive&nbsp;: intégration de la documentation d’API / Apifox / MCP dans le flux de travail IA.** À la fin, son soutien dépassait le simple Q&A. On faisait recouper à l’IA la documentation Apifox (un outil de spécification d’API) pour analyser les problèmes, on rafraîchissait le cache documentaire avant de déboguer contre la spécification, on configurait le MCP d’Apifox, et on récupérait ses corrections directes sur les erreurs de paramètres, les requêtes en double, les corps de requête mal formés.
+
+> Cette réécriture n’a pas avancé parce que «&nbsp;l’IA écrivait du code&nbsp;». Elle a avancé parce que des ingénieurs humains ont continué à donner à l’IA les bonnes bornes, le bon contexte, les bonnes conventions et les bons retours.
+
+### 4) La victoire, c’était la collaboration entre rôles
+
+Avec le recul, la réécriture n’a pas réussi parce qu’un rôle est devenu plus fort. Elle a réussi parce que&nbsp;:
+
+- Les ingénieurs ont transformé la connaissance du dépôt en spécifications
+- Produit et design ont piloté l’implémentation et la validation via l’IA
+- Le backend a continué d’étendre API, documentation, détails d’interaction et diagnostics
+- Tout le monde a poussé ensemble la question «&nbsp;l’IA peut-elle écrire ceci&nbsp;» vers «&nbsp;le produit tourne-t-il vraiment&nbsp;».
+
+La description la plus juste&nbsp;: une pratique combinée pilotée par les spécifications, pilotée par la documentation, avec une coordination front-back serrée et une collaboration humain-IA.
+
+## 4. Le parcours intérieur&nbsp;: comment j’ai traversé ce mois
+
+### 1) Coup d’envoi&nbsp;: enthousiaste, encore très peu sûre
+
+Du 10 au 18 mars, l’ambiance était excitée, pas confiante.
+
+D’un côté, l’équipe se préparait et s’alignait. La designer commençait à installer et à apprendre Claude Code. On débattait de jusqu’où la réécriture IA devait aller. Natif contre multi-plateforme, cloud contre local — tout était sur la table.
+
+De l’autre, mes premières réactions étaient assez brutes&nbsp;:
+
+- *«&nbsp;Les temps ont changé, croyez-moi.&nbsp;»*
+- *«&nbsp;Je ne sais même pas me servir d’un gestionnaire de versions, et vous voulez que je maintienne un produit ?&nbsp;»*
+- *«&nbsp;C’est dingue.&nbsp;»*
+
+Cela résume l’état d’esprit honnêtement. Pas «&nbsp;je savais que ça allait marcher&nbsp;». Plutôt excitée et stupéfaite à la fois, l’envie d’essayer et le sentiment que c’était trop ambitieux.
+
+Le glissement le plus important sur cette période n’était pas du code. C’était un déclic mental. L’implémentation, c’était le terrain de l’ingénierie. Pour la première fois, l’IA a ouvert ce terrain au produit et au design.
+
+Le 18 mars, la première démo bâtie à partir des documents avait déjà une forme. Le ressenti à ce moment-là tenait à&nbsp;:
+
+- Ce n’est pas un fantasme
+- L’IA ne construit pas que des démos jouets
+- Donnez-lui des documents clairs, du contexte et un objectif, et elle peut vraiment échafauder vite une interface produit et un flux principal
+
+Mais la douleur de l’étape suivante était déjà semée là. L’IA est très douée pour «&nbsp;faire quelque chose&nbsp;». Ce n’est pas la même chose que «&nbsp;le faire bien, le rendre stable, en faire un produit&nbsp;».
+
+### 2) La poussée&nbsp;: de «&nbsp;regarder l’IA écrire du code&nbsp;» à livrer pour de vrai
+
+Du 20 au 23 mars, l’ambiance a changé.
+
+Les jours d’avant, c’était «&nbsp;peut-elle le faire&nbsp;». Maintenant, la question était «&nbsp;ce qu’elle fait est-il vraiment utilisable&nbsp;». L’équipe a cessé de buter sur des problèmes abstraits pour buter sur des problèmes très précis, très épuisants&nbsp;:
+
+- Des détails d’interface qui ne se posaient pas
+- Cela rend bien dans le simulateur, cela casse sur l’appareil
+- Branchez les API backend et les soucis de performance, d’interaction et d’état sortent tous en même temps
+- Corriger ici, casser là
+- L’IA jure que c’est corrigé. Le résultat est loin de la demande.
+
+Dans ma réflexion du 23 mars, j’avais déjà nommé la douleur centrale.
+
+**Première couche de revers&nbsp;: les problèmes s’enchaînent.** Ce qui ressemble à un détail d’interaction peut tirer des conflits de gestes, des soucis de performance de page, des choix de navigation, des arbitrages ScrollView contre List. L’IA n’est pas incapable de corriger cela — mais elle vous tend souvent une solution locale qui *à peu près* marche sans être vraiment juste.
+
+**Deuxième couche de revers&nbsp;: sans comprendre la couche en dessous, on ne peut pas diriger l’IA.** J’ai commencé à voir que le vrai problème n’était pas que l’IA n’essayait pas assez fort. Le vrai problème, c’est que sans comprendre les rouages d’iOS, je ne pouvais pas dire si la solution de l’IA était optimale, un second choix, ou un emplâtre.
+
+**Troisième couche&nbsp;: une élévation cognitive — certains besoins ne se forcent pas.** Une fois à l’intérieur du dév. IA, on commence à comprendre ce que les ingénieurs veulent dire par «&nbsp;il faut changer d’approche&nbsp;». Certaines choses ont du sens côté produit mais sont totalement non rentables compte tenu de la voie technique actuelle. Insister, c’est s’enfermer dans une boucle à faible rendement.
+
+### 3) Ajustement&nbsp;: bâtir ma propre méthode, finir la tête dans le guidon
+
+Fin mars, l’état a basculé. «&nbsp;Les problèmes me ballottent&nbsp;» est devenu «&nbsp;je sais comment travailler avec l’IA&nbsp;».
+
+Quelques virages clairs&nbsp;:
+
+**Virage un&nbsp;: accepter que tous les problèmes ne se résolvent pas aujourd’hui.** Les choses qui ratent leur cible après plusieurs essais — on saute, on passe. On protège le flux principal. On protège ce qu’on peut démontrer. On protège ce qui tourne sur l’appareil. L’un des plus gros risques du dév. IA, c’est l’illusion *«&nbsp;on y est presque&nbsp;»*, qui vous tire dans des micro-ajustements sans fin.
+
+**Virage deux&nbsp;: écrire les leçons dans les documents, pas seulement dans la conversation.** Le contexte de la conversation ne suffit pas. La description sur le moment ne suffit pas. Écrivez les contraintes. C’est seulement là que l’IA devient durablement stable. Cessez de la former à chaque fois. Faites des règles un actif.
+
+**Virage trois&nbsp;: la maîtrise des outils est aussi de la productivité.** Beaucoup de «&nbsp;bugs&nbsp;» se révèlent autres&nbsp;: je n’étais pas dans le bon dossier, Xcode compilait un ancien fichier, je ne lisais pas le message d’erreur en anglais, la fenêtre de contexte s’allongeait et j’avais peur d’en ouvrir une nouvelle. Le seuil d’entrée au dév. IA n’est pas seulement «&nbsp;savoir écrire un besoin&nbsp;». C’est «&nbsp;savoir manier tout l’environnement de développement&nbsp;».
+
+### 4) Convergence&nbsp;: de «&nbsp;ça tourne&nbsp;» à «&nbsp;ça livre&nbsp;», de l’expérimentation solo au travail d’équipe
+
+Du début avril au 10 avril, autre glissement visible. Nous n’étions plus un projet démo. Nous poussions vers la livraison réelle&nbsp;: démos en salle, tests sur appareils réels, TestFlight, usage en équipe, retours multiples.
+
+Le plus gros changement&nbsp;: le centre de gravité des problèmes est passé de *«&nbsp;la page n’est pas finie&nbsp;»* à *«&nbsp;l’usage réel révèle de vrais problèmes&nbsp;»*.
+
+**Le nombre de bugs a explosé.** Dès que c’est passé entre plus de mains, les sujets se sont entassés vite. Le 10 avril, j’ai compris que notre gestion des bugs devait passer de «&nbsp;suivie dans un document&nbsp;» à un registre structuré. L’outil de suivi des bugs est passé d’un long document à un tableau multidimensionnel. Le pilotage projet est vraiment monté en gamme.
+
+**On a commencé à séparer le «&nbsp;bon pour la démo&nbsp;» du «&nbsp;bon pour la livraison&nbsp;».** Les premières démos paraissaient à 80&nbsp;% fonctionnellement complètes et pouvaient être présentées en personne. Mais TestFlight, mise en ligne sur la boutique et exposition à plus de monde — les bugs y sont d’un autre ordre de grandeur. L’IA vous amène vite à «&nbsp;on dirait que ça marche&nbsp;». L’écart jusqu’à «&nbsp;ça livre et ça tient&nbsp;» est tout un standard de qualité d’ingénierie.
+
+**Le flux de travail de l’équipe est monté en gamme aussi.** Ce n’était plus seulement «&nbsp;demander à l’IA de modifier&nbsp;». On s’est mis aux PR, aux revues, aux revues de code, aux déploiements automatisés et à de vraies boucles de correctifs. Je l’ai dit explicitement&nbsp;: utiliser Claude Code pour écrire, utiliser Codex pour faire la revue. Le dév. IA qui passe à l’échelle, ce n’est pas un seul modèle qui écrit de bout en bout. C’est différentes IA qui prennent en charge différentes parties du flux.
+
+### 5) Le sprint&nbsp;: le plus dur n’était pas le développement, c’étaient les causes racines systémiques
+
+Du 13 au 17 avril, on était en plein dans les «&nbsp;eaux profondes&nbsp;» de l’ingénierie. Les problèmes n’étaient plus de l’interface de surface ni de la logique mono-page. Ils étaient systémiques&nbsp;:
+
+- Une cascade de 401 sur le jeton qui tuait silencieusement toute la synchronisation
+- Mauvais types de champs sur la synchronisation de session, mauvais nommage, chemins de synchronisation dupliqués
+- Une incompatibilité de type sur audioFileId qui faisait échouer en boucle le PUT note
+- Une condition de concurrence à l’envoi qui réécrasait l’état succès en «&nbsp;recognizing&nbsp;»
+- SwiftUI `.refreshable` qui annulait des tâches et provoquait des chaînes d’échecs
+- Des limites de temps de tâche d’arrière-plan qui coupaient l’ASR en plein traitement
+- L’état d’archive d’Android qui ne se synchronisait pas vers iOS
+
+Cette phase est démoralisante parce que chaque correctif fait sortir un autre problème de mécanisme. Le bug visible repose sur une hypothèse d’architecture qui ne tient pas. L’IA aide au diagnostic, mais fermer vraiment la boucle réclame encore une solide compétence de décomposition de problèmes et de vérification.
+
+À ce stade, nous n’étions plus «&nbsp;des gens qui font écrire du code à l’IA&nbsp;». Nous devenions bons en&nbsp;: lire des journaux, remonter à la cause, livrer des correctifs minimaux, contrôler les régressions, écrire des résumés de PR, bâtir de vraies boucles de correctifs.
+
+La première phase a prouvé que l’IA peut construire des choses. La seconde a prouvé que nous apprenions à en faire un produit.
+
+## 5. L’arc psychologique réel
+
+Si on coupe la couche technique et qu’on suit l’état mental seul, voici ce que cela donne&nbsp;:
+
+1. **Démarrage&nbsp;:** excitée mais incertaine. Des choses qui exigeaient un ingénieur, je pouvais simplement les faire. L’IA n’était pas un jouet — elle produisait vraiment de l’interface et des fonctions. En même temps, toute l’organisation paraissait trop ambitieuse, avec en fond *«&nbsp;attendez, c’est permis ?&nbsp;»*
+
+2. **Peu après&nbsp;:** le doute s’installe. Dès qu’on touche aux API, aux appareils réels, à l’état complexe et à la fidélité des détails, les problèmes dépassent les attentes. L’IA parle avec assurance. Les résultats, souvent, ne sont pas brillants. *Ai-je surestimé cette voie ?*
+
+3. **Au milieu&nbsp;:** le plus frustré. La vraie frustration n’est pas le nombre de bugs — c’est que, sans comprendre la couche en dessous, je ne peux pas diriger l’IA comme un ingénieur le ferait. Je suis coincée à tester, donner un retour, retester. Le coût psychologique le plus haut de l’expérimentation est ici.
+
+4. **Plus tard&nbsp;:** j’ajuste la méthode. Je cesse d’exiger des solutions du premier coup. J’étage les objectifs — flux principal d’abord, détails ensuite. Bon pour la démo d’abord, bon pour la livraison ensuite. J’écris les règles dans les documents. Je déplace les bugs dans un tracker. Je fais entrer l’IA dans la revue aussi.
+
+5. **Maintenant&nbsp;:** confiance reconstruite, mais pas naïve. Avec le bon processus, des spécifications claires, une vérification rigoureuse — l’IA peut vraiment faire beaucoup de ce qui n’était pas possible avant.
+
+## 6. Les leçons qui valent le plus la peine d’être emportées
+
+### 1. Ne traitez pas l’IA en «&nbsp;programmeur automatique&nbsp;». Traitez-la en collaboratrice ultra-exécutante qui a besoin de contraintes.
+
+Le profil de l’IA est tranché&nbsp;: rapide, prolifique, prête à recommencer, capable de vous tendre des explications qui sonnent assurées. Ses problèmes sont aussi tranchés&nbsp;: tendance aux optima locaux, tendance à creuser la mauvaise piste, surconfiance, et talent pour «&nbsp;corriger un, casser un autre&nbsp;».
+
+Meilleure façon de l’utiliser&nbsp;: ne lui lancez pas la tâche par-dessus le mur en attendant. Clarifiez l’objectif, resserrez le contexte, bornez le changement, vérifiez à chaque manche.
+
+### 2. Les documents ne sont pas un accessoire. Ce sont la matière première du dév. IA.
+
+Cette expérimentation a rendu une chose très claire&nbsp;: **le plafond du dév. IA est largement fixé par la qualité de vos documents.**
+
+De bons documents améliorent directement la compréhension du besoin, la fidélité d’interface, l’alignement d’API, la cohérence multi-personnes, et la vitesse à laquelle les nouveaux problèmes sont traités. L’envers&nbsp;: mauvais documents, l’IA devine. Une fois qu’elle devine, le retravail est quasi garanti.
+
+Au minimum, les documents devraient comporter trois couches&nbsp;:
+
+- **Spécification produit&nbsp;:** objectif, bornes, priorités
+- **Contraintes d’implémentation&nbsp;:** nommage, champs d’API, machines à états, conventions de composants
+- **Leçons&nbsp;:** trous dans lesquels on est déjà tombés, chemins interdits de retentative
+
+### 3. Le vrai gouffre de temps n’est pas «&nbsp;l’écriture&nbsp;». C’est «&nbsp;la vérification&nbsp;».
+
+Au début, on croit que la partie la plus dure du dév. IA, c’est la génération. À force, on comprend que le temps part dans la vérification&nbsp;:
+
+- Vérifier que cela colle au besoin
+- Vérifier que cela n’a pas cassé d’autres fonctions
+- Vérifier que simulateur et appareil se comportent pareil
+- Vérifier que l’état multi-plateforme reste cohérent
+- Vérifier que le correctif n’est pas que de surface
+
+L’IA a fait baisser le coût d’écrire du code. Cela a rendu le coût de vérification plus important, pas moins.
+
+### 4. Dès que le nombre de bugs grimpe, structurez tout de suite. N’insistez pas dans les conversations et les longs documents.
+
+Monter l’outil de suivi des bugs le 10 avril, c’était le bon choix. Dès que le volume passe à l’échelle, sans structure&nbsp;: le même bug est rediscuté plusieurs fois, les priorités s’embrouillent, les responsabilités sont floues, l’état des correctifs n’est pas suivable, et quelle version contient quoi se perd.
+
+À la minute où vous entrez en test multi-personnes&nbsp;: numéros, priorité, responsable, état courant, chemin de reproduction, version cible. Dès le premier jour.
+
+### 5. «&nbsp;Savez-vous diriger l’IA&nbsp;» fixe le plafond d’efficacité
+
+Ne pas savoir écrire de code ne veut pas dire qu’on ne peut pas faire de dév. IA. Mais sans aucune compréhension de la couche en dessous, il existe un vrai plafond&nbsp;: vous savez décrire des symptômes, mais pas juger de la qualité d’une solution, vous ne repérez pas un faux correctif, et vous ne pouvez pas changer d’approche de manière proactive.
+
+Les deux voies méritent l’investissement&nbsp;:
+
+**Voie A&nbsp;: élever la culture d’ingénierie des rôles non techniques.** Au minimum&nbsp;: lire un journal, lire les relations entre fichiers, lire la chaîne de compilation, reconnaître les erreurs courantes.
+
+**Voie B&nbsp;: faire combler par l’IA la «&nbsp;couche explication&nbsp;» et la «&nbsp;couche audit&nbsp;».** Par exemple&nbsp;: exiger que l’IA sorte une hypothèse de cause racine, un périmètre de changement, des points de risque, des étapes de vérification, une méthode de retour arrière.
+
+### 6. La vraie efficacité du dév. IA ne tient pas à des requêtes malines
+
+Plus on a fait tourner l’expérimentation, plus c’est devenu clair&nbsp;:
+
+> Ce qui rend le dév. IA vraiment efficace, ce n’est pas une formulation magique. C’est que l’IA est lâchée dans un système avec conventions, documents, outils et retours humains.
+
+Ce qu’on a fini par faire tourner, ce n’était pas «&nbsp;dire le besoin à l’IA&nbsp;». C’était&nbsp;: définir la borne par la spécification, définir les contraintes par les documents, brancher les conventions d’API via Apifox / MCP, laisser les coéquipiers humains corriger et compléter, puis faire exécuter l’IA contre tout ce matériel.
+
+### 7. D’abord une boucle qui tourne. La fidélité ensuite.
+
+Beaucoup de douleur vient d’un vrai problème&nbsp;: avant d’avoir une boucle stable, courir après les détails trop tôt vous tire dans du réglage à faible rendement.
+
+Le bon ordre&nbsp;:
+
+1. Le flux principal tourne
+2. Cela marche sur l’appareil
+3. L’état central est stable
+4. Testable à plusieurs
+5. *Ensuite* on pousse le polissage interface, animation, interaction
+
+### 8. Ne sautez pas la revue de code. Plus vous avancez, plus elle compte.
+
+À la fin, nous étions clairement dans un nouveau mode&nbsp;: pas seulement l’IA qui écrit — aussi l’IA qui fait la revue de code, traque les risques, complète les tests, écrit les notes de PR.
+
+Ce qui dit quelque chose d’important&nbsp;: à mesure qu’un projet de dév. IA avance, l’importance de la revue monte, elle ne descend pas.
+
+Pour passer à l’échelle, mettez la revue en tête par défaut&nbsp;: chaque écriture est revue, les flux critiques exigent des notes de cause racine, les changements clés sortent avec un plan de vérification, les correctifs à haut risque ont un contrôle explicite du périmètre.
+
+## 7. À retenir, la part la plus précieuse
+
+Le plus précieux à retenir, ce n’était pas livrer une version. C’était se rapprocher d’une vraie compréhension&nbsp;:
+
+1. **Le dév. IA n’est pas un miracle. Ce n’est pas non plus un gadget.** Ce n’est pas aussi automatique que les gens le pensent. Ce n’est pas non plus le jouet «&nbsp;bon pour la démo&nbsp;» que les observateurs extérieurs soupçonnent.
+
+2. **Les frontières entre produit, design et ingénierie vont être redessinées.** Il ne s’agit pas de qui remplace qui. Il s’agit de qui peut atteindre la scène du problème le plus vite — c’est celui-là qui pousse.
+
+3. **La compétition à venir n’est pas «&nbsp;qui utilise l’IA&nbsp;». C’est qui construit le meilleur système de collaboration IA.** Système de documents, système de contraintes, système de revue, gestion des bugs, tests et livraison.
+
+4. **Les non-ingénieurs peuvent entrer dans l’implémentation.** Avant, le produit essayait d’entrer dans l’implémentation et se faisait bloquer par les outils et les détails techniques. C’était dur, mais cela a prouvé le point&nbsp;: vous n’êtes plus seulement la personne qui balance les besoins par-dessus le mur. Vous pouvez piloter jusqu’à la livraison.
+
+## 8. Suggestions pour la prochaine expérimentation de dév. IA
+
+**Avant le coup d’envoi&nbsp;:**
+
+- Définir l’objectif avec précision&nbsp;: démo, présentation en salle, TestFlight ou production
+- Verrouiller les priorités&nbsp;: flux principal &gt; stabilité &gt; détail d’interface
+- Préparer les spécifications, la documentation d’API, les contraintes design
+
+**Pendant le développement&nbsp;:**
+
+- Écrire les leçons dans les documents chaque jour. Pas dans la conversation.
+- Deux ou trois échecs sur un même problème&nbsp;? On saute ou on change d’approche.
+- Chaque changement piloté par l’IA doit venir avec des points de risque et des étapes de vérification
+- Les sujets critiques exigent un travail de cause racine. On ne se contente pas de panser le symptôme.
+
+**Une fois en test&nbsp;:**
+
+- Monter l’outil de suivi des bugs immédiatement
+- Hiérarchiser les sujets P0 / P1 / P2
+- À chaque manche, ne fermer que les items les plus prioritaires. Pas de gourmandise.
+- Faire entrer la revue IA, les conventions de PR, la vérification de régression
+
+**Avant la livraison&nbsp;:**
+
+- Être explicite sur la frontière entre «&nbsp;démontrable&nbsp;» et «&nbsp;livrable&nbsp;»
+- Synchronisation, connexion, paiement, audio, gestion d’état — chemins prioritaires
+- Tout ce qui est dans le chemin critique à haute fréquence se vérifie sur appareil réel. Ne pas faire confiance au simulateur.
+
+## 9. Dernière ligne
+
+Si on ne regarde que le processus, cette réécriture a été rude. Douloureuse, même. Si on regarde le résultat, cela en valait la peine.
+
+Les prochains défis sont encore là. Cette fois, nous avons réécrit l’appli. Comment trouver de nouveaux besoins et itérer le produit avec l’IA — cela, nous ne l’avons pas encore tenté.
+
+---
+
+Slax Note est l’appli que nous avons réécrite avec l’IA — une appli de notes pensée voix-d’abord. Vous parlez, elle écrit, vous choisissez la forme.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)

@@ -1,0 +1,178 @@
+---
+title: "Aku desainer. Aku menulis ulang app kami dengan AI."
+description: "Sebulan desainer UI menulis ulang Slax Note dengan Claude Code. Di mana AI menebak, di mana ia 'membantu' dengan merusak, dan aturan yang kubuat."
+pubDate: 2026-05-22T00:00:00.000Z
+tags: ['note', 'vibe-coding', 'ai-coding']
+product: note
+author: lin-chen
+---
+
+Aku desainer UI. Kode selalu tinggal di planet yang tak kukunjungi. Lalu suatu hari bos berkata: kamu dan PM, tulis ulang [Slax Note](https://slax.com/note/) dengan AI. Aku duduk diam sebentar. *Bisa beneran ya?*
+
+## 1. Awalnya kupikir ini dewa
+
+Pertama kali memakainya, aku terpukau. Seorang engineer memasangkan Claude Code (selanjutnya aku panggil saja "dia"), memberi tur singkat, lalu melepas kami.
+
+Aku mulai dari yang kecil. Modal keanggotaan di web app Slax Note — halaman statis. Aku tempel desainnya. Dia membuat sesuatu yang kira-kira benar. Beberapa penyetelan dan sudah cocok dengan komp-nya. *Kode nggak sesulit itu,* aku diam-diam berpikir.
+
+Lalu kami mulai proyek sungguhan. Aku menyerahkan dokumen engineering padanya. Dia membuat scaffold seluruhnya. App-nya jalan. Fitur utama ada. Rasa percayaku naik lagi setingkat.
+
+## 2. Tak lama, dia bikin aku jengkel
+
+### 2.1 Dia suka menebak
+
+Awalnya aku fokus pada kesetiaan UI. Aku menyusun spec desain, menghubungkan lanhu-mcp (Lanhu alat handoff desain Tionghoa, mirip Zeplin), dan memintanya pakai nilai-nilai dari Lanhu untuk membangun UI. Dia mengabaikan spec-nya. Dia menebak.
+
+Warna tautan dia putuskan "terasa" abu-abu. Spec-nya bilang oranye-cokelat.
+
+Spacing, kalau tidak tertulis eksplisit, dia akan mengarang angka. Aku bilang tidak. Dia ganti. Masih salah. Kami bolak-balik beberapa putaran. Lalu aku buka file desainnya dan menemukan nilainya sudah dianotasi sejak awal. Dia saja yang tidak melihatnya.
+
+Pelajaran: suruh dia cek spec *sebelum* menulis kode. Lewati ini dan kamu bayar dengan putaran ekstra.
+
+Kalau kamu mendeskripsikan desain padanya dalam detail mikroskopis (seperti di bawah), gaya spec-sheet, dia akan mengimplementasikan dengan tepat. Tidak terlalu ramah desainer, tapi berhasil:
+
+> **Tombol rekam di layar utama:** Tombol kapsul mengambang 50pt di atas tepi bawah halaman. Lebar 140pt, tinggi 74pt. Bayangan halus — terlihat, tidak berat. Di dalam kapsul, dua tombol bulat. Yang kiri dengan padding 8pt: tombol rekam lingkaran 62pt, latar gradien atas-ke-bawah dari `#04EAC5` ke `#00BEC9`, ikon rekam di tengah. State ditekan menambahkan overlay `#000000` 8%. Yang kanan dengan padding 8pt juga: tombol input teks lingkaran 54pt, latar `#FFFFFF`, ikon teks di tengah. State ditekan: `#4D4D4D` 8%.
+
+Kemudian aku mencoba prompt ini untuk membuat poster catatan. Semuanya sesuai spec kecuali posisinya tidak di tengah. Cukup baik. Yang kupahami: tulis ini di dokumen spec sekali, jangan ketik ulang tiap kali:
+
+> Implementasikan halaman xx persis dari file desain. Pixel-perfect. Jangan ubah layout, warna, spacing, font, atau posisi ikon sendiri.
+>
+> Aturan:
+>
+> 1. Salin struktur halaman, hierarki, dan layout persis.
+> 2. Warna, ukuran font, spacing, corner radius, bayangan — cocokkan dengan desain.
+> 3. Tombol, input, kartu, nav bar — cocokkan posisi dan ukuran.
+> 4. Bangun hanya yang ada di desain. Jangan tambah ekstra.
+> 5. Kode harus jalan, terstruktur, berkomentar, tanpa error.
+
+### 2.2 Dia suka "membantu"
+
+Kamu minta dia memperbaiki satu bug kecil. Dia "membantu" me-refactor kode di sekitarnya. Sekarang fitur yang sudah jalan rusak.
+
+Kamu kembali. Dia memperbaikinya. Dia juga "membantu" menyentuh hal lain.
+
+Mirip meminta kontraktor menambal satu dinding dan dia bilang, *"Sekalian aku pindahkan lemari ini — kelihatannya lebih bagus."* Lalu ada pipa pecah di belakang lemari.
+
+Jadi kubuat aturan: sebelum kamu menyentuh kode apa pun, bilang ke aku apa yang akan kamu ubah dan apa yang akan kamu biarkan. Aku akan menyetujui, baru kamu bertindak. Jauh lebih baik setelah itu.
+
+### 2.3 Dia tidak ingat apa yang dipelajarinya kemarin
+
+Yang ini tidak kuduga.
+
+Setiap percakapan baru, dia seperti amnesia. Lubang yang dia injak terakhir kali? Lubang yang sama, kali ini.
+
+Contoh: modal.
+
+iOS punya dua cara membuat modal — yang sistem, dan yang kustom full-screen yang kamu bangun sendiri. Yang sistem datang dengan corner radius dan margin sendiri. Apa pun yang kamu katakan padanya, hasilnya tidak akan cocok dengan desain.
+
+Pertama kali aku menemukan masalahnya, dia kusuruh ganti. Halaman baru kedua, modal sistem lagi. Ganti. Halaman ketiga. Sama. Ganti.
+
+Setelah tiga putaran aku sadar: ini harus ditulis di tempat yang akan dia lihat *sebelum* mulai bekerja.
+
+File itu namanya `CLAUDE.md`. Awalnya kosong. Setiap kali kami mentok, aku menambah satu baris. Di akhir sudah ratusan baris.
+
+Anggap saja "buku pegangan hidup dengan AI ini." Kalau kamu tidak menuliskannya, dia tidak akan ingat.
+
+## 3. Hal-hal yang sungguh menghancurkanku
+
+### 3.1 Swipe-to-delete. Kira-kira selusin putaran.
+
+Satu fitur yang paling banyak menghabiskan waktuku.
+
+Desainnya: geser kartu catatan ke kiri, dua tombol muncul — arsip dan hapus, dengan warna kustom dan sudut bulat. Kelihatannya gampang banget. Kupikir lima menit selesai.
+
+Versi pertama keluar dengan warna tombol salah. Aku minta dia perbaiki. Masih salah. Akhirnya kupahami: komponen swipe-to-delete bawaan iOS mengunci warnanya. Apa pun yang kamu tulis, iOS mengembalikannya ke balok persegi polos dengan teks putih. Desain yang kami gambar? Tidak bisa dibangun dengan komponen sistem. Titik.
+
+Jadi kami bangun sendiri. Dia menulis ulang seluruh swipe dengan custom gesture handling. Setelah beberapa kerja, dia jalan — dan masalah baru muncul. Gesture swipe dan gesture scroll vertikal halaman bertabrakan. Kadang kamu coba scroll, dia kira kamu swipe. Kadang kamu swipe, kartu keluar, lalu kembali sendiri.
+
+Bug snap-back itu butuh empat putaran. Saat akhirnya kami urai, ada empat penyebab terpisah yang menyala bersamaan — prioritas gesture, update iOS yang mengubah behaviour, kartu yang saling mengganggu state-nya, dan lain-lain. Kami kupas satu per satu.
+
+UI akhirnya sebetulnya tidak cocok dengan desain. Aku terus menuntunnya melewati perbaikan sampai hasilnya bisa diterima. Aku berhenti mengejar tampilan asli setelah sadar mendorong lebih jauh akan memicu sesuatu yang baru.
+
+Pelajaran: fitur yang kelihatannya "cuma swipe" bisa menyembunyikan beberapa lapis masalah. Jangan langsung merayakan setelah mengupas satu.
+
+### 3.2 Ketuk kartu catatan, app freeze
+
+Catatan panjang. Ketuk kartunya. App freeze. Tidak gerak.
+
+Claude mulai menggali. Dia memutuskan ini soal gesture scroll daftar, atau parameter gesture tertentu. Bertahan di arah itu cukup lama. Setiap perbaikan yang dicoba gagal.
+
+Akhirnya kami panggil senior engineer, yang menyalakan AI berbeda (Codex) untuk investigasi independen. Codex memindai beberapa file selama dua menit dan langsung ke penyebabnya:
+
+Bukan masalah gesture.
+
+Halaman detail punya komponen yang menangani "expand/collapse teks panjang." Saat komponen itu di-render, ia melayout seluruh catatan — lima ribu karakter — diam-diam di latar belakang untuk mengukur tingginya sebelum ditampilkan. Layout itu berjalan sinkron di main thread. Lima ribu karakter butuh beberapa detik. App freeze.
+
+Claude pergi ke arah yang salah karena gejala muncul saat "ketuk kartu." Jadi dia bertahan di kode gesture terkait ketukan. Operasi mahal yang sebenarnya ada beberapa lapis pemanggilan jauhnya, di komponen render teks di halaman detail.
+
+Perbaikannya: potong sebelum dimasukkan ke komponen teks (kartu menampilkan 300 karakter pertama, pengukuran hanya memindai 1.200 pertama). Untuk catatan di atas 4.000 karakter, lewati auto-expand. Pindahkan load data halaman detail ke async. Jangan blokir main thread.
+
+Pelajaran: AI bisa terjebak di arah yang salah juga. Kadang kamu butuh manusia — atau alat kedua — untuk memutus loop. Gejala muncul di A, tapi penyebab bisa di mana saja di rantai A→B→C. Dua atau tiga perbaikan gagal adalah sinyal untuk berhenti dan melacak ulang seluruh jalur, bukan terus menggali di gejalanya.
+
+### 3.3 Sign in with Apple rusak
+
+Suatu hari, Sign in with Apple berhenti berfungsi. Fiturnya sudah diperbaiki sebelumnya. Error yang sama kembali.
+
+Dia mulai debugging. Delapan putaran. Tiap putaran dia yakin: *"Yang ini sudah beres."* Tiap run, error yang sama. Di suatu titik dia berhasil membuat app menampilkan layar putih, yang butuh waktu lagi untuk dibalikkan. Akhirnya aku menggali catatan perbaikan lama dan menunjukkannya padanya. Baru dia mengerti.
+
+Penyebab aslinya: bukan kode. Ada toggle izin di dalam Xcode (IDE Apple) yang perubahan auto-generated sebelumnya diam-diam matikan. Toggle-nya terkubur dalam — kamu tidak bisa menemukannya kecuali kamu benar-benar melihat layarnya.
+
+Pelajaran: beberapa bug tidak di kode. Lihat tool-nya dulu.
+
+Setelah itu, Claude jadi lebih pintar. Saat apa pun yang terkait login Apple muncul, langkah pertama adalah *kirim aku screenshot* — bukan edit kode.
+
+### 3.4 Satu catatan di iOS jadi tiga di web
+
+Kamu rekam satu catatan di iOS. Kamu buka web app. Ada tiga.
+
+Dia mulai menganalisis. Memutuskan logika deduplikasi di suatu tempat salah. Mengedit beberapa putaran. Tidak berubah.
+
+Akhirnya dia pergi melihat record mentah di database, dan menemukan kebenarannya: request-nya sebetulnya berhasil. Tapi response-nya di-parse salah dan app mengira gagal, jadi dia coba ulang. Tiga kali. Server dengan patuh membuat tiga catatan.
+
+Pelajaran: jangan biarkan dia terus mengedit kode. Suruh dia cari bukti dulu — log, state database — dan cari tahu apa yang sebenarnya rusak sebelum menyentuh apa pun.
+
+### 3.5 Ikonku selalu kelihatan aneh
+
+**Ikon terlalu besar.** Di file desain, ikon 48px. Di kode iOS, kamu bagi 2 — jadi 24pt. Aku tahu itu. Dia tidak selalu tahu itu. Kadang dia lupa menulis baris "tampilkan gambar ini di ukuran yang aku tentukan," dan ikonnya di-render di ukuran nativenya — dua kali lipat dari yang seharusnya, memakan separuh layar.
+
+**Ikon buram.** Salah scale ekspor. Slot @1x / @2x / @3x tidak semua di-update bersama. Kalau kamu masukkan gambar @2x ke slot @1x, iPhone kira itu versi low-res dan menskalakannya 2x untuk fit. Jadi buram.
+
+**Dia bersumpah ikon-nya ukuran benar. Masih salah.** Lanhu punya dua versi ikon yang sama: satu dipotong rapat ke tepi, satu dengan padding transparan. Yang kami mau yang berpadding. Dia kadang ambil yang salah. Yang salah berarti ikonnya merapat ke tepi dan kelihatan tidak sejajar.
+
+Aturan yang kutulis: saat mengunduh ikon, selalu pilih versi Lanhu terbaru, prioritaskan yang berpadding transparan, verifikasi ukuran pixel sebelum mengimpor, masukkan ke slot @2x — bukan @1x. Saat mengganti aset, cek ketiga slot. Pakai pt di kode, bukan px.
+
+## 4. Jadi AI sebenarnya menghemat apa untukku
+
+Jawaban jujur: lebih cepat, tapi tidak secepat yang kamu kira.
+
+Di mana ia menghemat waktu:
+
+- Struktur dasar untuk halaman baru — hitungan menit, bukan jam
+- Mencari dan mengonversi nilai warna, ukuran font, spacing dari desain
+- Terjemahan tiga bahasa (Tionghoa, Inggris, Portugis)
+
+Di mana ia tidak:
+
+- Bug aneh masih butuh manusia mengurainya potongan demi potongan
+- Tes di ponsel asli — AI tidak bisa melakukannya untukmu. Kamu yang jalankan.
+- "Pendekatan mana yang harus dipakai di sini" — masih kamu.
+
+Cara paling akurat aku menggambarkannya: AI adalah asisten dengan kecepatan eksekusi ekstrem tapi kebutuhan kuat akan instruksi jelas. Jelaskan, dia cepat dan bagus. Tetap samar, dia mengisi celah dengan tebakannya sendiri, lalu kamu menghabiskan waktu membatalkannya.
+
+## 5. Yang terbesar yang kudapat dari ini bukan kode
+
+Sebulan masuk, empat belas halaman selesai.
+
+Kuulangi — benda ini tidak punya ingatan. Setelah aku mulai mengakhiri tiap hari dengan menyuruhnya merangkum yang kami pelajari, buku "hidup dengan AI ini" tumbuh dari beberapa baris ke ratusan. Baru setelah itu pekerjaannya jadi mulus. Keterampilan yang kami butuhkan bukan menulis kode. Tapi mengarahkan AI.
+
+Buku itu terus menebal. Tiap jebakan. Tiap aturan. Tiap langkah terlarang.
+
+Dia ikut dengan kami ke proyek berikutnya. Tiap kali, AI tahu kebiasaan kami sedikit lebih baik. Salah belok lebih sedikit.
+
+---
+
+Slax Note adalah app yang kami tulis ulang dengan AI — app catatan voice-first. Kamu bicara, dia menulis, kamu pilih bentuk yang kamu mau.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)

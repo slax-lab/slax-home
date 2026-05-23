@@ -1,0 +1,150 @@
+---
+title: "Thay thế Pocket: Slax Reader — bản mã nguồn mở"
+competitor: "Pocket"
+description: "Pocket đóng cửa 8/7/2025. Slax Reader là bản thay thế mã nguồn mở — lưu trữ vĩnh viễn, đề cương AI, đánh dấu không giới hạn — miễn phí cho founding member."
+updatedDate: 2026-04-19T00:00:00.000Z
+---
+
+Mozilla đóng cửa Pocket vào **ngày 8 tháng 7 năm 2025**. Nếu nhiều năm qua bạn đã lưu hàng trăm — hoặc hàng nghìn — bài vào Pocket, kho đó nay treo lơ lửng. Mozilla cho phép xuất CSV đến 8 tháng 10 năm 2025, sau đó xoá dữ liệu người dùng.
+
+Chúng tôi dựng Slax Reader đúng kiểu công cụ chúng tôi ước có khi chuyện này xảy ra: **mã nguồn mở theo Apache 2.0**, lưu trữ vĩnh viễn miễn phí cho founding member, AI giúp bạn thật sự đọc cái mình lưu. Nếu dữ liệu đọc của bạn sống lâu hơn ứng dụng, bạn cần một công cụ không thể bị âm thầm khai tử.
+
+Trang này dành cho người tị nạn Pocket. Đọc nếu bạn đang chọn mái nhà đọc-sau kế tiếp.
+
+[**Thử Slax Reader miễn phí →**](https://r.slax.com/)
+
+---
+
+## Thoáng nhìn
+
+**Slax Reader là phương án thay thế gọn nếu…**
+
+- Bạn dùng Pocket chủ yếu cho bài web
+- Bạn muốn snapshot vĩnh viễn để 404 không cắn bạn lần nữa
+- Bạn muốn AI tóm tắt và điều hướng bài dài
+- Bạn muốn công cụ kế tiếp là mã nguồn mở để chuyện này không lặp lại
+
+**Tìm chỗ khác nếu…**
+
+- Bạn dùng Pocket chủ yếu cho podcast (thử [Matter](https://hq.getmatter.com) hoặc [Readwise Reader](/reader/alternatives/readwise-reader/))
+- Bạn cần PDF / EPUB như định dạng hằng ngày ([Readwise Reader](/reader/alternatives/readwise-reader/) mạnh hơn hôm nay)
+- Bạn muốn công cụ Apple-native trả một lần (thử GoodLinks)
+
+> Một câu: **Pocket đã ra đi. Slax Reader là bản thay thế mã nguồn mở sẽ không đi theo.**
+
+---
+
+## So sánh tính năng
+
+| Tính năng | Pocket (R.I.P.) | Slax Reader |
+|---|---|---|
+| **Trạng thái** | ⚠️ Đóng cửa 8/7/2025 | ✅ Đang hoạt động, mã nguồn mở |
+| **Mã nguồn mở** | Một phần (bản cũ) | ✅ Apache 2.0, [GitHub](https://github.com/slax-lab) |
+| **Bài web** | ✅ | ✅ |
+| **Lưu trữ vĩnh viễn (chống 404)** | Chỉ Premium | ✅ Miễn phí cho founding member |
+| **Đánh dấu không giới hạn** | Chỉ Premium | ✅ Miễn phí |
+| **Tóm tắt AI** | ✗ | ✅ Miễn phí |
+| **Đề cương AI nhấp được** | ✗ | ✅ Pro |
+| **Chat AI với bài viết** | ✗ | ✅ Pro |
+| **Tự gắn thẻ** | Giới hạn | ✅ |
+| **Tìm kiếm toàn văn** | Chỉ Premium | ✅ Miễn phí |
+| **Thảo luận độc giả / đánh dấu chia sẻ** | ✗ | ✅ Cộng đồng hai chiều |
+| **Đa nền tảng (Web · iOS · Android · Mac)** | ✅ (cho tới khi tắt) | ✅ |
+| **Nhập từ Pocket** | — | 🚧 Roadmap |
+| **Giá** | Miễn phí / 4,99 USD/tháng Premium (cho tới khi tắt) | Miễn phí / 5,99 USD/tháng |
+
+---
+
+## Pocket vừa gặp chuyện gì?
+
+Mozilla thông báo Pocket đóng cửa ngày 22/5/2025, lý do "lượng dùng thấp". App dừng nhận lưu mới ngày 8/7/2025. Người dùng có hạn đến 8/10/2025 để xuất thư viện thành file CSV. Sau đó, Mozilla xoá hết.
+
+Đây là phần phần lớn người bỏ qua: **bản xuất CSV chỉ có URL và metadata, không có nội dung bài**. Nếu một trang đã lưu bị 404 — và rất nhiều sẽ thành 404 theo năm tháng — CSV của bạn chỉ là tấm bia mộ. Bài đã đi.
+
+Vì vậy snapshot vĩnh viễn không phải tính năng "có thì tốt". Đó là khác biệt giữa kho lưu thật và một danh sách link chết.
+
+---
+
+## Slax Reader làm khác chỗ nào
+
+### Snapshot vĩnh viễn, miễn phí
+
+Mọi bài bạn lưu vào Slax Reader đều được snapshot HTML + ảnh đầy đủ trên server chúng tôi. Nếu nguồn 404, bản của bạn vẫn còn. **Founding member nhận snapshot vĩnh viễn không giới hạn, miễn phí, mãi mãi.** Đây là tính năng Pocket Premium được yêu cầu nhiều nhất. Chúng tôi đặt nó làm mặc định.
+
+### Mã nguồn mở
+
+Mã của Slax Reader công khai trên [GitHub](https://github.com/slax-lab) theo Apache 2.0 — frontend (Vue), backend (TypeScript), client Android (Kotlin). Nếu chúng tôi đóng cửa (sẽ không, đội dùng nó mỗi ngày suốt 20 năm), bạn tự host được. Nếu bạn không tin chúng tôi với dữ liệu đọc, bạn đọc được mã xử lý nó.
+
+Sau khi Pocket và Omnivore tắt, đây không phải hoang tưởng nữa. Đây là câu trả lời bền duy nhất.
+
+### AI thật sự giúp
+
+Pocket chưa bao giờ ra AI có ý nghĩa. Slax Reader thì có:
+
+- **Đề cương AI nhấp được** — thấy cấu trúc bài 5.000 chữ trong 10 giây, nhảy tới đoạn cần
+- **Tóm tắt AI** — gạch đầu dòng, ~100 chữ, miễn phí
+- **Chat AI** — hỏi "phản biện cho đoạn này là gì?" mà không rời bài
+- **Tự gắn thẻ** — Slax học hệ thống thẻ của bạn và áp dụng giúp
+
+### Thảo luận đọc mà Pocket không có
+
+Slax Reader có sẵn lớp cộng đồng hai chiều: đánh dấu một câu, để ghi chú, thấy người khác chú thích gì. Nếu trước đây bạn hay chia sẻ bài Pocket cho bạn bè rồi mất cuộc trò chuyện, đây là cái chúng tôi thay vào.
+
+---
+
+## Chuyển từ Pocket
+
+**Nếu bạn đã xuất CSV Pocket trước 8/10/2025:** giữ nó. Nhập từ Pocket nằm trong roadmap. Chúng tôi sẽ tải lại từng URL vào snapshot vĩnh viễn mới của Slax, giữ thẻ và ngày, gửi email cho bạn khi sẵn.
+
+[**Để lại email →**](https://r.slax.com/) và chúng tôi sẽ ping bạn ngày nhập từ Pocket ra.
+
+**Nếu bạn lỡ hạn xuất CSV:** URL đã đi, nhưng bạn không kẹt. Đăng ký tại [r.slax.com](https://r.slax.com/), bắt đầu lưu bài mới vào Slax Reader hôm nay với tư cách founding member, và khoá snapshot vĩnh viễn không giới hạn trước khi đặc quyền đó kết thúc. 5 năm đọc tiếp theo của bạn sẽ an toàn dù vài năm trước thì không.
+
+---
+
+## Các thay thế Pocket khác chúng tôi cân nhắc
+
+Nếu Slax Reader chưa phải lựa chọn đúng, phần còn lại của sân chơi:
+
+- **[Instapaper](https://www.instapaper.com)** — Mười tám năm trau chuốt tối giản. Không AI, nhưng yên tĩnh và ổn định. [Xem so sánh →](/reader/alternatives/instapaper/)
+- **[Readwise Reader](https://readwise.io/read)** — Con dao Thuỵ Sĩ lớn hơn: PDF, EPUB, transcript YouTube. Bundle 9,99–12,99 USD/tháng. [Xem so sánh →](/reader/alternatives/readwise-reader/)
+- **[Cubox](https://cubox.cc)** — Trau chuốt, nặng về tổ chức, mạnh cho nội dung Trung. [Xem so sánh →](/reader/alternatives/cubox/)
+- **[Matter](https://hq.getmatter.com)** — Chỉ Apple, trải nghiệm iOS / Mac native đẹp.
+- **[Raindrop.io](https://raindrop.io)** — Quản lý bookmark trực quan, hợp nếu bạn lưu nhiều hơn đọc.
+
+---
+
+## Một điều cuối
+
+Pocket đóng cửa làm đau vì nó đã miễn phí, có mặt khắp nơi và do Mozilla chống lưng nhiều năm. Người ta tưởng nó sẽ luôn ở đó.
+
+Chúng tôi không giả định vậy. Đội chúng tôi đã vận hành công ty gần 20 năm. Slax Reader là cái chúng tôi tự dùng mỗi ngày, dựng tinh gọn có chủ ý, và mã trên GitHub để bạn không phải tin lời chúng tôi cho bất kỳ điều nào trong số này.
+
+---
+
+## Câu hỏi thường gặp
+
+**Tôi nhập được thư viện Pocket cũ không?**
+Nếu bạn có CSV từ trước khi Mozilla xoá ngày 8/10/2025: có, nhập từ Pocket nằm trong roadmap. [Để lại email](https://r.slax.com/) để được báo ngày ra. Nếu bạn lỡ cửa sổ xuất: URL đã đi, nhưng bạn có thể bắt đầu mới trong Slax với snapshot vĩnh viễn ngay từ ngày đầu.
+
+**Slax Reader có thật sự miễn phí không?**
+Có. Lưu trữ vĩnh viễn, đánh dấu không giới hạn, bình luận, tìm kiếm toàn văn và tóm tắt AI cơ bản miễn phí cho founding member — mãi mãi. Pro (5,99 USD/tháng) mở khoá đề cương AI nhấp được, chat AI nâng cao và tìm theo nghĩa.
+
+**Lỡ Slax Reader cũng đóng cửa thì sao?**
+Toàn bộ mã có trên [GitHub](https://github.com/slax-lab) theo Apache 2.0. Bạn có thể tự host backend. Nếu bạn từng bị "đốt" trước đây, đây là biện pháp bảo vệ thật sự duy nhất.
+
+**Bài tôi đã lưu liệu còn sau 5 năm?**
+Có. Snapshot vĩnh viễn nghĩa là chúng tôi lưu toàn bộ trang gốc khi save. Dù nguồn 404, bản của bạn vẫn còn. Đây là cốt lõi của chúng tôi.
+
+**Còn quyền riêng tư của tôi?**
+Chúng tôi không bán dữ liệu. Dữ liệu đọc là của bạn. Xem [chính sách quyền riêng tư](https://r.slax.com/privacy).
+
+---
+
+## Thử Slax Reader miễn phí
+
+Nếu sau Pocket bạn đang nhảy giữa các ứng dụng đọc-sau, tìm một mái nhà ổn định:
+
+[**Cho Slax Reader một cơ hội →**](https://r.slax.com/)
+
+Tham gia làm **Founding Member** hôm nay: được 1 tháng Pro miễn phí ([xem giá](https://r.slax.com/pricing)) và giữ snapshot không giới hạn mãi mãi.

@@ -1,0 +1,51 @@
+---
+title: "Prix d’une appli à-lire-plus-tard qui vous survit"
+description: "Pocket et Omnivore sont morts par les maths, pas par les utilisateurs. Le vrai coût sur dix ans, et les deux modèles de prix qui tiennent."
+pubDate: 2026-05-07T00:00:00.000Z
+tags: ['reader', 'pricing']
+product: reader
+---
+
+Pocket a été racheté par Mozilla, négligé, puis fermé en juillet 2025 — dix-huit ans après son lancement. Omnivore a été racheté par ElevenLabs le 29 octobre 2024 et a disparu dix-sept jours plus tard, avec deux semaines pour exporter avant la suppression totale des données. Instapaper a changé de mains au moins trois fois. Le « à lire plus tard », c’est un cimetière.
+
+Les utilisateurs accusent les repreneurs gourmands. Ils accusent « les costards ». Parfois c’est vrai. Le plus souvent, la cause est plus simple : le produit n’a jamais eu de modèle financier qui tenait dix ans.
+
+## La forme du coût
+
+Une appli à-lire-plus-tard a une chose chère et une chose bon marché.
+
+**Bon marché :** la ligne en base « l’utilisateur X a sauvegardé l’URL Y à l’instant Z ». Quelques octets. Négligeable.
+
+**Cher :** la capture. Le HTML rendu, les images, le CSS. Entre 200 Ko et 2 Mo par article, selon la quantité d’images. Le stockage n’est pas cher au gigaoctet — il est cher à l’*année-utilisateur de permanence*.
+
+Faisons les comptes. Un utilisateur intensif sauvegarde 5 000 articles par an, médiane à 800 Ko. Soit 4 Go par utilisateur et par an. Au bout de dix ans, 40 Go. Du stockage R2 à 0,015 $/Go/mois, ça fait 0,60 $ par utilisateur et par mois — juste pour le stockage, juste pour l’intensif.
+
+Ajoutez la bande passante, le compute de parsing, les appels IA de résumé, les index de recherche, les embeddings vectoriels, et vous êtes à 1-3 $ par utilisateur actif intensif et par mois — plus proche de 1 $ si vous restez sur une stack Cloudflare-native sobre avec un petit modèle IA, plus proche de 3 $ si vous appelez un modèle frontière à chaque sauvegarde et à chaque chat. Rien de tout ça n’inclut le salaire de l’équipe.
+
+Si votre offre gratuite, c’est « illimité partout », l’utilisateur intensif vous coûte de l’argent pour toujours. S’il ne convertit pas en payant, vous financez son habitude avec l’argent des investisseurs. Quand les investisseurs partent, les maths deviennent visibles.
+
+## Les deux formes viables
+
+Il existe exactement deux modèles de prix qui tiennent dix ans :
+
+**1. Un vrai palier payant avec un vrai palier gratuit.** Le palier gratuit a des limites — nombre de sauvegardes, durée de conservation des captures, quota IA. Le palier payant a les fonctions coûteuses. L’équation de conversion est honnête : on paie pour ce qu’on utilise.
+
+**2. Être une fonction à l’intérieur d’un produit rentable.** Pinboard a facturé un paiement unique et a survécu parce que la forme du coût était différente (pas de captures, pas d’IA). La Liste de lecture d’Apple existe parce qu’Apple vend des téléphones. Notion Web Clipper existe parce que Notion vend aux équipes.
+
+Le « à-lire-plus-tard » comme produit grand public, autonome et gratuit-à-vie, n’est pas une forme viable. Les maths ne ferment pas.
+
+## Ce qu’on a choisi
+
+Voici où on a atterri après avoir fait tourner les maths sur [Slax Reader](https://r.slax.com).
+
+Un palier gratuit réellement utilisable : sauvegardes illimitées, recherche plein texte, captures qui n’expirent pas non plus pour les utilisateurs gratuits. Les fonctions IA (résumé, plan, suggestions de tags, recherche) sont au compteur.
+
+Un palier payant qui paie la facture IA et la facture stockage, avec une marge. Pas une marge à financer une Série A. Une marge à survivre sans Série A.
+
+La maison mère a 21 ans. On est rentables depuis 2018 — huit ans et ça continue. On n’a jamais levé d’argent à l’extérieur. Notre coût d’infrastructure par utilisateur actif, on le connaît à deux décimales près, parce qu’on n’a pas l’argent de quelqu’un d’autre à cramer.
+
+## Ce que ça veut dire pour vous
+
+Si vous choisissez une appli à-lire-plus-tard aujourd’hui, la question n’est pas « laquelle a la meilleure UI ». C’est « laquelle a des maths qui survivent à la prochaine offre de rachat ».
+
+Si la page de prix d’un outil n’est pas évidente — palier gratuit suspect de générosité, pas de palier payant du tout, blog du fondateur qui parle de croissance mais jamais de coût par utilisateur — vous regardez un outil avec une date de fermeture incluse. Vous n’en connaissez juste pas encore la date.

@@ -1,0 +1,343 @@
+---
+title: "Viết lại Slax Note bằng AI: tổng kết đầy đủ"
+description: "PM tổng kết phương pháp viết lại app bằng AI: làm theo spec, một Bug Tracker thực thụ, và mọi thứ đổi ra sao khi AI vào hệ thống có luật."
+pubDate: 2026-05-22T00:00:00.000Z
+tags: ['note', 'vibe-coding', 'ai-coding']
+product: note
+author: jane
+---
+
+Bản tổng kết này dựa trên một đống chat nhóm, một xấp tài liệu chuẩn bị, biên bản cuộc họp 18 tháng 3, và nhật ký hằng ngày từ giữa tháng 3 đến giữa tháng 4.
+
+Mục tiêu không phải kể từng nước đi. Mà là hai câu hỏi:
+
+1. Sau ngày 10 tháng 3 năm 2026, hành trình bên trong khi viết lại [Slax Note](https://slax.com/note/) bằng AI coding là gì?
+2. Từ thí nghiệm này, cái gì đáng tái dùng, cái gì cần né lần sau?
+
+## 1. Kết luận trước
+
+Viết lại Slax Note bằng AI không phải chiến thắng kiểu "AI dựng cả app trong khi chúng tôi thư giãn". Đó là một quãng hào hứng, rồi nghi ngờ, rồi bực bội, rồi điều chỉnh phương pháp, và cuối cùng dựng lại được niềm tin.
+
+Một câu:
+
+> AI thật sự hạ thấp ngưỡng vào cuộc. Nhưng cái quyết định bạn ship hiệu quả hay không không phải "biết dùng AI". Mà là bạn có biết định nghĩa vấn đề, giới hạn context, quản lý chất lượng, và dựng được lối cộng tác xoay quanh nó hay không.
+
+Thứ giá trị nhất chúng tôi rút ra không phải một bản iOS mới. Là xác nhận được vài điều:
+
+- Designer và PM có thể làm hơn việc viết yêu cầu và ký duyệt — với AI họ có thể tự lái phần hiện thực
+- AI rất giỏi dựng khung nhanh, lấp đầy UI và làm những cú sửa nhỏ-trung-bình hoặc thử-và-lỗi hàng loạt
+- Khi chạm vào quy trình nghiệp vụ thật, thiết bị thật, đồng bộ phức tạp và bàn giao đa nền tảng — AI ngừng tự khép vòng cho bạn. Nó thật ra nâng cao tiêu chuẩn về spec, context, validate và code review
+- Cái làm người ta tách tốp về sau không phải "ai viết code được". Mà là ai tìm được nguyên nhân gốc, kiểm soát regression, và biến bài học thành thứ tái sử dụng được
+
+Hình dạng thật của thí nghiệm này: lấy thứ trước đây vốn là kỹ năng kỹ thuật ngầm, tháo ra, và lắp lại thành một dòng chảy mà người và AI cùng chạy được.
+
+## 2. Vì sao chúng tôi khởi sự viết lại
+
+Kéo timeline về sớm hơn, bạn sẽ thấy chuyện này không thật sự bắt đầu giữa tháng 3. Nó hiện ra rõ quanh ngày 10 tháng 3 năm 2026.
+
+Cuộc bàn của đội khi đó đã thẳng thắn: dùng Slax Note làm một thí nghiệm AI coding hung hãn hơn. Có người còn ném ra ý tưởng xoá luôn toàn bộ codebase Slax Note và để một nhóm nhỏ dựng lại, bảo trì bằng AI. Khung khi đó không còn là *"liệu AI có giúp chúng tôi nhanh hơn chút không."* Mà là *"đây có phải một cách mới để dựng sản phẩm không."*
+
+Từ giữa tháng 3 trở đi, đội thôi xem AI như công cụ tăng năng suất nhỏ và bắt đầu nghiêm túc với một cấu hình hung hãn hơn:
+
+- Product định nghĩa yêu cầu
+- Yêu cầu không đi xuyên qua nhiều lớp kỹ thuật
+- Designer hoặc PM dùng AI để tạo, debug và xác nhận code trực tiếp
+- Sau đó, review và sửa lỗi cũng qua AI hết mức có thể
+
+Nhưng có một điều kiện then chốt:
+
+> Đây không phải *"vứt yêu cầu cho AI và để nó ứng biến từ con số 0."* Đây là một nỗ lực AI coding theo spec.
+
+Trước khi viết lại khởi động, Yujie, engineer của chúng tôi, lấy codebase cũ và bóc các cấu trúc then chốt, ranh giới năng lực, logic trang, hợp đồng API và quan hệ module ra thành một bộ file spec mà AI tiêu hoá được. Từ đó trở đi, công việc không còn tự do. Nó là: đọc spec này, thực thi bước này.
+
+Điều đó đổi mọi thứ:
+
+- AI không sinh ra trong chân không — nó tiêu thụ một context đã được kỹ thuật hoá cho nó
+- Designer và PM không phải nhìn cả repo phức tạp — họ làm việc trên mô tả tác vụ có cấu trúc
+- Khi sai, không phải về lại mô tả miệng — bạn quay lại spec và chỉnh
+
+Diễn đạt khác: thí nghiệm này không chứng minh "có AI thì không cần engineer". Nó chứng minh engineer có thể mã hoá kinh nghiệm, hiểu biết kiến trúc và kiến thức hệ thống vào spec, để rồi một tập rộng hơn nhiều người có thể bước vào phần hiện thực qua AI.
+
+## 3. Cái thật sự đẩy phần viết lại đi: lớp cộng tác bên dưới
+
+Nhìn bề mặt, dễ đọc thành "PM + designer + AI viết lại app".
+
+Phiên bản trung thực hơn: việc viết lại tiến được vì engineer, đội backend và AI cùng đỡ.
+
+### 1) Engineer biến hệ thống thành spec
+
+Đây là bước chịu lực.
+
+Yujie lấy repo hiện tại và biến cấu trúc sản phẩm rải rác, quan hệ module, logic trang, thông tin API và ràng buộc triển khai thành cỡ chục file spec. Sau đó, AI coding không còn là sinh ra mù quáng. Đó là thực thi từng bước theo spec.
+
+Vì sao điều này quan trọng:
+
+- Cắt bớt hallucination và những lần refactor không xin phép
+- Hạ ngưỡng để người không phải engineer tham gia vào phần kỹ thuật phức tạp
+- Biến phát triển từ "thử-và-lỗi bằng prompt" thành "thực thi theo spec"
+
+### 2) Engineer viết những hiểu biết ngầm ra giấy
+
+Ngoài file spec, rất nhiều know-how then chốt không nằm trong tài liệu yêu cầu. Chúng hiện ra trong lúc làm việc. Đội liên tục bổ sung những thứ như:
+
+- Stack kỹ thuật này gánh được/không gánh được loại UI hay tương tác nào
+- Chỗ nào nên đơn giản, chỗ nào tuyệt đối không được ép
+- Ràng buộc thật quanh trường API cụ thể, quy ước đặt tên, xử lý state
+- Vấn đề nào phải làm tận gốc trước, vấn đề nào có thể bỏ qua
+
+Mỗi lần loại điều này được đưa vào tài liệu, AI vững hơn và đội phối hợp nhanh hơn.
+
+### 3) Backend ở trong vòng suốt cả chặng
+
+Ngoài việc làm spec frontend và săn bug, đợt viết lại này tiến được vì Yaokun, engineer backend của chúng tôi, dính sâu vào việc.
+
+**Hồi đầu: prompt, trích từ khoá, đa ngôn ngữ.** Ngày 10 tháng 3, Yaokun đã chỉnh prompt trích từ khoá nóng, cải thiện hỗ trợ tiếng Bồ và tiếng Anh, và bàn với chúng tôi về chất lượng trích, tốc độ xử lý và mức chấp nhận được. Từ ngày đầu, công việc của anh không chỉ là API backend — đó là khả năng AI và chất lượng đầu ra của chính sản phẩm.
+
+**Giữa dự án: thêm API, migration, tài liệu.** Khi va vào quy trình nghiệp vụ thật, anh tiếp tục mở rộng — migrate và thêm endpoint, viết đầy đủ tài liệu API, giúp chúng tôi hiểu ràng buộc thật ở phía server. AI coding không thể bước vào nghiệp vụ thật bằng cách đoán API.
+
+**Giai đoạn cuối: kéo tài liệu API / Apifox / MCP vào workflow AI.** Cuối chặng, phần hỗ trợ của anh đã tiến quá hỏi-đáp. Chúng tôi đang để AI đối chiếu chéo tài liệu Apifox (một công cụ spec API) để phân tích vấn đề, làm mới cache tài liệu trước khi debug theo spec, cấu hình MCP của Apifox, và nhận cảnh báo trực tiếp từ anh về sai tham số, yêu cầu trùng, body yêu cầu dị dạng.
+
+> Đợt viết lại này tiến được không phải vì "AI đang viết code". Nó tiến được vì các engineer con người liên tục đưa cho AI ranh giới, context, quy ước và phản hồi đúng.
+
+### 4) Chiến thắng nằm ở cộng tác liên vai trò
+
+Nhìn lại, việc viết lại thành công không phải vì một vai trò mạnh lên. Nó thành công vì:
+
+- Engineer biến tri thức repo hiện hữu thành spec
+- Product / design lái phần hiện thực và validate qua AI
+- Backend liên tục mở rộng API, tài liệu, chi tiết tương tác và chẩn đoán
+- Cùng nhau, mọi người đẩy câu hỏi từ "AI viết được cái này không" sang "sản phẩm có thật sự chạy được không."
+
+Mô tả trung thực hơn: đây là thực hành kết hợp của làm-theo-spec, làm-theo-tài-liệu, phối hợp frontend/backend chặt và cộng tác người-AI.
+
+## 4. Hành trình bên trong: tôi đi qua tháng này thế nào
+
+### 1) Khởi động: tươi, hào hứng, vẫn còn rất bất an
+
+Ngày 10 tháng 3 đến 18 tháng 3, tâm trạng hào hứng nhưng chưa tự tin.
+
+Một bên, đội đang chuẩn bị và đồng bộ. Designer bắt đầu cài và học Claude Code. Chúng tôi tranh luận xem AI rewrite nên đi xa tới đâu. Native vs đa nền tảng, cloud vs cục bộ — đều đặt lên bàn.
+
+Một bên, phản ứng đầu của riêng tôi khá thô:
+
+- *"Anh em ơi, thời tiết đổi rồi."*
+- *"Tôi còn không biết dùng version control, mà các anh muốn tôi bảo trì sản phẩm à?"*
+- *"Hoang dại quá."*
+
+Câu đó nói thật trạng thái lúc đó. Không phải "tôi biết nó sẽ chạy". Mà là vừa hào hứng vừa choáng, vừa muốn thử vừa thấy cái này quá hung hãn.
+
+Cú dịch chuyển quan trọng nhất chặng này không phải code. Là một công tắc trong đầu. Phần hiện thực trước đây là sân của kỹ thuật. Lần đầu tiên, AI mở sân đó ra cho product và design.
+
+Ngày 18 tháng 3, bản demo đầu dựng từ tài liệu đã có hình hài. Cảm giác lúc đó gần với:
+
+- Đây không phải tưởng tượng
+- AI không chỉ dựng được demo đồ chơi
+- Cho nó tài liệu rõ, context, mục tiêu, và nó thật sự dựng được khung UI và quy trình chính của một sản phẩm khá nhanh
+
+Nhưng nỗi đau của chặng kế tiếp đã được gieo ngay tại đó. AI rất giỏi "làm ra thứ gì đó". Nó không phải cùng nghĩa với "làm đúng, làm ổn định, làm thành sản phẩm".
+
+### 2) Đẩy tới: từ "ngắm AI viết code" sang thực sự ship
+
+Ngày 20 đến 23 tháng 3, tâm trạng đổi.
+
+Những ngày trước là "nó có làm được không". Giờ câu hỏi là "thứ nó làm có dùng được không". Đội thôi va vấn đề trừu tượng và bắt đầu va những vấn đề rất cụ thể, rất rút sức:
+
+- Chi tiết UI không vào đúng
+- Trong simulator nhìn ổn, lên thiết bị thì hỏng
+- Nối backend API và mọi vấn đề hiệu năng, tương tác, state nổi cùng lúc
+- Sửa một chỗ, gãy chỗ khác
+- AI khẳng định đã sửa. Kết quả còn xa so với yêu cầu.
+
+Trong bản suy ngẫm ngày 23 tháng 3 tôi đã đặt tên cho cơn đau cốt lõi.
+
+**Lớp trở ngại thứ nhất: các vấn đề kéo theo các vấn đề khác.** Cái nhìn như chi tiết tương tác có thể kéo theo xung đột cử chỉ, hiệu năng trang, lựa chọn điều hướng, đánh đổi ScrollView vs List. AI không phải không sửa được — nhưng nó thường đưa bạn một giải pháp cục bộ *gần như* chạy được mà không thật sự đúng.
+
+**Lớp thứ hai: không hiểu lớp dưới, bạn không lái được AI.** Tôi bắt đầu thấy vấn đề thật không phải AI không cố. Vấn đề thật là nếu tôi không hiểu nội tại iOS, tôi không phân biệt được giải pháp của AI là tối ưu, là hạng nhì, hay là miếng dán.
+
+**Lớp thứ ba: nâng cấp nhận thức — có những yêu cầu bạn không thể ép qua.** Khi đã ở trong AI coding, bạn bắt đầu hiểu engineer nói "phải đổi cách tiếp cận" nghĩa là gì. Có những thứ hợp lý từ góc sản phẩm nhưng hoàn toàn không kinh tế với hướng kỹ thuật hiện tại. Ép thêm chỉ khoá bạn trong một vòng lặp hiệu suất thấp.
+
+### 3) Điều chỉnh: tự dựng playbook, hết cày cắm đầu
+
+Cuối tháng 3, trạng thái dịch. "Vấn đề xô tôi đi" thành "tôi biết cách làm việc với AI".
+
+Vài bước rẽ rõ:
+
+**Rẽ một: chấp nhận không phải vấn đề nào cũng giải hôm nay.** Thứ thử nhiều lần vẫn trượt — bỏ qua, đi tiếp. Bảo vệ quy trình chính. Bảo vệ thứ demo được. Bảo vệ thứ chạy trên thiết bị. Một trong những rủi ro lớn nhất của AI coding là ảo giác rằng *gần xong rồi*, nó kéo bạn vào vòng tinh chỉnh vi mô không hồi kết.
+
+**Rẽ hai: viết bài học vào tài liệu, không chỉ vào chat.** Context chat không đủ. Mô tả tại trận không đủ. Hãy viết ràng buộc xuống. Chỉ khi đó AI mới ổn định đáng tin. Đừng dạy lại AI mỗi lần. Biến quy tắc thành tài sản.
+
+**Rẽ ba: thành thục công cụ cũng là năng suất.** Rất nhiều "bug" hoá ra là: tôi đang ở thư mục sai, Xcode đang compile file cũ, tôi không đọc nổi thông báo lỗi tiếng Anh, cửa sổ context dài và tôi sợ mở cửa sổ mới. Ngưỡng vào AI coding không chỉ là "biết viết yêu cầu". Là "biết dùng cả môi trường phát triển".
+
+### 4) Hội tụ: từ "chạy được" sang "ship được", từ thí nghiệm cá nhân sang công việc của đội
+
+Đầu tháng 4 đến 10 tháng 4 lại là một cú dịch rõ. Chúng tôi không còn là dự án demo. Chúng tôi đang đẩy về phía giao hàng thực: demo trong phòng, test trên thiết bị thật, TestFlight, đội dùng thử, phản hồi nhiều người.
+
+Thay đổi lớn nhất: tâm vấn đề dịch từ *"trang chưa xong"* sang *"việc dùng thật phơi ra vấn đề thật."*
+
+**Số lượng bug nổ tung.** Khi vào tay nhiều đồng đội hơn, lỗi chồng lên rất nhanh. Ngày 10 tháng 4, tôi nhận ra việc quản lý bug phải tốt nghiệp từ "ghi trong tài liệu" lên sổ ghi có cấu trúc. Bug Tracker chuyển từ tài liệu dài thành bảng đa chiều. Quản lý dự án nâng cấp thật sự.
+
+**Bắt đầu tách "sẵn để demo" với "sẵn để release".** Demo sớm trông tính năng đủ 80% và có thể trình diễn trực tiếp. Nhưng TestFlight, ra store, đưa cho nhiều người dùng hơn — bug ở đó là hạng mục cường độ khác. AI đưa bạn đến "trông như chạy được" rất nhanh. Khoảng cách giữa đó và "ship được và giữ được" là cả một thanh xà chất lượng kỹ thuật.
+
+**Workflow đội cũng nâng cấp.** Không còn chỉ "nhờ AI sửa". Chúng tôi bắt đầu làm PR, review, code review, deploy tự động và vòng sửa lỗi đàng hoàng. Tôi nói thẳng: dùng Claude Code để viết, dùng Codex để review. AI coding có khả năng mở rộng không phải một mô hình viết từ đầu đến cuối. Là các AI khác nhau xử các phần khác nhau của dòng chảy.
+
+### 5) Chặng nước rút: phần khó nhất không phải phát triển, mà là nguyên nhân gốc của hệ thống
+
+Ngày 13 đến 17 tháng 4 là chặng "nước sâu kỹ thuật" sách giáo khoa. Vấn đề không còn là UI bề mặt hay logic một trang nữa. Chúng mang tính hệ thống:
+
+- Một dây 401 token âm thầm giết toàn bộ sync
+- Sai kiểu trường khi sync session, sai tên, đường sync bị nhân đôi
+- audioFileId lệch kiểu khiến PUT note thất bại lặp lại
+- Upload race condition viết đè trạng thái success về lại "recognizing"
+- `.refreshable` của SwiftUI huỷ task và gây dây thất bại
+- Giới hạn thời gian background task cắt ASR giữa chừng
+- Trạng thái archive từ Android không sync sang iOS
+
+Chặng này đáng nản vì mỗi bản sửa lại lôi ra một vấn đề cơ chế khác. Bug nhìn thấy nằm trên một giả định kiến trúc không còn đúng. AI giúp chẩn đoán, nhưng để thật sự khép vòng vẫn cần kỹ năng tháo gỡ vấn đề và kiểm chứng vững.
+
+Đến đây, chúng tôi không còn là "người biết nhờ AI viết code". Chúng tôi đang giỏi dần: đọc log, truy nguyên nhân gốc, vá tối thiểu, kiểm soát regression, viết tóm tắt PR, dựng vòng sửa lỗi thực thụ.
+
+Chặng đầu chứng minh AI có thể dựng. Chặng hai chứng minh chúng tôi đang học cách biến thành sản phẩm.
+
+## 5. Cung cảm xúc thật
+
+Nếu cắt lớp kỹ thuật và chỉ theo trạng thái tâm lý, nó trông thế này:
+
+1. **Khởi đầu:** Hào hứng nhưng bất an. Thứ trước đây cần kỹ thuật vào cuộc, giờ tôi có thể tự làm. AI không phải đồ chơi — nó thật sự sinh ra UI và tính năng. Đồng thời, cả cấu hình thấy hung hãn quá mức, đi kèm âm hưởng *"khoan, được phép vậy à?"*
+
+2. **Ngay sau đó:** Nghi ngờ chen vào. Khi chạm API, thiết bị thật, state phức tạp và độ trung thực chi tiết, vấn đề vượt quá kỳ vọng. AI nói nghe rất chắc. Kết quả thường không ổn. *Mình đánh giá quá cao đường này à?*
+
+3. **Giữa chặng:** Bực nhất. Bực thật không phải vì số lượng bug — mà vì không hiểu lớp dưới, tôi không lái được AI theo cách một engineer sẽ làm. Tôi mắc kẹt trong test, phản hồi, lại test. Chi phí tâm lý cao nhất của thí nghiệm ở đây.
+
+4. **Sau đó:** Điều chỉnh playbook. Thôi đòi giải pháp một-phát-trúng. Phân giai mục tiêu — quy trình chính trước, chi tiết sau. Demo-ready trước, release-ready kế tiếp. Viết luật vào tài liệu. Đưa bug vào tracker. Kéo AI vào cả review.
+
+5. **Bây giờ:** Niềm tin dựng lại, nhưng không ngây thơ. Quy trình đúng, spec rõ, kiểm chứng nghiêm — AI thật sự làm được rất nhiều việc trước đây không thể.
+
+## 6. Bài học đáng mang theo nhất
+
+### 1. Đừng coi AI như "auto-programmer". Coi nó như cộng sự thực thi cao cần ràng buộc.
+
+Hồ sơ của AI rõ: nhanh, sản xuất nhiều, sẵn lòng thử lại, đưa bạn các lời giải thích nghe rất chắc. Vấn đề của nó cũng rõ: dễ kẹt ở tối ưu cục bộ, dễ đào sai hướng, quá tự tin và rất giỏi "sửa cái này, gãy cái khác".
+
+Cách dùng tốt hơn: đừng quăng task qua tường rồi ngồi đợi. Làm rõ mục tiêu, siết context, khoanh phạm vi thay đổi, kiểm chứng mỗi vòng.
+
+### 2. Tài liệu không phải phụ trợ. Là vật liệu cốt lõi của AI coding.
+
+Thí nghiệm này làm rõ một điều: **trần của AI coding phần lớn được đặt bởi chất lượng tài liệu của bạn.**
+
+Tài liệu tốt cải thiện trực tiếp khả năng hiểu yêu cầu, độ trung thực UI, đồng bộ API, tính nhất quán nhiều người, và tốc độ xử vấn đề mới. Mặt ngược lại: tài liệu dở thì AI đoán. Khi nó đoán, gần như chắc chắn phải làm lại.
+
+Tối thiểu, tài liệu nên có ba lớp:
+
+- **Product spec:** mục tiêu, ranh giới, ưu tiên
+- **Ràng buộc triển khai:** đặt tên, trường API, máy trạng thái, quy ước component
+- **Bài học:** hố đã đạp, lối đã bị cấm thử lại
+
+### 3. Chỗ ăn thời gian thật không phải "viết". Là "kiểm chứng".
+
+Sớm thì bạn tưởng phần khó nhất của AI coding là sinh ra code. Làm đủ lâu rồi nhận ra thời gian đi vào kiểm chứng:
+
+- Kiểm xem có khớp yêu cầu
+- Kiểm xem có làm gãy tính năng khác
+- Kiểm xem simulator và thiết bị hành xử giống nhau
+- Kiểm xem state đa nền tảng có nhất quán
+- Kiểm xem bản sửa không phải chỉ ở bề mặt
+
+AI hạ chi phí viết code. Điều đó làm chi phí kiểm chứng quan trọng hơn, không phải kém đi.
+
+### 4. Khi số bug leo lên, hãy cấu trúc hoá ngay. Đừng tiếp tục dùng chat và tài liệu dài.
+
+Dựng Bug Tracker ngày 10 tháng 4 là quyết định đúng. Khi khối lượng tăng, không có cấu trúc nghĩa là: cùng một bug bị cãi lại nhiều lần, ưu tiên rối, ai phụ trách không rõ, trạng thái sửa không theo dõi được, và phiên bản nào chứa gì sẽ bị lạc.
+
+Khoảnh khắc bước vào test nhiều người: số thứ tự, ưu tiên, người phụ trách, trạng thái hiện tại, đường repro, phiên bản đích. Ngày đầu.
+
+### 5. "Bạn có lái nổi AI không" đặt trần hiệu quả
+
+Không biết viết code không có nghĩa không làm được AI coding. Nhưng nếu bạn không hiểu chút nào về lớp dưới, có một trần thật: bạn mô tả triệu chứng được nhưng không đánh giá nổi chất lượng giải pháp, không phát hiện được bản sửa giả, và không chủ động xoay được cách tiếp cận.
+
+Hai con đường đều đáng đầu tư:
+
+**Đường A: nâng năng lực kỹ thuật của các vai trò ngoài engineering.** Tối thiểu: biết đọc log, đọc quan hệ giữa các file, đọc chuỗi build, nhận diện lỗi thường gặp.
+
+**Đường B: bắt AI gánh "lớp giải thích" và "lớp audit".** Ví dụ: yêu cầu AI xuất ra giả thuyết nguyên nhân gốc, phạm vi thay đổi, điểm rủi ro, bước kiểm chứng và cách rollback.
+
+### 6. Hiệu suất AI coding thật không nằm ở prompt khéo
+
+Càng chạy lâu càng rõ:
+
+> Cái làm AI coding thật sự hiệu quả không phải prompt thần kỳ. Là AI được thả vào một hệ thống có quy ước, có tài liệu, có công cụ và có phản hồi của con người.
+
+Cái chúng tôi cuối cùng đang chạy không phải "nói yêu cầu cho AI". Mà là: định ranh giới bằng spec, định ràng buộc bằng tài liệu, móc quy ước API qua Apifox / MCP, để đồng đội con người sửa và bổ sung, rồi để AI thực thi trên toàn bộ vật liệu đó.
+
+### 7. Đưa được vòng chạy trước. Đuổi theo độ trung thực sau.
+
+Rất nhiều cơn đau đến từ một vấn đề thật: trước khi có vòng chạy ổn định, đuổi theo chi tiết quá sớm sẽ kéo bạn vào tinh chỉnh kém hiệu suất.
+
+Thứ tự đúng:
+
+1. Quy trình chính chạy
+2. Chạy trên thiết bị
+3. State cốt lõi ổn
+4. Test được nhiều người
+5. *Rồi* mới đẩy đánh bóng UI, animation, tương tác
+
+### 8. Đừng bỏ code review. Càng đi xa nó càng quan trọng.
+
+Cuối chặng chúng tôi rõ ràng đang ở chế độ mới: không chỉ AI viết — còn AI làm code review, săn rủi ro, lấp test, viết ghi chú PR.
+
+Điều đó nói một thứ quan trọng: khi một dự án AI coding tiến tới, tầm quan trọng của review tăng lên, không giảm đi.
+
+Muốn mở rộng quy mô, hãy đẩy review lên đầu thành mặc định: mọi lần viết đều được review, các quy trình then chốt bắt buộc có ghi chú nguyên nhân gốc, các thay đổi quan trọng ship kèm kế hoạch kiểm chứng, các bản sửa rủi ro cao có kiểm soát phạm vi thay đổi rõ ràng.
+
+## 7. Thu hoạch giá trị nhất
+
+Thu hoạch giá trị nhất không phải ship một phiên bản. Là tiến gần hơn tới một hiểu biết thật:
+
+1. **AI coding không phải phép màu. Cũng không phải trò gimmick.** Nó không tự động như nhiều người tưởng. Cũng không phải đồ chơi chỉ-để-demo như người ngoài nghi.
+
+2. **Ranh giới giữa product, design và engineering sẽ được vẽ lại.** Không phải ai thay ai. Mà là ai chạy tới hiện trường vấn đề nhanh nhất — người đó có lực đẩy.
+
+3. **Cạnh tranh tương lai không phải "ai dùng AI". Là ai dựng được hệ cộng tác AI tốt hơn.** Hệ tài liệu, hệ ràng buộc, hệ review, quản lý bug, test và phát hành.
+
+4. **Người ngoài engineering có thể đẩy vào phần hiện thực.** Trước đây, product cố bước vào hiện thực thường bị chặn bởi tooling và chi tiết kỹ thuật. Việc này khó, nhưng nó chứng minh: bạn không còn chỉ là người chuyền yêu cầu qua tường. Bạn có thể đẩy mọi thứ tới mức ship được.
+
+## 8. Gợi ý cho thí nghiệm AI coding kế tiếp
+
+**Trước khi khởi động:**
+
+- Định nghĩa mục tiêu chính xác: demo, trình diễn trực tiếp, TestFlight, hay production
+- Khoá ưu tiên: quy trình chính > ổn định > chi tiết UI
+- Chuẩn bị tài liệu spec, tài liệu API, ràng buộc thiết kế
+
+**Trong khi phát triển:**
+
+- Viết bài học vào tài liệu mỗi ngày. Đừng để chúng nằm trong chat.
+- Hai hoặc ba lần thử thất bại trên cùng một vấn đề? Bỏ qua hoặc đổi cách tiếp cận.
+- Mỗi thay đổi của AI phải kèm cảnh báo rủi ro và bước kiểm chứng
+- Vấn đề then chốt cần làm tới gốc. Đừng chỉ vá triệu chứng.
+
+**Khi vào test:**
+
+- Dựng Bug Tracker ngay lập tức
+- Phân lớp vấn đề P0 / P1 / P2
+- Mỗi vòng, chỉ đóng các mục ưu tiên cao nhất. Đừng tham.
+- Đưa AI review, quy ước PR, kiểm chứng regression vào
+
+**Trước khi phát hành:**
+
+- Rõ ràng về ranh giới giữa "demo được" và "ship được"
+- Sync, đăng nhập, thanh toán, audio, quản lý state — đường ưu tiên hàng đầu
+- Bất cứ thứ gì trong đường lõi tần suất cao đều phải kiểm chứng trên thiết bị thật. Đừng tin simulator.
+
+## 9. Câu cuối
+
+Nếu chỉ nhìn quá trình, đợt viết lại này gập ghềnh. Thậm chí đau. Nếu nhìn kết quả, nó đáng.
+
+Thách thức kế tiếp vẫn ở đó. Lần này chúng tôi viết lại app. Tìm yêu cầu mới ra sao và lặp sản phẩm qua AI ra sao — chúng tôi chưa thử cái đó.
+
+---
+
+Slax Note là app chúng tôi viết lại bằng AI — một ứng dụng ghi chú lấy giọng nói làm gốc. Bạn nói, nó viết, bạn chọn hình thức bạn muốn.
+
+- [iOS](https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286)
+- [Android](https://play.google.com/store/apps/details?id=app.slax.notes)
+- [Web](https://n.slax.com/)
