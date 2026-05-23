@@ -16,7 +16,19 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
 const ROOT = process.cwd();
-const LOCALES = ['en', 'zh-Hans', 'zh-Hant', 'ja', 'ko'];
+const LOCALES = [
+	'en',
+	'zh-Hans',
+	'zh-Hant',
+	'ja',
+	'ko',
+	'de',
+	'fr',
+	'es',
+	'pt-BR',
+	'id',
+	'vi',
+];
 const NON_DEFAULT_LOCALES = LOCALES.filter((l) => l !== 'en');
 const CONTENT_DIRS = [
 	'blog',

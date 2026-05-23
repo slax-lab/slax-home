@@ -16,7 +16,19 @@ import { join } from 'node:path';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
-const LOCALES = ['en', 'zh-Hans', 'zh-Hant', 'ja', 'ko'];
+const LOCALES = [
+	'en',
+	'zh-Hans',
+	'zh-Hant',
+	'ja',
+	'ko',
+	'de',
+	'fr',
+	'es',
+	'pt-BR',
+	'id',
+	'vi',
+];
 const ALLOWED_HREFLANG = new Set([...LOCALES, 'x-default']);
 
 let errors = 0;

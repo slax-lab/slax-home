@@ -13,7 +13,19 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
 const ROOT = process.cwd();
-const LOCALES = ['en', 'zh-Hans', 'zh-Hant', 'ja', 'ko'] as const;
+const LOCALES = [
+	'en',
+	'zh-Hans',
+	'zh-Hant',
+	'ja',
+	'ko',
+	'de',
+	'fr',
+	'es',
+	'pt-BR',
+	'id',
+	'vi',
+] as const;
 const DEFAULT_LOCALE = 'en' as const;
 const COLLECTIONS = [
 	'blog',

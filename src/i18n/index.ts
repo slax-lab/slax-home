@@ -6,10 +6,16 @@
 //   <p>{t(lang, 'footer.versionMeta', { version: '0.9.2', lastUpdated: '05/19/26' })}</p>
 
 import { DEFAULT_LOCALE, DICT_FALLBACK, type Locale } from './locales';
+import deDict from './ui/de';
 import type { UIDict } from './ui/en';
 import enDict from './ui/en';
+import esDict from './ui/es';
+import frDict from './ui/fr';
+import idDict from './ui/id';
 import jaDict from './ui/ja';
 import koDict from './ui/ko';
+import ptBRDict from './ui/pt-BR';
+import viDict from './ui/vi';
 import zhHansDict from './ui/zh-Hans';
 import zhHantDict from './ui/zh-Hant';
 
@@ -19,6 +25,12 @@ const DICTS: Record<Locale, UIDict> = {
 	'zh-Hant': zhHantDict,
 	ja: jaDict,
 	ko: koDict,
+	de: deDict,
+	es: esDict,
+	'pt-BR': ptBRDict,
+	vi: viDict,
+	id: idDict,
+	fr: frDict,
 };
 
 // Type-level dotted key extraction. Recurses into nested objects.

@@ -54,12 +54,20 @@ function loadAllFonts() {
 }
 
 // Map locale → CJK font family name (matches Satori font registration).
+// Latin-script locales (de/es/pt-BR/vi/id/fr) render with Source Serif alone;
+// vi's diacritics are covered by Source Serif 4's Latin Extended-A glyphs.
 const CJK_FAMILY: Record<Locale, string | null> = {
 	en: null,
 	'zh-Hans': 'Noto Sans SC',
 	'zh-Hant': 'Noto Sans TC',
 	ja: 'Noto Sans JP',
 	ko: 'Noto Sans KR',
+	de: null,
+	es: null,
+	'pt-BR': null,
+	vi: null,
+	id: null,
+	fr: null,
 };
 
 function buildFonts(lang: Locale): Font[] {
