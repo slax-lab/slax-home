@@ -1,0 +1,19 @@
+# Legacy URL → new URL 301 redirects.
+# Cloudflare Pages reads this file at deploy.
+# https://developers.cloudflare.com/pages/configuration/redirects/
+
+# Pre-Astro Hugo-era marketing pages.
+/slax-note.html                                                         /note/                                                                                301
+/slax-reader.html                                                       /reader/                                                                              301
+/blog.html                                                              /blog/                                                                                301
+
+# Pre-Astro Hugo-era blog URLs (date-prefixed slugs).
+/blog/2025/20250530-open-source-Pocket-alternative.html                 /blog/built-an-open-source-pocket-alternative/                                        301
+/blog/2025/20250316-opensourcereader.html                               /blog/built-an-open-source-tool-to-save-content-permanently-and-simplify-learning/    301
+
+# Residual /blog2/ tree from prior structure.
+/blog2/*                                                                /blog/                                                                                301
+
+# Old /compare/ pages now live under /reader/alternatives/.
+/compare/slax-reader-vs-instapaper/                                     /reader/alternatives/instapaper/                                                      301
+/compare/*                                                              /reader/alternatives/                                                                 301
