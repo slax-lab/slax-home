@@ -103,12 +103,26 @@ if (schema) {
 	else extraSchemas.push(schema);
 }
 
-// Attach inLanguage to article-type schemas when caller forgot.
+// Schema.org only defines `inLanguage` on CreativeWork and its subtypes.
+// Adding it to ItemList/Organization/Offer/etc. trips strict validators.
+const INLANGUAGE_TYPES = new Set([
+	'Article',
+	'Blog',
+	'BlogPosting',
+	'CreativeWork',
+	'NewsArticle',
+	'SoftwareApplication',
+	'TechArticle',
+	'WebPage',
+	'WebSite',
+]);
+
 const enrichedExtras = extraSchemas.map((s) => {
-	if (typeof s === 'object' && s !== null && !('inLanguage' in s)) {
-		return { ...s, inLanguage: htmlLang };
-	}
-	return s;
+	if (typeof s !== 'object' || s === null) return s;
+	if ('inLanguage' in s) return s;
+	const type = (s as { '@type'?: unknown })['@type'];
+	if (typeof type !== 'string' || !INLANGUAGE_TYPES.has(type)) return s;
+	return { ...s, inLanguage: htmlLang };
 });
 
 const schemaList = [defaultSiteSchema, ...enrichedExtras];
