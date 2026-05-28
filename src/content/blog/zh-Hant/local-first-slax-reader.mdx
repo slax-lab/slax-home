@@ -1,0 +1,426 @@
+---
+title: "斷網時還能劃線嗎：14 款 Read-Later 產品的 Local-first 實況"
+description: "我們查了 14 款 Read-Later 產品對 Local-first 和 Offline-mode 的真實支援，並把 Slax Reader 用 PowerSync 做 No Spinner 的具體實現公開出來。"
+pubDate: 2026-05-28T00:00:00.000Z
+tags: ['閱讀器']
+product: reader
+---
+
+## 建議你做個測試
+
+2019 年，Ink & Switch 實驗室發表了一篇文章 [*Local-first software: You own your data, in spite of the cloud*](https://www.inkandswitch.com/essay/local-first/)。文末給工程師的建議裡寫了一句：
+
+> "Test your app by turning off your WiFi, or using traffic shapers such as Chrome Dev Tools network condition simulator"
+
+——把 Wi-Fi 關掉，是檢驗一個應用有沒有真的做本地優先最簡單的方法。
+
+我們就拿這個方法測了三個稍後讀 app。開啟 app，關 Wi-Fi，選一段文字劃個高亮：
+
+- **Raindrop**：劃線選單不出現。
+- **Cubox**：彈出報錯。
+- **Slax Reader**：顏色照常出現，狀態寫入，和有網時一樣。
+
+做法不一樣，結果就不一樣。
+
+---
+
+## Local-first 是什麼
+
+Ink & Switch 那篇文章列出了七個理想，對應英文原標題：
+
+| # | 英文原文 | 一句話解釋 |
+|---|---|---|
+| 1 | **No spinners: your work at your fingertips** | 操作即時響應，不顯示載入圖示 |
+| 2 | Your work is not trapped on one device | 跨裝置同步 |
+| 3 | The network is optional | 網路是可選項，不是前提 |
+| 4 | Seamless collaboration with your colleagues | 實時協作 |
+| 5 | The Long Now | 公司倒閉後軟體依然可用 |
+| 6 | Security and privacy by default | 預設端到端加密 |
+| 7 | You retain ultimate ownership and control | 資料在你自己的裝置上 |
+
+第一條的原文是："local-first software has the potential to respond near-instantaneously to user input, **never needing to show you a spinner**"——不讓使用者等轉圈，是這個理念的第一條。
+
+後來 [RxDB](https://rxdb.info/articles/local-first-future.html) 的工程師寫了 *The Local-First Future*，配圖示註就是 "loading spinner not needed"。[Spritle](https://www.spritle.com/blog/why-modern-apps-feel-instant-a-simple-guide-to-local-first-development/) 的科普文裡用了一個畫面感很強的開場："Imagine using your favorite productivity app at 30,000 feet — no internet, no loading spinners, no freezes."
+
+產品案例是同一批：Figma、Linear、Notion、Obsidian、WhatsApp。
+
+---
+
+## 劃線測試：Offline-mode 不是 Local-first
+
+很多產品在主頁寫 "even offline"。具體支援的是什麼，要看一個動作：
+
+> **斷網時，你還能劃線、評論、歸檔嗎？**
+
+只能**讀**已經下載的內容，但不能**寫**新資料——是 **Offline-mode**。
+
+斷網時所有操作和有網時一樣發生、儲存、可見——是 **Local-first**。
+
+兩者的差別：
+
+| 維度 | Offline-mode | Local-first |
+|---|---|---|
+| 架構 | Client-Server 加一個"快照下載"補丁 | 本地資料庫為主存，伺服器是同步層 |
+| 寫操作 | 必須聯網 | 本地即時完成 |
+| 使用者感受 | 轉圈 / 報錯 / 操作變灰 | 無等待 |
+| 實現成本 | 低 | 高 |
+
+Offline-mode 是補丁，Local-first 是架構。
+
+---
+
+## 14 款 Read-Later 產品的實況
+
+我們把面向中英文使用者的 14 款稍後讀 / 閱讀器產品都查了一遍——讀官網、文件、FAQ、變更日誌——確認它們對 Local-first 和 Offline-mode 的真實支援。
+
+14 個裡，只有 Readwise Reader 一家在官網公開、明確地把自己稱作 local-first。
+
+| 產品 | Local-first | Offline-mode | 關鍵證據 |
+|---|---|---|---|
+| Readwise Reader | ✅ 支援 | ✅ 支援 | 官網原文 "**local-first web app**"，跨裝置同步 "even offline"，離線全文搜尋可用 |
+| Slax Reader（本文） | 區域性 ✅ | ✅ 支援 | 劃線 / 評論 / 點贊 / 歸檔全部本地完成，斷網體驗與線上一致 |
+| GoodLinks | ⚠️ 接近，未宣告 | ✅ 支援 | iCloud Sync + 本地富文字存檔，可離線閱讀；官方未自稱 local-first |
+| Instapaper | ❌ | ✅ 支援 | 官網："You can read anything you save... **even offline**" |
+| Matter | ❌ | ✅ 支援 | App Store："**Available offline by default**" |
+| Wallabag | ❌ | ✅ 支援（Android） | Self-hosted；Android app 支援本地快取圖片用於離線閱讀 |
+| Cubox | ❌ | ⚠️ 部分支援 | 最近收藏的文字內容自動快取供離線閱讀；圖片快取和離線管理"還在增強中" |
+| Screvi | ❌ | ✅ 支援 | 官網："Read anywhere, **even offline**"，移動端可下載離線閱讀 |
+| BeeMind | ⚠️ 範圍不清 | ⚠️ 範圍不清 | 官網寫 "local-first privacy"，並提供 "local model (for full offline privacy)"，無完整定義 |
+| Recall | ⚠️ 僅限瀏覽 | ❌ | 官網："**Augmented browsing is local first**, your knowledge base is stored safely in the cloud"；offline mode 仍是使用者 feature request |
+| Raindrop.io | ❌ | ❌ | 官方 FAQ："**An internet connection is required to sync changes and save new bookmarks**" |
+| Karakeep | ❌ | ❌ | 文件自稱 "self-hosting first"；"Offline reading on mobile" 標為 **Planned** |
+| Noverload | ❌ | ❌ | 自己的對比頁把 Offline reading 列在競品名下 |
+| Markwise | ❌ | ❌ | 官方部落格："**No offline reading mode (yet)**" |
+| Readless | ❌ | ❌ | 雲端 AI 摘要服務，未見離線 / local-first 任何宣告 |
+
+表裡幾個事實：
+
+- 14 個產品中，1 個明確宣告 local-first（Readwise），1 個事實上接近但不聲張（GoodLinks）。
+- 7 個產品做了快照式離線閱讀，斷網可讀不可寫。
+- 4 個產品兩項都不支援，包括用量較大的 Raindrop。
+- Wallabag、Karakeep 是 self-hosted——伺服器可以放在自己家，但伺服器仍是必需的中間人。Self-hosted 和 Local-first 是兩件事。
+
+---
+
+## 兩個背景
+
+為什麼稍後讀這個品類裡，能透過劃線測試的產品這麼少？兩個背景。
+
+### 速度的物理上限
+
+Ink & Switch 那篇文章裡有一句關於物理的論證：
+
+> "Depending on where you live, the server may well be located on another continent, so **the speed of light places a limit on how fast the software can be**."
+
+不論 5G 還是光纖，每次請求都要往返一次伺服器。伺服器在另一個洲，延遲就有物理下限——這一段路光跑過去需要的時間。頻寬可以變大，延遲不能突破光速。
+
+RxDB 那篇文章把這段論證講得更細：
+
+> "Bandwidth Has Grown, But Latency Is Capped... we can't significantly reduce the base round-trip time for each request."
+
+也就是說，無論網路硬體怎麼進步，**靠伺服器做主存的應用，在響應速度上有一個不可突破的天花板**。
+
+### 使用者期望在演變
+
+RxDB 那篇文章裡還有一段關於使用者期望演化的論證：
+
+> "Early in the history of the web, users expected static pages. If you wanted to see new content, you reloaded the page. That was normal at the time, and nobody found it strange."
+
+> "Then, as more sites added real-time features — auto-updating feeds, live notifications, single-page apps — suddenly those older 'reload-only' sites began to feel slow or outdated."
+
+> "The same pattern is happening with local-first apps. As local-first experiences become commonplace — removing spinners, letting users keep working when offline, and syncing in the background — everything else will start to feel frustratingly behind."
+
+意思是：使用者對"立刻反應"的期望，隨著 Figma、Linear、Notion 這一批產品逐漸普及，已經在抬升。
+
+---
+
+## Slax Reader 做了什麼
+
+Slax Reader 沒有做完整版 Local-first。我們做了幾個核心閱讀操作：
+
+**做了：**
+
+- **劃線** —— 點下去立刻出現顏色，本地寫入。
+- **評論** —— 輸入完立刻儲存到本地，斷網時依然可寫。
+- **點贊 / 收藏** —— 狀態即時切換。
+- **歸檔** —— 操作即時完成，列表立刻更新。
+
+這些操作在斷網 / 弱網 / 飛航模式下與有網時表現一致。網路恢復後，後臺同步佇列把所有操作發回伺服器。
+
+**沒做：**
+
+- **資料完全本地化** —— 文章資料主存仍在雲端。解除安裝 Slax 後不能繼續在本地訪問全部內容。
+- **AI Chat 離線** —— AI 對話依賴雲端模型，斷網不能用。
+
+---
+
+## Slax Reader 的具體實現
+
+程式碼全部開源在 [github.com/slax-lab/slax-reader-client](https://github.com/slax-lab/slax-reader-client)，下面的片段就是從這個倉庫裡截出來的，寫法是 Kotlin Multiplatform——iOS、Android、Web 共用一份 local-first 程式碼。
+
+### 1. 本地儲存用 PowerSync SQLite
+
+不自研、不用 IndexedDB，也不用 Dexie / RxDB。Slax Reader 用了 [PowerSync](https://www.powersync.com/)——一個把 SQLite 直接做成 local-first 同步框架的方案。
+
+Schema 長這樣（節選）：
+
+```kotlin
+val srUserBookmarkTable = Table(
+    name = "sr_user_bookmark",
+    trackPreviousValues = TrackPreviousValuesOptions(onlyWhenChanged = true, columnFilter = null),
+    columns = listOf(
+        Column.text("user_id"),
+        Column.integer("is_read"),
+        Column.integer("archive_status"),
+        Column.integer("is_starred"),
+        Column.text("created_at"),
+        Column.text("updated_at"),
+        // ... 還有 alias_title、type、deleted_at、starred_at、archived_at、metadata
+    )
+)
+
+val srBookmarkComment = Table(
+    name = "sr_bookmark_comment",
+    columns = listOf(
+        Column.integer("type"),          // 劃線、評論、回覆用同一張表，type 區分
+        Column.text("user_bookmark_uuid"),
+        Column.text("comment"),
+        Column.text("approx_source"),
+        Column.text("content"),
+        Column.text("created_at"),
+        Column.text("metadata"),
+    )
+)
+
+val localBookmarkInfo = Table(
+    name = "local_bookmark_info",
+    localOnly = true,                    // 本地獨佔，不進同步
+    columns = listOf(
+        Column.text("overview"),
+        Column.text("key_takeaways"),
+        Column.integer("is_downloaded"),
+    )
+)
+```
+
+幾個細節：
+
+- 劃線、評論、回覆都擠在同一張 `sr_bookmark_comment` 表裡，用 type 欄位區分（劃線、評論、回覆幾種）。
+- `trackPreviousValues` 讓 PowerSync 自動記錄每一行的前值，給後續的欄位級衝突檢測打底。
+- `localOnly = true` 的表（如 `local_bookmark_info`）只存裝置本地，不上雲。文章下載狀態、本地摘要這類不需要跨裝置同步的資料放這裡。
+
+### 2. 先寫本地，再同步
+
+劃線的程式碼路徑，從使用者點選拖選到落庫，沒有任何"等伺服器返回"的環節。
+
+```kotlin
+// ViewModel：使用者劃線觸發
+fun strokeHighlight(webViewState: AppWebViewState, onComplete: (() -> Unit)? = null) {
+    webViewState.evaluateJsWithCallback(
+        "window.SlaxWebViewBridge.captureCurrentSelection()"
+    ) { resultJson ->
+        if (resultJson.isNullOrBlank() || resultJson == "null") return@evaluateJsWithCallback
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                val data = StrokeCreateData.fromJsResult(resultJson)
+                val localId = commentDelegate.addMark(
+                    type = MarkType.LINE,
+                    source = data.toMarkPath(),
+                    approxSource = data.approx_source,
+                    selectContent = data.select_content,
+                )
+                // 寫完本地立即返回，UI 透過 Flow 自動重新整理
+                withContext(Dispatchers.Main) { onComplete?.invoke() }
+            }.onFailure { /* 失敗也只是本地的事，UI 繼續刷 */ }
+        }
+    }
+}
+
+// DAO：本地 SQLite 寫
+suspend fun addMark(
+    bookmarkId: String, userId: String, type: MarkType,
+    source: List<MarkPathItem> = emptyList(),
+    // ... 其他可選引數
+): String {
+    val id = Uuid.random().toString()
+    val now = Clock.System.now().toString()
+    val metadata = BookmarkCommentMetadata(/* root_id, user_id, parent_id ... */)
+
+    database.writeTransaction { tx ->
+        tx.execute(
+            """INSERT INTO sr_bookmark_comment
+                (id, type, source, user_bookmark_uuid, comment,
+                 approx_source, content, is_deleted, created_at, metadata)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            listOf(
+                id, type.value, json.encodeToString(source),
+                bookmarkId, comment, json.encodeToString(approxSource),
+                json.encodeToString(selectContent), 0, now,
+                json.encodeToString(metadata)
+            )
+        )
+    }
+    return id   // 立即返回 ID，呼叫方不等網路
+}
+```
+
+UI 透過訂閱 SQLite 表變化自動重繪：
+
+```kotlin
+private val comments: StateFlow<List<BookmarkCommentPO>> = _bookmarkId
+    .flatMapLatest { id ->
+        id?.let { commentDao.watchComments(it) } ?: flowOf(emptyList())
+    }
+    .stateIn(scope, SharingStarted.Eagerly, emptyList())
+```
+
+`watchComments()` 是基於 PowerSync 的 `database.watch()` 寫的響應式查詢——表裡只要有變化，Flow 自動推新資料給 UI。沒有手動調 `setState`，也沒有任何"等伺服器返回再重新整理"的分支。
+
+### 3. 離線佇列：PowerSync 內建 CRUD log
+
+Slax Reader 裡沒有顯式的 syncQueue 表。原因是：PowerSync 自己在 SQLite 內部維護了一份 CRUD 操作日誌，每次 `database.writeTransaction {}` 都會自動寫一條 CrudEntry。
+
+上傳走 Connector.uploadData()，批處理：
+
+```kotlin
+override suspend fun uploadData(database: PowerSyncDatabase) {
+    val transactions = mutableListOf<CrudTransaction>()
+    val batch = mutableListOf<CrudEntry>()
+
+    database.getCrudTransactions()
+        .take(100)          // 每批最多 100 條
+        .collect { tx ->
+            batch.addAll(tx.crud)
+            transactions.add(tx)
+        }
+
+    if (batch.isEmpty()) return
+
+    try {
+        val postData = batch.map { entry ->
+            val (changes, preChanges) = diffChanges(entry.opData, entry.previousValues)
+            ChangesItem(
+                table = entry.table,
+                id = entry.id,
+                op = entry.op.toString(),    // "INSERT" / "UPDATE" / "DELETE"
+                data = changes,
+                preData = preChanges
+            )
+        }
+        apiService.uploadChanges(changes = postData)
+        transactions.forEach { it.complete(null) }   // 上傳成功，清佇列
+    } catch (e: Exception) {
+        throw e                              // 失敗丟擲，PowerSync 自動重試
+    }
+}
+```
+
+斷網時這段程式碼不會被呼叫——CrudEntry 一直留在 SQLite 的 CRUD log 裡。網路恢復後 PowerSync 自動喚起 uploadData()，按事務順序回放。
+
+### 4. 衝突解決：時間戳 + 欄位級 diff
+
+策略上是 Last-Write-Wins，但**不是簡單整行覆蓋**，而是先在客戶端做欄位級 diff，只把變了的欄位發到服務端。
+
+```kotlin
+fun diffChanges(data: SqliteRow?, preData: SqliteRow?)
+        : Pair<Map<String, String?>?, Map<String, String?>?> {
+    // ...
+    for ((key, value) in dataMap) {
+        val oldValue = preDataMap[key]
+        if (value != oldValue) {
+            if (key == "metadata") {
+                // JSON 欄位：拆到子欄位再 diff
+                val newMetadataObj = Json.decodeFromString<BookmarkMetadata>(value ?: "")
+                val oldMetadataObj = Json.decodeFromString<BookmarkMetadata>(oldValue ?: "")
+
+                if (newMetadataObj.tags != oldMetadataObj.tags) {
+                    changes["metadata.tags"] = Json.encodeToString(newMetadataObj.tags)
+                    preChanges["metadata.tags"] = Json.encodeToString(oldMetadataObj.tags)
+                }
+                // share 設定同樣分子欄位
+                // ...
+            } else {
+                changes[key] = value
+                preChanges[key] = oldValue
+            }
+        }
+    }
+    return Pair(changes, preChanges)
+}
+```
+
+也就是說：你在手機上改了 tags，同時另一臺裝置改了 share 設定——兩臺都同步上去，**兩邊的修改都保留**，不會互相覆蓋。
+
+具體分層：
+
+| 資料型別 | 策略 |
+|---|---|
+| 簡單欄位（is_read / archive_status / is_starred） | 整欄位 LWW |
+| JSON metadata 子欄位（tags / share） | 子欄位 LWW |
+| 刪除 | soft delete（寫 `deleted_at`），衝突按時間戳決定 |
+| 劃線 / 評論樹（root_id / parent_id） | 業務規則——同一劃線的不同回覆可共存，不當衝突處理 |
+
+一個誠實的工程現實：`metadata` 欄位如果 JSON parse 失敗（schema 演進過、舊資料格式不一致），程式碼會降級到整欄位覆蓋。這種情況下確實可能丟欄位。
+
+### 5. 同步觸發：網路狀態驅動
+
+不是定時輪詢，也不是 WebSocket 實時——是**網路狀態變化驅動**。
+
+```kotlin
+fun startup() {
+    workerScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
+    workerScope!!.launch {
+        connectivity.statusUpdates.collect { status ->
+            if (status is Connectivity.Status.Connected) {
+                reconnect()   // 網路恢復 → 重連 PowerSync → 拉/推都被觸發
+            } else {
+                disconnect()  // 網路丟失 → 斷開同步通道
+            }
+        }
+    }
+    // ... 還有 connect()、syncState 狀態機兩個 launch 塊
+}
+```
+
+`Connectivity.statusUpdates` 包裝的是 `navigator.onLine`（Web）和對應的原生網路狀態 API（iOS / Android）。一旦回到有網狀態，PowerSync 自動做兩件事：拉新資料下來、把 CRUD 佇列裡的本地寫發上去。
+
+應用層不寫"重試邏輯"——把同步的責任收斂到 PowerSync 裡。代價是：你繫結了一個特定的同步框架，路徑依賴比較深。
+
+### 一個工程妥協
+
+RxDB 那篇文章列了 local-first 的十條限制，其中一條是：
+
+> "**Safari notoriously wipes out IndexedDB data if the user hasn't used the site in ~7 days.**"
+
+> "Local-first works best when the data set per user is reasonably sized (**up to 2 Gigabytes**)."
+
+瀏覽器的本地儲存不能當作可信賴的長期儲存。這是 Slax 沒有把文章正文也搬到本地的工程理由之一——主存依然在雲端，本地存的是劃線、評論、歸檔狀態這些**使用者操作產生的資料**，不是文章本身。
+
+---
+
+## 參考資料
+
+**Local-first 概念文章：**
+
+- Ink & Switch, [*Local-first software: You own your data, in spite of the cloud*](https://www.inkandswitch.com/essay/local-first/)（2019，奠基論文，七理想出處）
+- RxDB, [*The Local-First Future*](https://rxdb.info/articles/local-first-future.html)（使用者期望演化論證、十條工程限制出處）
+- Spritle, [*Why Modern Apps Feel Instant: A Simple Guide to Local-first Development*](https://www.spritle.com/blog/why-modern-apps-feel-instant-a-simple-guide-to-local-first-development/)（30000 英尺類比、六種衝突策略、syncQueue 程式碼示例出處）
+- Volodymyr Pavlyshyn, [*Benefits of Localfirst for the Good of All*](https://volodymyrpavlyshyn.medium.com/benefits-of-localfirst-for-the-good-of-all-e611e3ea823f)（Sync as a protocol 出處）
+
+**競品連結（按表中順序）：**
+
+- Readwise Reader: https://readwise.io/read
+- GoodLinks: https://goodlinks.app/ · https://goodlinks.app/press/
+- Instapaper: https://www.instapaper.com/
+- Matter: https://apps.apple.com/us/app/matter-reading-app/id1501592184
+- Wallabag: https://wallabag.org/ · https://github.com/wallabag/android-app
+- Cubox: https://cubox.pro/doc/started.html · https://story.cubox.pro/Cubox-update
+- Screvi: https://screvi.com/
+- BeeMind: https://beemind.app/
+- Recall: https://www.recall.it/ · https://feedback.recall.it/feature-requests/p/offline-mode
+- Raindrop.io: https://help.raindrop.io/mobile-app.md · https://help.raindrop.io/permanent-copy.md
+- Karakeep: https://docs.karakeep.app/
+- Noverload: https://noverload.com/compare/pocket
+- Markwise: https://markwise.app/blog/best-pocket-alternative-2026/
+- Readless: https://www.readless.app/
