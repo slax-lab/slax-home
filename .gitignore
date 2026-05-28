@@ -27,6 +27,8 @@ settings.local.json
 worktrees
 
 cc官网参考文件夹
+# Personal working notes & source extracts (yyyymmdd-*.md / .html drafts)
+reference/
 # OG-renderer CJK fonts — fetched via pnpm fonts:download (~25MB)
 src/lib/fonts/*.ttf
 src/lib/fonts/*.otf
