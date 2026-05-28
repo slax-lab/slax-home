@@ -9,7 +9,7 @@ interface Props {
 	lastUpdated?: string;
 }
 
-const { version = '0.9.2', lastUpdated = '05/27/26' } = Astro.props;
+const { version = '0.9.2', lastUpdated = '05/28/26' } = Astro.props;
 const lang = detectLocale(Astro.url.pathname);
 const homeHref = lang === DEFAULT_LOCALE ? '/' : `/${lang}/`;
 ---

@@ -1,0 +1,426 @@
+---
+title: "Đánh dấu khi offline? Thực tế Local-first qua 14 ứng dụng Read-Later"
+description: "Chúng tôi kiểm tra 14 ứng dụng Read-Later xem có thực sự hỗ trợ Local-first và Offline-mode hay không, đồng thời mở mã nguồn cách Slax Reader xây dựng No Spinner bằng PowerSync."
+pubDate: 2026-05-28T00:00:00.000Z
+tags: ['Reader']
+product: reader
+---
+
+## Thử một bài kiểm tra nhanh
+
+Năm 2019, Ink & Switch công bố bài [*Local-first software: You own your data, in spite of the cloud*](https://www.inkandswitch.com/essay/local-first/). Ở cuối bài, họ đưa ra cho kỹ sư một lời khuyên gói gọn trong một dòng:
+
+> "Test your app by turning off your WiFi, or using traffic shapers such as Chrome Dev Tools network condition simulator"
+
+Tắt Wi-Fi là cách đơn giản nhất để kiểm tra xem một ứng dụng có thật sự local-first hay không.
+
+Chúng tôi thử cách này với ba ứng dụng Read-Later. Mở ứng dụng, ngắt Wi-Fi, chọn một đoạn văn bản, bấm highlight:
+
+- **Raindrop**: menu highlight không bao giờ hiện ra.
+- **Cubox**: báo lỗi.
+- **Slax Reader**: highlight hiện ra, trạng thái được lưu, không khác gì khi online.
+
+Kiến trúc khác nhau, kết quả khác nhau.
+
+---
+
+## Local-first là gì
+
+Bài của Ink & Switch nêu ra bảy lý tưởng:
+
+| # | Original wording | Ý nghĩa một dòng |
+|---|---|---|
+| 1 | **No spinners: your work at your fingertips** | Phản hồi tức thì, không có vòng xoay loading |
+| 2 | Your work is not trapped on one device | Đồng bộ qua nhiều thiết bị |
+| 3 | The network is optional | Mạng là tùy chọn, không bắt buộc |
+| 4 | Seamless collaboration with your colleagues | Cộng tác thời gian thực |
+| 5 | The Long Now | Vẫn dùng được sau khi công ty không còn |
+| 6 | Security and privacy by default | Mã hóa đầu cuối mặc định |
+| 7 | You retain ultimate ownership and control | Dữ liệu nằm trên thiết bị của chính bạn |
+
+Lý tưởng đầu tiên viết: "local-first software has the potential to respond near-instantaneously to user input, **never needing to show you a spinner**." Không bắt người dùng đợi spinner — đó, theo đúng nghĩa đen, là lý tưởng số một.
+
+Các [kỹ sư của RxDB](https://rxdb.info/articles/local-first-future.html) sau đó viết bài *The Local-First Future*, và chú thích ảnh tiêu đề là "loading spinner not needed". Bài nhập môn của [Spritle](https://www.spritle.com/blog/why-modern-apps-feel-instant-a-simple-guide-to-local-first-development/) mở đầu bằng một hình ảnh dễ nhớ: "Imagine using your favorite productivity app at 30,000 feet — no internet, no loading spinners, no freezes."
+
+Các sản phẩm được nhắc đến cũng là một nhóm quen thuộc: Figma, Linear, Notion, Obsidian, WhatsApp.
+
+---
+
+## Bài kiểm tra highlight: Offline-mode không phải Local-first
+
+Nhiều ứng dụng ghi "even offline" trên trang chủ. Ý nghĩa thật sự xoay quanh một thao tác:
+
+> **Khi mất mạng, bạn còn highlight, comment, archive được không?**
+
+Nếu bạn chỉ **đọc** được những gì đã tải về mà không **viết** được gì mới, đó là **Offline-mode**.
+
+Nếu mọi thao tác đều xảy ra, được lưu và hiển thị giống hệt khi online, đó mới là **Local-first**.
+
+Sự khác biệt:
+
+| Khía cạnh | Offline-mode | Local-first |
+|---|---|---|
+| Kiến trúc | Client-Server cộng thêm bản vá "tải snapshot" | DB cục bộ là nơi lưu trữ chính; server là lớp đồng bộ |
+| Ghi dữ liệu | Cần mạng | Ghi vào máy, tức thì |
+| Cảm nhận của người dùng | Spinner / lỗi / UI bị khóa | Không phải đợi |
+| Chi phí xây dựng | Thấp | Cao |
+
+Offline-mode là một bản vá. Local-first là một kiến trúc.
+
+---
+
+## 14 ứng dụng Read-Later thực tế đứng ở đâu
+
+Chúng tôi rà soát 14 sản phẩm Read-Later / reader phục vụ độc giả tiếng Trung và tiếng Anh — trang chủ, tài liệu, FAQ, changelog — và xác minh mức độ hỗ trợ Local-first cùng Offline-mode trên thực tế.
+
+Trong 14 sản phẩm, chỉ Readwise Reader công khai và rõ ràng tự nhận là local-first.
+
+| Sản phẩm | Local-first | Offline-mode | Bằng chứng chính |
+|---|---|---|---|
+| Readwise Reader | ✅ Có | ✅ Có | Trang web ghi "**local-first web app**"; đồng bộ giữa các thiết bị "even offline"; tìm kiếm toàn văn offline |
+| Slax Reader (bài viết này) | ✅ Một phần | ✅ Có | Highlight / comment / like / archive đều ghi cục bộ; cảm giác offline giống online |
+| GoodLinks | ⚠️ Gần đạt, không tuyên bố | ✅ Có | iCloud Sync + lưu trữ rich-text cục bộ; đọc offline; không bao giờ tự gọi mình là local-first |
+| Instapaper | ❌ | ✅ Có | Trang web: "You can read anything you save... **even offline**" |
+| Matter | ❌ | ✅ Có | App Store: "**Available offline by default**" |
+| Wallabag | ❌ | ✅ Có (Android) | Tự host; app Android cache ảnh để đọc offline |
+| Cubox | ❌ | ⚠️ Một phần | Văn bản mới lưu được tự động cache để đọc offline; cache ảnh và quản lý offline "still being improved" |
+| Screvi | ❌ | ✅ Có | Trang web: "Read anywhere, **even offline**"; mobile có thể tải về để đọc offline |
+| BeeMind | ⚠️ Phạm vi không rõ | ⚠️ Phạm vi không rõ | Trang web nói "local-first privacy" và cung cấp "local model (for full offline privacy)"; không có định nghĩa đầy đủ |
+| Recall | ⚠️ Chỉ phần duyệt web | ❌ | Trang web: "**Augmented browsing is local first**, your knowledge base is stored safely in the cloud"; offline mode vẫn là tính năng do người dùng đề xuất |
+| Raindrop.io | ❌ | ❌ | FAQ chính thức: "**An internet connection is required to sync changes and save new bookmarks**" |
+| Karakeep | ❌ | ❌ | Tài liệu tự gọi là "self-hosting first"; "Offline reading on mobile" gắn nhãn **Planned** |
+| Noverload | ❌ | ❌ | Trang so sánh của chính họ gán Offline reading cho đối thủ, không cho chính mình |
+| Markwise | ❌ | ❌ | Blog chính thức: "**No offline reading mode (yet)**" |
+| Readless | ❌ | ❌ | AI digest dựa trên cloud; không có tuyên bố offline / local-first |
+
+Vài dữ kiện rút ra từ bảng:
+
+- Trong 14 sản phẩm, 1 sản phẩm tự nhận local-first (Readwise) và 1 sản phẩm thực tế là local-first nhưng không tự nhận (GoodLinks).
+- 7 sản phẩm làm đọc offline kiểu snapshot — đọc được offline, không ghi được.
+- 4 sản phẩm không hỗ trợ cả hai, kể cả sản phẩm phổ biến nhất là Raindrop.
+- Wallabag và Karakeep tự host: bạn có thể đặt server tại nhà mình, nhưng server vẫn là khâu trung gian bắt buộc. Self-hosted không phải Local-first.
+
+---
+
+## Hai lý do
+
+Vì sao có quá ít sản phẩm Read-Later vượt qua được bài kiểm tra highlight? Hai lý do.
+
+### Giới hạn vật lý về tốc độ
+
+Bài của Ink & Switch có một lập luận vật lý gói trong một dòng:
+
+> "Depending on where you live, the server may well be located on another continent, so **the speed of light places a limit on how fast the software can be**."
+
+Dù là 5G hay cáp quang, mỗi request đều phải đi vòng tới server rồi trở lại. Nếu server nằm ở châu lục khác, độ trễ có một sàn vật lý — đúng bằng thời gian ánh sáng đi qua khoảng cách đó. Băng thông có thể tăng; độ trễ thì không thể vượt qua tốc độ ánh sáng.
+
+Bài của RxDB nói rõ:
+
+> "Bandwidth Has Grown, But Latency Is Capped... we can't significantly reduce the base round-trip time for each request."
+
+Nói cách khác: dù phần cứng mạng có cải thiện đến đâu, **bất kỳ ứng dụng nào dùng server làm nơi lưu trữ chính đều có một trần không thể phá về tốc độ phản hồi**.
+
+### Kỳ vọng của người dùng đang dịch chuyển
+
+Bài của RxDB cũng có một lập luận sắc bén về việc kỳ vọng của người dùng tiến hóa:
+
+> "Early in the history of the web, users expected static pages. If you wanted to see new content, you reloaded the page. That was normal at the time, and nobody found it strange."
+
+> "Then, as more sites added real-time features — auto-updating feeds, live notifications, single-page apps — suddenly those older 'reload-only' sites began to feel slow or outdated."
+
+> "The same pattern is happening with local-first apps. As local-first experiences become commonplace — removing spinners, letting users keep working when offline, and syncing in the background — everything else will start to feel frustratingly behind."
+
+Dịch lại: khi Figma, Linear, Notion trở thành bình thường, kỳ vọng "phản hồi tức thì" của người dùng cũng nâng lên theo.
+
+---
+
+## Slax Reader đã làm gì
+
+Slax Reader chưa xây dựng Local-first đầy đủ. Chúng tôi làm một vài hành động đọc cốt lõi:
+
+**Đã làm:**
+
+- **Highlight** — màu sắc xuất hiện ngay khi bạn chạm, ghi vào máy.
+- **Comment** — lưu vào DB cục bộ ngay khi bạn ngừng gõ; hoạt động offline.
+- **Like / favorite** — bật/tắt tức thì.
+- **Archive** — tức thì, danh sách cập nhật ngay.
+
+Những hành động này có hành vi y hệt khi online, offline, trên mạng chập chờn hoặc chế độ máy bay. Khi mạng quay lại, hàng đợi đồng bộ đẩy mọi thứ lên server.
+
+**Chưa làm:**
+
+- **Quyền sở hữu dữ liệu đầy đủ** — nội dung bài viết chủ yếu vẫn nằm trên cloud. Gỡ Slax thì bạn không có quyền truy cập cục bộ đầy đủ.
+- **Offline AI Chat** — trò chuyện với AI phụ thuộc vào model cloud; offline không dùng được.
+
+---
+
+## Slax Reader xây dựng thực tế ra sao
+
+Toàn bộ code mở mã nguồn tại [github.com/slax-lab/slax-reader-client](https://github.com/slax-lab/slax-reader-client). Các đoạn dưới đây trích từ repo đó. Viết bằng Kotlin Multiplatform — iOS, Android, và Web dùng chung một bản hiện thực local-first.
+
+### 1. Lưu trữ cục bộ: PowerSync SQLite
+
+Không tự xây dựng, không phải IndexedDB, không phải Dexie hay RxDB. Slax Reader dùng [PowerSync](https://www.powersync.com/) — framework biến SQLite thành lớp đồng bộ local-first một cách trực tiếp.
+
+Schema, trích đoạn:
+
+```kotlin
+val srUserBookmarkTable = Table(
+    name = "sr_user_bookmark",
+    trackPreviousValues = TrackPreviousValuesOptions(onlyWhenChanged = true, columnFilter = null),
+    columns = listOf(
+        Column.text("user_id"),
+        Column.integer("is_read"),
+        Column.integer("archive_status"),
+        Column.integer("is_starred"),
+        Column.text("created_at"),
+        Column.text("updated_at"),
+        // ... plus alias_title, type, deleted_at, starred_at, archived_at, metadata
+    )
+)
+
+val srBookmarkComment = Table(
+    name = "sr_bookmark_comment",
+    columns = listOf(
+        Column.integer("type"),          // highlights, comments, replies — type tells them apart
+        Column.text("user_bookmark_uuid"),
+        Column.text("comment"),
+        Column.text("approx_source"),
+        Column.text("content"),
+        Column.text("created_at"),
+        Column.text("metadata"),
+    )
+)
+
+val localBookmarkInfo = Table(
+    name = "local_bookmark_info",
+    localOnly = true,                    // local-only, never synced
+    columns = listOf(
+        Column.text("overview"),
+        Column.text("key_takeaways"),
+        Column.integer("is_downloaded"),
+    )
+)
+```
+
+Vài chi tiết:
+
+- Highlight, comment và reply đều chia sẻ chung bảng `sr_bookmark_comment`; cột `type` phân biệt chúng.
+- `trackPreviousValues` cho phép PowerSync ghi lại giá trị trước đó của mỗi dòng, để sau này phát hiện xung đột ở mức field có sẵn miễn phí.
+- Các bảng đánh dấu `localOnly = true` (như `local_bookmark_info`) chỉ tồn tại trên thiết bị, không bao giờ đồng bộ. Trạng thái tải bài, tóm tắt cục bộ — bất cứ thứ gì không cần đồng bộ qua thiết bị đều nằm ở đây.
+
+### 2. Ghi cục bộ, đồng bộ sau
+
+Luồng code từ lúc người dùng kéo chọn văn bản đến lúc highlight được lưu không có bước "đợi server" ở bất kỳ chỗ nào:
+
+```kotlin
+// ViewModel: triggered when the user highlights
+fun strokeHighlight(webViewState: AppWebViewState, onComplete: (() -> Unit)? = null) {
+    webViewState.evaluateJsWithCallback(
+        "window.SlaxWebViewBridge.captureCurrentSelection()"
+    ) { resultJson ->
+        if (resultJson.isNullOrBlank() || resultJson == "null") return@evaluateJsWithCallback
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                val data = StrokeCreateData.fromJsResult(resultJson)
+                val localId = commentDelegate.addMark(
+                    type = MarkType.LINE,
+                    source = data.toMarkPath(),
+                    approxSource = data.approx_source,
+                    selectContent = data.select_content,
+                )
+                // Returns the moment local write is done; UI refreshes via Flow
+                withContext(Dispatchers.Main) { onComplete?.invoke() }
+            }.onFailure { /* failure stays local; UI keeps moving */ }
+        }
+    }
+}
+
+// DAO: local SQLite write
+suspend fun addMark(
+    bookmarkId: String, userId: String, type: MarkType,
+    source: List<MarkPathItem> = emptyList(),
+    // ... other optional parameters
+): String {
+    val id = Uuid.random().toString()
+    val now = Clock.System.now().toString()
+    val metadata = BookmarkCommentMetadata(/* root_id, user_id, parent_id ... */)
+
+    database.writeTransaction { tx ->
+        tx.execute(
+            """INSERT INTO sr_bookmark_comment
+                (id, type, source, user_bookmark_uuid, comment,
+                 approx_source, content, is_deleted, created_at, metadata)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            listOf(
+                id, type.value, json.encodeToString(source),
+                bookmarkId, comment, json.encodeToString(approxSource),
+                json.encodeToString(selectContent), 0, now,
+                json.encodeToString(metadata)
+            )
+        )
+    }
+    return id   // Returns immediately; caller doesn't wait for network
+}
+```
+
+UI tự vẽ lại bằng cách subscribe vào thay đổi trong bảng SQLite:
+
+```kotlin
+private val comments: StateFlow<List<BookmarkCommentPO>> = _bookmarkId
+    .flatMapLatest { id ->
+        id?.let { commentDao.watchComments(it) } ?: flowOf(emptyList())
+    }
+    .stateIn(scope, SharingStarted.Eagerly, emptyList())
+```
+
+`watchComments()` là một reactive query xây trên `database.watch()` của PowerSync — bất kỳ thay đổi nào trên bảng đều đẩy dữ liệu mới vào Flow, và UI bám theo. Không có `setState` thủ công, không có nhánh "đợi server, rồi refresh".
+
+### 3. Hàng đợi offline: CRUD log có sẵn của PowerSync
+
+Trong Slax Reader không có bảng `syncQueue` riêng. Bản thân PowerSync giữ một CRUD operation log bên trong SQLite; mỗi `database.writeTransaction {}` tự động ghi một `CrudEntry`.
+
+Việc upload đi qua `Connector.uploadData()`, theo từng batch:
+
+```kotlin
+override suspend fun uploadData(database: PowerSyncDatabase) {
+    val transactions = mutableListOf<CrudTransaction>()
+    val batch = mutableListOf<CrudEntry>()
+
+    database.getCrudTransactions()
+        .take(100)          // up to 100 per batch
+        .collect { tx ->
+            batch.addAll(tx.crud)
+            transactions.add(tx)
+        }
+
+    if (batch.isEmpty()) return
+
+    try {
+        val postData = batch.map { entry ->
+            val (changes, preChanges) = diffChanges(entry.opData, entry.previousValues)
+            ChangesItem(
+                table = entry.table,
+                id = entry.id,
+                op = entry.op.toString(),    // "INSERT" / "UPDATE" / "DELETE"
+                data = changes,
+                preData = preChanges
+            )
+        }
+        apiService.uploadChanges(changes = postData)
+        transactions.forEach { it.complete(null) }   // success — clear from queue
+    } catch (e: Exception) {
+        throw e                              // failure — PowerSync auto-retries
+    }
+}
+```
+
+Khi offline, đoạn code này không chạy. Các bản ghi `CrudEntry` chất đống trong CRUD log của SQLite. Khi mạng trở lại, PowerSync gọi `uploadData()` lần nữa và replay chúng theo đúng thứ tự transaction.
+
+### 4. Giải quyết xung đột: timestamp + diff theo field
+
+Chiến lược là Last-Write-Wins, nhưng **không phải kiểu ghi đè cả dòng một cách thô thiển**. Client thực hiện diff theo field trước và chỉ gửi đi những field đã thay đổi:
+
+```kotlin
+fun diffChanges(data: SqliteRow?, preData: SqliteRow?)
+        : Pair<Map<String, String?>?, Map<String, String?>?> {
+    // ...
+    for ((key, value) in dataMap) {
+        val oldValue = preDataMap[key]
+        if (value != oldValue) {
+            if (key == "metadata") {
+                // JSON field — diff down to sub-fields
+                val newMetadataObj = Json.decodeFromString<BookmarkMetadata>(value ?: "")
+                val oldMetadataObj = Json.decodeFromString<BookmarkMetadata>(oldValue ?: "")
+
+                if (newMetadataObj.tags != oldMetadataObj.tags) {
+                    changes["metadata.tags"] = Json.encodeToString(newMetadataObj.tags)
+                    preChanges["metadata.tags"] = Json.encodeToString(oldMetadataObj.tags)
+                }
+                // share settings get the same sub-field treatment
+                // ...
+            } else {
+                changes[key] = value
+                preChanges[key] = oldValue
+            }
+        }
+    }
+    return Pair(changes, preChanges)
+}
+```
+
+Trên thực tế: nếu bạn đổi tags trên điện thoại trong khi thiết bị khác đổi cài đặt chia sẻ, **cả hai thay đổi đều tồn tại sau khi đồng bộ** — không thay đổi nào ghi đè thay đổi nào.
+
+Toàn cảnh:
+
+| Loại dữ liệu | Chiến lược |
+|---|---|
+| Field đơn giản (is_read / archive_status / is_starred) | LWW theo cả field |
+| Sub-field trong JSON metadata (tags / share) | LWW theo sub-field |
+| Xóa | Soft delete (`deleted_at`); xung đột giải quyết bằng timestamp |
+| Cây highlight / comment (root_id / parent_id) | Quy tắc nghiệp vụ — các reply khác nhau cho cùng một highlight cùng tồn tại; không coi là xung đột |
+
+Một thực tế kỹ thuật cần nói thẳng: nếu `metadata` JSON parse lỗi (migration schema, format cũ), code lùi về ghi đè cả field. Khi đó field có thể bị mất.
+
+### 5. Trigger đồng bộ: dẫn dắt bởi trạng thái mạng
+
+Không chạy theo timer polling, không phải WebSocket thời gian thực — **được dẫn dắt bởi thay đổi trạng thái mạng**.
+
+```kotlin
+fun startup() {
+    workerScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
+    workerScope!!.launch {
+        connectivity.statusUpdates.collect { status ->
+            if (status is Connectivity.Status.Connected) {
+                reconnect()   // network back → reconnect PowerSync → pull + push fire
+            } else {
+                disconnect()  // network gone → close the sync channel
+            }
+        }
+    }
+    // ... two more launch blocks for connect() and syncState
+}
+```
+
+`Connectivity.statusUpdates` bọc `navigator.onLine` ở phía web, và các API native tương đương trên iOS / Android. Ngay khi nó chuyển sang "Connected", PowerSync kéo dữ liệu mới về và đẩy CRUD queue cục bộ lên.
+
+App không tự viết logic retry — trách nhiệm đồng bộ được gom hết vào PowerSync. Cái giá: bạn bị ràng buộc với một framework đồng bộ cụ thể, và sự phụ thuộc đường mòn đi rất sâu.
+
+### Một sự thỏa hiệp kỹ thuật
+
+Bài của RxDB liệt kê mười giới hạn thực tế của local-first. Hai trong số đó áp dụng cho bất kỳ ai xây dựng trên storage phía trình duyệt:
+
+> "**Safari notoriously wipes out IndexedDB data if the user hasn't used the site in ~7 days.**"
+
+> "Local-first works best when the data set per user is reasonably sized (**up to 2 Gigabytes**)."
+
+Local storage trên trình duyệt không phải nơi lưu trữ dài hạn đáng tin cậy. Đây là một lý do Slax không lưu toàn bộ nội dung bài viết tại máy — nội dung bài viết vẫn ở cloud như nguồn ghi nhận chính; chỉ **trạng thái do người dùng tạo ra** (highlight, comment, cờ archive) sống trên máy.
+
+---
+
+## Tham khảo
+
+**Bài viết về khái niệm Local-first:**
+
+- Ink & Switch, [*Local-first software: You own your data, in spite of the cloud*](https://www.inkandswitch.com/essay/local-first/) (2019, bài nền tảng, nguồn gốc của bảy lý tưởng)
+- RxDB, [*The Local-First Future*](https://rxdb.info/articles/local-first-future.html) (sự tiến hóa của kỳ vọng người dùng; mười giới hạn kỹ thuật)
+- Spritle, [*Why Modern Apps Feel Instant: A Simple Guide to Local-first Development*](https://www.spritle.com/blog/why-modern-apps-feel-instant-a-simple-guide-to-local-first-development/) (phép ẩn dụ 30,000 ft, sáu chiến lược xung đột, code syncQueue)
+- Volodymyr Pavlyshyn, [*Benefits of Localfirst for the Good of All*](https://volodymyrpavlyshyn.medium.com/benefits-of-localfirst-for-the-good-of-all-e611e3ea823f) ("Sync as a protocol")
+
+**Nguồn của đối thủ (theo thứ tự bảng):**
+
+- Readwise Reader: https://readwise.io/read
+- GoodLinks: https://goodlinks.app/ · https://goodlinks.app/press/
+- Instapaper: https://www.instapaper.com/
+- Matter: https://apps.apple.com/us/app/matter-reading-app/id1501592184
+- Wallabag: https://wallabag.org/ · https://github.com/wallabag/android-app
+- Cubox: https://cubox.pro/doc/started.html · https://story.cubox.pro/Cubox-update
+- Screvi: https://screvi.com/
+- BeeMind: https://beemind.app/
+- Recall: https://www.recall.it/ · https://feedback.recall.it/feature-requests/p/offline-mode
+- Raindrop.io: https://help.raindrop.io/mobile-app.md · https://help.raindrop.io/permanent-copy.md
+- Karakeep: https://docs.karakeep.app/
+- Noverload: https://noverload.com/compare/pocket
+- Markwise: https://markwise.app/blog/best-pocket-alternative-2026/
+- Readless: https://www.readless.app/

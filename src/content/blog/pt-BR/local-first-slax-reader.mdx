@@ -1,0 +1,426 @@
+---
+title: "Dá pra destacar texto offline? O estado do Local-first em 14 apps Read-Later"
+description: "Testamos 14 apps Read-Later quanto a suporte real a Local-first e Offline-mode, e abrimos o código de como o Slax Reader construiu o No Spinner com PowerSync."
+pubDate: 2026-05-28T00:00:00.000Z
+tags: ['Reader']
+product: reader
+---
+
+## Faça um teste rápido
+
+Em 2019, a Ink & Switch publicou [*Local-first software: You own your data, in spite of the cloud*](https://www.inkandswitch.com/essay/local-first/). No final, deu uma dica de uma linha para engenheiros:
+
+> "Test your app by turning off your WiFi, or using traffic shapers such as Chrome Dev Tools network condition simulator"
+
+Desligar o Wi-Fi é a forma mais simples de checar se um app é, de fato, local-first.
+
+Tentamos isso em três apps Read-Later. Abra o app, mate o Wi-Fi, selecione um trecho, toque em destacar:
+
+- **Raindrop**: o menu de destaque nunca aparece.
+- **Cubox**: aparece uma mensagem de erro.
+- **Slax Reader**: o destaque aparece, o estado é salvo, sem diferença em relação ao online.
+
+Arquitetura diferente, resultado diferente.
+
+---
+
+## O que é Local-first
+
+O paper da Ink & Switch lista sete ideais:
+
+| # | Original wording | Significado em uma linha |
+|---|---|---|
+| 1 | **No spinners: your work at your fingertips** | Resposta instantânea, sem indicador de carregamento |
+| 2 | Your work is not trapped on one device | Sincroniza entre dispositivos |
+| 3 | The network is optional | A rede é opcional, não obrigatória |
+| 4 | Seamless collaboration with your colleagues | Colaboração em tempo real |
+| 5 | The Long Now | Continua funcionando depois que a empresa some |
+| 6 | Security and privacy by default | Criptografia ponta a ponta por padrão |
+| 7 | You retain ultimate ownership and control | Os dados ficam no seu próprio dispositivo |
+
+O primeiro ideal diz: "local-first software has the potential to respond near-instantaneously to user input, **never needing to show you a spinner**." Não fazer o usuário esperar um spinner é, literalmente, o ideal número um.
+
+Os [engenheiros do RxDB](https://rxdb.info/articles/local-first-future.html) depois escreveram *The Local-First Future*, e a legenda da imagem principal é "loading spinner not needed." A introdução da [Spritle](https://www.spritle.com/blog/why-modern-apps-feel-instant-a-simple-guide-to-local-first-development/) abre com uma imagem marcante: "Imagine using your favorite productivity app at 30,000 feet — no internet, no loading spinners, no freezes."
+
+As referências de produto são sempre as mesmas: Figma, Linear, Notion, Obsidian, WhatsApp.
+
+---
+
+## O teste do destaque: Offline-mode não é Local-first
+
+Muitos apps escrevem "even offline" na home. O que isso significa, na prática, depende de uma ação:
+
+> **Sem rede, você ainda consegue destacar, comentar, arquivar?**
+
+Se você só consegue **ler** o que já foi baixado, mas não consegue **escrever** nada novo, isso é **Offline-mode**.
+
+Se tudo acontece, salva e renderiza igualzinho ao online, isso é **Local-first**.
+
+A diferença:
+
+| Dimensão | Offline-mode | Local-first |
+|---|---|---|
+| Arquitetura | Cliente-servidor com um remendo de "download de snapshot" | Banco local como armazenamento primário; o servidor é a camada de sync |
+| Escritas | Precisam de rede | Caem localmente, instantaneamente |
+| Sensação para o usuário | Spinner / erro / UI desabilitada | Sem espera |
+| Custo para construir | Baixo | Alto |
+
+Offline-mode é um remendo. Local-first é uma arquitetura.
+
+---
+
+## Como 14 apps Read-Later realmente se posicionam
+
+Passamos por 14 produtos Read-Later / leitores voltados para públicos em chinês e inglês — homepages, docs, FAQs, changelogs — e verificamos o suporte real a Local-first e Offline-mode.
+
+Dos 14, apenas o Readwise Reader se declara publicamente e explicitamente como local-first.
+
+| Produto | Local-first | Offline-mode | Evidência principal |
+|---|---|---|---|
+| Readwise Reader | ✅ Sim | ✅ Sim | Site diz "**local-first web app**"; sincroniza entre dispositivos "even offline"; busca full-text offline |
+| Slax Reader (este artigo) | ✅ Parcial | ✅ Sim | Destaques / comentários / curtidas / arquivar caem todos localmente; a sensação offline é igual à online |
+| GoodLinks | ⚠️ Perto, sem declarar | ✅ Sim | iCloud Sync + arquivo rich-text local; leitura offline; nunca se declara local-first |
+| Instapaper | ❌ | ✅ Sim | Site: "You can read anything you save... **even offline**" |
+| Matter | ❌ | ✅ Sim | App Store: "**Available offline by default**" |
+| Wallabag | ❌ | ✅ Sim (Android) | Self-hosted; o app Android faz cache de imagens para leitura offline |
+| Cubox | ❌ | ⚠️ Parcial | Texto salvo recentemente é cacheado automaticamente para leitura offline; cache de imagens e gestão offline "still being improved" |
+| Screvi | ❌ | ✅ Sim | Site: "Read anywhere, **even offline**"; no mobile dá para baixar para leitura offline |
+| BeeMind | ⚠️ Escopo pouco claro | ⚠️ Escopo pouco claro | Site fala em "local-first privacy" e oferece "local model (for full offline privacy)"; sem definição completa |
+| Recall | ⚠️ Só navegação | ❌ | Site: "**Augmented browsing is local first**, your knowledge base is stored safely in the cloud"; modo offline ainda é uma feature request votada por usuários |
+| Raindrop.io | ❌ | ❌ | FAQ oficial: "**An internet connection is required to sync changes and save new bookmarks**" |
+| Karakeep | ❌ | ❌ | Docs se descrevem como "self-hosting first"; "Offline reading on mobile" marcado como **Planned** |
+| Noverload | ❌ | ❌ | A própria página de comparação atribui Offline reading aos concorrentes, não a si mesmo |
+| Markwise | ❌ | ❌ | Blog oficial: "**No offline reading mode (yet)**" |
+| Readless | ❌ | ❌ | Digest com IA na nuvem; nenhuma promessa de offline / local-first |
+
+Alguns fatos da tabela:
+
+- Dos 14 produtos, 1 se declara explicitamente local-first (Readwise) e 1 efetivamente é, mas não diz (GoodLinks).
+- 7 fazem leitura offline em estilo snapshot — legível offline, não editável.
+- 4 não suportam nem um nem outro, incluindo o mais popular, Raindrop.
+- Wallabag e Karakeep são self-hosted: você pode colocar o servidor na sua casa, mas o servidor continua sendo um intermediário obrigatório. Self-hosted não é Local-first.
+
+---
+
+## Duas razões
+
+Por que tão poucos produtos Read-Later passam no teste do destaque? Duas razões.
+
+### O limite físico de velocidade
+
+O paper da Ink & Switch tem um argumento físico de uma linha:
+
+> "Depending on where you live, the server may well be located on another continent, so **the speed of light places a limit on how fast the software can be**."
+
+Seja 5G ou fibra, toda requisição faz uma viagem de ida e volta até o servidor. Se o servidor está em outro continente, a latência tem um piso físico — o tempo que a luz leva para cruzar essa distância. A banda pode crescer; a latência não pode ultrapassar a velocidade da luz.
+
+O texto do RxDB explicita:
+
+> "Bandwidth Has Grown, But Latency Is Capped... we can't significantly reduce the base round-trip time for each request."
+
+Em outras palavras: por mais que o hardware de rede melhore, **qualquer app que use o servidor como armazenamento primário tem um teto inquebrável de velocidade de resposta**.
+
+### A expectativa do usuário está mudando
+
+O texto do RxDB também tem um argumento afiado sobre a evolução das expectativas do usuário:
+
+> "Early in the history of the web, users expected static pages. If you wanted to see new content, you reloaded the page. That was normal at the time, and nobody found it strange."
+
+> "Then, as more sites added real-time features — auto-updating feeds, live notifications, single-page apps — suddenly those older 'reload-only' sites began to feel slow or outdated."
+
+> "The same pattern is happening with local-first apps. As local-first experiences become commonplace — removing spinners, letting users keep working when offline, and syncing in the background — everything else will start to feel frustratingly behind."
+
+Tradução: à medida que Figma, Linear, Notion se tornam normais, a expectativa do usuário em relação a "resposta instantânea" sobe junto.
+
+---
+
+## O que o Slax Reader fez
+
+O Slax Reader não construiu Local-first completo. Implementamos algumas ações centrais de leitura:
+
+**Fizemos:**
+
+- **Destaque** — a cor aparece no momento em que você toca, gravado localmente.
+- **Comentário** — salva no banco local no momento em que você para de digitar; funciona offline.
+- **Curtir / favoritar** — o toggle é instantâneo.
+- **Arquivar** — instantâneo, a lista atualiza na hora.
+
+Essas ações se comportam de forma idêntica online, offline, em redes instáveis, em modo avião. Assim que a rede volta, a fila de sync empurra tudo para o servidor.
+
+**Não fizemos:**
+
+- **Posse total dos dados** — o conteúdo dos artigos ainda vive primariamente na nuvem. Desinstale o Slax e você não tem acesso local completo.
+- **AI Chat offline** — a conversa com IA depende de modelos na nuvem; offline não funciona.
+
+---
+
+## Como o Slax Reader construiu isso, na prática
+
+O código é todo open source em [github.com/slax-lab/slax-reader-client](https://github.com/slax-lab/slax-reader-client). Os trechos abaixo vêm desse repositório. Escrito em Kotlin Multiplatform — iOS, Android e Web compartilham uma única implementação local-first.
+
+### 1. Armazenamento local: PowerSync SQLite
+
+Não é caseiro, não é IndexedDB, não é Dexie nem RxDB. O Slax Reader usa [PowerSync](https://www.powersync.com/) — um framework que transforma SQLite diretamente em uma camada de sync local-first.
+
+O schema, em trecho:
+
+```kotlin
+val srUserBookmarkTable = Table(
+    name = "sr_user_bookmark",
+    trackPreviousValues = TrackPreviousValuesOptions(onlyWhenChanged = true, columnFilter = null),
+    columns = listOf(
+        Column.text("user_id"),
+        Column.integer("is_read"),
+        Column.integer("archive_status"),
+        Column.integer("is_starred"),
+        Column.text("created_at"),
+        Column.text("updated_at"),
+        // ... plus alias_title, type, deleted_at, starred_at, archived_at, metadata
+    )
+)
+
+val srBookmarkComment = Table(
+    name = "sr_bookmark_comment",
+    columns = listOf(
+        Column.integer("type"),          // highlights, comments, replies — type tells them apart
+        Column.text("user_bookmark_uuid"),
+        Column.text("comment"),
+        Column.text("approx_source"),
+        Column.text("content"),
+        Column.text("created_at"),
+        Column.text("metadata"),
+    )
+)
+
+val localBookmarkInfo = Table(
+    name = "local_bookmark_info",
+    localOnly = true,                    // local-only, never synced
+    columns = listOf(
+        Column.text("overview"),
+        Column.text("key_takeaways"),
+        Column.integer("is_downloaded"),
+    )
+)
+```
+
+Alguns detalhes:
+
+- Destaques, comentários e respostas compartilham todos a mesma tabela `sr_bookmark_comment`; a coluna `type` os diferencia.
+- `trackPreviousValues` faz o PowerSync registrar o valor anterior de cada linha, então detecção de conflito em nível de campo sai de graça depois.
+- Tabelas marcadas como `localOnly = true` (como `local_bookmark_info`) vivem só no dispositivo, nunca sincronizam. Estado de download de artigo, resumos locais — qualquer coisa que não precise sincronizar entre dispositivos vai aqui.
+
+### 2. Escrever localmente, sincronizar depois
+
+O caminho do código, desde o usuário arrastar sobre o texto até o destaque ser salvo, não tem nenhum passo de "esperar o servidor":
+
+```kotlin
+// ViewModel: triggered when the user highlights
+fun strokeHighlight(webViewState: AppWebViewState, onComplete: (() -> Unit)? = null) {
+    webViewState.evaluateJsWithCallback(
+        "window.SlaxWebViewBridge.captureCurrentSelection()"
+    ) { resultJson ->
+        if (resultJson.isNullOrBlank() || resultJson == "null") return@evaluateJsWithCallback
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                val data = StrokeCreateData.fromJsResult(resultJson)
+                val localId = commentDelegate.addMark(
+                    type = MarkType.LINE,
+                    source = data.toMarkPath(),
+                    approxSource = data.approx_source,
+                    selectContent = data.select_content,
+                )
+                // Returns the moment local write is done; UI refreshes via Flow
+                withContext(Dispatchers.Main) { onComplete?.invoke() }
+            }.onFailure { /* failure stays local; UI keeps moving */ }
+        }
+    }
+}
+
+// DAO: local SQLite write
+suspend fun addMark(
+    bookmarkId: String, userId: String, type: MarkType,
+    source: List<MarkPathItem> = emptyList(),
+    // ... other optional parameters
+): String {
+    val id = Uuid.random().toString()
+    val now = Clock.System.now().toString()
+    val metadata = BookmarkCommentMetadata(/* root_id, user_id, parent_id ... */)
+
+    database.writeTransaction { tx ->
+        tx.execute(
+            """INSERT INTO sr_bookmark_comment
+                (id, type, source, user_bookmark_uuid, comment,
+                 approx_source, content, is_deleted, created_at, metadata)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            listOf(
+                id, type.value, json.encodeToString(source),
+                bookmarkId, comment, json.encodeToString(approxSource),
+                json.encodeToString(selectContent), 0, now,
+                json.encodeToString(metadata)
+            )
+        )
+    }
+    return id   // Returns immediately; caller doesn't wait for network
+}
+```
+
+A UI se redesenha ouvindo mudanças na tabela SQLite:
+
+```kotlin
+private val comments: StateFlow<List<BookmarkCommentPO>> = _bookmarkId
+    .flatMapLatest { id ->
+        id?.let { commentDao.watchComments(it) } ?: flowOf(emptyList())
+    }
+    .stateIn(scope, SharingStarted.Eagerly, emptyList())
+```
+
+`watchComments()` é uma query reativa em cima do `database.watch()` do PowerSync — qualquer mudança na tabela empurra novos dados para o Flow, e a UI segue junto. Sem `setState` manual, sem ramo de "espera o servidor e depois atualiza".
+
+### 3. Fila offline: CRUD log embutido do PowerSync
+
+Não existe uma tabela explícita de `syncQueue` no Slax Reader. O próprio PowerSync mantém um log de operações CRUD dentro do SQLite; cada `database.writeTransaction {}` registra automaticamente um `CrudEntry`.
+
+O upload passa por `Connector.uploadData()`, em lotes:
+
+```kotlin
+override suspend fun uploadData(database: PowerSyncDatabase) {
+    val transactions = mutableListOf<CrudTransaction>()
+    val batch = mutableListOf<CrudEntry>()
+
+    database.getCrudTransactions()
+        .take(100)          // up to 100 per batch
+        .collect { tx ->
+            batch.addAll(tx.crud)
+            transactions.add(tx)
+        }
+
+    if (batch.isEmpty()) return
+
+    try {
+        val postData = batch.map { entry ->
+            val (changes, preChanges) = diffChanges(entry.opData, entry.previousValues)
+            ChangesItem(
+                table = entry.table,
+                id = entry.id,
+                op = entry.op.toString(),    // "INSERT" / "UPDATE" / "DELETE"
+                data = changes,
+                preData = preChanges
+            )
+        }
+        apiService.uploadChanges(changes = postData)
+        transactions.forEach { it.complete(null) }   // success — clear from queue
+    } catch (e: Exception) {
+        throw e                              // failure — PowerSync auto-retries
+    }
+}
+```
+
+Quando offline, esse código não roda. Os registros de `CrudEntry` se acumulam no log CRUD do SQLite. Quando a rede volta, o PowerSync chama `uploadData()` de novo e os reexecuta em ordem de transação.
+
+### 4. Resolução de conflitos: timestamps + diff em nível de campo
+
+A estratégia é Last-Write-Wins, mas **não no estilo ingênuo de sobrescrever a linha inteira**. O cliente faz primeiro um diff em nível de campo e só envia os campos que mudaram:
+
+```kotlin
+fun diffChanges(data: SqliteRow?, preData: SqliteRow?)
+        : Pair<Map<String, String?>?, Map<String, String?>?> {
+    // ...
+    for ((key, value) in dataMap) {
+        val oldValue = preDataMap[key]
+        if (value != oldValue) {
+            if (key == "metadata") {
+                // JSON field — diff down to sub-fields
+                val newMetadataObj = Json.decodeFromString<BookmarkMetadata>(value ?: "")
+                val oldMetadataObj = Json.decodeFromString<BookmarkMetadata>(oldValue ?: "")
+
+                if (newMetadataObj.tags != oldMetadataObj.tags) {
+                    changes["metadata.tags"] = Json.encodeToString(newMetadataObj.tags)
+                    preChanges["metadata.tags"] = Json.encodeToString(oldMetadataObj.tags)
+                }
+                // share settings get the same sub-field treatment
+                // ...
+            } else {
+                changes[key] = value
+                preChanges[key] = oldValue
+            }
+        }
+    }
+    return Pair(changes, preChanges)
+}
+```
+
+Na prática: se você muda as tags no celular enquanto outro dispositivo muda as configurações de compartilhamento, **as duas mudanças sobrevivem ao sync** — nenhuma sobrescreve a outra.
+
+O detalhamento completo:
+
+| Tipo de dado | Estratégia |
+|---|---|
+| Campos simples (is_read / archive_status / is_starred) | LWW de campo inteiro |
+| Sub-campos do JSON metadata (tags / share) | LWW de sub-campo |
+| Deleções | Soft delete (`deleted_at`); conflitos resolvidos por timestamp |
+| Árvores de destaque / comentário (root_id / parent_id) | Regra de negócio — respostas diferentes ao mesmo destaque coexistem; não tratadas como conflito |
+
+Uma realidade honesta de engenharia: se o JSON de `metadata` falha em fazer parse (migração de schema, formato antigo), o código cai de volta para sobrescrever o campo inteiro. Nesse caso, campos podem ser perdidos.
+
+### 5. Gatilho de sync: dirigido pelo estado da rede
+
+Não é em timer de polling, não é WebSocket em tempo real — **dirigido por mudanças no estado da rede**.
+
+```kotlin
+fun startup() {
+    workerScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
+    workerScope!!.launch {
+        connectivity.statusUpdates.collect { status ->
+            if (status is Connectivity.Status.Connected) {
+                reconnect()   // network back → reconnect PowerSync → pull + push fire
+            } else {
+                disconnect()  // network gone → close the sync channel
+            }
+        }
+    }
+    // ... two more launch blocks for connect() and syncState
+}
+```
+
+`Connectivity.statusUpdates` encapsula `navigator.onLine` na web, e APIs nativas equivalentes no iOS / Android. No momento em que volta para "Connected", o PowerSync puxa novos dados para baixo e empurra a fila CRUD local para cima.
+
+O app não escreve a própria lógica de retry — a responsabilidade do sync fica concentrada no PowerSync. O custo: você fica atrelado a um framework de sync específico, e a dependência de caminho corre fundo.
+
+### Um compromisso de engenharia
+
+O texto do RxDB lista dez limitações honestas do local-first. Duas delas se aplicam a qualquer um construindo em cima de armazenamento no navegador:
+
+> "**Safari notoriously wipes out IndexedDB data if the user hasn't used the site in ~7 days.**"
+
+> "Local-first works best when the data set per user is reasonably sized (**up to 2 Gigabytes**)."
+
+Armazenamento local do navegador não é armazenamento confiável de longo prazo. Essa é uma das razões pelas quais o Slax não guarda o corpo completo dos artigos localmente — o conteúdo do artigo fica na nuvem como sistema de registro; só o **estado gerado pelo usuário** (destaques, comentários, marcadores de arquivamento) vive localmente.
+
+---
+
+## Referências
+
+**Artigos sobre o conceito de Local-first:**
+
+- Ink & Switch, [*Local-first software: You own your data, in spite of the cloud*](https://www.inkandswitch.com/essay/local-first/) (2019, o paper fundador, fonte dos sete ideais)
+- RxDB, [*The Local-First Future*](https://rxdb.info/articles/local-first-future.html) (evolução da expectativa do usuário; dez limitações de engenharia)
+- Spritle, [*Why Modern Apps Feel Instant: A Simple Guide to Local-first Development*](https://www.spritle.com/blog/why-modern-apps-feel-instant-a-simple-guide-to-local-first-development/) (analogia dos 30.000 pés, seis estratégias de conflito, código de syncQueue)
+- Volodymyr Pavlyshyn, [*Benefits of Localfirst for the Good of All*](https://volodymyrpavlyshyn.medium.com/benefits-of-localfirst-for-the-good-of-all-e611e3ea823f) ("Sync as a protocol")
+
+**Fontes dos concorrentes (na ordem da tabela):**
+
+- Readwise Reader: https://readwise.io/read
+- GoodLinks: https://goodlinks.app/ · https://goodlinks.app/press/
+- Instapaper: https://www.instapaper.com/
+- Matter: https://apps.apple.com/us/app/matter-reading-app/id1501592184
+- Wallabag: https://wallabag.org/ · https://github.com/wallabag/android-app
+- Cubox: https://cubox.pro/doc/started.html · https://story.cubox.pro/Cubox-update
+- Screvi: https://screvi.com/
+- BeeMind: https://beemind.app/
+- Recall: https://www.recall.it/ · https://feedback.recall.it/feature-requests/p/offline-mode
+- Raindrop.io: https://help.raindrop.io/mobile-app.md · https://help.raindrop.io/permanent-copy.md
+- Karakeep: https://docs.karakeep.app/
+- Noverload: https://noverload.com/compare/pocket
+- Markwise: https://markwise.app/blog/best-pocket-alternative-2026/
+- Readless: https://www.readless.app/
