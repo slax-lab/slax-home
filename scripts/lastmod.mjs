@@ -14,7 +14,19 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-const PREFIXED_LOCALES = ['zh-Hans', 'zh-Hant', 'ja', 'ko'];
+// Keep in sync with src/i18n/locales.ts PREFIXED_LOCALES.
+const PREFIXED_LOCALES = [
+	'zh-Hans',
+	'zh-Hant',
+	'ja',
+	'ko',
+	'de',
+	'fr',
+	'es',
+	'pt-BR',
+	'id',
+	'vi',
+];
 
 const mtimeCache = new Map();
 
