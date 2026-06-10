@@ -15,6 +15,8 @@ export const ui = {
 		readerAlternativesTitle: 'Slax Reader vs alternatives',
 		noteAlternativesTitle: 'Slax Note vs alternatives',
 		aboutTitle: 'About Slax',
+		aboutDescription:
+			'Slax Lab is the small Singapore-based team behind Slax Reader (an open-source read-later app) and Slax Note (AI voice notes). Who we are and how to reach us.',
 		privacyTitle: 'Privacy Policy',
 		termsTitle: 'Terms of Service',
 		notFoundTitle: 'Page not found',

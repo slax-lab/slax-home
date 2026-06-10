@@ -16,6 +16,8 @@ export const ui: UIDict = {
 		readerAlternativesTitle: 'Slax Reader 비교',
 		noteAlternativesTitle: 'Slax Note 비교',
 		aboutTitle: 'Slax 소개',
+		aboutDescription:
+			'Slax Lab 은 싱가포르의 작은 팀입니다. 오픈소스 나중에 읽기 앱 Slax Reader 와 AI 음성 노트 Slax Note 를 만듭니다. 우리가 누구인지, 어떻게 연락하는지.',
 		privacyTitle: '개인정보 처리방침',
 		termsTitle: '이용약관',
 		notFoundTitle: '페이지를 찾을 수 없습니다',

@@ -16,6 +16,8 @@ export const ui: UIDict = {
 		readerAlternativesTitle: 'Slax Reader face aux alternatives',
 		noteAlternativesTitle: 'Slax Note face aux alternatives',
 		aboutTitle: 'À propos de Slax',
+		aboutDescription:
+			'Slax Lab est la petite équipe de Singapour derrière Slax Reader (lecture différée open source) et Slax Note (notes vocales IA). Qui nous sommes et comment nous joindre.',
 		privacyTitle: 'Politique de confidentialité',
 		termsTitle: 'Conditions d’utilisation',
 		notFoundTitle: 'Page introuvable',
