@@ -56,6 +56,7 @@ export const ui: UIDict = {
 		backToTop: 'Arriba',
 		published: 'Publicado',
 		updated: 'Actualizado',
+		updatedMeta: 'Actualizado: {date}',
 		tags: 'Etiquetas',
 		platforms: 'Plataformas',
 		version: 'Versión',

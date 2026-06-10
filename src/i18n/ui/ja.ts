@@ -56,6 +56,7 @@ export const ui: UIDict = {
 		backToTop: 'トップへ戻る',
 		published: '公開日',
 		updated: '更新日',
+		updatedMeta: '更新日: {date}',
 		tags: 'タグ',
 		platforms: 'プラットフォーム',
 		version: 'バージョン',

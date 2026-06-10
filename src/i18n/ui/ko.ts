@@ -56,6 +56,7 @@ export const ui: UIDict = {
 		backToTop: '맨 위로',
 		published: '발행일',
 		updated: '업데이트',
+		updatedMeta: '업데이트: {date}',
 		tags: '태그',
 		platforms: '플랫폼',
 		version: '버전',

@@ -38,7 +38,7 @@ const title = `${entry.data.title} — Slax`;
 			<h1>{entry.data.title}</h1>
 			{entry.data.updatedDate && (
 				<p class="legal__date">
-					{t(lang, 'common.updated')}: {dateFmt.format(entry.data.updatedDate)}
+					{t(lang, 'common.updatedMeta', { date: dateFmt.format(entry.data.updatedDate) })}
 				</p>
 			)}
 		</header>

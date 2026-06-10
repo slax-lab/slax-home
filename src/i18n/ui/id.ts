@@ -56,6 +56,7 @@ export const ui: UIDict = {
 		backToTop: 'Kembali ke atas',
 		published: 'Diterbitkan',
 		updated: 'Diperbarui',
+		updatedMeta: 'Diperbarui: {date}',
 		tags: 'Tag',
 		platforms: 'Platform',
 		version: 'Versi',

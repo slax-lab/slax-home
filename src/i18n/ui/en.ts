@@ -55,6 +55,7 @@ export const ui = {
 		backToTop: 'Back to top',
 		published: 'Published',
 		updated: 'Updated',
+		updatedMeta: 'Updated: {date}',
 		tags: 'Tags',
 		platforms: 'Platforms',
 		version: 'Version',

@@ -57,6 +57,7 @@ export const ui: UIDict = {
 		backToTop: '回到頂部',
 		published: '發佈',
 		updated: '更新',
+		updatedMeta: '更新：{date}',
 		tags: '標籤',
 		platforms: '平台',
 		version: '版本',

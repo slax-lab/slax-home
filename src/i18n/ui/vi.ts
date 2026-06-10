@@ -56,6 +56,7 @@ export const ui: UIDict = {
 		backToTop: 'Lên đầu trang',
 		published: 'Đã đăng',
 		updated: 'Đã cập nhật',
+		updatedMeta: 'Đã cập nhật: {date}',
 		tags: 'Thẻ',
 		platforms: 'Nền tảng',
 		version: 'Phiên bản',
