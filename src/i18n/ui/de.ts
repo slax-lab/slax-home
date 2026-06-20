@@ -16,6 +16,8 @@ export const ui: UIDict = {
 		readerAlternativesTitle: 'Slax Reader im Vergleich',
 		noteAlternativesTitle: 'Slax Note im Vergleich',
 		aboutTitle: 'Über Slax',
+		aboutDescription:
+			'Slax Lab ist das kleine Team aus Singapur hinter Slax Reader (Open-Source-Read-it-later) und Slax Note (KI-Sprachnotizen). Wer wir sind und wie man uns erreicht.',
 		privacyTitle: 'Datenschutz',
 		termsTitle: 'Nutzungsbedingungen',
 		notFoundTitle: 'Seite nicht gefunden',
@@ -54,6 +56,7 @@ export const ui: UIDict = {
 		backToTop: 'Nach oben',
 		published: 'Veröffentlicht',
 		updated: 'Aktualisiert',
+		updatedMeta: 'Aktualisiert: {date}',
 		tags: 'Schlagwörter',
 		platforms: 'Plattformen',
 		version: 'Version',

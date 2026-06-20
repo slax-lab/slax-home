@@ -2,6 +2,23 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 import { getLastmodFor } from './scripts/lastmod.mjs';
+import { remarkLocaleLinks } from './scripts/remark-locale-links.mjs';
+
+// Keep in sync with src/i18n/locales.ts (config can't import TS reliably).
+const LOCALES = [
+	'en',
+	'zh-Hans',
+	'zh-Hant',
+	'ja',
+	'ko',
+	'de',
+	'fr',
+	'es',
+	'pt-BR',
+	'id',
+	'vi',
+];
+const DEFAULT_LOCALE = 'en';
 
 export default defineConfig({
 	site: 'https://slax.com',
@@ -12,24 +29,19 @@ export default defineConfig({
 		inlineStylesheets: 'always',
 	},
 	i18n: {
-		defaultLocale: 'en',
-		locales: [
-			'en',
-			'zh-Hans',
-			'zh-Hant',
-			'ja',
-			'ko',
-			'de',
-			'fr',
-			'es',
-			'pt-BR',
-			'id',
-			'vi',
-		],
+		defaultLocale: DEFAULT_LOCALE,
+		locales: LOCALES,
 		routing: {
 			prefixDefaultLocale: false,
 			redirectToDefaultLocale: false,
 		},
+	},
+	markdown: {
+		// Localize root-relative internal links in translated content at build
+		// time (MDX inherits this config). See scripts/remark-locale-links.mjs.
+		remarkPlugins: [
+			[remarkLocaleLinks, { locales: LOCALES, defaultLocale: DEFAULT_LOCALE }],
+		],
 	},
 	integrations: [
 		mdx(),

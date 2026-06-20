@@ -16,6 +16,8 @@ export const ui: UIDict = {
 		readerAlternativesTitle: 'Slax Reader vs alternatif',
 		noteAlternativesTitle: 'Slax Note vs alternatif',
 		aboutTitle: 'Tentang Slax',
+		aboutDescription:
+			'Slax Lab adalah tim kecil di Singapura di balik Slax Reader (aplikasi read-later open source) dan Slax Note (catatan suara AI). Siapa kami dan cara menghubungi kami.',
 		privacyTitle: 'Kebijakan Privasi',
 		termsTitle: 'Ketentuan Layanan',
 		notFoundTitle: 'Halaman tidak ditemukan',
@@ -54,6 +56,7 @@ export const ui: UIDict = {
 		backToTop: 'Kembali ke atas',
 		published: 'Diterbitkan',
 		updated: 'Diperbarui',
+		updatedMeta: 'Diperbarui: {date}',
 		tags: 'Tag',
 		platforms: 'Platform',
 		version: 'Versi',

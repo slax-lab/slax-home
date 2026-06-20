@@ -16,6 +16,8 @@ export const ui: UIDict = {
 		readerAlternativesTitle: 'Slax Reader so với các lựa chọn khác',
 		noteAlternativesTitle: 'Slax Note so với các lựa chọn khác',
 		aboutTitle: 'Về Slax',
+		aboutDescription:
+			'Slax Lab là đội ngũ nhỏ tại Singapore đứng sau Slax Reader (ứng dụng đọc sau mã nguồn mở) và Slax Note (ghi chú giọng nói AI). Chúng tôi là ai và cách liên hệ.',
 		privacyTitle: 'Chính sách quyền riêng tư',
 		termsTitle: 'Điều khoản dịch vụ',
 		notFoundTitle: 'Không tìm thấy trang',
@@ -54,6 +56,7 @@ export const ui: UIDict = {
 		backToTop: 'Lên đầu trang',
 		published: 'Đã đăng',
 		updated: 'Đã cập nhật',
+		updatedMeta: 'Đã cập nhật: {date}',
 		tags: 'Thẻ',
 		platforms: 'Nền tảng',
 		version: 'Phiên bản',

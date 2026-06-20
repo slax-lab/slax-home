@@ -92,6 +92,10 @@ const dateFmt = new Intl.DateTimeFormat(lang, {
 const prettyDate = (d: Date) => dateFmt.format(d);
 
 const latest = ordered[0];
+// zh typography uses full-width punctuation in the lede sentence
+const [ledeComma, ledePeriod] = lang.startsWith('zh')
+	? ['，', '。']
+	: [', ', '.'];
 
 const releaseAnchor = (g: { version: string; date: Date }) =>
 	`v${g.version}-${g.date.toISOString().slice(0, 10)}`;
@@ -145,7 +149,7 @@ const description = latest
 			<h1>{t(lang, 'changelog.headline')}</h1>
 			{latest && (
 				<p class="changelog__lede">
-					{t(lang, 'changelog.latestIs')} <strong>v{latest.version}</strong>, {t(lang, 'changelog.shippedOn')} {prettyDate(latest.date)}.
+					{t(lang, 'changelog.latestIs')} <strong>v{latest.version}</strong>{ledeComma}{t(lang, 'changelog.shippedOn')} {prettyDate(latest.date)}{ledePeriod}
 				</p>
 			)}
 		</header>

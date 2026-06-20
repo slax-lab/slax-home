@@ -1,14 +1,14 @@
 ---
-title: "Slax Reader CLI:一个你的 AI Agent 能调用的稍后读库"
-description: "一个 CLI 把 Slax Reader 变成持久阅读库,任何 AI Agent——Claude Code、Codex、Gemini CLI、Cursor——都能读写。"
+title: "Slax Reader CLI：一个你的 AI Agent 能调用的稍后读库"
+description: "一个 CLI 把 Slax Reader 变成持久阅读库，任何 AI Agent——Claude Code、Codex、Gemini CLI、Cursor——都能读写。"
 pubDate: 2026-05-19T00:00:00.000Z
 tags: ['阅读器', 'cli', 'ai-agents']
 product: reader
 ---
 
-我们给稍后读应用 Slax Reader 做了一个 CLI。重点不是 CLI 本身,而是你的阅读库从此成为一类一等公民工具——AI Agent 可以调用它。书签、列表、把内容管道送进提示词,全都可脚本化。
+我们给稍后读应用 Slax Reader 做了一个 CLI。重点不是 CLI 本身，而是你的阅读库从此成为一类一等公民工具——AI Agent 可以调用它。书签、列表、把内容管道送进提示词，全都可脚本化。
 
-仓库:[github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)(MIT)。安装和用法在下面。
+仓库：[github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)(MIT)。安装和用法在下面。
 
 ---
 
@@ -16,45 +16,45 @@ product: reader
 
 大多数 AI Agent 没有可以「放东西」的地方。
 
-让 Claude Code 「把这篇文章存起来等会儿读」——它做不到。ChatGPT 可以总结一个 URL,但不能把链接写到你明天还能找到的地方。一个扫你时间线的浏览器 Agent 没有持久存储。每场对话都被困在它发生的那个工具里。
+让 Claude Code 「把这篇文章存起来等会儿读」——它做不到。ChatGPT 可以总结一个 URL，但不能把链接写到你明天还能找到的地方。一个扫你时间线的浏览器 Agent 没有持久存储。每场对话都被困在它发生的那个工具里。
 
-CLI 填的就是这个空。Slax Reader 成为一个持久的阅读库,任何 Agent——Claude Code、Claude Desktop、Codex、Gemini CLI、OpenClaw、Cursor、Windsurf——都能读写。
+CLI 填的就是这个空。Slax Reader 成为一个持久的阅读库，任何 Agent——Claude Code、Claude Desktop、Codex、Gemini CLI、OpenClaw、Cursor、Windsurf——都能读写。
 
-具体说:
+具体说：
 
 - 浏览器 Agent 扫你的 X 时间线 → `reader-cli add` 保存链接。
 - Claude Code 在写稿 → 调用 `reader-cli list --filter inbox` 把今天的保存拉来当素材。
-- 你周末的脚本拉最近 30 天的 `reader-cli list --filter archive --json`,喂给你自己的流水线。
+- 你周末的脚本拉最近 30 天的 `reader-cli list --filter archive --json`，喂给你自己的流水线。
 
-阅读库不再是被动的书签堆,它成了 Agent 能干活的语料库。
+阅读库不再是被动的书签堆，它成了 Agent 能干活的语料库。
 
 ---
 
 ## 你能拿它做什么
 
-### 1. 筛选,不是摘要
+### 1. 筛选，不是摘要
 
 多数「AI 帮你读长文」工具默认做摘要。我们觉得筛选更有用。
 
-告诉 Claude Code:*「把我今早保存的那篇长文,给我 3 个最反直觉的点,加 1 个我大概率会不同意的点。」*
+告诉 Claude Code：*「把我今早保存的那篇长文，给我 3 个最反直觉的点，加 1 个我大概率会不同意的点。」*
 
-底层 Agent 跑 `reader-cli list --filter inbox --json`,挑出那条书签,再 `reader-cli get <id> --markdown` 拉出内容。UUID 你根本看不见。
+底层 Agent 跑 `reader-cli list --filter inbox --json`，挑出那条书签，再 `reader-cli get <id> --markdown` 拉出内容。UUID 你根本看不见。
 
-你不需要文章被浓缩,你需要知道它值不值得花你的时间,以及里面哪 5 分钟最关键。
+你不需要文章被浓缩，你需要知道它值不值得花你的时间，以及里面哪 5 分钟最关键。
 
 ### 2. 按规则批量保存
 
-`reader-cli add` 接收 URL,但有意思的工作流是让一个 Agent 来挑:
+`reader-cli add` 接收 URL，但有意思的工作流是让一个 Agent 来挑：
 
-- 「扫一遍 HN 首页,任何 200 分以上的帖子用归档模式(完整快照)保存。」
-- 「盯着我的 X 时间线,保存我最常保存的那 8 个账号发的链接。」
-- 「扫这个 Substack 出版物的最近 30 篇,标题里有 'agent' 的都保存。」
+- 「扫一遍 HN 首页，任何 200 分以上的帖子用归档模式(完整快照)保存。」
+- 「盯着我的 X 时间线，保存我最常保存的那 8 个账号发的链接。」
+- 「扫这个 Substack 出版物的最近 30 篇，标题里有 'agent' 的都保存。」
 
-这就是爬虫,区别是你用自然语言描述规则,而不是写爬虫。
+这就是爬虫，区别是你用自然语言描述规则，而不是写爬虫。
 
 ### 3. 反过来的 RSS 工作流
 
-传统阅读器工作流:
+传统阅读器工作流：
 
 1. 订阅 N 个源。
 2. RSS 阅读器把所有内容拉下来。
@@ -64,38 +64,38 @@ CLI 填的就是这个空。Slax Reader 成为一个持久的阅读库,任何 Ag
 
 第 3 步——「你自己扫标题」——这一步现在该归 AI 了。
 
-反过来的版本:
+反过来的版本：
 
 1. Agent 订阅源。
-2. Agent 扫一遍,给你一份摘要。
+2. Agent 扫一遍，给你一份摘要。
 3. 你指出值得读的那 3 篇。
 4. Agent 把它们保存到 Reader。
 
-举个我正在跑的具体例子:
+举个我正在跑的具体例子：
 
-- **开源 LLM 发布追踪**。Agent 扫 HuggingFace trending、Anthropic / Mistral / Meta / Qwen / DeepSeek 的发布页、r/LocalLLaMA、arxiv-sanity。任何值得读的新模型卡或评测都保存,打 `models` 标签。每周一份摘要。
+- **开源 LLM 发布追踪**。Agent 扫 HuggingFace trending、Anthropic / Mistral / Meta / Qwen / DeepSeek 的发布页、r/LocalLLaMA、arxiv-sanity。任何值得读的新模型卡或评测都保存，打 `models` 标签。每周一份摘要。
 
-这套搭起来之后,我退订了大部分 RSS。不是它们不好,是扫描这一步不该再是我的了。
+这套搭起来之后，我退订了大部分 RSS。不是它们不好，是扫描这一步不该再是我的了。
 
 ### 4. 查询过去的你
 
-每个写作者都在重新发明轮子。你上个月读到过一篇把某个概念讲得很清楚的文章,现在找不到了。
+每个写作者都在重新发明轮子。你上个月读到过一篇把某个概念讲得很清楚的文章，现在找不到了。
 
-开始写之前,问 Claude Code:*「在我的 Slax Reader 归档里,找最近 90 天关于 Agent 设计模式的全部内容。」* Agent 调 `reader-cli list --filter archive --json`,在上下文里筛选,返回一份来自过去的你的研究简报。不用自己重读整个归档。
+开始写之前，问 Claude Code：*「在我的 Slax Reader 归档里，找最近 90 天关于 Agent 设计模式的全部内容。」* Agent 调 `reader-cli list --filter archive --json`，在上下文里筛选，返回一份来自过去的你的研究简报。不用自己重读整个归档。
 
-**进阶玩法**:每次读到一篇与你当前观点相左的内容,加 `#self-challenge` 标签保存。每季度回读一次。这就是你的观点演化,可被查询的形式。
+**进阶玩法**：每次读到一篇与你当前观点相左的内容，加 `#self-challenge` 标签保存。每季度回读一次。这就是你的观点演化，可被查询的形式。
 
 ---
 
 ## 关于这个产品再说几句
 
-给挑剔的你:
+给挑剔的你：
 
-- **开源,可自部署**。Slax Reader 本身 Apache 2.0([github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader))。CLI 是 MIT。随时导出。
-- **我们现金流稳定,长期运营**。Mozilla 2025 年停了 Pocket,让很多人留下了稍后读应用关停的心理阴影。我们不会让你再经历一次。
-- **永久备份免费**。书签 + 全文缓存,永远免费。Readwise、Instapaper Premium、Matter,以及当年的 Pocket,这一项都要钱。我们不要。
+- **开源，可自部署**。Slax Reader 本身 Apache 2.0([github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader))。CLI 是 MIT。随时导出。
+- **我们现金流稳定，长期运营**。Mozilla 2025 年停了 Pocket，让很多人留下了稍后读应用关停的心理阴影。我们不会让你再经历一次。
+- **永久备份免费**。书签 + 全文缓存，永远免费。Readwise、Instapaper Premium、Matter，以及当年的 Pocket，这一项都要钱。我们不要。
 - **全文搜索和高亮免费**。同理。
-- **持续投入平台专属解析器**。X、Threads、Substack 支持得很好。中文这边,我们有微信公众号、小红书、微博、知乎的专门解析器。
+- **持续投入平台专属解析器**。X、Threads、Substack 支持得很好。中文这边，我们有微信公众号、小红书、微博、知乎的专门解析器。
 - **iOS、Android、Web、浏览器扩展**。
 
 ---
@@ -115,7 +115,7 @@ reader-cli list --filter inbox
 reader-cli get <bookmark-id> --markdown
 ```
 
-或者直接把安装指南扔给你的 Agent,让它自己搞定:
+或者直接把安装指南扔给你的 Agent，让它自己搞定：
 
 > *「帮我安装并配置 Slax Reader CLI:https://github.com/slax-lab/slax-reader-cli/blob/main/docs/ai-agent-installation-guide.md」*
 
@@ -123,7 +123,7 @@ reader-cli get <bookmark-id> --markdown
 
 ## 链接
 
-- 仓库与文档:[github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)
-- 注册:[reader.slax.com](https://reader.slax.com)
+- 仓库与文档：[github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)
+- 注册：[reader.slax.com](https://reader.slax.com)
 
-> 通过我的推荐链接注册,可以多拿几个月 Pro:[r.slax.com/luca-reader](https://r.slax.com/luca-reader)。上面的工作流都不需要 Pro——永久备份、全文搜索、CLI 在免费版都能用。
+> 通过我的推荐链接注册，可以多拿几个月 Pro：[r.slax.com/luca-reader](https://r.slax.com/luca-reader)。上面的工作流都不需要 Pro——永久备份、全文搜索、CLI 在免费版都能用。

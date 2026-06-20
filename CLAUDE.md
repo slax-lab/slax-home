@@ -74,6 +74,7 @@ slax-home/
 - **Reader / Note 发布日志**：`src/content/<reader|note>-changelog/YYYY-MM-DD-vX.Y.Z[.platform].md`，frontmatter 必填 `version` / `date` / `platforms`（数组）
 - **对比文章**：`src/content/<reader|note>-alternatives/<competitor>.mdx`
 - **图片**等静态资源：`public/images/`（CDN 用 `https://static-cdn.slax.com/...`）
+- **内链写法**：所有 locale 的内容文件里，站内链接一律写**不带 locale 前缀**的路径（如 `/reader/alternatives/pocket/`）。构建时 `scripts/remark-locale-links.mjs` 会按内容文件所在 locale 自动加前缀（目标页在该 locale 存在才加）。不要手写 `/ja/...`、`/es/...` 前缀。验证：`pnpm check:locale-links`（需先 build）
 
 ## 注意事项
 

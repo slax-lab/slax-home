@@ -17,6 +17,8 @@ export const ui: UIDict = {
 		readerAlternativesTitle: 'Slax Reader 對比',
 		noteAlternativesTitle: 'Slax Note 對比',
 		aboutTitle: '關於 Slax',
+		aboutDescription:
+			'Slax Lab 是新加坡的一個小團隊，做開源稍後讀工具 Slax Reader 和 AI 語音筆記 Slax Note。我們是誰、怎麼聯絡我們。',
 		privacyTitle: '私隱政策',
 		termsTitle: '服務條款',
 		notFoundTitle: '找不到這個頁面',
@@ -55,6 +57,7 @@ export const ui: UIDict = {
 		backToTop: '回到頂部',
 		published: '發佈',
 		updated: '更新',
+		updatedMeta: '更新：{date}',
 		tags: '標籤',
 		platforms: '平台',
 		version: '版本',

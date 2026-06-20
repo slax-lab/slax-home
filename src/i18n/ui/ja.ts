@@ -16,6 +16,8 @@ export const ui: UIDict = {
 		readerAlternativesTitle: 'Slax Reader 比較',
 		noteAlternativesTitle: 'Slax Note 比較',
 		aboutTitle: 'Slax について',
+		aboutDescription:
+			'Slax Lab はシンガポール発の小さなチームです。オープンソースの「あとで読む」アプリ Slax Reader と、AI ボイスノート Slax Note を作っています。',
 		privacyTitle: 'プライバシーポリシー',
 		termsTitle: '利用規約',
 		notFoundTitle: 'ページが見つかりません',
@@ -54,6 +56,7 @@ export const ui: UIDict = {
 		backToTop: 'トップへ戻る',
 		published: '公開日',
 		updated: '更新日',
+		updatedMeta: '更新日: {date}',
 		tags: 'タグ',
 		platforms: 'プラットフォーム',
 		version: 'バージョン',

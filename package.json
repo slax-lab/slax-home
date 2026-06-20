@@ -16,8 +16,9 @@
 		"prepare": "husky",
 		"check:i18n": "tsx scripts/i18n/check-completeness.ts && tsx scripts/i18n/eval-translation.ts",
 		"check:hreflang": "tsx scripts/i18n/eval-hreflang.ts && tsx scripts/i18n/eval-sitemap.ts",
+		"check:locale-links": "tsx scripts/i18n/eval-locale-links.ts",
 		"check:urls": "tsx scripts/seo/eval-url-snapshot.ts",
-		"check:all": "pnpm check:i18n && pnpm build && pnpm check:hreflang && pnpm check:urls"
+		"check:all": "pnpm check:i18n && pnpm build && pnpm check:hreflang && pnpm check:locale-links && pnpm check:urls"
 	},
 	"lint-staged": {
 		"*.{js,ts,mjs,cjs,json,astro}": [
