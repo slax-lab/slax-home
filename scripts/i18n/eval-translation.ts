@@ -115,7 +115,7 @@ function checkGlossary(path: string, body: string, lang: string) {
 	void lang;
 	for (const wrong of FORBIDDEN_LOWERCASE) {
 		// Match standalone token. Skip when it's part of a domain (n.slax.com),
-		// a URL/email (https://slax.com, hello@slax.com), or inside backtick code.
+		// a URL/email (https://www.slax.com, hello@slax.com), or inside backtick code.
 		const re = new RegExp(`\\b${wrong}\\b`, 'g');
 		let m = re.exec(body);
 		while (m !== null) {

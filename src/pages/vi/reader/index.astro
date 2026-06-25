@@ -5,6 +5,7 @@ import FaqList from '~/components/FaqList.astro';
 import Footer from '~/components/Footer.astro';
 import Nav from '~/components/Nav.astro';
 import Base from '~/layouts/Base.astro';
+import { SITE } from '~/lib/hreflang';
 
 // Content sourced verbatim from original apps/reader-home components
 // (archive/apps-backup): HomeHero / HomeFeatures / HomeHowItWorks /
@@ -159,9 +160,9 @@ const schema = {
 	name: 'Slax Reader',
 	applicationCategory: 'ProductivityApplication',
 	operatingSystem: 'Web, iOS, iPadOS, Android, macOS',
-	url: 'https://slax.com/reader/',
-	image: 'https://slax.com/og/reader.png',
-	screenshot: 'https://slax.com/reader/hero.png',
+	url: new URL('/reader/', SITE).toString(),
+	image: new URL('/og/reader.png', SITE).toString(),
+	screenshot: new URL('/reader/hero.png', SITE).toString(),
 	description:
 		'Ứng dụng đọc-sau mã nguồn mở, gọn gàng. Lưu mãi mãi, học nhanh hơn. Thư viện thông minh của bạn để đọc hiệu quả và hiểu sâu.',
 	downloadUrl: [
@@ -192,8 +193,8 @@ const schema = {
 	publisher: {
 		'@type': 'Organization',
 		name: 'Slax Lab',
-		url: 'https://slax.com',
-		logo: 'https://slax.com/images/slax-logo.png',
+		url: SITE,
+		logo: new URL('/images/slax-logo.png', SITE).toString(),
 	},
 };
 ---

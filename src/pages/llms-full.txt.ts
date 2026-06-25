@@ -6,7 +6,7 @@ import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
 import { entrySlug, filterByLocale } from '~/lib/content';
 
-const SITE = 'https://slax.com';
+import { SITE } from '~/lib/hreflang';
 
 function section(title: string, body: string): string {
 	return `\n\n---\n\n# ${title}\n\n${body.trim()}\n`;

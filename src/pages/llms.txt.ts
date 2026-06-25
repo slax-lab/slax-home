@@ -6,7 +6,7 @@ import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
 import { entrySlug, filterByLocale } from '~/lib/content';
 
-const SITE = 'https://slax.com';
+import { SITE } from '~/lib/hreflang';
 
 export const GET: APIRoute = async () => {
 	const [blog, readerAlts, noteAlts] = await Promise.all([
