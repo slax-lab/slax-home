@@ -5,6 +5,7 @@ import FaqList from '~/components/FaqList.astro';
 import Footer from '~/components/Footer.astro';
 import Nav from '~/components/Nav.astro';
 import Base from '~/layouts/Base.astro';
+import { SITE } from '~/lib/hreflang';
 
 // All content below is copied verbatim from note.slax.com (the live
 // marketing landing) plus n.slax.com product i18n where relevant.
@@ -183,9 +184,9 @@ const schema = {
 	alternateName: 'Slax Note——AI 音声ノート',
 	applicationCategory: 'ProductivityApplication',
 	operatingSystem: 'iOS, Android, Web',
-	url: 'https://www.slax.com/note/',
-	image: 'https://www.slax.com/og/note.png',
-	screenshot: 'https://www.slax.com/images/note/cover.png',
+	url: new URL('/note/', SITE).toString(),
+	image: new URL('/og/note.png', SITE).toString(),
+	screenshot: new URL('/images/note/cover.png', SITE).toString(),
 	description:
 		'AI 音声ノート。あなたが話し、私が記す。Slax Note で録音すれば、AI があなたの考えをとらえ、お好みの文体のテキストに整えます。',
 	downloadUrl: [
@@ -227,8 +228,8 @@ const schema = {
 	publisher: {
 		'@type': 'Organization',
 		name: 'Starry Tech Pte. Ltd.',
-		url: 'https://www.slax.com',
-		logo: 'https://www.slax.com/images/slax-logo.png',
+		url: SITE,
+		logo: new URL('/images/slax-logo.png', SITE).toString(),
 	},
 };
 ---
