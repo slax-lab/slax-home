@@ -48,7 +48,7 @@ const blogSchema = {
 	'@context': 'https://schema.org',
 	'@type': 'Blog',
 	name: t(lang, titleKey),
-	url: new URL(blogPath, 'https://slax.com').toString(),
+	url: new URL(blogPath, 'https://www.slax.com').toString(),
 	description: t(lang, 'meta.defaultDescription'),
 	blogPost: posts.map((post) => ({
 		'@type': 'BlogPosting',
@@ -58,7 +58,7 @@ const blogSchema = {
 		dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
 		url: new URL(
 			`${blogPath}${entrySlug(post)}/`,
-			'https://slax.com',
+			'https://www.slax.com',
 		).toString(),
 		author: { '@type': 'Organization', name: 'Slax Lab' },
 	})),
@@ -81,7 +81,7 @@ const activeNav = productScope ?? 'blog';
 		</header>
 
 		{posts.length === 0 ? (
-			<p class="empty">{t(lang, 'home.comingSoon')} <a href="/blog/">slax.com/blog/</a>.</p>
+			<p class="empty">{t(lang, 'home.comingSoon')} <a href="/blog/">www.slax.com/blog/</a>.</p>
 		) : (
 			<ul class="post-list">
 				{posts.map((post) => (

@@ -22,7 +22,7 @@ import { join, relative } from 'node:path';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
-const SITE = 'https://slax.com';
+const SITE = 'https://www.slax.com';
 const LOCALES = [
 	'en',
 	'zh-Hans',

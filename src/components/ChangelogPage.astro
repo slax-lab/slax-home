@@ -114,7 +114,7 @@ const itemListSchema = {
 	'@context': 'https://schema.org',
 	'@type': 'ItemList',
 	name: t(lang, titleKey),
-	url: new URL(changelogPath, 'https://slax.com').toString(),
+	url: new URL(changelogPath, 'https://www.slax.com').toString(),
 	itemListOrder: 'https://schema.org/ItemListOrderDescending',
 	numberOfItems: ordered.length,
 	itemListElement: ordered.map((g, i) => ({
@@ -124,7 +124,7 @@ const itemListSchema = {
 			'@type': 'TechArticle',
 			headline: `${productLabel} v${g.version}`,
 			datePublished: g.date.toISOString(),
-			url: `${new URL(changelogPath, 'https://slax.com').toString()}#${releaseAnchor(g)}`,
+			url: `${new URL(changelogPath, 'https://www.slax.com').toString()}#${releaseAnchor(g)}`,
 			about: productLabel,
 		},
 	})),
@@ -156,7 +156,7 @@ const description = latest
 
 		{ordered.length === 0 ? (
 			<p class="empty">
-				{t(lang, 'changelog.emptyState')} <a href={englishChangelogPath}>slax.com{englishChangelogPath}</a>.
+				{t(lang, 'changelog.emptyState')} <a href={englishChangelogPath}>www.slax.com{englishChangelogPath}</a>.
 			</p>
 		) : (
 			<section class="changelog__list">

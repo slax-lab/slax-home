@@ -54,7 +54,7 @@ const {
 const htmlLang = HTML_LANG[lang];
 const canonical = buildCanonical(
 	Astro.url.pathname,
-	Astro.site?.toString() ?? 'https://slax.com',
+	Astro.site?.toString() ?? 'https://www.slax.com',
 );
 
 // 404 pages shouldn't broadcast hreflang — they aren't indexable.
@@ -65,20 +65,20 @@ const alternates = isErrorPage
 	: buildAlternates(
 			Astro.url.pathname,
 			availableLocales,
-			Astro.site?.toString() ?? 'https://slax.com',
+			Astro.site?.toString() ?? 'https://www.slax.com',
 		);
 
 const defaultSiteSchema = {
 	'@context': 'https://schema.org',
 	'@type': 'WebSite',
 	name: 'Slax',
-	url: 'https://slax.com',
+	url: 'https://www.slax.com',
 	inLanguage: htmlLang,
 	publisher: {
 		'@type': 'Organization',
 		name: 'Slax Lab',
-		url: 'https://slax.com',
-		logo: 'https://slax.com/favicon.svg',
+		url: 'https://www.slax.com',
+		logo: 'https://www.slax.com/favicon.svg',
 	},
 };
 
