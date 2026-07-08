@@ -131,6 +131,10 @@ export function getLastmodFor(pathname) {
 					: `src/pages/${lang}/${head}/index`;
 			return tryExt(base, ['.astro']);
 		}
+		// /note/voice-notes/  (English-only landing)
+		if (sub === 'voice-notes') {
+			return tryExt(`src/pages/${head}/voice-notes`, ['.astro']);
+		}
 		// /reader/alternatives/<slug>/
 		if (sub === 'alternatives' && rest.length >= 3) {
 			const altDir =

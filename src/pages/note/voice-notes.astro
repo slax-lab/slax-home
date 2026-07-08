@@ -1,0 +1,463 @@
+---
+import Button from '~/components/Button.astro';
+import FaqList from '~/components/FaqList.astro';
+import Footer from '~/components/Footer.astro';
+import Nav from '~/components/Nav.astro';
+import Base from '~/layouts/Base.astro';
+import { SITE } from '~/lib/hreflang';
+
+// English-only SEO landing for "slax voice" queries. Two jobs:
+// (1) serve people looking for AI voice notes (that's Slax Note),
+// (2) say clearly, up front, that Slax Note is speech-to-text —
+//     not a voice generator, TTS, or audio watermark tool.
+// Facts (accuracy, languages, limits, storage) mirror /note/.
+
+const steps = [
+	{
+		title: 'Record with one tap',
+		body: "Say it the moment it shows up. Don't type. Don't organize. Recording works offline.",
+	},
+	{
+		title: 'AI turns your voice into clean text',
+		body: 'Accurate transcription with automatic punctuation, filler words removed, tone preserved.',
+	},
+	{
+		title: 'One recording, many shapes',
+		body: 'Prompts reshape the same recording into a tweet, a blog draft, or a tidy note. Share as text or image — everything syncs across devices.',
+	},
+];
+
+const facts = [
+	{ label: 'Transcription accuracy', value: '95%+ on clear audio' },
+	{ label: 'Languages', value: 'English, Chinese, German, Japanese' },
+	{ label: 'Recording length', value: 'Up to 30 minutes per note' },
+	{ label: 'Audio storage', value: 'Recordings stay on your device' },
+];
+
+const faqs = [
+	{
+		q: 'Is Slax Note a voice generator or text-to-speech app?',
+		a: 'No. Slax Note works in the opposite direction: it turns your voice into written text. It does not generate synthetic voices, dub videos, or add or remove audio watermarks. If that is what you need, you are looking for a different app that shares the name.',
+	},
+	{
+		q: 'Can Slax Note read my text aloud?',
+		a: 'No. Slax Note transcribes speech into text and polishes it with AI. Text-to-speech is not part of the product.',
+	},
+	{
+		q: 'How accurate is the voice-to-text transcription?',
+		a: 'For clear audio, accuracy is above 95%. Speech recognition currently supports major languages including English, Chinese, German, and Japanese.',
+	},
+	{
+		q: 'Where are my voice recordings stored?',
+		a: 'All audio recordings are stored locally on your device, for privacy and security.',
+	},
+	{
+		q: 'Does it work offline?',
+		a: 'Recording works offline. Transcription and AI polish need an internet connection.',
+	},
+	{
+		q: 'Is Slax Note free?',
+		a: 'Yes — the free tier lets you try voice notes and AI polish, no account gymnastics. Premium is $4.99/month or $49.99/year for unlimited notes.',
+	},
+];
+
+const pagePath = '/note/voice-notes/';
+
+const webPageSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'WebPage',
+	name: 'Slax Voice — AI Voice Notes, Speech to Text',
+	url: new URL(pagePath, SITE).toString(),
+	description:
+		'What "Slax voice" means: Slax Note is an AI voice-notes app that turns speech into text — not a voice generator or TTS tool.',
+	about: {
+		'@type': 'SoftwareApplication',
+		name: 'Slax Note',
+		url: new URL('/note/', SITE).toString(),
+	},
+};
+
+const faqSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'FAQPage',
+	mainEntity: faqs.map((f) => ({
+		'@type': 'Question',
+		name: f.q,
+		acceptedAnswer: { '@type': 'Answer', text: f.a },
+	})),
+};
+
+const breadcrumbs = [
+	{ name: 'Slax', url: '/' },
+	{ name: 'Slax Note', url: '/note/' },
+	{ name: 'Voice notes', url: pagePath },
+];
+---
+<Base
+	title="Slax Voice — AI Voice Notes, Speech to Text (Slax Note)"
+	description="Looking for “Slax voice”? Slax Note is an AI voice-notes app: you talk, it writes. Speech-to-text shaped by your prompts — not a voice generator or TTS tool. Free to start."
+	ogImage="/og/note-voice-notes.png"
+	schema={[webPageSchema, faqSchema]}
+	breadcrumbs={breadcrumbs}
+	availableLocales={['en']}
+>
+	<Nav active="note" availableLocales={['en']} />
+
+	<main>
+		<!-- HERO -->
+		<section class="vn-hero">
+			<div class="vn-inner">
+				<p class="eyebrow">Slax Note · Voice notes</p>
+				<h1 class="vn-h1">Slax voice notes. <em>You talk, I write.</em></h1>
+				<p class="vn-lede">
+					Slax Note turns spoken words into clean, editable text. It is a
+					speech-to-text note-taking app — <strong>not</strong> a voice
+					generator, text-to-speech, or audio watermark tool.
+				</p>
+				<div class="vn-actions">
+					<Button variant="primary" href="https://n.slax.com/" arrow>Try Slax Note free</Button>
+					<Button variant="secondary" href="/note/">See the full tour</Button>
+				</div>
+				<p class="vn-stores-line">
+					Also on the
+					<a
+						href="https://apps.apple.com/us/app/slax-note-transcribe-voice-pen/id6480166286"
+						target="_blank"
+						rel="noopener noreferrer"
+					>App Store</a>
+					and
+					<a
+						href="https://play.google.com/store/apps/details?id=app.slax.notes"
+						target="_blank"
+						rel="noopener noreferrer"
+					>Google Play</a>.
+				</p>
+			</div>
+		</section>
+
+		<!-- WHICH SLAX -->
+		<section class="vn-which">
+			<div class="vn-inner">
+				<h2 class="vn-h2">Which Slax were you looking for?</h2>
+				<div class="vn-compare">
+					<div class="vn-card vn-card--us">
+						<p class="vn-card-eyebrow">Slax Note — this app</p>
+						<p class="vn-card-lead">Voice in, text out.</p>
+						<ul class="vn-list">
+							<li>Record a thought in one tap</li>
+							<li>AI transcribes, punctuates, and polishes</li>
+							<li>Prompts reshape it into a tweet, draft, or note</li>
+						</ul>
+					</div>
+					<div class="vn-card">
+						<p class="vn-card-eyebrow">A voice generator — not us</p>
+						<p class="vn-card-lead">Text in, synthetic voice out.</p>
+						<ul class="vn-list">
+							<li>AI voices, dubbing, text-to-speech</li>
+							<li>Audio watermarks</li>
+							<li>Slax Note does none of this — that is a different app with the same name</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- HOW IT WORKS -->
+		<section class="vn-steps">
+			<div class="vn-inner">
+				<h2 class="vn-h2">How Slax voice notes work</h2>
+				<ol class="vn-steps-list">
+					{steps.map((s, i) => (
+						<li class="vn-step">
+							<span class="vn-step-num">{String(i + 1).padStart(2, '0')}</span>
+							<div>
+								<h3 class="vn-step-h">{s.title}</h3>
+								<p class="vn-step-p">{s.body}</p>
+							</div>
+						</li>
+					))}
+				</ol>
+			</div>
+		</section>
+
+		<!-- FACTS -->
+		<section class="vn-facts">
+			<div class="vn-inner">
+				<dl class="vn-facts-grid">
+					{facts.map((f) => (
+						<div class="vn-fact">
+							<dt class="vn-fact-label">{f.label}</dt>
+							<dd class="vn-fact-value">{f.value}</dd>
+						</div>
+					))}
+				</dl>
+			</div>
+		</section>
+
+		<!-- FAQ -->
+		<section class="vn-faq">
+			<div class="vn-inner">
+				<h2 class="vn-h2">Frequently asked questions</h2>
+				<FaqList items={faqs} />
+			</div>
+		</section>
+
+		<!-- FINALE -->
+		<section class="vn-finale">
+			<div class="vn-inner vn-finale-inner">
+				<h2 class="vn-finale-h">Never lose an <em>idea</em> again.</h2>
+				<p class="vn-finale-p">Free to start, on iPhone, Android, and the web.</p>
+				<div class="vn-actions vn-actions-center">
+					<Button variant="primary" href="https://n.slax.com/" arrow>Open Slax Note</Button>
+					<Button variant="secondary" href="/note/">Slax Note tour →</Button>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+</Base>
+
+<style>
+	.vn-inner {
+		max-width: 880px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+
+	/* HERO */
+	.vn-hero {
+		padding: 6rem 0 4.5rem;
+	}
+	.vn-h1 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(2rem, 4vw, 3.2rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		margin: 1rem 0 1.5rem;
+		color: var(--ink);
+		max-width: 22ch;
+	}
+	.vn-h1 :global(em) {
+		font-style: italic;
+		font-weight: 300;
+		color: var(--accent);
+	}
+	.vn-lede {
+		font-family: var(--serif);
+		font-size: 1.15rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+		max-width: 54ch;
+		margin: 0 0 2rem;
+	}
+	.vn-lede strong {
+		color: var(--ink);
+	}
+	.vn-actions {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+	.vn-actions-center {
+		justify-content: center;
+	}
+	.vn-stores-line {
+		margin: 1rem 0 0;
+		font-family: var(--serif);
+		font-size: 0.95rem;
+		color: var(--ink-mute);
+	}
+	.vn-stores-line a {
+		color: var(--ink-soft);
+		text-decoration: underline;
+		text-decoration-color: var(--rule);
+		text-underline-offset: 3px;
+	}
+	.vn-stores-line a:hover {
+		color: var(--accent);
+		text-decoration-color: var(--accent);
+	}
+
+	/* SECTION HEADINGS */
+	.vn-h2 {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+		letter-spacing: -0.01em;
+		color: var(--ink);
+		margin: 0 0 2rem;
+	}
+
+	/* WHICH SLAX */
+	.vn-which {
+		padding: 4rem 0;
+		background: var(--bg-deep);
+	}
+	.vn-compare {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1.25rem;
+	}
+	@media (min-width: 760px) {
+		.vn-compare {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.vn-card {
+		border: 1px solid var(--rule);
+		background: var(--bg);
+		padding: 1.75rem;
+	}
+	.vn-card--us {
+		border-color: var(--accent);
+	}
+	.vn-card-eyebrow {
+		font-family: var(--mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.04em;
+		color: var(--ink-mute);
+		margin: 0 0 0.75rem;
+	}
+	.vn-card--us .vn-card-eyebrow {
+		color: var(--accent);
+	}
+	.vn-card-lead {
+		font-family: var(--serif);
+		font-size: 1.2rem;
+		color: var(--ink);
+		margin: 0 0 1rem;
+	}
+	.vn-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+	}
+	.vn-list li {
+		position: relative;
+		padding-left: 1.4rem;
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ink-soft);
+	}
+	.vn-list li::before {
+		content: "—";
+		position: absolute;
+		left: 0;
+		top: 0;
+		color: var(--ink-mute);
+		font-weight: 300;
+	}
+
+	/* STEPS */
+	.vn-steps {
+		padding: 4.5rem 0;
+	}
+	.vn-steps-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+	}
+	.vn-step {
+		display: flex;
+		gap: 1.25rem;
+		padding: 1.5rem 0;
+		border-top: 1px solid var(--rule-soft);
+	}
+	.vn-step-num {
+		font-family: var(--mono);
+		font-size: 0.85rem;
+		color: var(--ink-mute);
+		padding-top: 0.35rem;
+	}
+	.vn-step-h {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 1.15rem;
+		color: var(--ink);
+		margin: 0 0 0.4rem;
+	}
+	.vn-step-p {
+		font-family: var(--serif);
+		font-size: 1rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+		margin: 0;
+		max-width: 58ch;
+	}
+
+	/* FACTS */
+	.vn-facts {
+		padding: 0 0 4.5rem;
+	}
+	.vn-facts-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1px;
+		background: var(--rule);
+		border: 1px solid var(--rule);
+		margin: 0;
+	}
+	@media (min-width: 760px) {
+		.vn-facts-grid {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+	.vn-fact {
+		background: var(--bg);
+		padding: 1.25rem;
+	}
+	.vn-fact-label {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.04em;
+		color: var(--ink-mute);
+		margin: 0 0 0.5rem;
+	}
+	.vn-fact-value {
+		font-family: var(--serif);
+		font-size: 0.98rem;
+		line-height: 1.45;
+		color: var(--ink);
+		margin: 0;
+	}
+
+	/* FAQ */
+	.vn-faq {
+		padding: 4rem 0;
+		background: var(--bg-deep);
+	}
+
+	/* FINALE */
+	.vn-finale {
+		padding: 5rem 0 6rem;
+	}
+	.vn-finale-inner {
+		text-align: center;
+	}
+	.vn-finale-h {
+		font-family: var(--serif);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+		color: var(--ink);
+		margin: 0 0 0.75rem;
+	}
+	.vn-finale-h em {
+		font-style: italic;
+		font-weight: 300;
+		color: var(--accent);
+	}
+	.vn-finale-p {
+		font-family: var(--serif);
+		font-size: 1.05rem;
+		color: var(--ink-soft);
+		margin: 0 0 2rem;
+	}
+</style>

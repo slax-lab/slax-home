@@ -13,9 +13,13 @@ export const ui: UIDict = {
 		noteBlogTitle: 'Blog Slax Note',
 		readerChangelogTitle: 'Slax Reader — Apa yang baru',
 		noteChangelogTitle: 'Slax Note — Apa yang baru',
+		readerChangelogDescription:
+			'Catatan rilis Slax Reader — fitur baru, perbaikan, dan peningkatan untuk Web, iOS, dan Android, versi demi versi.',
+		noteChangelogDescription:
+			'Catatan rilis Slax Note — fitur baru, perbaikan, dan peningkatan untuk iOS dan Android, versi demi versi.',
 		readerAlternativesTitle: 'Slax Reader vs alternatif',
 		noteAlternativesTitle: 'Slax Note vs alternatif',
-		aboutTitle: 'Tentang Slax',
+		aboutTitle: 'Tentang Slax — tim di balik Slax Reader & Slax Note',
 		aboutDescription:
 			'Slax Lab adalah tim kecil di Singapura di balik Slax Reader (aplikasi read-later open source) dan Slax Note (catatan suara AI). Siapa kami dan cara menghubungi kami.',
 		privacyTitle: 'Kebijakan Privasi',
