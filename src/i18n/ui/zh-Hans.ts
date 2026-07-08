@@ -13,9 +13,13 @@ export const ui: UIDict = {
 		noteBlogTitle: 'Slax Note 博客',
 		readerChangelogTitle: 'Slax Reader 更新日志',
 		noteChangelogTitle: 'Slax Note 更新日志',
+		readerChangelogDescription:
+			'Slax Reader 更新日志：Web、iOS、Android 的新功能、修复与改进，逐版本记录。',
+		noteChangelogDescription:
+			'Slax Note 更新日志：iOS、Android 的新功能、修复与改进，逐版本记录。',
 		readerAlternativesTitle: 'Slax Reader 对比',
 		noteAlternativesTitle: 'Slax Note 对比',
-		aboutTitle: '关于 Slax',
+		aboutTitle: '关于 Slax——Slax Reader 与 Slax Note 背后的团队',
 		aboutDescription:
 			'Slax Lab 是新加坡的一个小团队，做开源稍后读工具 Slax Reader 和 AI 语音笔记 Slax Note。我们是谁、怎么联系我们。',
 		privacyTitle: '隐私政策',

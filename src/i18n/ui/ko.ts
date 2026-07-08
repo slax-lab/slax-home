@@ -13,9 +13,13 @@ export const ui: UIDict = {
 		noteBlogTitle: 'Slax Note 블로그',
 		readerChangelogTitle: 'Slax Reader 업데이트 내역',
 		noteChangelogTitle: 'Slax Note 업데이트 내역',
+		readerChangelogDescription:
+			'Slax Reader 업데이트 내역 — Web·iOS·Android 의 새 기능, 수정, 개선 사항을 버전별로 기록합니다.',
+		noteChangelogDescription:
+			'Slax Note 업데이트 내역 — iOS·Android 의 새 기능, 수정, 개선 사항을 버전별로 기록합니다.',
 		readerAlternativesTitle: 'Slax Reader 비교',
 		noteAlternativesTitle: 'Slax Note 비교',
-		aboutTitle: 'Slax 소개',
+		aboutTitle: 'Slax 소개 — Slax Reader 와 Slax Note 를 만드는 팀',
 		aboutDescription:
 			'Slax Lab 은 싱가포르의 작은 팀입니다. 오픈소스 나중에 읽기 앱 Slax Reader 와 AI 음성 노트 Slax Note 를 만듭니다. 우리가 누구인지, 어떻게 연락하는지.',
 		privacyTitle: '개인정보 처리방침',

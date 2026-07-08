@@ -12,9 +12,13 @@ export const ui = {
 		noteBlogTitle: 'Slax Note Blog',
 		readerChangelogTitle: "Slax Reader — What's new",
 		noteChangelogTitle: "Slax Note — What's new",
+		readerChangelogDescription:
+			'Slax Reader release notes — new features, fixes, and improvements across Web, iOS, and Android, version by version.',
+		noteChangelogDescription:
+			'Slax Note release notes — new features, fixes, and improvements for iOS and Android, version by version.',
 		readerAlternativesTitle: 'Slax Reader vs alternatives',
 		noteAlternativesTitle: 'Slax Note vs alternatives',
-		aboutTitle: 'About Slax',
+		aboutTitle: 'About Slax — the team behind Slax Reader & Slax Note',
 		aboutDescription:
 			'Slax Lab is the small Singapore-based team behind Slax Reader (an open-source read-later app) and Slax Note (AI voice notes). Who we are and how to reach us.',
 		privacyTitle: 'Privacy Policy',

@@ -13,9 +13,13 @@ export const ui: UIDict = {
 		noteBlogTitle: 'Blog de Slax Note',
 		readerChangelogTitle: 'Slax Reader — Novedades',
 		noteChangelogTitle: 'Slax Note — Novedades',
+		readerChangelogDescription:
+			'Notas de versión de Slax Reader — novedades, correcciones y mejoras para Web, iOS y Android, versión por versión.',
+		noteChangelogDescription:
+			'Notas de versión de Slax Note — novedades, correcciones y mejoras para iOS y Android, versión por versión.',
 		readerAlternativesTitle: 'Slax Reader vs alternativas',
 		noteAlternativesTitle: 'Slax Note vs alternativas',
-		aboutTitle: 'Acerca de Slax',
+		aboutTitle: 'Acerca de Slax — el equipo detrás de Slax Reader y Slax Note',
 		aboutDescription:
 			'Slax Lab es el pequeño equipo de Singapur detrás de Slax Reader (lectura diferida de código abierto) y Slax Note (notas de voz con IA). Quiénes somos y cómo contactarnos.',
 		privacyTitle: 'Política de privacidad',

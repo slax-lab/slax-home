@@ -130,9 +130,12 @@ const itemListSchema = {
 	})),
 };
 
-const description = latest
-	? `${productLabel} — ${ordered.length} ${t(lang, 'common.version').toLowerCase()}.`
-	: t(lang, 'meta.defaultDescription');
+const description = t(
+	lang,
+	product === 'reader'
+		? 'meta.readerChangelogDescription'
+		: 'meta.noteChangelogDescription',
+);
 ---
 <Base
 	title={t(lang, titleKey)}
@@ -156,7 +159,7 @@ const description = latest
 
 		{ordered.length === 0 ? (
 			<p class="empty">
-				{t(lang, 'changelog.emptyState')} <a href={englishChangelogPath}>www.slax.com{englishChangelogPath}</a>.
+				{t(lang, 'changelog.emptyState')} <a href={englishChangelogPath}>slax.com{englishChangelogPath}</a>.
 			</p>
 		) : (
 			<section class="changelog__list">
