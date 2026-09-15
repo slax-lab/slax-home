@@ -18,6 +18,9 @@ interface Props {
 const { post, slug, lang, availableLocales } = Astro.props;
 const { Content } = await render(post);
 const author = getAuthor(post.data.author);
+const authorXUrl = author.sameAs.find(
+	(url) => url.includes('x.com/') || url.includes('twitter.com/'),
+);
 const showUpdated =
 	!!post.data.updatedDate &&
 	post.data.updatedDate.valueOf() !== post.data.pubDate.valueOf();
@@ -115,6 +118,22 @@ const breadcrumbs = [
 					<span class="article-author">
 						{t(lang, 'common.byAuthor', { author: author.name })}
 					</span>
+					{authorXUrl && (
+						<a
+							class="article-author-x"
+							href={authorXUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+							aria-label={`${author.name} on X`}
+						>
+							<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+								<path
+									fill="currentColor"
+									d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+								/>
+							</svg>
+						</a>
+					)}
 					{post.data.tags && post.data.tags.length > 0 && (
 						<>
 							<span class="sep">·</span>
@@ -196,6 +215,16 @@ const breadcrumbs = [
 	}
 	.article-author {
 		color: var(--ink-mute);
+	}
+	.article-author-x {
+		display: inline-flex;
+		align-items: center;
+		align-self: center;
+		color: var(--ink-mute);
+		transition: color 0.2s;
+	}
+	.article-author-x:hover {
+		color: var(--accent);
 	}
 	.article-tags {
 		list-style: none;

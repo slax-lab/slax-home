@@ -1,0 +1,56 @@
+---
+interface Props {
+	src: string;
+	alt: string;
+	/** Which side the image sits on at desktop widths. Defaults to 'left'. */
+	side?: 'left' | 'right';
+}
+
+const { src, alt, side = 'left' } = Astro.props;
+---
+<div class:list={['image-text', side === 'right' && 'image-text-reverse']}>
+	<img src={src} alt={alt} loading="lazy" decoding="async" />
+	<div class="image-text-body">
+		<slot />
+	</div>
+</div>
+
+<style>
+	.image-text {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1.25rem;
+		align-items: center;
+		margin: 2.25rem 0;
+	}
+	@media (min-width: 700px) {
+		.image-text {
+			grid-template-columns: 1fr 1fr;
+			gap: 2.5rem;
+		}
+		.image-text-reverse {
+			direction: rtl;
+		}
+		.image-text-reverse > * {
+			direction: ltr;
+		}
+	}
+	.image-text img {
+		display: block;
+		width: 100%;
+		height: auto;
+		margin: 0;
+		border: 1px solid var(--rule-soft);
+		border-radius: 6px;
+		background: var(--bg-deep);
+	}
+	.image-text-body {
+		font-family: var(--serif);
+		font-size: 1.08rem;
+		line-height: 1.7;
+		color: var(--ink-soft);
+	}
+	.image-text-body :global(p) {
+		margin: 0;
+	}
+</style>
