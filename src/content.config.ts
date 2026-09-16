@@ -32,6 +32,8 @@ const blog = defineCollection({
 		translationOf: z.string().optional(),
 		/** Author slug from src/data/authors.ts. Defaults to DEFAULT_AUTHOR_SLUG. */
 		author: z.string().optional(),
+		/** Hide the description as the italic dek on the article page. SEO meta/list summaries still use it. */
+		hideDek: z.boolean().optional(),
 	}),
 });
 

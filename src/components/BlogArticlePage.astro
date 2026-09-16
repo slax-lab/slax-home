@@ -144,7 +144,7 @@ const breadcrumbs = [
 					)}
 				</div>
 				<h1>{post.data.title}</h1>
-				{post.data.description && (
+				{post.data.description && !post.data.hideDek && (
 					<p class="dek">{post.data.description}</p>
 				)}
 			</header>
