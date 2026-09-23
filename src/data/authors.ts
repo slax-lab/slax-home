@@ -47,6 +47,12 @@ export const AUTHORS: Record<string, Author> = {
 		role: 'Contributor, Slax Lab',
 		sameAs: ['https://x.com/xbuildingslax'],
 	},
+	jeremy: {
+		slug: 'jeremy',
+		name: 'Jeremy',
+		role: 'Contributor, Slax Lab',
+		sameAs: [],
+	},
 };
 
 export const DEFAULT_AUTHOR_SLUG = 'luca';
