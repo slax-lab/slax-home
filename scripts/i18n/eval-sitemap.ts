@@ -16,6 +16,7 @@ import { join } from 'node:path';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
+const PRIMARY_ORIGIN = 'https://www.slax.com';
 const LOCALES = [
 	'en',
 	'zh-Hans',
@@ -57,6 +58,9 @@ let alternateCount = 0;
 
 for (const childMatch of childMatches) {
 	const childUrl = childMatch[1];
+	if (!childUrl.startsWith(`${PRIMARY_ORIGIN}/`)) {
+		fail(`Sitemap child URL uses a non-primary origin: ${childUrl}`);
+	}
 	const filename = childUrl.split('/').pop() ?? '';
 	const childPath = join(DIST, filename);
 	if (!existsSync(childPath)) {
@@ -74,6 +78,9 @@ for (const childMatch of childMatches) {
 			continue;
 		}
 		const loc = locMatch[1];
+		if (!loc.startsWith(`${PRIMARY_ORIGIN}/`)) {
+			fail(`Sitemap loc uses a non-primary origin: ${loc}`);
+		}
 		if (allUrls.has(loc)) fail(`Duplicate <loc>: ${loc}`);
 		allUrls.add(loc);
 		// Check alternates
@@ -84,6 +91,9 @@ for (const childMatch of childMatches) {
 		];
 		for (const am of altMatches) {
 			alternateCount += 1;
+			if (!am[2].startsWith(`${PRIMARY_ORIGIN}/`)) {
+				fail(`Sitemap alternate uses a non-primary origin: ${am[2]}`);
+			}
 			if (!ALLOWED_HREFLANG.has(am[1])) {
 				fail(`Invalid hreflang "${am[1]}" in ${loc}`);
 			}

@@ -21,7 +21,7 @@ const LOCALES = [
 const DEFAULT_LOCALE = 'en';
 
 export default defineConfig({
-	site: 'https://slax.com',
+	site: 'https://www.slax.com',
 	server: {
 		port: 4321,
 	},
