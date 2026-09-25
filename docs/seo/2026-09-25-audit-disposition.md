@@ -90,4 +90,4 @@ After the final build:
 - `pnpm check:urls` — passed; 452 current URLs, 0 missing baseline URLs.
 - `git diff --check` — passed.
 
-`pnpm lint` still reports 2 errors and 256 warnings from pre-existing unused imports and other repository diagnostics in files outside this repair. The SEO changes themselves do not introduce those diagnostics.
+`pnpm lint` — passed after formatting the changed files; 0 errors, 256 existing warnings and 6 informational diagnostics remain. Many warnings concern imports referenced by Astro templates; no unsafe import-removal fixes were applied. The build also reports 3 existing CSS minifier warnings in the French Reader page.
