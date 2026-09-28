@@ -22,7 +22,9 @@ import { join, relative } from 'node:path';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
-const SITE = 'https://slax.com';
+// www.slax.com is the confirmed primary host. The apex domain intentionally
+// redirects here and must not appear in generated SEO URLs.
+const SITE = 'https://www.slax.com';
 const LOCALES = [
 	'en',
 	'zh-Hans',
