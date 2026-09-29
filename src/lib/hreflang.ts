@@ -6,7 +6,7 @@ import { DEFAULT_LOCALE, isLocale, LOCALES, type Locale } from '~/i18n/locales';
 // Site URL — keep in sync with astro.config.mjs `site` field.
 // Imported here as a string because content collection schemas and scripts
 // outside Astro can't read Astro.site.
-export const SITE = 'https://slax.com';
+export const SITE = 'https://www.slax.com';
 
 /**
  * Strip the leading locale prefix from a path.
@@ -61,7 +61,7 @@ export interface Alternate {
  * @param available    Which locales have a translation of this page.
  *                     Default: all LOCALES (use for static pages).
  *                     For content pages, pass only the locales that actually have the slug.
- * @param siteOrigin   Absolute origin (https://slax.com). Defaults to SITE constant.
+ * @param siteOrigin   Absolute origin (https://www.slax.com). Defaults to SITE constant.
  */
 export function buildAlternates(
 	currentPath: string,

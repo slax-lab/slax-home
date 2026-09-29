@@ -61,6 +61,18 @@ const canonical = buildCanonical(
 	Astro.url.pathname,
 	Astro.site?.toString() ?? SITE,
 );
+const organizationId = new URL('/#organization', SITE).toString();
+const websiteId = new URL('/#website', SITE).toString();
+const webpageId = `${canonical}#webpage`;
+const readerSoftwareId = new URL('/reader/#software', SITE).toString();
+const noteSoftwareId = new URL('/note/#software', SITE).toString();
+const PRODUCT_IDS = new Map([
+	['Slax Reader', readerSoftwareId],
+	['Slax Note', noteSoftwareId],
+]);
+const isHomepage =
+	Astro.url.pathname === '/' ||
+	LOCALES.some((locale) => Astro.url.pathname === `/${locale}/`);
 
 // 404 pages shouldn't broadcast hreflang — they aren't indexable.
 const isErrorPage =
@@ -76,15 +88,38 @@ const alternates = isErrorPage
 const defaultSiteSchema = {
 	'@context': 'https://schema.org',
 	'@type': 'WebSite',
+	'@id': websiteId,
 	name: 'Slax',
 	url: SITE,
 	inLanguage: htmlLang,
 	publisher: {
 		'@type': 'Organization',
+		'@id': organizationId,
 		name: 'Slax Lab',
 		url: SITE,
-		logo: new URL('/favicon.svg', SITE).toString(),
+		logo: new URL('/images/slax-logo.png', SITE).toString(),
+		sameAs: ['https://x.com/SlaxHQ', 'https://github.com/slax-lab'],
 	},
+};
+
+const defaultWebPageSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'WebPage',
+	'@id': webpageId,
+	url: canonical,
+	name: title,
+	description,
+	inLanguage: htmlLang,
+	isPartOf: { '@id': websiteId },
+	publisher: { '@id': organizationId },
+	...(isHomepage
+		? {
+				hasPart: [
+					{ '@type': 'SoftwareApplication', '@id': readerSoftwareId },
+					{ '@type': 'SoftwareApplication', '@id': noteSoftwareId },
+				],
+			}
+		: {}),
 };
 
 const breadcrumbSchema =
@@ -122,15 +157,58 @@ const INLANGUAGE_TYPES = new Set([
 	'WebSite',
 ]);
 
-const enrichedExtras = extraSchemas.map((s) => {
-	if (typeof s !== 'object' || s === null) return s;
-	if ('inLanguage' in s) return s;
-	const type = (s as { '@type'?: unknown })['@type'];
-	if (typeof type !== 'string' || !INLANGUAGE_TYPES.has(type)) return s;
-	return { ...s, inLanguage: htmlLang };
-});
+const enrichSchema = (value: unknown): unknown => {
+	if (Array.isArray(value)) return value.map(enrichSchema);
+	if (typeof value !== 'object' || value === null) return value;
 
-const schemaList = [defaultSiteSchema, ...enrichedExtras];
+	const object = value as Record<string, unknown>;
+	const type = object['@type'];
+	const enriched: Record<string, unknown> = {};
+	for (const [key, child] of Object.entries(object)) {
+		enriched[key] = enrichSchema(child);
+	}
+
+	if (type === 'Organization' && !('@id' in enriched)) {
+		if (enriched.name === 'Slax Lab') enriched['@id'] = organizationId;
+		if (enriched.name === 'Starry Tech Pte. Ltd.') {
+			enriched['@id'] = new URL('/#starry-tech', SITE).toString();
+		}
+	}
+	if (type === 'SoftwareApplication' && !('@id' in enriched)) {
+		const name = enriched.name;
+		const stableId =
+			typeof name === 'string' ? PRODUCT_IDS.get(name) : undefined;
+		if (stableId) enriched['@id'] = stableId;
+		const url = enriched.url;
+		if (!('@id' in enriched) && typeof url === 'string') {
+			enriched['@id'] = `${url.replace(/\/$/, '')}#software`;
+		}
+	}
+	if (type === 'WebPage' && !('@id' in enriched)) {
+		const url = enriched.url;
+		if (typeof url === 'string') enriched['@id'] = `${url}#webpage`;
+	}
+	if (
+		type &&
+		type !== 'Organization' &&
+		type !== 'Offer' &&
+		type !== 'UnitPriceSpecification' &&
+		type !== 'ItemList' &&
+		type !== 'BreadcrumbList' &&
+		type !== 'ListItem' &&
+		type !== 'ImageObject' &&
+		type !== 'Person' &&
+		INLANGUAGE_TYPES.has(type as string) &&
+		!('inLanguage' in enriched)
+	) {
+		enriched.inLanguage = htmlLang;
+	}
+	return enriched;
+};
+
+const enrichedExtras = extraSchemas.map(enrichSchema);
+
+const schemaList = [defaultSiteSchema, defaultWebPageSchema, ...enrichedExtras];
 
 const isDefaultLocale = lang === DEFAULT_LOCALE;
 ---
