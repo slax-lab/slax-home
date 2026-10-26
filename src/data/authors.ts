@@ -45,7 +45,7 @@ export const AUTHORS: Record<string, Author> = {
 		slug: 'lexie',
 		name: 'Lexie',
 		role: 'Contributor, Slax Lab',
-		sameAs: ['https://x.com/xbuildingslax'],
+		sameAs: ['https://x.com/SlaxReader'],
 	},
 	jeremy: {
 		slug: 'jeremy',
