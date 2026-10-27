@@ -2,7 +2,7 @@
 title: "Alternativa ao Omnivore 2026 — Slax Reader, open source e ativo"
 competitor: "Omnivore"
 description: "O Omnivore fechou no fim de 2024. Slax Reader é a alternativa Apache 2.0 open source ainda em desenvolvimento ativo — arquivos permanentes, IA, plano grátis."
-updatedDate: 2026-06-10T00:00:00.000Z
+updatedDate: 2026-10-24T00:00:00.000Z
 ---
 
 O Omnivore era amado. Open source, bem desenhado, gratuito, com comunidade ativa. Aí, no fim de 2024, o time anunciou que ia entrar para a ElevenLabs, e a versão hospedada apagou as luzes. Quem fazia self-host pôde continuar com a instância de pé, mas, para a maioria, isso não é opção de verdade.
@@ -41,7 +41,7 @@ Esta página é para quem escolheu o Omnivore *por causa* do código aberto e ag
 |---|---|---|
 | **Status** | ⚠️ Hospedado encerrado em 2024; só self-host | ✅ Ativo, hospedado + open source |
 | **Open source** | ✅ AGPL | ✅ Apache 2.0 |
-| **Opção de self-host** | ✅ (obrigatório agora) | 🚧 No roadmap |
+| **Opção de self-host** | ✅ (obrigatório agora) | ✅ Sua própria conta da Cloudflare |
 | **Artigos web** | ✅ | ✅ |
 | **Arquivos permanentes (anti-404)** | ✅ | ✅ Grátis para founding members |
 | **Destaques ilimitados** | ✅ | ✅ Grátis |
@@ -55,7 +55,7 @@ Esta página é para quem escolheu o Omnivore *por causa* do código aberto e ag
 | **RSS** | ✅ | 🚧 No roadmap |
 | **Sync com Obsidian / Notion / Logseq** | ✅ | 🚧 No roadmap |
 | **Multiplataforma (Web · iOS · Android · Mac)** | ✅ | ✅ |
-| **Importar do Omnivore** | — | 🚧 No roadmap |
+| **Importar do Omnivore** | — | ✅ Disponível |
 | **Preço** | Grátis (quando hospedado) | Grátis / US$ 5,99/mês |
 
 ---
@@ -111,9 +111,9 @@ Duas décadas tocando o mesmo negócio. O Slax Reader é o que a gente usa todo 
 
 ## Migrando do Omnivore
 
-Se você tem um export do Omnivore (JSON ou HTML — a função oficial "Export Library" ainda funciona nas instâncias self-hosted), a importação do Omnivore está no nosso roadmap. Vamos refazer o fetch de cada URL para um novo snapshot permanente do Slax, mantendo suas tags, datas e notas.
+Se você tem um export do Omnivore (a função oficial "Export Library" ainda funciona nas instâncias self-hosted), já pode importar: abra **Settings → Import third-party data** no Slax Reader, escolha **Omnivore** e siga os passos.
 
-[**Deixe seu e-mail →**](https://r.slax.com/) e te avisamos no dia em que a importação do Omnivore sair.
+[**Importe sua biblioteca do Omnivore →**](https://r.slax.com/)
 
 Se você não tem um export e a sua instância hospedada já se foi, você não está preso. Crie uma conta em [r.slax.com](https://r.slax.com/), comece a salvar coisas novas no Slax hoje e garanta os snapshots permanentes de founding member antes que o benefício feche.
 
@@ -133,7 +133,7 @@ Se o Slax Reader não encaixar:
 ## FAQ
 
 **Posso importar minha biblioteca do Omnivore?**
-A importação do Omnivore está no nosso roadmap. Se você tem um export em JSON ou HTML, hospedado ou self-hosted, [deixe seu e-mail](https://r.slax.com/) e a gente te avisa no dia em que sair.
+Sim. Abra **Settings → Import third-party data** no Slax Reader, escolha **Omnivore** e use o export da sua instância hospedada ou self-hosted.
 
 **Omnivore vs Readwise Reader — para onde os ex-usuários do Omnivore devem ir?**
 O Readwise Reader tem o conjunto maior de recursos (PDF, EPUB, transcrições do YouTube, TTS), mas é código fechado, custa US$ 9,99–12,99/mês e não tem plano grátis permanente. Se você escolheu o Omnivore justamente pelo open source, o Slax Reader mantém essa promessa: código Apache 2.0, plano grátis de founding member e arquivos permanentes. [Veja a comparação completa com o Readwise Reader →](/reader/alternatives/readwise-reader/)
@@ -145,7 +145,7 @@ Sim — Apache 2.0, no [GitHub](https://github.com/slax-lab). Frontend (Vue), ba
 AGPL é mais restritiva (modificações no servidor precisam ser abertas). Apache 2.0 é mais amigável para self-hosters, forks e integrações. A gente não quer dificultar a vida de quem remixa o nosso trabalho.
 
 **Posso fazer self-host do Slax Reader?**
-Self-host está no nosso roadmap. O código já é público, mas ainda não lançamos um Docker / instalador de um clique. Se isso é requisito para você, [nos avise](mailto:hi@slax.com) — é o pedido mais frequente dos refugiados do Omnivore.
+Sim. O código é totalmente público, e você já pode implantá-lo na sua própria conta da Cloudflare. Se precisar de ajuda para configurar, [nos avise](mailto:hi@slax.com).
 
 **E a minha privacidade?**
 Não vendemos dados. Seus dados de leitura são seus. Veja a [política de privacidade](https://r.slax.com/privacy).

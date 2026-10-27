@@ -2,7 +2,7 @@
 title: "Alternatif Omnivore 2026 — Slax Reader, open source & aktif"
 competitor: "Omnivore"
 description: "Omnivore tutup akhir 2024. Slax Reader alternatif Apache 2.0 open source yang masih aktif dirilis — arsip permanen, kerangka AI, tier gratis."
-updatedDate: 2026-06-10T00:00:00.000Z
+updatedDate: 2026-10-24T00:00:00.000Z
 ---
 
 Omnivore dicintai. Open source, dirancang baik, gratis, dengan komunitas aktif. Lalu di akhir 2024 timnya mengumumkan bergabung dengan ElevenLabs, dan versi hosted-nya padam. Self-hoster bisa terus menjalankan instance mereka, tapi untuk kebanyakan pengguna, itu bukan opsi nyata.
@@ -41,7 +41,7 @@ Halaman ini untuk siapa pun yang memilih Omnivore *karena* ia open source, dan s
 |---|---|---|
 | **Status** | ⚠️ Hosted tutup 2024; cuma self-host | ✅ Aktif, hosted + open source |
 | **Open source** | ✅ AGPL | ✅ Apache 2.0 |
-| **Opsi self-host** | ✅ (wajib sekarang) | 🚧 Roadmap |
+| **Opsi self-host** | ✅ (wajib sekarang) | ✅ Akun Cloudflare sendiri |
 | **Artikel web** | ✅ | ✅ |
 | **Arsip permanen (anti-404)** | ✅ | ✅ Gratis untuk founding member |
 | **Sorotan tanpa batas** | ✅ | ✅ Gratis |
@@ -55,7 +55,7 @@ Halaman ini untuk siapa pun yang memilih Omnivore *karena* ia open source, dan s
 | **RSS** | ✅ | 🚧 Roadmap |
 | **Sinkron Obsidian / Notion / Logseq** | ✅ | 🚧 Roadmap |
 | **Lintas-platform (Web · iOS · Android · Mac)** | ✅ | ✅ |
-| **Impor Omnivore** | — | 🚧 Roadmap |
+| **Impor Omnivore** | — | ✅ Didukung |
 | **Harga** | Gratis (saat hosted) | Gratis / $5.99/bulan |
 
 ---
@@ -111,9 +111,9 @@ Dua dekade menjalankan bisnis yang sama. Slax Reader yang kami pakai setiap hari
 
 ## Migrasi dari Omnivore
 
-Kalau kamu punya ekspor Omnivore (JSON atau HTML — fitur resmi "Export Library" masih bekerja di instance self-hosted), impor Omnivore ada di roadmap kami. Kami akan ambil ulang setiap URL ke snapshot permanen Slax yang baru, menjaga tag, tanggal, dan catatanmu.
+Kalau kamu punya ekspor Omnivore (fitur resmi "Export Library" masih bekerja di instance self-hosted), kamu sudah bisa mengimpornya: buka **Settings → Import third-party data** di Slax Reader, pilih **Omnivore**, lalu ikuti langkahnya.
 
-[**Tinggalkan emailmu →**](https://r.slax.com/) dan kami kabari pas impor Omnivore rilis.
+[**Impor perpustakaan Omnivore-mu →**](https://r.slax.com/)
 
 Kalau kamu tidak punya ekspor dan instance hosted-mu sudah hilang, kamu tidak buntu. Daftar di [r.slax.com](https://r.slax.com/), mulai menyimpan segar ke Slax hari ini, kunci snapshot permanen founding member sebelum benefit itu tutup.
 
@@ -133,7 +133,7 @@ Kalau Slax Reader belum pas:
 ## FAQ
 
 **Bisakah aku impor pustaka Omnivore-ku?**
-Impor Omnivore ada di roadmap kami. Kalau kamu punya ekspor JSON atau HTML dari instance hosted atau self-hosted, [tinggalkan emailmu](https://r.slax.com/) dan kami kabari pas rilis.
+Ya. Buka **Settings → Import third-party data** di Slax Reader, pilih **Omnivore**, dan pakai ekspor dari instance hosted atau self-hosted-mu.
 
 **Omnivore vs Readwise Reader — ke mana sebaiknya mantan pengguna Omnivore pindah?**
 Readwise Reader punya fitur lebih besar (PDF, EPUB, transkrip YouTube, TTS), tapi closed source, biayanya $9.99–$12.99/bulan, dan tidak punya tingkat gratis permanen. Kalau open source adalah alasanmu memilih Omnivore sejak awal, Slax Reader menjaga janji itu: kode Apache 2.0, tingkat gratis founding member, dan arsip permanen. [Perbandingan lengkap Readwise Reader →](/reader/alternatives/readwise-reader/)
@@ -145,7 +145,7 @@ Ya — Apache 2.0, di [GitHub](https://github.com/slax-lab). Frontend (Vue), bac
 AGPL lebih ketat (modifikasi sisi server harus dibuka). Apache 2.0 lebih ramah untuk self-hoster, fork, dan integrasi. Kami tidak mau membuat orang lebih sulit me-remix karya kami.
 
 **Bisakah aku self-host Slax Reader?**
-Self-hosting ada di roadmap kami. Kodenya sudah publik, tapi kami belum merilis instalasi Docker / satu-klik yang bersih. Kalau ini syarat keras buatmu, [beritahu kami](mailto:hi@slax.com) — ini paling banyak diminta dari pengungsi Omnivore.
+Ya. Kodenya sepenuhnya publik, dan kamu sudah bisa men-deploy-nya ke akun Cloudflare milikmu sendiri. Kalau butuh bantuan untuk menyiapkannya, [beritahu kami](mailto:hi@slax.com).
 
 **Bagaimana dengan privasiku?**
 Kami tidak menjual data. Data bacaan milikmu. Lihat [kebijakan privasi](https://r.slax.com/privacy) kami.

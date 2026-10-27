@@ -2,7 +2,7 @@
 title: "Omnivore 대안 2026 — Slax Reader, 오픈소스 & 활발"
 competitor: "Omnivore"
 description: "Omnivore는 2024년 말 종료. Slax Reader는 Apache 2.0 오픈소스로 여전히 활발히 출시 중 — 영구 아카이브, AI 아웃라인, 무료 등급."
-updatedDate: 2026-06-10T00:00:00.000Z
+updatedDate: 2026-10-24T00:00:00.000Z
 ---
 
 Omnivore 는 사랑받는 도구였습니다. 오픈소스, 잘 디자인됨, 무료, 활발한 커뮤니티. 그런데 2024 년 말, 팀은 ElevenLabs 에 합류한다고 발표했고, 호스팅 버전은 종료되었습니다. 셀프 호스터는 인스턴스를 계속 돌릴 수 있지만, 대부분의 사용자에겐 현실적인 선택지가 아닙니다.
@@ -41,7 +41,7 @@ Omnivore 난민 — 많이들 계실 텐데 — 이라면, Slax Reader 가 "Omni
 |---|---|---|
 | **상태** | ⚠️ 호스팅 2024 종료; 셀프 호스팅만 | ✅ 활성, 호스팅 + 오픈소스 |
 | **오픈소스** | ✅ AGPL | ✅ Apache 2.0 |
-| **셀프 호스팅 옵션** | ✅ (이제 필수) | 🚧 로드맵 |
+| **셀프 호스팅 옵션** | ✅ (이제 필수) | ✅ 본인 Cloudflare 계정 |
 | **웹 기사** | ✅ | ✅ |
 | **영구 아카이브 (anti-404)** | ✅ | ✅ 파운딩 멤버 무료 |
 | **무제한 하이라이트** | ✅ | ✅ 무료 |
@@ -55,7 +55,7 @@ Omnivore 난민 — 많이들 계실 텐데 — 이라면, Slax Reader 가 "Omni
 | **RSS** | ✅ | 🚧 로드맵 |
 | **Obsidian / Notion / Logseq 동기화** | ✅ | 🚧 로드맵 |
 | **크로스 플랫폼 (Web · iOS · Android · Mac)** | ✅ | ✅ |
-| **Omnivore 가져오기** | — | 🚧 로드맵 |
+| **Omnivore 가져오기** | — | ✅ 지원 |
 | **가격** | 무료 (호스팅 시) | 무료 / 월 5.99 달러 |
 
 ---
@@ -111,9 +111,9 @@ Slax Reader 에는 양방향 독자 토론이 있습니다: 문장을 하이라�
 
 ## Omnivore 에서 마이그레이션
 
-Omnivore 내보내기 (JSON 또는 HTML — 공식 "Export Library" 기능은 셀프 호스팅 인스턴스에서 여전히 동작) 가 있다면, Omnivore 가져오기는 로드맵에 있습니다. 각 URL 을 새 Slax 영구 스냅샷으로 다시 가져오고, 태그, 날짜, 노트를 보존합니다.
+Omnivore 내보내기 (공식 "Export Library" 기능은 셀프 호스팅 인스턴스에서 여전히 동작) 가 있다면 이제 바로 가져올 수 있습니다. Slax Reader 에서 **Settings → Import third-party data** 를 열고 **Omnivore** 를 선택한 뒤 안내를 따르세요.
 
-[**이메일을 남겨 주세요 →**](https://r.slax.com/) Omnivore 가져오기 출시일에 알려드리겠습니다.
+[**Omnivore 라이브러리 가져오기 →**](https://r.slax.com/)
 
 내보내기가 없고 호스팅 인스턴스가 사라졌다면, 막힌 게 아닙니다. [r.slax.com](https://r.slax.com/) 에서 가입하고, 오늘부터 Slax 에 새로 저장하기 시작하고, 그 혜택이 종료되기 전에 파운딩 멤버 영구 스냅샷을 확보하세요.
 
@@ -133,7 +133,7 @@ Slax Reader 가 딱 맞지 않다면:
 ## 자주 묻는 질문
 
 **Omnivore 라이브러리를 가져올 수 있나요?**
-Omnivore 가져오기는 로드맵에 있습니다. 호스팅 또는 셀프 호스팅 인스턴스에서 JSON 또는 HTML 내보내기를 가지고 계시다면 [이메일을 남겨 주세요](https://r.slax.com/) 출시되는 날 알려드리겠습니다.
+네. Slax Reader 에서 **Settings → Import third-party data** 를 열고 **Omnivore** 를 선택한 뒤, 호스팅 또는 셀프 호스팅 인스턴스의 내보내기 파일을 사용하세요.
 
 **Omnivore vs Readwise Reader — Omnivore 난민은 어디로 가야 하나요?**
 Readwise Reader 가 더 큰 기능 세트 (PDF, EPUB, YouTube 자막, TTS) 를 갖췄지만, 클로즈드 소스이고, 월 9.99-12.99 달러이며, 영구 무료 티어가 없습니다. 애초에 오픈소스라서 Omnivore 를 선택하셨다면, Slax Reader 가 그 약속을 지킵니다: Apache 2.0 코드, 무료 파운딩 멤버 티어, 영구 아카이브. [Readwise Reader 전체 비교 →](/reader/alternatives/readwise-reader/)
@@ -145,7 +145,7 @@ Readwise Reader 가 더 큰 기능 세트 (PDF, EPUB, YouTube 자막, TTS) 를 �
 AGPL 은 더 엄격합니다 (서버 측 수정도 공개 필수). Apache 2.0 은 셀프 호스터, 포크, 통합에 더 친절합니다. 사람들이 작업물을 리믹스하는 걸 더 어렵게 만들고 싶지 않습니다.
 
 **Slax Reader 를 셀프 호스팅할 수 있나요?**
-셀프 호스팅은 로드맵에 있습니다. 코드는 이미 공개되어 있지만 깔끔한 Docker / 원클릭 설치는 아직 출시되지 않았습니다. 이게 강한 필수 조건이라면 [알려 주세요](mailto:hi@slax.com) — Omnivore 난민들에게 가장 많이 요청되는 항목입니다.
+네. 코드는 완전히 공개되어 있고, 지금 바로 본인의 Cloudflare 계정에 배포할 수 있습니다. 설정에 도움이 필요하면 [알려 주세요](mailto:hi@slax.com).
 
 **개인정보는 어떻게 되나요?**
 데이터를 팔지 않습니다. 독서 데이터는 사용자의 것입니다. [개인정보 처리방침](https://r.slax.com/privacy) 을 참조하세요.

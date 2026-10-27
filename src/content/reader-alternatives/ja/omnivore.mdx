@@ -2,7 +2,7 @@
 title: "Omnivore 代替 2026 — Slax Reader、オープンソース＆活動中"
 competitor: "Omnivore"
 description: "Omnivore は 2024 年末に終了。Slax Reader は Apache 2.0 オープンソースで現在も活発に開発中——永続アーカイブ、AI アウトライン、無料枠あり。"
-updatedDate: 2026-06-10T00:00:00.000Z
+updatedDate: 2026-10-24T00:00:00.000Z
 ---
 
 Omnivore は愛されていました。オープンソース、よく設計され、無料、活発なコミュニティ。それが 2024 年末、チームが ElevenLabs に加わると発表し、ホスト版は落ちました。セルフホスト派はインスタンスを動かし続けられますが、ほとんどのユーザーにとってそれは現実的な選択肢ではありません。
@@ -41,7 +41,7 @@ Omnivore 難民なら——たくさんいます——Slax Reader が「Omnivore
 |---|---|---|
 | **状態** | ⚠️ ホストは 2024 年に終了、セルフホストのみ | ✅ アクティブ、ホスト＋オープンソース |
 | **オープンソース** | ✅ AGPL | ✅ Apache 2.0 |
-| **セルフホストオプション** | ✅（現在必須） | 🚧 ロードマップ |
+| **セルフホストオプション** | ✅（現在必須） | ✅ ご自身の Cloudflare アカウント |
 | **Web 記事** | ✅ | ✅ |
 | **永続アーカイブ（404 対策）** | ✅ | ✅ 創設メンバーは無料 |
 | **無制限ハイライト** | ✅ | ✅ 無料 |
@@ -55,7 +55,7 @@ Omnivore 難民なら——たくさんいます——Slax Reader が「Omnivore
 | **RSS** | ✅ | 🚧 ロードマップ |
 | **Obsidian／Notion／Logseq 同期** | ✅ | 🚧 ロードマップ |
 | **クロスプラットフォーム（Web・iOS・Android・Mac）** | ✅ | ✅ |
-| **Omnivore インポート** | — | 🚧 ロードマップ |
+| **Omnivore インポート** | — | ✅ 対応済み |
 | **価格** | 無料（ホスト時） | 無料 / $5.99/月 |
 
 ---
@@ -111,9 +111,9 @@ Slax Reader には双方向の読者ディスカッションがあります：�
 
 ## Omnivore から移行
 
-Omnivore のエクスポート（JSON または HTML——公式の「Export Library」機能はセルフホストインスタンスで今も動きます）があれば、Omnivore インポートはロードマップ上です。各 URL を新しい Slax 永続スナップショットとして再取得し、タグ、日付、メモを保持します。
+Omnivore のエクスポート（公式の「Export Library」機能はセルフホストインスタンスで今も使えます）があれば、今すぐインポートできます。Slax Reader で **Settings → Import third-party data** を開き、**Omnivore** を選んで手順に従ってください。
 
-[**メールを登録 →**](https://r.slax.com/) Omnivore インポートがリリースされた日にお知らせします。
+[**Omnivore のライブラリをインポート →**](https://r.slax.com/)
 
 エクスポートがなく、ホストインスタンスが消えていても、行き詰まりではありません。[r.slax.com](https://r.slax.com/) で登録し、今日から Slax に新規保存を始め、その特典が閉じる前に創設メンバー永続スナップショットを確保してください。
 
@@ -133,7 +133,7 @@ Slax Reader が合わない場合：
 ## よくある質問
 
 **Omnivore のライブラリをインポートできる？**
-Omnivore インポートはロードマップ上です。ホストまたはセルフホストインスタンスからの JSON または HTML エクスポートがあれば、[メールを登録](https://r.slax.com/)していただければリリース日にお知らせします。
+はい。Slax Reader で **Settings → Import third-party data** を開き、**Omnivore** を選んで、ホストまたはセルフホストインスタンスのエクスポートを使ってください。
 
 **Omnivore vs Readwise Reader——元 Omnivore ユーザーはどこへ行くべき？**
 Readwise Reader の方が機能セットは大きい（PDF、EPUB、YouTube 文字起こし、TTS）ですが、クローズドソースで、$9.99 〜 $12.99/月かかり、永久無料ティアはありません。そもそもオープンソースだから Omnivore を選んだのなら、Slax Reader はその約束を守ります：Apache 2.0 のコード、無料の創設メンバーティア、そして永続アーカイブ。[Readwise Reader とのフル比較 →](/reader/alternatives/readwise-reader/)
@@ -145,7 +145,7 @@ Readwise Reader の方が機能セットは大きい（PDF、EPUB、YouTube 文�
 AGPL の方が厳格です（サーバーサイド改変もオープンが必須）。Apache 2.0 はセルフホスター、フォーク、統合により優しい。私たちの仕事をリミックスするのを難しくしたくない。
 
 **Slax Reader をセルフホストできる？**
-セルフホストはロードマップ上です。コードはすでに公開ですが、清潔な Docker／ワンクリックインストールはまだ出荷していません。これがあなたにとって必須なら、[教えてください](mailto:hi@slax.com)——Omnivore 難民から最もリクエストの多い項目です。
+はい。コードは完全に公開されており、すでにご自身の Cloudflare アカウントにデプロイできます。セットアップで困ったら、[教えてください](mailto:hi@slax.com)。
 
 **プライバシーは？**
 データは売りません。読書データはあなたのものです。[プライバシーポリシー](https://r.slax.com/privacy)をご覧ください。
