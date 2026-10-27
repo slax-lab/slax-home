@@ -17,3 +17,11 @@
 # Old /compare/ pages now live under /reader/alternatives/.
 /compare/slax-reader-vs-instapaper/                                     /reader/alternatives/instapaper/                                                      301
 /compare/*                                                              /reader/alternatives/                                                                 301
+
+# Import guides merged into three new guides (2026-10).
+/blog/import-pocket-bookmarks/                                          /blog/import-pocket-omnivore-bookmarks/                                               301
+/blog/import-omnivore-bookmarks/                                        /blog/import-pocket-omnivore-bookmarks/                                               301
+/blog/move-from-readwise-reader-or-matter/                              /blog/import-readwise-instapaper-pinboard/                                            301
+/:lang/blog/import-pocket-bookmarks/                                    /:lang/blog/import-pocket-omnivore-bookmarks/                                         301
+/:lang/blog/import-omnivore-bookmarks/                                  /:lang/blog/import-pocket-omnivore-bookmarks/                                         301
+/:lang/blog/move-from-readwise-reader-or-matter/                        /:lang/blog/import-readwise-instapaper-pinboard/                                      301

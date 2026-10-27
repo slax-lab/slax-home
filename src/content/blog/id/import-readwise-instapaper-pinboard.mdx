@@ -1,0 +1,81 @@
+---
+title: "Impor dari Readwise Reader, Instapaper, atau Pinboard: Panduan Langkah demi Langkah"
+description: "Pindahkan library Readwise Reader, Instapaper, atau Pinboard-mu ke Slax Reader dengan sekali unggah. Link, judul, tag, tanggal simpan, dan status arsip ikut pindah. Gratis."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Mau meninggalkan Readwise Reader, Instapaper, atau Pinboard? Slax Reader punya impor sekali klik untuk ketiganya. Ekspor library dari aplikasi lama, unggah file-nya di Slax Reader, cek angkanya, dan bookmark-mu tiba lengkap dengan tag dan tanggal simpan aslinya. Impor gratis.
+
+## Sebelum mulai
+
+- **Akun Slax Reader.** [Daftar atau masuk](https://r.slax.com).
+- **Satu file per impor,** maksimal 25 MiB dan 10.000 bookmark. Library-nya lebih besar? Pecah jadi beberapa file kecil dan impor satu per satu. Sampai lima impor bisa berjalan bersamaan.
+
+## Langkah 1: Ekspor library-mu
+
+### Dari Readwise Reader
+
+Buka halaman **Account profile** dan pilih **Export Library as CSV** di bagian "Export account data". Kamu juga bisa membuka Command Palette dan mencari "Generate CSV export". [Panduan ekspor Readwise](https://docs.readwise.io/reader/docs/faqs/exporting) berisi langkah terbarunya. Kamu akan mendapat file `.csv`.
+
+### Dari Instapaper
+
+Masuk di instapaper.com, buka **Settings**, lalu unduh ekspor **CSV**. Kamu akan mendapat file `.csv`.
+
+### Dari Pinboard
+
+Masuk di pinboard.in, buka **Settings → Backup**, lalu unduh bookmark-mu. JSON pilihan paling aman, tapi backup HTML dan XML juga bisa.
+
+## Langkah 2: Impor file-nya ke Slax Reader
+
+1. **Buka Settings.** Masuk di [r.slax.com](https://r.slax.com), arahkan mouse ke avatarmu, lalu klik **Setting**.
+2. **Buka Data.** Klik **Data** di menu pengaturan dan cari kartu **Import third-party data**.
+3. **Klik tombol aplikasimu:** **Readwise Reader**, **Instapaper**, atau **Pinboard**. Lalu pilih file yang sudah kamu ekspor.
+4. **Cek angkanya.** Jendela **Confirm import** menampilkan berapa bookmark yang akan diimpor, serta berapa duplikat yang digabung atau baris tidak valid yang dilewati. Untuk Readwise Reader, item feed RSS dan newsletter tidak ikut kecuali kamu mencentang **Include feed articles**.
+5. **Klik Start import.** Pesan **File received** menampilkan jumlah bookmark. Sekarang semuanya diimpor di latar belakang.
+6. **Cek progresnya.** Klik **View import progress**. Saat Status menunjukkan **Complete**, buka Inbox-mu.
+
+Kamu bisa menutup jendelanya dan lanjut membaca selama proses berjalan. Slax Reader mengambil ulang setiap halaman untuk menyimpan salinan baru, jadi library besar butuh waktu.
+
+## Apa saja yang ikut pindah
+
+| Dari ekspormu | Readwise Reader | Instapaper | Pinboard |
+|---|---|---|---|
+| Link dan judul | ✅ | ✅ | ✅ |
+| Tag | ✅ | ✅ Folder lain juga menjadi tag | ✅ |
+| Tanggal simpan asli | ✅ | ✅ | ✅ |
+| Item yang diarsipkan | ✅ Tetap diarsipkan | ✅ Folder Archive tetap diarsipkan | ✅ Item yang tidak ditandai "to read" masuk ke arsip |
+| Item berbintang (Starred) | ✗ | ✅ Folder Starred tetap berbintang | ✗ |
+| Highlight dan catatan | ✗ Simpan ekspormu | ✗ Simpan ekspormu | ✗ Simpan ekspormu |
+
+Kalau link yang sama muncul dua kali, Slax Reader menyimpan satu bookmark dan menggabungkan tag-nya. Kalau tanggalnya tidak terbaca, bookmark itu memakai tanggal impor, dan jendela **Confirm import** memberi tahu berapa jumlahnya.
+
+## Kalau ada link yang gagal
+
+Pasti ada beberapa: halaman yang sudah dihapus, situs yang memblokir kunjungan otomatis, link yang butuh login.
+
+1. Di **Import progress**, klik angka di kolom **Failed**.
+2. Jendela **Import Failures** menampilkan daftarnya. Buka halaman aslinya untuk melihat apakah masih ada.
+3. Kalau masih ada, simpan lagi dengan [ekstensi browser Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd).
+4. Centang sisanya dan klik **Batch Delete**, atau pakai **Delete All** untuk mengosongkan daftar.
+
+**File-nya ditolak?** Pastikan kamu memilih tombol aplikasi yang sesuai, dan file-nya adalah file asli hasil ekspor aplikasi, bukan yang dibuka lalu disimpan ulang di spreadsheet. Readwise Reader dan Instapaper butuh file `.csv`; Pinboard menerima `.json`, `.html`, atau `.xml`.
+
+## FAQ
+
+### Apakah impor gratis?
+Ya. Kamu bisa mengimpor dari Readwise Reader, Instapaper, dan Pinboard ke Slax Reader secara gratis.
+
+### Apakah highlight saya akan hilang?
+Highlight tidak ikut pindah, tapi juga tidak hilang. Semuanya tetap ada di aplikasi lamamu, jadi simpan ekspornya.
+
+### Bisakah saya tetap memakai aplikasi lama untuk sementara?
+Bisa. Banyak orang memakai keduanya berdampingan selama beberapa minggu. Kalau kamu impor lagi nanti, link yang sudah ada akan digabung, bukan diduplikasi.
+
+## Pindah dari aplikasi lain?
+
+Datang dari Pocket atau Omnivore? Lihat [cara mengimpor bookmark Pocket atau Omnivore](/blog/import-pocket-omnivore-bookmarks/). Memakai Matter, Raindrop, atau aplikasi tanpa tombol impor? Ini [cara memindahkan link secara manual](/blog/move-from-matter-and-other-read-later-apps/). Masih membandingkan? Lihat Slax Reader dibandingkan dengan [Readwise Reader](/reader/alternatives/readwise-reader/) dan [Instapaper](/reader/alternatives/instapaper/), atau [perbandingan lengkap aplikasi read-it-later](/blog/read-later-comparison-matrix-2026/).
+
+[Buka Slax Reader](https://r.slax.com) dan mulai impor.

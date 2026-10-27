@@ -1,0 +1,81 @@
+---
+title: "从 Readwise Reader、Instapaper 或 Pinboard 导入：分步指南"
+description: "上传一次，就能把 Readwise Reader、Instapaper 或 Pinboard 的资料库搬到 Slax Reader。链接、标题、标签、保存日期和归档状态都会一起迁移。免费。"
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+准备离开 Readwise Reader、Instapaper 或 Pinboard？Slax Reader 对这三个应用都支持一键导入。从旧应用导出资料库，在 Slax Reader 上传文件，核对一下数字，你的书签就会连同标签和原始保存日期一起到达。导入免费。
+
+## 开始之前
+
+- **一个 Slax Reader 账号。** [注册或登录](https://r.slax.com)。
+- **每次导入一个文件，** 最大 25 MiB、10,000 条书签。资料库更大？把它拆成几个小文件，依次导入。最多可以同时进行五个导入。
+
+## 第 1 步：导出你的资料库
+
+### 从 Readwise Reader
+
+打开 **Account profile** 页面，在 "Export account data" 下选择 **Export Library as CSV**。也可以打开 Command Palette，搜索 "Generate CSV export"。最新步骤见 [Readwise 的导出说明](https://docs.readwise.io/reader/docs/faqs/exporting)。你会得到一个 `.csv` 文件。
+
+### 从 Instapaper
+
+登录 instapaper.com，打开 **Settings**，下载 **CSV** 导出。你会得到一个 `.csv` 文件。
+
+### 从 Pinboard
+
+登录 pinboard.in，打开 **Settings → Backup**，下载你的书签。JSON 最稳妥，HTML 和 XML 备份也可以用。
+
+## 第 2 步：把文件导入 Slax Reader
+
+1. **打开设置。** 登录 [r.slax.com](https://r.slax.com)，把鼠标移到头像上，点击 **Setting**。
+2. **进入 Data。** 在设置菜单里点击 **Data**，找到 **Import third-party data** 卡片。
+3. **点击对应应用的按钮：** **Readwise Reader**、**Instapaper** 或 **Pinboard**。然后选择你导出的文件。
+4. **核对数字。** **Confirm import** 窗口会显示将导入多少条书签，以及合并了多少重复项、跳过了多少无效行。对于 Readwise Reader，RSS 和邮件订阅（newsletter）的 feed 条目默认不导入，除非你勾选 **Include feed articles**。
+5. **点击 Start import。** 出现 **File received** 提示，并显示书签数量。之后它们会在后台导入。
+6. **查看进度。** 点击 **View import progress**。Status 显示 **Complete** 后，打开你的 Inbox。
+
+导入过程中你可以关掉窗口继续阅读。Slax Reader 会重新抓取每个页面，保存一份新的副本，所以大的资料库需要一些时间。
+
+## 哪些内容会迁移过来
+
+| 导出文件中的内容 | Readwise Reader | Instapaper | Pinboard |
+|---|---|---|---|
+| 链接和标题 | ✅ | ✅ | ✅ |
+| 标签 | ✅ | ✅ 其他文件夹也会变成标签 | ✅ |
+| 原始保存日期 | ✅ | ✅ | ✅ |
+| 已归档的条目 | ✅ 保持归档 | ✅ Archive 文件夹保持归档 | ✅ 未标记 "to read" 的条目进入归档 |
+| 加星条目（Starred） | ✗ | ✅ Starred 文件夹保持加星 | ✗ |
+| 高亮和笔记 | ✗ 请保留导出文件 | ✗ 请保留导出文件 | ✗ 请保留导出文件 |
+
+如果同一个链接出现两次，Slax Reader 只保留一条书签，并合并标签。如果某个日期无法识别，那条书签会使用导入日期，**Confirm import** 窗口会告诉你有多少条。
+
+## 如果部分链接失败
+
+总会有一些：页面已删除、网站屏蔽自动访问、需要登录才能看的链接。
+
+1. 在 **Import progress** 中，点击 **Failed** 列里的数字。
+2. **Import Failures** 窗口会列出这些链接。打开原始页面，看看它还在不在。
+3. 如果还在，用 [Slax Reader 浏览器扩展](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd)重新保存。
+4. 勾选剩下的条目，点击 **Batch Delete**，或者用 **Delete All** 清空列表。
+
+**文件被拒绝？** 检查你点的是不是对应应用的按钮，以及文件是不是应用直接导出的那个，而不是用表格软件打开后另存的。Readwise Reader 和 Instapaper 需要 `.csv` 文件；Pinboard 支持 `.json`、`.html` 或 `.xml`。
+
+## 常见问题
+
+### 导入免费吗？
+免费。你可以免费从 Readwise Reader、Instapaper 和 Pinboard 导入到 Slax Reader。
+
+### 我的高亮会丢吗？
+高亮不会迁移过来，但也不会消失。它们还留在旧应用里，记得保留一份导出。
+
+### 可以先继续用旧应用一段时间吗？
+可以。很多人会两个一起用几周。之后如果再导入一次，已有的链接会被合并，不会重复。
+
+## 从其他应用迁移？
+
+从 Pocket 或 Omnivore 过来？看看[如何导入 Pocket 或 Omnivore 书签](/blog/import-pocket-omnivore-bookmarks/)。用的是 Matter、Raindrop 或没有导入按钮的应用？看看[如何手动迁移链接](/blog/move-from-matter-and-other-read-later-apps/)。还在比较？看看 Slax Reader 和 [Readwise Reader](/reader/alternatives/readwise-reader/)、[Instapaper](/reader/alternatives/instapaper/) 的对比，或者[稍后读应用完整对比](/blog/read-later-comparison-matrix-2026/)。
+
+[打开 Slax Reader](https://r.slax.com)，开始导入。

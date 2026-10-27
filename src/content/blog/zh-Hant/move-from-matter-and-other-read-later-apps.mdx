@@ -1,0 +1,78 @@
+---
+title: "從 Matter 或其他稍後閱讀 App 搬家：簡明指南"
+description: "你的 App 沒有匯入按鈕？從 Matter、Raindrop、Cubox、GoodLinks 或其他 App 整理出連結清單，免費保存到 Slax Reader。大型收藏庫一行指令搞定。"
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Slax Reader 支援一鍵匯入 [Pocket 和 Omnivore](/blog/import-pocket-omnivore-bookmarks/)，以及 [Readwise Reader、Instapaper 和 Pinboard](/blog/import-readwise-instapaper-pinboard/)。對於 Matter 和其他沒有匯入按鈕的 App，方法要多花一點功夫，但步驟依然很短：先整理出連結清單，再把它們保存進來。免費。
+
+## 開始之前
+
+- **一個 Slax Reader 帳號。** [註冊或登入](https://r.slax.com)。
+- **大致想好要留下什麼。** 不必全部搬過來。很多人只帶走還打算讀的內容。
+
+## 第 1 步：整理出連結清單
+
+不管你離開的是哪個 App，最後都會得到一個叫 `links.txt` 的純文字檔，每行一個連結。
+
+### 從 Matter
+
+先在 Matter 的設定裡找找有沒有匯出選項。如果它給不了一個包含連結的檔案，就只能手動來：打開每篇想保留的文章，複製它的原始網址，貼到 `links.txt` 裡。如果你在文章裡畫過線，Matter 的畫線 Markdown 匯出會附上原文連結，能省掉一些複製的功夫。
+
+### 從 Raindrop、Cubox、GoodLinks 或其他 App
+
+在 App 設定裡找匯出選項，通常是 CSV、HTML 或 JSON 檔案。打開它，複製包含連結的那一欄或那幾行，貼到 `links.txt`。如果沒有匯出功能，就像 Matter 那樣手動收集連結。
+
+## 第 2 步：把連結保存到 Slax Reader
+
+**只有幾個連結？** 逐一打開，點擊 [Slax Reader 瀏覽器擴充功能](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd)，一鍵就能保存頁面。
+
+**連結很多？** 用命令列。需要 Node.js 22 或 24。在 Slax Reader 的 **Settings → Skills + CLI → Generate and copy** 取得 API 金鑰，然後安裝 CLI，用金鑰登入。請妥善保管金鑰。
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+接著，在 Mac 或 Linux 上：
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-matter"; done < links.txt
+```
+
+在 Windows PowerShell 中：
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-matter" }
+```
+
+每個連結會逐條保存並加上標籤，方便你找到這一整批。可以把 `from-matter` 換成 `from-raindrop` 或任何你喜歡的標籤。清單很長的話，分成小批執行，中間看看你的 Inbox。
+
+## 哪些內容會搬過來
+
+| 舊 App 中的內容 | 在 Slax Reader 中 |
+|---|---|
+| 網頁連結 | 保存為書籤，附帶每個頁面的新副本，並加上你的批次標籤 |
+| 原始保存日期 | 不保留；以你保存的當天為準 |
+| 畫線和筆記 | 留在舊 App 裡，請保留它的匯出 |
+| 不是網頁的項目，例如上傳的檔案 | 本文不涵蓋 |
+
+## 常見問題
+
+### 搬移收藏庫免費嗎？
+免費。你可以免費把收藏庫搬到 Slax Reader。
+
+### 我的畫線會不見嗎？
+畫線不會搬過來，但也不會消失。它們還留在舊 App 裡，記得保留一份匯出。
+
+### 為什麼用命令列，而不是匯入按鈕？
+設定裡有 Pocket、Omnivore、Readwise Reader、Instapaper 和 Pinboard 的匯入按鈕。對於其他 App，直接保存連結是最快的辦法。
+
+## 還在比較？
+
+看看 Slax Reader 和 [Matter](/reader/alternatives/matter/)、[Raindrop](/reader/alternatives/raindrop/)、[Cubox](/reader/alternatives/cubox/)、[GoodLinks](/reader/alternatives/goodlinks/) 的比較，或是[稍後閱讀 App 完整比較](/blog/read-later-comparison-matrix-2026/)。
+
+[打開 Slax Reader](https://r.slax.com)，開始搬移你的連結。

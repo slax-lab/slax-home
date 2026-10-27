@@ -1,0 +1,78 @@
+---
+title: "Pindah dari Matter atau Aplikasi Read-Later Lain: Panduan Singkat"
+description: "Aplikasimu tidak punya tombol impor? Ambil daftar link dari Matter, Raindrop, Cubox, GoodLinks, atau aplikasi lain, lalu simpan ke Slax Reader secara gratis. Satu perintah untuk library besar."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Slax Reader punya impor sekali klik untuk [Pocket dan Omnivore](/blog/import-pocket-omnivore-bookmarks/) serta untuk [Readwise Reader, Instapaper, dan Pinboard](/blog/import-readwise-instapaper-pinboard/). Untuk Matter dan aplikasi lain tanpa tombol impor, caranya butuh sedikit usaha tapi tetap singkat: ambil daftar link-mu, lalu simpan. Gratis.
+
+## Sebelum mulai
+
+- **Akun Slax Reader.** [Daftar atau masuk](https://r.slax.com).
+- **Gambaran kasar apa yang mau disimpan.** Kamu tidak harus memindahkan semuanya. Banyak orang hanya membawa yang masih ingin mereka baca.
+
+## Langkah 1: Ambil daftar link-mu
+
+Apa pun aplikasi yang kamu tinggalkan, hasilnya adalah file teks biasa bernama `links.txt`, satu link per baris.
+
+### Dari Matter
+
+Cek dulu opsi ekspor di pengaturan Matter. Kalau tidak menghasilkan file berisi link-mu, ini harus manual: buka setiap artikel yang ingin disimpan, salin alamat web aslinya, dan tempel ke `links.txt`. Kalau kamu pernah meng-highlight sebuah artikel, ekspor Markdown highlight dari Matter biasanya menyertakan link ke artikel aslinya, jadi bisa menghemat waktu menyalin.
+
+### Dari Raindrop, Cubox, GoodLinks, atau aplikasi lain
+
+Cari opsi ekspor di pengaturan aplikasinya. Biasanya berupa file CSV, HTML, atau JSON. Buka file-nya, salin kolom atau baris yang berisi link, dan tempel ke `links.txt`. Kalau tidak ada ekspor, kumpulkan link-nya secara manual, seperti di Matter.
+
+## Langkah 2: Simpan link-nya di Slax Reader
+
+**Hanya beberapa link?** Buka satu per satu dan klik [ekstensi browser Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd). Halamannya tersimpan dengan sekali klik.
+
+**Banyak link?** Pakai command line. Butuh Node.js 22 atau 24. Ambil API key di Slax Reader lewat **Settings → Skills + CLI → Generate and copy**, lalu instal CLI dan login dengan key tersebut. Jaga key-nya tetap rahasia.
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+Lalu, di Mac atau Linux:
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-matter"; done < links.txt
+```
+
+Di Windows PowerShell:
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-matter" }
+```
+
+Setiap link disimpan satu per satu dan diberi tag, jadi seluruh batch mudah ditemukan. Ganti `from-matter` dengan `from-raindrop` atau tag apa pun. Kalau daftarnya sangat panjang, jalankan dalam potongan kecil dan cek Inbox-mu di sela-selanya.
+
+## Apa saja yang ikut pindah
+
+| Dari aplikasi lamamu | Di Slax Reader |
+|---|---|
+| Link web | Bookmark tersimpan dengan salinan baru setiap halaman, diberi tag nama batch-mu |
+| Tanggal simpan asli | Tidak ikut; link memakai tanggal saat kamu menyimpannya |
+| Highlight dan catatan | Tetap di aplikasi lama, jadi simpan ekspornya |
+| Item yang bukan halaman web, seperti file yang diunggah | Tidak dibahas di sini |
+
+## FAQ
+
+### Apakah memindahkan library gratis?
+Ya. Kamu bisa memindahkan library-mu ke Slax Reader secara gratis.
+
+### Apakah highlight saya akan hilang?
+Highlight tidak ikut pindah, tapi juga tidak hilang. Semuanya tetap ada di aplikasi lamamu, jadi simpan ekspornya.
+
+### Kenapa pakai command line dan bukan tombol impor?
+Settings punya tombol impor untuk Pocket, Omnivore, Readwise Reader, Instapaper, dan Pinboard. Untuk aplikasi lain, menyimpan link adalah cara tercepat.
+
+## Masih membandingkan?
+
+Lihat Slax Reader dibandingkan dengan [Matter](/reader/alternatives/matter/), [Raindrop](/reader/alternatives/raindrop/), [Cubox](/reader/alternatives/cubox/), dan [GoodLinks](/reader/alternatives/goodlinks/), atau [perbandingan lengkap aplikasi read-it-later](/blog/read-later-comparison-matrix-2026/).
+
+[Buka Slax Reader](https://r.slax.com) dan mulai pindahkan link-mu.

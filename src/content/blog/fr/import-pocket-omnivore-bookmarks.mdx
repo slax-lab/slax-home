@@ -1,0 +1,70 @@
+---
+title: "Importer ses favoris Pocket ou Omnivore : guide étape par étape"
+description: "Pocket et Omnivore ont fermé, mais vos fichiers d’export fonctionnent toujours. Importez le ZIP dans les réglages de Slax Reader pour retrouver vos liens, titres et tags. Gratuit."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Pocket et Omnivore ont tous deux fermé, mais vos liens enregistrés n’ont pas à disparaître avec eux. Si vous avez gardé votre fichier d’export, vous pouvez importer vos favoris Pocket ou Omnivore dans Slax Reader en un seul envoi. L’import est gratuit, et Slax Reader s’occupe de la partie la plus longue en arrière-plan.
+
+## Avant de commencer
+
+- **Votre fichier d’export.** Les deux applis exportent un ZIP. Ne le décompressez pas : Slax Reader l’ouvre pour vous.
+  - **Pocket :** un ZIP contenant un ou plusieurs fichiers CSV nommés par exemple `part_000000.csv`. Pocket a cessé d’enregistrer le 8 juillet 2025, et [la dernière date limite d’export était le 12 novembre 2025](https://www.vice.com/en/article/mozilla-pocket-gets-one-month-reprieve/).
+  - **Omnivore :** un ZIP contenant des fichiers JSON nommés par exemple `metadata_0_to_50.json`. Omnivore [a fermé le 15 novembre 2024, après que son équipe a rejoint ElevenLabs](https://5typos.net/2024/10/29/omnivore-is-shutting-down-and-team-joining-elevenlabs).
+- **Plus de nouvel export.** Aucune des deux applis ne peut créer de nouveau fichier, cherchez donc celui que vous avez gardé. Fouillez votre dossier Téléchargements, vos e-mails et votre stockage en ligne avec « pocket », « omnivore » ou « metadata_ ».
+- **Un compte Slax Reader.** [Inscrivez-vous ou connectez-vous](https://r.slax.com).
+- **Taille maximale.** Le ZIP peut faire jusqu’à 25 Mio.
+
+## Importer votre export en cinq étapes
+
+1. **Ouvrez les réglages.** Connectez-vous sur [r.slax.com](https://r.slax.com), passez la souris sur votre avatar et cliquez sur **Setting**.
+2. **Allez dans Data.** Cliquez sur **Data** dans le menu des réglages et trouvez la carte **Import third-party data**.
+3. **Cliquez sur Pocket ou Omnivore.** Choisissez le bouton de l’appli que vous quittez. Le sélecteur de fichiers s’ouvre.
+4. **Choisissez votre ZIP.** Vous voyez « Unzipping file... » puis « Uploading file... ». Une fois terminé, un message indique **File received**. Vos favoris s’importent maintenant en arrière-plan.
+5. **Suivez la progression.** Cliquez sur **View import progress**. Le statut passe de Pending à Processing avec un pourcentage, puis à **Complete**. Ouvrez ensuite votre Inbox.
+
+Vous pouvez fermer la fenêtre et continuer à lire pendant l’import. Quelques centaines de liens se terminent vite. Des milliers prennent plus de temps, car Slax Reader récupère chaque page à nouveau pour en garder une copie fraîche. Jusqu’à cinq imports peuvent tourner en même temps.
+
+## Ce qui est transféré
+
+| Depuis votre export | Pocket | Omnivore |
+|---|---|---|
+| Lien et titre | ✅ | ✅ |
+| Tags | ✅ | ✅ Les labels deviennent des tags |
+| Description et vignette | ✗ | ✅ |
+| Éléments archivés | ✅ Restent archivés | ✗ Arrivent dans votre Inbox, archivez-les à nouveau |
+| Date d’enregistrement d’origine | ✗ Datés du jour de l’import | ✗ Datés du jour de l’import |
+| Surlignages et notes | ✗ Gardez votre fichier d’export | ✗ Gardez votre fichier d’export |
+
+L’export contient vos liens, pas le texte des articles. Slax Reader récupère chaque page à nouveau, donc une page supprimée du web depuis ne peut pas revenir.
+
+## Si certains liens échouent
+
+Il y en a toujours quelques-uns : pages supprimées, sites qui bloquent les visites automatiques, liens derrière une connexion.
+
+1. Dans **Import progress**, cliquez sur le nombre dans la colonne **Failed**.
+2. La fenêtre **Import Failures** les liste. Ouvrez la page d’origine pour voir si elle existe encore.
+3. Si oui, enregistrez-la à nouveau avec l’[extension de navigateur Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd).
+4. Cochez ceux qui restent et cliquez sur **Batch Delete**, ou utilisez **Delete All** pour vider la liste.
+
+**Rien ne se passe après avoir choisi le fichier ?** Vérifiez qu’il s’agit du ZIP d’origine. Un ZIP Pocket doit contenir un fichier comme `part_000000.csv`, et un ZIP Omnivore des fichiers `metadata_..._to_....json`. Un fichier isolé décompressé, ou un ZIP renommé ou refait, ne sera pas reconnu.
+
+## FAQ
+
+### L’import est-il gratuit ?
+Oui. Vous pouvez importer vos favoris Pocket et Omnivore dans Slax Reader gratuitement.
+
+### Puis-je encore exporter depuis Pocket ou Omnivore ?
+Non. La fenêtre d’export de Pocket a fermé le 12 novembre 2025, et le service hébergé d’Omnivore n’existe plus. Il vous faut un fichier enregistré auparavant.
+
+### Slax Reader est-il open source comme Omnivore ?
+Oui, sous licence Apache 2.0. Le code est sur [GitHub](https://github.com/slax-lab).
+
+## Vous venez d’une autre appli ?
+
+Slax Reader propose aussi un import en un clic pour [Readwise Reader, Instapaper et Pinboard](/blog/import-readwise-instapaper-pinboard/). Vous venez de Matter, Raindrop ou d’une autre appli ? Voici [comment déplacer vos liens à la main](/blog/move-from-matter-and-other-read-later-apps/). Vous comparez encore ? Voyez comment Slax Reader se compare à [Pocket](/reader/alternatives/pocket/) et [Omnivore](/reader/alternatives/omnivore/), ou lisez [pourquoi les applis de lecture différée ferment les unes après les autres](/blog/read-it-later-history/).
+
+[Ouvrez Slax Reader](https://r.slax.com) et lancez votre import.

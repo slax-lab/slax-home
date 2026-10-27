@@ -1,0 +1,78 @@
+---
+title: "Sair do Matter ou de outro app de ler depois: guia rápido"
+description: "Seu app não tem botão de importação? Tire uma lista dos seus links do Matter, Raindrop, Cubox, GoodLinks ou qualquer outro app e salve no Slax Reader de graça. Um comando só para bibliotecas grandes."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+O Slax Reader tem importação com um clique para [Pocket e Omnivore](/blog/import-pocket-omnivore-bookmarks/) e para [Readwise Reader, Instapaper e Pinboard](/blog/import-readwise-instapaper-pinboard/). Para o Matter e outros apps sem botão de importação, o método dá um pouco mais de trabalho, mas continua curto: tire uma lista dos seus links e depois salve. É grátis.
+
+## Antes de começar
+
+- **Uma conta no Slax Reader.** [Cadastre-se ou entre](https://r.slax.com).
+- **Uma ideia do que manter.** Você não precisa levar tudo. Muita gente só traz o que ainda pretende ler.
+
+## Passo 1: Tire uma lista dos seus links
+
+Seja qual for o app que você está deixando, no fim você tem um arquivo de texto simples chamado `links.txt`, com um link por linha.
+
+### Do Matter
+
+Procure primeiro uma opção de exportação nas configurações do Matter. Se ela não gerar um arquivo com seus links, isso vai ser manual: abra cada artigo que quer manter, copie o endereço web original e cole em `links.txt`. Se você destacou um artigo, a exportação em Markdown dos destaques do Matter costumava incluir um link para o original, o que pode poupar algumas cópias.
+
+### Do Raindrop, Cubox, GoodLinks ou outro app
+
+Procure uma opção de exportação nas configurações do app. Geralmente é um arquivo CSV, HTML ou JSON. Abra, copie a coluna ou as linhas com os links e cole em `links.txt`. Se não houver exportação, junte os links à mão, como no Matter.
+
+## Passo 2: Salve os links no Slax Reader
+
+**Poucos links?** Abra cada um e clique na [extensão de navegador do Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd). A página é salva com um clique.
+
+**Muitos links?** Use a linha de comando. Ela precisa do Node.js 22 ou 24. Pegue uma chave de API no Slax Reader em **Settings → Skills + CLI → Generate and copy**, depois instale a CLI e entre com a chave. Mantenha a chave em sigilo.
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+Depois, no Mac ou no Linux:
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-matter"; done < links.txt
+```
+
+No Windows PowerShell:
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-matter" }
+```
+
+Cada link é salvo um de cada vez e recebe uma tag, então fica fácil achar o lote inteiro. Troque `from-matter` por `from-raindrop` ou a tag que quiser. Com uma lista muito longa, rode em partes menores e confira sua Inbox entre elas.
+
+## O que vem junto
+
+| Do seu app antigo | No Slax Reader |
+|---|---|
+| Links da web | Favoritos salvos com uma cópia nova de cada página, com a tag do seu lote |
+| Data original em que foi salvo | Não é mantida; os links ficam com a data em que você os salva |
+| Destaques e notas | Ficam no app antigo, então guarde a exportação |
+| Itens que não são páginas web, como arquivos enviados | Não cobertos aqui |
+
+## Perguntas frequentes
+
+### Mover minha biblioteca é grátis?
+Sim. Você pode mover sua biblioteca para o Slax Reader de graça.
+
+### Vou perder meus destaques?
+Eles não vêm junto, mas também não somem. Continuam no seu app antigo, então guarde uma exportação.
+
+### Por que uma linha de comando e não um botão de importação?
+As configurações têm botões de importação para Pocket, Omnivore, Readwise Reader, Instapaper e Pinboard. Para outros apps, salvar os links é o caminho mais rápido.
+
+## Ainda comparando?
+
+Veja o Slax Reader ao lado do [Matter](/reader/alternatives/matter/), do [Raindrop](/reader/alternatives/raindrop/), do [Cubox](/reader/alternatives/cubox/) e do [GoodLinks](/reader/alternatives/goodlinks/), ou a [comparação completa de apps de ler depois](/blog/read-later-comparison-matrix-2026/).
+
+[Abra o Slax Reader](https://r.slax.com) e comece a mover seus links.

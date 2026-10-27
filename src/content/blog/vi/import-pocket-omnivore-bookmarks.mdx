@@ -1,0 +1,70 @@
+---
+title: "Nhập bookmark từ Pocket hoặc Omnivore: Hướng dẫn từng bước"
+description: "Pocket và Omnivore đã đóng cửa, nhưng file xuất của bạn vẫn dùng được. Tải file ZIP lên trong phần cài đặt của Slax Reader để lấy lại link, tiêu đề và tag. Miễn phí."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Pocket và Omnivore đều đã đóng cửa, nhưng những link bạn đã lưu không nhất thiết phải mất theo. Nếu bạn còn giữ file xuất, bạn có thể nhập bookmark từ Pocket hoặc Omnivore vào Slax Reader chỉ với một lần tải lên. Việc nhập là miễn phí, và Slax Reader lo phần tốn thời gian cho bạn ở chế độ nền.
+
+## Trước khi bắt đầu
+
+- **File xuất của bạn.** Cả hai ứng dụng đều xuất ra file ZIP. Đừng giải nén: Slax Reader sẽ tự mở.
+  - **Pocket:** file ZIP chứa một hoặc nhiều file CSV có tên kiểu `part_000000.csv`. Pocket ngừng lưu từ ngày 8/7/2025, và [hạn chót xuất dữ liệu cuối cùng là ngày 12/11/2025](https://www.vice.com/en/article/mozilla-pocket-gets-one-month-reprieve/).
+  - **Omnivore:** file ZIP chứa các file JSON có tên kiểu `metadata_0_to_50.json`. Omnivore [đóng cửa ngày 15/11/2024, sau khi đội ngũ gia nhập ElevenLabs](https://5typos.net/2024/10/29/omnivore-is-shutting-down-and-team-joining-elevenlabs).
+- **Không xuất mới được nữa.** Cả hai ứng dụng đều không thể tạo file mới, nên hãy tìm file bạn đã lưu. Tìm trong thư mục Downloads, email và lưu trữ đám mây với từ khoá "pocket", "omnivore" hoặc "metadata_".
+- **Tài khoản Slax Reader.** [Đăng ký hoặc đăng nhập](https://r.slax.com).
+- **Giới hạn dung lượng.** File ZIP tối đa 25 MiB.
+
+## Nhập file xuất trong năm bước
+
+1. **Mở Settings.** Đăng nhập tại [r.slax.com](https://r.slax.com), di chuột lên ảnh đại diện và bấm **Setting**.
+2. **Vào Data.** Bấm **Data** trong menu cài đặt và tìm thẻ **Import third-party data**.
+3. **Bấm Pocket hoặc Omnivore.** Chọn nút của ứng dụng bạn đang rời đi. Cửa sổ chọn file sẽ mở ra.
+4. **Chọn file ZIP.** Bạn sẽ thấy "Unzipping file..." rồi "Uploading file...". Khi xong, một thông báo **File received** hiện lên. Bookmark của bạn đang được nhập ở chế độ nền.
+5. **Theo dõi tiến độ.** Bấm **View import progress**. Status chuyển từ Pending sang Processing kèm phần trăm, rồi **Complete**. Sau đó mở Inbox của bạn.
+
+Bạn có thể đóng cửa sổ và tiếp tục đọc trong lúc chờ. Vài trăm link xong nhanh. Hàng nghìn link sẽ lâu hơn, vì Slax Reader tải lại từng trang để lưu một bản sao mới. Có thể chạy tối đa năm lượt nhập cùng lúc.
+
+## Những gì được chuyển sang
+
+| Từ file xuất | Pocket | Omnivore |
+|---|---|---|
+| Link và tiêu đề | ✅ | ✅ |
+| Tag | ✅ | ✅ Label trở thành tag |
+| Mô tả và ảnh thu nhỏ | ✗ | ✅ |
+| Mục đã lưu trữ | ✅ Vẫn ở trạng thái lưu trữ | ✗ Vào Inbox, nên hãy lưu trữ lại |
+| Ngày lưu gốc | ✗ Lấy ngày nhập | ✗ Lấy ngày nhập |
+| Highlight và ghi chú | ✗ Hãy giữ file xuất | ✗ Hãy giữ file xuất |
+
+File xuất chứa link của bạn, không chứa nội dung bài viết. Slax Reader tải lại từng trang, nên trang nào đã bị xoá khỏi web thì không thể lấy lại.
+
+## Nếu một số link bị lỗi
+
+Lúc nào cũng có vài link như vậy: trang đã bị xoá, trang web chặn truy cập tự động, link cần đăng nhập.
+
+1. Trong **Import progress**, bấm vào con số ở cột **Failed**.
+2. Cửa sổ **Import Failures** liệt kê chúng. Mở trang gốc để xem trang còn tồn tại không.
+3. Nếu còn, hãy lưu lại bằng [tiện ích trình duyệt Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd).
+4. Đánh dấu những mục còn lại và bấm **Batch Delete**, hoặc dùng **Delete All** để xoá cả danh sách.
+
+**Chọn file xong mà không có gì xảy ra?** Hãy chắc rằng đó là file ZIP gốc. ZIP của Pocket phải có file kiểu `part_000000.csv`, còn ZIP của Omnivore có các file `metadata_..._to_....json`. Một file lẻ đã giải nén, hoặc ZIP đã đổi tên hay nén lại, sẽ không được nhận.
+
+## Câu hỏi thường gặp
+
+### Nhập có miễn phí không?
+Có. Bạn có thể nhập bookmark từ Pocket và Omnivore vào Slax Reader miễn phí.
+
+### Tôi còn xuất được từ Pocket hoặc Omnivore không?
+Không. Thời hạn xuất của Pocket đã kết thúc ngày 12/11/2025, và dịch vụ hosted của Omnivore không còn nữa. Bạn cần file đã lưu từ trước.
+
+### Slax Reader có mã nguồn mở như Omnivore không?
+Có, theo giấy phép Apache 2.0. Mã nguồn ở trên [GitHub](https://github.com/slax-lab).
+
+## Chuyển từ ứng dụng khác?
+
+Slax Reader cũng có tính năng nhập một chạm cho [Readwise Reader, Instapaper và Pinboard](/blog/import-readwise-instapaper-pinboard/). Đến từ Matter, Raindrop hay ứng dụng khác? Đây là [cách chuyển link thủ công](/blog/move-from-matter-and-other-read-later-apps/). Vẫn đang so sánh? Xem Slax Reader so với [Pocket](/reader/alternatives/pocket/) và [Omnivore](/reader/alternatives/omnivore/), hoặc đọc [vì sao các ứng dụng đọc sau cứ lần lượt đóng cửa](/blog/read-it-later-history/).
+
+[Mở Slax Reader](https://r.slax.com) và bắt đầu nhập.

@@ -1,0 +1,81 @@
+---
+title: "Nhập từ Readwise Reader, Instapaper hoặc Pinboard: Hướng dẫn từng bước"
+description: "Chuyển thư viện Readwise Reader, Instapaper hoặc Pinboard sang Slax Reader chỉ với một lần tải lên. Link, tiêu đề, tag, ngày lưu và trạng thái lưu trữ đều đi theo. Miễn phí."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Bạn đang rời Readwise Reader, Instapaper hay Pinboard? Slax Reader có tính năng nhập một chạm cho cả ba. Xuất thư viện từ ứng dụng cũ, tải file lên Slax Reader, kiểm tra các con số, và bookmark của bạn sẽ đến cùng tag và ngày lưu gốc. Việc nhập là miễn phí.
+
+## Trước khi bắt đầu
+
+- **Tài khoản Slax Reader.** [Đăng ký hoặc đăng nhập](https://r.slax.com).
+- **Mỗi lượt nhập một file,** tối đa 25 MiB và 10.000 bookmark. Thư viện lớn hơn? Chia thành các file nhỏ và nhập lần lượt. Có thể chạy tối đa năm lượt nhập cùng lúc.
+
+## Bước 1: Xuất thư viện
+
+### Từ Readwise Reader
+
+Mở trang **Account profile** và chọn **Export Library as CSV** trong mục "Export account data". Bạn cũng có thể mở Command Palette và tìm "Generate CSV export". [Hướng dẫn xuất của Readwise](https://docs.readwise.io/reader/docs/faqs/exporting) có các bước mới nhất. Bạn sẽ nhận được file `.csv`.
+
+### Từ Instapaper
+
+Đăng nhập tại instapaper.com, mở **Settings** và tải bản xuất **CSV**. Bạn sẽ nhận được file `.csv`.
+
+### Từ Pinboard
+
+Đăng nhập tại pinboard.in, mở **Settings → Backup** và tải bookmark về. JSON là lựa chọn an toàn nhất, nhưng bản sao lưu HTML và XML cũng dùng được.
+
+## Bước 2: Nhập file vào Slax Reader
+
+1. **Mở Settings.** Đăng nhập tại [r.slax.com](https://r.slax.com), di chuột lên ảnh đại diện và bấm **Setting**.
+2. **Vào Data.** Bấm **Data** trong menu cài đặt và tìm thẻ **Import third-party data**.
+3. **Bấm nút của ứng dụng bạn dùng:** **Readwise Reader**, **Instapaper** hoặc **Pinboard**. Sau đó chọn file đã xuất.
+4. **Kiểm tra các con số.** Cửa sổ **Confirm import** cho biết sẽ nhập bao nhiêu bookmark, bao nhiêu bản trùng đã được gộp hoặc dòng không hợp lệ bị bỏ qua. Với Readwise Reader, các mục feed RSS và newsletter sẽ bị loại ra, trừ khi bạn đánh dấu **Include feed articles**.
+5. **Bấm Start import.** Thông báo **File received** hiện số lượng bookmark. Giờ chúng được nhập ở chế độ nền.
+6. **Theo dõi tiến độ.** Bấm **View import progress**. Khi Status hiện **Complete**, hãy mở Inbox.
+
+Bạn có thể đóng cửa sổ và tiếp tục đọc trong lúc chờ. Slax Reader tải lại từng trang để lưu một bản sao mới, nên thư viện lớn sẽ mất một lúc.
+
+## Những gì được chuyển sang
+
+| Từ file xuất | Readwise Reader | Instapaper | Pinboard |
+|---|---|---|---|
+| Link và tiêu đề | ✅ | ✅ | ✅ |
+| Tag | ✅ | ✅ Các thư mục khác cũng thành tag | ✅ |
+| Ngày lưu gốc | ✅ | ✅ | ✅ |
+| Mục đã lưu trữ | ✅ Vẫn ở trạng thái lưu trữ | ✅ Thư mục Archive vẫn được lưu trữ | ✅ Mục không đánh dấu "to read" vào kho lưu trữ |
+| Mục gắn sao (Starred) | ✗ | ✅ Thư mục Starred vẫn được gắn sao | ✗ |
+| Highlight và ghi chú | ✗ Hãy giữ file xuất | ✗ Hãy giữ file xuất | ✗ Hãy giữ file xuất |
+
+Nếu cùng một link xuất hiện hai lần, Slax Reader giữ một bookmark và gộp tag lại. Nếu không đọc được ngày, bookmark đó dùng ngày nhập, và cửa sổ **Confirm import** cho bạn biết có bao nhiêu mục như vậy.
+
+## Nếu một số link bị lỗi
+
+Lúc nào cũng có vài link như vậy: trang đã bị xoá, trang web chặn truy cập tự động, link cần đăng nhập.
+
+1. Trong **Import progress**, bấm vào con số ở cột **Failed**.
+2. Cửa sổ **Import Failures** liệt kê chúng. Mở trang gốc để xem trang còn tồn tại không.
+3. Nếu còn, hãy lưu lại bằng [tiện ích trình duyệt Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd).
+4. Đánh dấu những mục còn lại và bấm **Batch Delete**, hoặc dùng **Delete All** để xoá cả danh sách.
+
+**File bị từ chối?** Kiểm tra xem bạn đã chọn đúng nút của ứng dụng chưa, và file có phải là bản ứng dụng xuất ra, không phải bản đã mở rồi lưu lại bằng bảng tính. Readwise Reader và Instapaper cần file `.csv`; Pinboard nhận `.json`, `.html` hoặc `.xml`.
+
+## Câu hỏi thường gặp
+
+### Nhập có miễn phí không?
+Có. Bạn có thể nhập từ Readwise Reader, Instapaper và Pinboard vào Slax Reader miễn phí.
+
+### Tôi có mất highlight không?
+Highlight không được chuyển sang, nhưng cũng không biến mất. Chúng vẫn ở ứng dụng cũ, nên hãy giữ một bản xuất.
+
+### Tôi có thể dùng tiếp ứng dụng cũ một thời gian không?
+Có. Nhiều người dùng song song cả hai trong vài tuần. Nếu sau này bạn nhập lại, những link đã có sẽ được gộp chứ không bị trùng.
+
+## Chuyển từ ứng dụng khác?
+
+Đến từ Pocket hoặc Omnivore? Xem [cách nhập bookmark từ Pocket hoặc Omnivore](/blog/import-pocket-omnivore-bookmarks/). Đang dùng Matter, Raindrop hay ứng dụng không có nút nhập? Đây là [cách chuyển link thủ công](/blog/move-from-matter-and-other-read-later-apps/). Vẫn đang so sánh? Xem Slax Reader so với [Readwise Reader](/reader/alternatives/readwise-reader/) và [Instapaper](/reader/alternatives/instapaper/), hoặc [bảng so sánh đầy đủ các ứng dụng đọc sau](/blog/read-later-comparison-matrix-2026/).
+
+[Mở Slax Reader](https://r.slax.com) và bắt đầu nhập.

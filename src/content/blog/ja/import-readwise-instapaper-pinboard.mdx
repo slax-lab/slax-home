@@ -1,0 +1,81 @@
+---
+title: "Readwise Reader・Instapaper・Pinboard からインポート：ステップごとのガイド"
+description: "Readwise Reader、Instapaper、Pinboard のライブラリを、一度のアップロードで Slax Reader に移せます。リンク、タイトル、タグ、保存日、アーカイブ状態もそのまま。無料。"
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Readwise Reader、Instapaper、Pinboard から乗り換えますか？ Slax Reader には 3 つすべてのワンクリックインポートがあります。元のアプリからライブラリをエクスポートし、Slax Reader にファイルをアップロードして件数を確認すれば、ブックマークがタグと元の保存日つきで届きます。インポートは無料です。
+
+## 始める前に
+
+- **Slax Reader のアカウント。** [登録またはログイン](https://r.slax.com)。
+- **1 回のインポートにつき 1 ファイル、** 25 MiB・10,000 件まで。ライブラリがもっと大きい場合は、小さなファイルに分けて順番にインポートしてください。インポートは同時に 5 件まで実行できます。
+
+## ステップ 1：ライブラリをエクスポートする
+
+### Readwise Reader から
+
+**Account profile** ページを開き、「Export account data」の **Export Library as CSV** を選びます。Command Palette を開いて「Generate CSV export」を検索しても同じです。最新の手順は [Readwise のエクスポートガイド](https://docs.readwise.io/reader/docs/faqs/exporting)にあります。`.csv` ファイルが手に入ります。
+
+### Instapaper から
+
+instapaper.com にログインし、**Settings** を開いて **CSV** エクスポートをダウンロードします。`.csv` ファイルが手に入ります。
+
+### Pinboard から
+
+pinboard.in にログインし、**Settings → Backup** を開いてブックマークをダウンロードします。JSON がいちばん確実ですが、HTML や XML のバックアップでも使えます。
+
+## ステップ 2：Slax Reader にファイルをインポートする
+
+1. **設定を開く。** [r.slax.com](https://r.slax.com) にログインし、アバターにマウスを合わせて **Setting** をクリックします。
+2. **Data に移動。** 設定メニューで **Data** をクリックし、**Import third-party data** カードを探します。
+3. **アプリのボタンをクリック：** **Readwise Reader**、**Instapaper**、または **Pinboard**。続いて、エクスポートしたファイルを選びます。
+4. **件数を確認。** **Confirm import** ウィンドウに、インポートされるブックマークの数と、統合された重複や読み飛ばした無効な行の数が表示されます。Readwise Reader の場合、RSS やニュースレターのフィード項目は、**Include feed articles** にチェックを入れない限り含まれません。
+5. **Start import をクリック。** **File received** というメッセージにブックマークの件数が表示されます。あとはバックグラウンドでインポートされます。
+6. **進捗を確認。** **View import progress** をクリックします。Status が **Complete** になったら、Inbox を開きましょう。
+
+処理中はウィンドウを閉じて、読書を続けてもかまいません。Slax Reader は各ページを取得し直して新しいコピーを保存するので、大きなライブラリには少し時間がかかります。
+
+## 移行される内容
+
+| エクスポートの内容 | Readwise Reader | Instapaper | Pinboard |
+|---|---|---|---|
+| リンクとタイトル | ✅ | ✅ | ✅ |
+| タグ | ✅ | ✅ ほかのフォルダもタグになります | ✅ |
+| 元の保存日 | ✅ | ✅ | ✅ |
+| アーカイブ済みの項目 | ✅ アーカイブのまま | ✅ Archive フォルダはアーカイブのまま | ✅「to read」でない項目はアーカイブへ |
+| スター付きの項目（Starred） | ✗ | ✅ Starred フォルダはスター付きのまま | ✗ |
+| ハイライトとメモ | ✗ エクスポートを保管してください | ✗ エクスポートを保管してください | ✗ エクスポートを保管してください |
+
+同じリンクが 2 回出てきた場合、Slax Reader はブックマークを 1 つにまとめ、タグを統合します。日付が読み取れない場合はインポート日が使われ、その件数は **Confirm import** ウィンドウに表示されます。
+
+## 一部のリンクが失敗したら
+
+いくつかは必ず出てきます。削除されたページ、自動アクセスをブロックするサイト、ログインが必要なリンクなどです。
+
+1. **Import progress** で、**Failed** 列の数字をクリックします。
+2. **Import Failures** ウィンドウに一覧が表示されます。元のページを開いて、まだ存在するか確認しましょう。
+3. 存在すれば、[Slax Reader のブラウザ拡張機能](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd)でもう一度保存します。
+4. 残ったものにチェックを入れて **Batch Delete** をクリックするか、**Delete All** で一覧を空にします。
+
+**ファイルが受け付けられない？** アプリに合ったボタンを選んだか、そしてファイルがアプリからエクスポートしたままのものか（表計算ソフトで開いて保存し直していないか）を確認してください。Readwise Reader と Instapaper は `.csv` ファイル、Pinboard は `.json`・`.html`・`.xml` に対応しています。
+
+## よくある質問
+
+### インポートは無料ですか？
+はい。Readwise Reader、Instapaper、Pinboard から Slax Reader へのインポートは無料です。
+
+### ハイライトは失われますか？
+移行はされませんが、消えるわけでもありません。元のアプリに残るので、エクスポートを保管しておきましょう。
+
+### しばらく元のアプリを使い続けてもいいですか？
+はい。数週間ほど両方を並行して使う人も多いです。あとでもう一度インポートしても、すでにあるリンクは重複せず統合されます。
+
+## ほかのアプリから移行する場合
+
+Pocket や Omnivore から移る場合は、[Pocket・Omnivore のブックマークをインポートする方法](/blog/import-pocket-omnivore-bookmarks/)をご覧ください。Matter や Raindrop など、インポートボタンのないアプリを使っている場合は、[リンクを手動で移す方法](/blog/move-from-matter-and-other-read-later-apps/)があります。まだ比較中なら、Slax Reader と [Readwise Reader](/reader/alternatives/readwise-reader/)・[Instapaper](/reader/alternatives/instapaper/) の比較や、[あとで読むアプリの総合比較](/blog/read-later-comparison-matrix-2026/)もどうぞ。
+
+[Slax Reader を開いて](https://r.slax.com)、インポートを始めましょう。

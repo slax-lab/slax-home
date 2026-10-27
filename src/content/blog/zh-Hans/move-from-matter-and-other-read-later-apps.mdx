@@ -1,0 +1,78 @@
+---
+title: "从 Matter 或其他稍后读应用迁移：简明指南"
+description: "你的应用没有导入按钮？从 Matter、Raindrop、Cubox、GoodLinks 或其他应用整理出链接列表，免费保存到 Slax Reader。大资料库一条命令搞定。"
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Slax Reader 支持一键导入 [Pocket 和 Omnivore](/blog/import-pocket-omnivore-bookmarks/)，以及 [Readwise Reader、Instapaper 和 Pinboard](/blog/import-readwise-instapaper-pinboard/)。对于 Matter 和其他没有导入按钮的应用，方法要多花一点功夫，但步骤依然很短：先整理出链接列表，再把它们保存进来。免费。
+
+## 开始之前
+
+- **一个 Slax Reader 账号。** [注册或登录](https://r.slax.com)。
+- **大致想好要留下什么。** 不必全部搬过来。很多人只带走还打算读的内容。
+
+## 第 1 步：整理出链接列表
+
+不管你离开的是哪个应用，最后都会得到一个叫 `links.txt` 的纯文本文件，每行一个链接。
+
+### 从 Matter
+
+先在 Matter 的设置里找找有没有导出选项。如果它给不了一个包含链接的文件，就只能手动来：打开每篇想保留的文章，复制它的原始网址，粘贴到 `links.txt` 里。如果你在文章里做过高亮，Matter 的高亮 Markdown 导出会带上原文链接，能省掉一些复制的功夫。
+
+### 从 Raindrop、Cubox、GoodLinks 或其他应用
+
+在应用设置里找导出选项，通常是 CSV、HTML 或 JSON 文件。打开它，复制包含链接的那一列或那几行，粘贴到 `links.txt`。如果没有导出功能，就像 Matter 那样手动收集链接。
+
+## 第 2 步：把链接保存到 Slax Reader
+
+**只有几个链接？** 逐个打开，点击 [Slax Reader 浏览器扩展](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd)，一键就能保存页面。
+
+**链接很多？** 用命令行。需要 Node.js 22 或 24。在 Slax Reader 的 **Settings → Skills + CLI → Generate and copy** 获取 API 密钥，然后安装 CLI，用密钥登录。请妥善保管密钥。
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+然后，在 Mac 或 Linux 上：
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-matter"; done < links.txt
+```
+
+在 Windows PowerShell 中：
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-matter" }
+```
+
+每个链接会逐条保存并打上标签，方便你找到这一整批。可以把 `from-matter` 换成 `from-raindrop` 或任何你喜欢的标签。列表很长的话，分成小批运行，中间看看你的 Inbox。
+
+## 哪些内容会迁移过来
+
+| 旧应用中的内容 | 在 Slax Reader 中 |
+|---|---|
+| 网页链接 | 保存为书签，附带每个页面的新副本，并打上你的批次标签 |
+| 原始保存日期 | 不保留；以你保存的当天为准 |
+| 高亮和笔记 | 留在旧应用里，请保留它的导出 |
+| 不是网页的条目，比如上传的文件 | 本文不涉及 |
+
+## 常见问题
+
+### 迁移资料库免费吗？
+免费。你可以免费把资料库迁移到 Slax Reader。
+
+### 我的高亮会丢吗？
+高亮不会迁移过来，但也不会消失。它们还留在旧应用里，记得保留一份导出。
+
+### 为什么用命令行，而不是导入按钮？
+设置里有 Pocket、Omnivore、Readwise Reader、Instapaper 和 Pinboard 的导入按钮。对于其他应用，直接保存链接是最快的办法。
+
+## 还在比较？
+
+看看 Slax Reader 和 [Matter](/reader/alternatives/matter/)、[Raindrop](/reader/alternatives/raindrop/)、[Cubox](/reader/alternatives/cubox/)、[GoodLinks](/reader/alternatives/goodlinks/) 的对比，或者[稍后读应用完整对比](/blog/read-later-comparison-matrix-2026/)。
+
+[打开 Slax Reader](https://r.slax.com)，开始迁移你的链接。
