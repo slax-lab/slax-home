@@ -1,0 +1,65 @@
+---
+title: "Importar marcadores de Omnivore: guía paso a paso"
+description: "Importa tus marcadores de Omnivore en Slax Reader: Omnivore ya no existe, pero tu exportación sigue funcionando. Súbela en Ajustes para recuperar enlaces, títulos y etiquetas. Gratis."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Omnivore cerró el 15 de noviembre de 2024, pero un archivo de exportación de Omnivore todavía guarda todo lo que necesitas para empezar de nuevo. Puedes importar tus marcadores de Omnivore en Slax Reader subiendo ese único archivo. Importar es gratis.
+
+## Antes de empezar
+
+- **Tu exportación de Omnivore.** Es un ZIP con archivos JSON con nombres como `metadata_0_to_50.json`. Omnivore [cerró después de que su equipo se uniera a ElevenLabs](https://5typos.net/2024/10/29/omnivore-is-shutting-down-and-team-joining-elevenlabs), así que ya no puedes crear una exportación nueva. Busca "omnivore" o "metadata_" en Descargas, en tu correo y en tus copias de seguridad en la nube.
+- **Una cuenta de Slax Reader.** [Regístrate o inicia sesión](https://r.slax.com).
+- **No lo descomprimas.** Slax Reader lee el ZIP directamente.
+
+## Importa tu exportación de Omnivore en cinco pasos
+
+1. **Abre Ajustes.** Inicia sesión, pasa el ratón por encima de tu avatar y haz clic en **Setting**.
+2. **Ve a Data.** Haz clic en **Data** y busca la tarjeta **Import third-party data**.
+3. **Haz clic en el botón de Omnivore.** Pulsa **Import third-party data Omnivore** y elige tu ZIP.
+4. **Espera a que se suba.** Una ventana muestra "Unzipping file..." y luego "Uploading file...", y termina con **omnivore data imported successfully, please wait a moment**. Después, tus enlaces se guardan en segundo plano.
+5. **Sigue el progreso.** Haz clic en **View import progress**. Cuando el Status diga **Complete**, abre tu Inbox.
+
+Slax Reader vuelve a cargar cada página en lugar de copiar una lista, así que una biblioteca grande tarda un rato. Puedes salir de la ventana y volver más tarde.
+
+## Qué se transfiere
+
+| En Omnivore | En Slax Reader |
+|---|---|
+| Enlace, título, descripción | Marcador guardado |
+| Miniatura | Se conserva |
+| Labels | Se convierten en etiquetas |
+| Elementos archivados | Llegan a tu Inbox, así que vuelve a archivarlos |
+| Fecha original de guardado | No se conserva; los enlaces llevan la fecha de la importación |
+| Subrayados y notas | No se incluyen, así que guarda tu archivo de exportación |
+
+## Arregla los enlaces que fallaron
+
+Las páginas que ya no existen, o que bloquean las visitas automáticas, no se pueden guardar.
+
+1. En **Import progress**, haz clic en el número bajo **Failed**.
+2. En la ventana **Import Failures**, abre cualquier enlace para comprobar si la página sigue en línea.
+3. Si sigue, guárdala de nuevo con la [extensión de navegador de Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd).
+4. Marca los que queden y haz clic en **Batch Delete**, o usa **Delete All**.
+
+**¿La subida no hace nada?** Comprueba que elegiste el ZIP original y que contiene archivos `metadata_..._to_....json`. Si elegiste un solo archivo JSON, prueba con el ZIP.
+
+## Preguntas frecuentes
+
+### ¿Importar es gratis?
+Sí. Puedes importar tus marcadores de Omnivore en Slax Reader gratis.
+
+### ¿Todavía puedo exportar desde Omnivore?
+No. El servicio alojado ya no existe, así que necesitas una exportación que guardaras antes del cierre.
+
+### ¿Slax Reader es de código abierto como Omnivore?
+Sí, con licencia Apache 2.0. El código está en [GitHub](https://github.com/slax-lab).
+
+## ¿Vienes de otra app?
+
+Slax Reader también importa exportaciones de [Pocket](/blog/import-pocket-bookmarks/), y hay una guía corta para [pasarte desde Readwise Reader o Matter](/blog/move-from-readwise-reader-or-matter/). ¿Comparando opciones? Mira [Slax Reader como alternativa a Omnivore](/reader/alternatives/omnivore/) o lee [la historia de las apps de leer más tarde](/blog/read-it-later-history/).
+
+[Abre Slax Reader](https://r.slax.com) y empieza tu importación.

@@ -1,0 +1,87 @@
+---
+title: "Chuyển từ Readwise Reader hoặc Matter: Hướng dẫn ngắn"
+description: "Muốn chuyển khỏi Readwise Reader hoặc Matter? Lấy danh sách link của bạn và lưu vào Slax Reader miễn phí. Các bước ngắn gọn, thư viện lớn chỉ cần một lệnh."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Nếu bạn muốn chuyển khỏi Readwise Reader hoặc Matter, bạn có thể mang danh sách đọc sang Slax Reader miễn phí. Cả hai ứng dụng đều chưa có tính năng nhập một cú nhấp sang Slax, nên cách làm ngắn gọn và giống nhau cho cả hai: lấy danh sách link, rồi lưu chúng lại. Cách này cũng dùng được cho hầu hết các ứng dụng đọc sau khác.
+
+## Trước khi bắt đầu
+
+- **Một tài khoản Slax Reader.** [Đăng ký hoặc đăng nhập](https://r.slax.com).
+- **Ý tưởng sơ bộ về những gì muốn giữ.** Bạn không cần chuyển hết. Nhiều người chỉ mang theo những gì họ vẫn định đọc.
+
+## Bước 1: Lấy danh sách link
+
+Chọn ứng dụng của bạn. Dù chọn cách nào, cuối cùng bạn sẽ có một file văn bản tên `links.txt`, mỗi dòng một link.
+
+### Từ Readwise Reader
+
+1. Mở trang **Account profile** và chọn **Export Library as CSV** trong mục "Export account data". Bạn cũng có thể mở Command Palette và tìm "Generate CSV export". [Hướng dẫn xuất dữ liệu của Readwise](https://docs.readwise.io/reader/docs/faqs/exporting) có các bước mới nhất.
+2. Mở file CSV bằng bảng tính, sao chép cột **url** và dán vào `links.txt`.
+
+### Từ Matter
+
+Trước tiên hãy xem cài đặt của Matter có tuỳ chọn xuất dữ liệu không. Nếu nó không cho bạn một file chứa link, bạn phải làm thủ công: mở từng bài muốn giữ, sao chép địa chỉ web gốc và dán vào `links.txt`. Nếu bạn từng đánh dấu một bài, file xuất Markdown phần đánh dấu của Matter thường kèm link tới bài gốc, giúp bạn đỡ phải sao chép.
+
+### Từ ứng dụng khác
+
+Tìm tuỳ chọn xuất dữ liệu trong cài đặt của ứng dụng, thường là file CSV, HTML hoặc JSON. Sao chép cột link vào `links.txt`. Nếu không có tính năng xuất, hãy tự gom link bằng tay, giống như với Matter.
+
+## Bước 2: Lưu link vào Slax Reader
+
+**Chỉ vài link?** Mở từng link và nhấp vào [tiện ích trình duyệt Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd). Trang được lưu chỉ với một cú nhấp.
+
+**Nhiều link?** Dùng dòng lệnh. Cài đặt rồi đăng nhập bằng API key lấy từ phần cài đặt Slax Reader. Hãy giữ kín key này.
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+Sau đó, trên Mac hoặc Linux:
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-readwise"; done < links.txt
+```
+
+Trên Windows PowerShell:
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-readwise" }
+```
+
+Mỗi link được lưu lần lượt và gắn thẻ, nên bạn dễ dàng tìm lại cả đợt. Dùng `from-matter` cho link từ Matter, hoặc bất kỳ thẻ nào bạn thích. Với danh sách rất dài, hãy chạy từng phần nhỏ và kiểm tra Inbox giữa các lần.
+
+## Những gì được chuyển sang
+
+| Từ ứng dụng cũ | Trong Slax Reader |
+|---|---|
+| Link web | Dấu trang đã lưu, có bản sao mới của từng trang, gắn thẻ theo tên đợt của bạn |
+| Ngày lưu gốc | Không giữ lại; link được ghi ngày bạn lưu |
+| Đánh dấu và ghi chú | Vẫn ở ứng dụng cũ, nên hãy giữ file xuất của nó |
+| Những mục không phải trang web, như file đã tải lên | Không đề cập ở đây |
+
+## Đang tìm lựa chọn thay thế Readwise Reader miễn phí?
+
+Readwise Reader là gói đăng ký trả phí. Các tính năng cơ bản của Slax Reader là miễn phí, và mã nguồn mở. Nếu vẫn đang so sánh, hãy [xem Slax Reader đặt cạnh Readwise Reader](/reader/alternatives/readwise-reader/) để biết mỗi bên làm tốt điều gì. Đến từ Matter? Cũng có [bài so sánh với Matter](/reader/alternatives/matter/), và [bảng so sánh đầy đủ các ứng dụng đọc sau](/blog/read-later-comparison-matrix-2026/).
+
+## Câu hỏi thường gặp
+
+### Chuyển thư viện có miễn phí không?
+Có. Bạn có thể chuyển thư viện sang Slax Reader miễn phí.
+
+### Tôi có mất các đánh dấu không?
+Chúng không được chuyển sang, nhưng cũng không biến mất. Chúng vẫn nằm trong ứng dụng cũ, nên hãy giữ một bản xuất.
+
+### Sao lại dùng dòng lệnh mà không phải nút Nhập?
+Phần Settings chỉ có nút nhập cho Pocket và Omnivore. Với các ứng dụng khác, lưu link là cách nhanh nhất.
+
+## Đến từ Pocket hoặc Omnivore?
+
+Hai ứng dụng đó có tính năng nhập một cú nhấp. Xem [cách nhập dấu trang Pocket](/blog/import-pocket-bookmarks/) hoặc [cách nhập dấu trang Omnivore](/blog/import-omnivore-bookmarks/).
+
+[Mở Slax Reader](https://r.slax.com) và bắt đầu chuyển link của bạn.

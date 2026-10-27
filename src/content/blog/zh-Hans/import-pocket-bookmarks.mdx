@@ -1,0 +1,63 @@
+---
+title: "导入 Pocket 书签：分步指南"
+description: "把 Pocket 书签导入 Slax Reader：在设置里上传你的导出 ZIP，链接、标题和标签都会搬过来。免费，每一步点哪里都写清楚了。"
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Pocket 已经关闭，但你保存的链接不必跟着消失。如果你留着 Pocket 的导出文件，只需上传一次，就能把 Pocket 书签导入 Slax Reader。导入免费，最慢的那部分 Slax Reader 会在后台帮你完成。
+
+## 开始之前
+
+- **你的 Pocket 导出文件。** 它是一个 ZIP，里面有一个或多个名字类似 `part_000000.csv` 的 CSV 文件。Pocket 在 2025 年 7 月 8 日停止保存，[最后的导出截止日期是 2025 年 11 月 12 日](https://www.vice.com/en/article/mozilla-pocket-gets-one-month-reprieve/)，所以已经无法再生成新的导出。在下载文件夹、邮箱和云盘里搜索 "pocket" 试试。
+- **一个 Slax Reader 账号。** [注册或登录](https://r.slax.com)。
+- **不要解压 ZIP。** Slax Reader 会自己打开它。
+
+## 五步导入 Pocket 导出文件
+
+1. **打开设置。** 登录 [r.slax.com](https://r.slax.com)，把鼠标移到头像上，点击 **Setting**。
+2. **进入 Data。** 在设置导航里点击 **Data**，找到名为 **Import third-party data** 的卡片。
+3. **点击 Pocket 按钮。** 点 **Import third-party data Pocket**，文件选择窗口会打开。
+4. **选择你的 ZIP。** 你会先看到 "Unzipping file..."，然后是 "Uploading file..."。完成后会出现提示 **pocket data imported successfully, please wait a moment**，说明文件已经上传成功。接下来链接会在后台逐条保存。
+5. **查看进度。** 点击 **View import progress**。**Import progress** 窗口里的 Status 会依次显示 Pending、带百分比的 Processing，最后是 **Complete**。然后打开你的 Inbox 即可。
+
+导入进行时，你可以关掉窗口继续阅读。几百条链接很快就能完成；几千条会久一些，因为 Slax Reader 会重新抓取每个网页，保存一份新的副本。
+
+## 哪些内容会搬过来
+
+| Pocket 里的 | 在 Slax Reader 里 |
+|---|---|
+| 链接和标题 | 保存为书签 |
+| 标签 | 标签 |
+| 已归档的内容 | 仍为已归档 |
+| 原始保存日期 | 不保留；日期记为导入当天 |
+| 高亮和笔记 | 不包含，请保留好导出文件 |
+
+Pocket 导出文件里只有链接和相关信息，没有文章正文。已经从网上删除的网页无法再次抓取。
+
+## 如果有链接导入失败
+
+总会有一些：已删除的网页、屏蔽自动访问的网站、需要登录才能看的链接。
+
+1. 在 **Import progress** 里，点击 **Failed** 一栏下的数字。
+2. **Import Failures** 窗口会列出这些链接。打开原网页，看看它是否还在。
+3. 如果还在，用 [Slax Reader 浏览器扩展](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd)重新保存。
+4. 勾选条目后点击 **Batch Delete**，或者点 **Delete All** 清空列表。
+
+**选了文件之后没有反应？** 确认它是原始的 ZIP，并且里面有类似 `part_000000.csv` 的文件。改过名或重新打包的 ZIP 无法识别。
+
+## 常见问题
+
+### 导入免费吗？
+免费。把 Pocket 书签导入 Slax Reader 不收费。
+
+### 现在还能从 Pocket 导出吗？
+不能。导出窗口已在 2025 年 11 月 12 日关闭，你需要用之前保存的文件。
+
+## 从其他应用搬过来？
+
+Slax Reader 也支持导入 [Omnivore](/blog/import-omnivore-bookmarks/) 的导出文件，另外还有一篇[从 Readwise Reader 或 Matter 搬家](/blog/move-from-readwise-reader-or-matter/)的简短指南。还在挑选？看看 [Slax Reader 和 Pocket 的对比](/reader/alternatives/pocket/)，或者读读[稍后读应用为什么总在关门](/blog/read-it-later-history/)。
+
+[打开 Slax Reader](https://r.slax.com)，开始导入吧。

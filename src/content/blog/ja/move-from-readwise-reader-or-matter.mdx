@@ -1,0 +1,87 @@
+---
+title: "Readwise Reader や Matter から移行：短いガイド"
+description: "Readwise Reader や Matter から移りたい？リンクの一覧を用意して、無料で Slax Reader に保存しましょう。手順は短く、大きなライブラリもコマンド 1 つで移せます。"
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Readwise Reader や Matter から移りたいなら、読書リストを無料で Slax Reader に持ってこられます。どちらのアプリにもまだ Slax へのワンクリックインポートはないので、方法はシンプルで、どちらも同じです。リンクの一覧を用意して、それを保存するだけ。ほかの多くの「あとで読む」アプリでも使えます。
+
+## 始める前に
+
+- **Slax Reader のアカウント。** [登録またはログイン](https://r.slax.com)。
+- **残したいものの目安。** すべてを移す必要はありません。まだ読むつもりのものだけ持ってくる人も多いです。
+
+## ステップ 1：リンクの一覧を用意する
+
+使っているアプリを選んでください。どの方法でも、最後は 1 行に 1 つのリンクが並んだ `links.txt` というテキストファイルができます。
+
+### Readwise Reader から
+
+1. **Account profile** ページを開き、「Export account data」の下にある **Export Library as CSV** を選びます。Command Palette を開いて「Generate CSV export」と検索することもできます。最新の手順は [Readwise のエクスポートガイド](https://docs.readwise.io/reader/docs/faqs/exporting)にあります。
+2. CSV を表計算ソフトで開き、**url** 列をコピーして `links.txt` に貼り付けます。
+
+### Matter から
+
+まず Matter の設定にエクスポートの項目がないか確認してください。リンクのファイルを出してくれない場合は手作業になります。残したい記事を 1 つずつ開き、元の Web アドレスをコピーして `links.txt` に貼り付けます。ハイライトした記事なら、Matter のハイライトの Markdown エクスポートに元記事へのリンクが含まれていたので、コピーの手間を少し省けます。
+
+### ほかのアプリから
+
+アプリの設定でエクスポートの項目を探してください。たいてい CSV、HTML、JSON のいずれかです。リンクの列を `links.txt` にコピーします。エクスポートがなければ、Matter と同じように手作業でリンクを集めます。
+
+## ステップ 2：Slax Reader にリンクを保存する
+
+**リンクが少しだけなら？** 1 つずつ開いて、[Slax Reader ブラウザ拡張機能](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd)をクリックします。ワンクリックでページが保存されます。
+
+**リンクがたくさんあるなら？** コマンドラインを使いましょう。インストールして、Slax Reader の設定で取得した API key でログインします。API key は他人に知られないようにしてください。
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+次に、Mac または Linux では：
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-readwise"; done < links.txt
+```
+
+Windows PowerShell では：
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-readwise" }
+```
+
+リンクは 1 つずつ保存され、タグが付くので、まとめて移したものをすぐに見つけられます。Matter のリンクには `from-matter`、または好きなタグを使ってください。リストがとても長い場合は、小分けにして実行し、合間に Inbox を確認しましょう。
+
+## 移るもの
+
+| 以前のアプリでは | Slax Reader では |
+|---|---|
+| Web のリンク | ブックマークとして保存。各ページの新しいコピーと、まとめて付けたタグ付き |
+| 元の保存日 | 引き継がれず、保存した日付になります |
+| ハイライトとメモ | 以前のアプリに残ります。そちらのエクスポートを残しておきましょう |
+| Web ページ以外の項目（アップロードしたファイルなど） | このガイドの対象外です |
+
+## 無料の Readwise Reader の代わりを探している？
+
+Readwise Reader は有料のサブスクリプションです。Slax Reader の基本機能は無料で、コードはオープンソースです。まだ比較中なら、[Slax Reader と Readwise Reader の比較](/reader/alternatives/readwise-reader/)で、それぞれの得意なことを確認してください。Matter から来た方には [Matter との比較](/reader/alternatives/matter/)もあり、[「あとで読む」アプリの総合比較](/blog/read-later-comparison-matrix-2026/)もあります。
+
+## よくある質問
+
+### ライブラリの移行は無料？
+はい。ライブラリは無料で Slax Reader に移せます。
+
+### ハイライトは消えてしまう？
+移りはしませんが、消えることもありません。以前のアプリに残っているので、エクスポートを残しておきましょう。
+
+### なぜインポートボタンではなくコマンドラインなの？
+設定にあるインポートボタンは Pocket と Omnivore だけです。ほかのアプリでは、リンクを保存するのがいちばん早い方法です。
+
+## Pocket や Omnivore から移る場合
+
+この 2 つにはワンクリックインポートがあります。[Pocket のブックマークをインポートする方法](/blog/import-pocket-bookmarks/)、または [Omnivore のブックマークをインポートする方法](/blog/import-omnivore-bookmarks/)をご覧ください。
+
+[Slax Reader を開いて](https://r.slax.com)リンクの移行を始めましょう。

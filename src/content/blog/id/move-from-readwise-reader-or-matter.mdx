@@ -1,0 +1,87 @@
+---
+title: "Pindah dari Readwise Reader atau Matter: Panduan Singkat"
+description: "Mau pindah dari Readwise Reader atau Matter? Ambil daftar link kamu dan simpan ke Slax Reader secara gratis. Langkahnya singkat, cukup satu perintah untuk koleksi besar."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Kalau kamu mau pindah dari Readwise Reader atau Matter, kamu bisa membawa daftar bacaan ke Slax Reader secara gratis. Kedua aplikasi itu belum punya impor sekali klik ke Slax, jadi caranya singkat dan sama untuk keduanya: ambil daftar link kamu, lalu simpan. Cara ini juga berlaku untuk sebagian besar aplikasi baca nanti lainnya.
+
+## Sebelum mulai
+
+- **Akun Slax Reader.** [Daftar atau masuk](https://r.slax.com).
+- **Gambaran kasar apa yang mau disimpan.** Kamu tidak harus memindahkan semuanya. Banyak orang hanya membawa yang masih ingin mereka baca.
+
+## Langkah 1: Ambil daftar link kamu
+
+Pilih aplikasimu. Apa pun pilihannya, hasil akhirnya adalah file teks biasa bernama `links.txt`, satu link per baris.
+
+### Dari Readwise Reader
+
+1. Buka halaman **Account profile** dan pilih **Export Library as CSV** di bawah "Export account data". Kamu juga bisa membuka Command Palette dan mencari "Generate CSV export". [Panduan ekspor Readwise](https://docs.readwise.io/reader/docs/faqs/exporting) berisi langkah terbaru.
+2. Buka CSV di aplikasi spreadsheet, salin kolom **url**, lalu tempel ke `links.txt`.
+
+### Dari Matter
+
+Cek dulu apakah pengaturan Matter punya opsi ekspor. Kalau tidak memberimu file berisi link, terpaksa manual: buka setiap artikel yang ingin disimpan, salin alamat web aslinya, lalu tempel ke `links.txt`. Kalau kamu pernah menyorot sebuah artikel, ekspor Markdown sorotan dari Matter biasanya menyertakan link ke artikel asli, jadi bisa menghemat sedikit waktu menyalin.
+
+### Dari aplikasi lain
+
+Cari opsi ekspor di pengaturan aplikasi, biasanya file CSV, HTML, atau JSON. Salin kolom link ke `links.txt`. Kalau tidak ada ekspor, kumpulkan link secara manual, seperti di Matter.
+
+## Langkah 2: Simpan link di Slax Reader
+
+**Hanya beberapa link?** Buka satu per satu dan klik [ekstensi browser Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd). Halaman tersimpan dengan sekali klik.
+
+**Banyak link?** Gunakan command line. Instal, lalu masuk dengan API key dari pengaturan Slax Reader kamu. Jaga kerahasiaan key itu.
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+Lalu, di Mac atau Linux:
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-readwise"; done < links.txt
+```
+
+Di Windows PowerShell:
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-readwise" }
+```
+
+Setiap link disimpan satu per satu dan diberi tag, jadi seluruh kumpulan mudah ditemukan. Pakai `from-matter` untuk link dari Matter, atau tag apa pun yang kamu suka. Kalau daftarnya sangat panjang, jalankan per bagian kecil dan cek Inbox di sela-selanya.
+
+## Apa saja yang ikut pindah
+
+| Dari aplikasi lama | Di Slax Reader |
+|---|---|
+| Link web | Bookmark tersimpan dengan salinan baru setiap halaman, diberi tag nama kumpulanmu |
+| Tanggal simpan asli | Tidak dipertahankan; link diberi tanggal saat kamu menyimpannya |
+| Sorotan dan catatan | Tetap di aplikasi lama, jadi simpan ekspornya |
+| Item yang bukan halaman web, seperti file yang diunggah | Tidak dibahas di sini |
+
+## Mencari alternatif Readwise Reader yang gratis?
+
+Readwise Reader adalah langganan berbayar. Fitur dasar Slax Reader gratis, dan kodenya open source. Kalau masih membandingkan, [lihat Slax Reader dan Readwise Reader berdampingan](/reader/alternatives/readwise-reader/) untuk tahu kelebihan masing-masing. Datang dari Matter? Ada juga [perbandingan dengan Matter](/reader/alternatives/matter/), dan [perbandingan lengkap aplikasi baca nanti](/blog/read-later-comparison-matrix-2026/).
+
+## FAQ
+
+### Apakah memindahkan koleksi saya gratis?
+Ya. Kamu bisa memindahkan koleksimu ke Slax Reader secara gratis.
+
+### Apakah sorotan saya akan hilang?
+Sorotan tidak ikut dipindahkan, tapi juga tidak hilang. Semuanya tetap di aplikasi lama, jadi simpan ekspornya.
+
+### Kenapa command line dan bukan tombol Impor?
+Settings hanya punya tombol impor untuk Pocket dan Omnivore. Untuk aplikasi lain, menyimpan link adalah cara tercepat.
+
+## Datang dari Pocket atau Omnivore?
+
+Keduanya punya impor sekali klik. Lihat [cara mengimpor bookmark Pocket](/blog/import-pocket-bookmarks/) atau [cara mengimpor bookmark Omnivore](/blog/import-omnivore-bookmarks/).
+
+[Buka Slax Reader](https://r.slax.com) dan mulai pindahkan link kamu.

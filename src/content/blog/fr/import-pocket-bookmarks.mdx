@@ -1,0 +1,63 @@
+---
+title: "Importer ses favoris Pocket : le guide étape par étape"
+description: "Importez vos favoris Pocket dans Slax Reader : envoyez le ZIP de votre export dans les réglages, et vos liens, titres et tags suivent. Gratuit, avec les clics exacts."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Pocket a fermé, mais vos liens enregistrés n’ont pas à disparaître avec lui. Si vous avez gardé votre fichier d’export Pocket, vous pouvez importer vos favoris Pocket dans Slax Reader en un seul envoi. L’import est gratuit, et Slax Reader s’occupe de la partie la plus lente en arrière-plan.
+
+## Avant de commencer
+
+- **Votre fichier d’export Pocket.** C’est un ZIP qui contient un ou plusieurs fichiers CSV nommés par exemple `part_000000.csv`. Pocket a cessé d’enregistrer le 8 juillet 2025, et [la dernière date limite d’export était le 12 novembre 2025](https://www.vice.com/en/article/mozilla-pocket-gets-one-month-reprieve/) : vous ne pouvez donc plus en obtenir un nouveau. Cherchez « pocket » dans votre dossier Téléchargements, vos e-mails et votre stockage cloud.
+- **Un compte Slax Reader.** [Inscrivez-vous ou connectez-vous](https://r.slax.com).
+- **Laissez le ZIP fermé.** Ne le décompressez pas. Slax Reader l’ouvre pour vous.
+
+## Importer votre export Pocket en cinq étapes
+
+1. **Ouvrez les réglages.** Connectez-vous sur [r.slax.com](https://r.slax.com), passez la souris sur votre avatar et cliquez sur **Setting**.
+2. **Allez dans Data.** Cliquez sur **Data** dans la navigation des réglages. Repérez la carte **Import third-party data**.
+3. **Cliquez sur le bouton Pocket.** Appuyez sur **Import third-party data Pocket**. Le sélecteur de fichiers s’ouvre.
+4. **Choisissez votre ZIP.** Vous verrez « Unzipping file... » puis « Uploading file... ». À la fin, le message **pocket data imported successfully, please wait a moment** s’affiche. Cela signifie que le fichier est bien arrivé. Vos liens sont ensuite enregistrés en arrière-plan.
+5. **Suivez la progression.** Cliquez sur **View import progress**. La fenêtre **Import progress** affiche le Status Pending, puis Processing avec un pourcentage, puis **Complete**. Ouvrez alors votre Inbox.
+
+Vous pouvez fermer la fenêtre et continuer à lire pendant ce temps. Quelques centaines de liens sont traités rapidement. Des milliers prennent plus de temps, car Slax Reader récupère chaque page à nouveau pour en enregistrer une copie fraîche.
+
+## Ce qui est transféré
+
+| Dans Pocket | Dans Slax Reader |
+|---|---|
+| Lien et titre | Favori enregistré |
+| Tags | Tags |
+| Éléments archivés | Toujours archivés |
+| Date d’enregistrement d’origine | Non conservée ; les liens prennent la date de l’import |
+| Surlignages et notes | Non inclus, gardez donc votre fichier d’export |
+
+Un export Pocket contient les liens et leurs informations, pas le texte des articles. Une page supprimée du web depuis ne peut pas être récupérée à nouveau.
+
+## Si certains liens échouent
+
+Il y en a toujours quelques-uns : pages supprimées, sites qui bloquent les visites automatisées, liens derrière une connexion.
+
+1. Dans **Import progress**, cliquez sur le chiffre de la colonne **Failed**.
+2. La fenêtre **Import Failures** les liste. Ouvrez la page d’origine pour voir si elle existe encore.
+3. Si oui, enregistrez-la à nouveau avec l’[extension de navigateur Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd).
+4. Cliquez sur **Batch Delete** (après avoir coché des éléments) ou sur **Delete All** pour vider la liste.
+
+**Rien ne se passe après avoir choisi le fichier ?** Vérifiez qu’il s’agit bien du ZIP d’origine et qu’il contient un fichier comme `part_000000.csv`. Un ZIP renommé ou recréé ne sera pas reconnu.
+
+## FAQ
+
+### L’import est-il gratuit ?
+Oui. Vous pouvez importer vos favoris Pocket dans Slax Reader gratuitement.
+
+### Puis-je encore exporter depuis Pocket ?
+Non. La période d’export s’est terminée le 12 novembre 2025. Il vous faut un fichier enregistré auparavant.
+
+## Vous venez d’une autre application ?
+
+Slax Reader importe aussi les exports [Omnivore](/blog/import-omnivore-bookmarks/), et un court guide explique comment [passer de Readwise Reader ou Matter](/blog/move-from-readwise-reader-or-matter/). Vous hésitez encore ? Découvrez [comment Slax Reader se compare à Pocket](/reader/alternatives/pocket/), ou lisez [pourquoi les applications de lecture différée ferment les unes après les autres](/blog/read-it-later-history/).
+
+[Ouvrez Slax Reader](https://r.slax.com) et lancez votre import.

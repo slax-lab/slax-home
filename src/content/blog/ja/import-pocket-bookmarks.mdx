@@ -1,0 +1,63 @@
+---
+title: "Pocket のブックマークをインポート：ステップごとのガイド"
+description: "Pocket のブックマークを Slax Reader にインポート：設定でエクスポートした ZIP をアップロードするだけで、リンク、タイトル、タグが移ります。無料。どこをクリックするかも具体的に解説。"
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Pocket は終了しましたが、保存したリンクまで一緒に失う必要はありません。Pocket のエクスポートファイルを残してあれば、一度アップロードするだけで Pocket のブックマークを Slax Reader にインポートできます。インポートは無料で、時間のかかる部分は Slax Reader がバックグラウンドで進めます。
+
+## 始める前に
+
+- **Pocket のエクスポートファイル。** `part_000000.csv` のような名前の CSV ファイルが 1 つ以上入った ZIP です。Pocket は 2025 年 7 月 8 日に保存を停止し、[最後のエクスポート期限は 2025 年 11 月 12 日でした](https://www.vice.com/en/article/mozilla-pocket-gets-one-month-reprieve/)。そのため、新しいエクスポートはもう作れません。ダウンロードフォルダ、メール、クラウドストレージで「pocket」を検索してみてください。
+- **Slax Reader のアカウント。** [登録またはログイン](https://r.slax.com)。
+- **ZIP は解凍しないでください。** Slax Reader がそのまま開きます。
+
+## 5 ステップで Pocket のエクスポートをインポート
+
+1. **設定を開く。** [r.slax.com](https://r.slax.com) にログインし、アバターにマウスを合わせて **Setting** をクリックします。
+2. **Data に移動。** 設定のナビゲーションで **Data** をクリックし、**Import third-party data** というカードを探します。
+3. **Pocket ボタンをクリック。** **Import third-party data Pocket** を押すと、ファイル選択画面が開きます。
+4. **ZIP を選ぶ。** 「Unzipping file...」、続いて「Uploading file...」と表示されます。完了すると **pocket data imported successfully, please wait a moment** というメッセージが出ます。これはファイルが届いたという意味です。リンクはこのあとバックグラウンドで保存されます。
+5. **進捗を確認。** **View import progress** をクリックします。**Import progress** ウィンドウの Status が Pending、パーセント付きの Processing、そして **Complete** と変わったら、Inbox を開きましょう。
+
+処理中はウィンドウを閉じて読書を続けて構いません。数百件ならすぐ終わります。数千件だと少し時間がかかります。Slax Reader が各ページを取得し直して、新しいコピーを保存するためです。
+
+## 移るもの
+
+| Pocket では | Slax Reader では |
+|---|---|
+| リンクとタイトル | ブックマークとして保存 |
+| タグ | タグ |
+| アーカイブ済みの項目 | アーカイブ済みのまま |
+| 元の保存日 | 引き継がれず、インポートした日付になります |
+| ハイライトとメモ | 含まれません。エクスポートファイルは手元に残しておきましょう |
+
+Pocket のエクスポートに入っているのはリンクと情報だけで、記事の本文は含まれません。すでに Web から削除されたページは取得し直せません。
+
+## 失敗したリンクがあったら
+
+いくつかは必ず出てきます。削除されたページ、自動アクセスをブロックするサイト、ログインが必要なリンクなどです。
+
+1. **Import progress** で、**Failed** 列の数字をクリックします。
+2. **Import Failures** ウィンドウに一覧が出ます。元のページを開いて、まだ存在するか確認しましょう。
+3. 存在すれば、[Slax Reader ブラウザ拡張機能](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd)で保存し直します。
+4. 項目にチェックを入れて **Batch Delete** をクリックするか、**Delete All** で一覧を空にします。
+
+**ファイルを選んでも何も起きない？** 元の ZIP であること、`part_000000.csv` のようなファイルが入っていることを確認してください。名前を変えたり作り直したりした ZIP は認識されません。
+
+## よくある質問
+
+### インポートは無料？
+はい。Pocket のブックマークは無料で Slax Reader にインポートできます。
+
+### 今からでも Pocket からエクスポートできる？
+できません。エクスポートの受付は 2025 年 11 月 12 日に終了しました。以前に保存したファイルが必要です。
+
+## ほかのアプリから移る場合
+
+Slax Reader は [Omnivore](/blog/import-omnivore-bookmarks/) のエクスポートにも対応しています。[Readwise Reader や Matter からの移行](/blog/move-from-readwise-reader-or-matter/)についての短いガイドもあります。まだ比較中なら、[Slax Reader と Pocket の比較](/reader/alternatives/pocket/)や、[「あとで読む」アプリが次々と終了する理由](/blog/read-it-later-history/)もどうぞ。
+
+[Slax Reader を開いて](https://r.slax.com)インポートを始めましょう。

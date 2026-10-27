@@ -1,0 +1,87 @@
+---
+title: "从 Readwise Reader 或 Matter 搬家：简短指南"
+description: "想从 Readwise Reader 或 Matter 搬走？拿到你的链接列表，免费保存进 Slax Reader。步骤很短，内容多的话一条命令就能搞定。"
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+如果你想从 Readwise Reader 或 Matter 搬走，可以免费把阅读列表带进 Slax Reader。这两个应用目前都还没有一键导入到 Slax 的功能，所以方法很简单，而且两者通用：先拿到你的链接列表，再把它们保存进来。这个方法对大多数其他稍后读应用也适用。
+
+## 开始之前
+
+- **一个 Slax Reader 账号。** [注册或登录](https://r.slax.com)。
+- **大概想好要留下哪些。** 不必全部搬过来。很多人只带走自己还打算读的内容。
+
+## 第 1 步：拿到你的链接列表
+
+选择你的应用。不管用哪种方式，最后都会得到一个叫 `links.txt` 的纯文本文件，每行一个链接。
+
+### 从 Readwise Reader
+
+1. 打开 **Account profile** 页面，在 "Export account data" 下选择 **Export Library as CSV**。你也可以打开 Command Palette，搜索 "Generate CSV export"。最新步骤见 [Readwise 的导出指南](https://docs.readwise.io/reader/docs/faqs/exporting)。
+2. 用表格软件打开 CSV，复制 **url** 这一列，粘贴到 `links.txt` 里。
+
+### 从 Matter
+
+先在 Matter 的设置里找找有没有导出选项。如果它没有给你一个链接文件，就只能手动了：打开每篇想保留的文章，复制它的原始网址，粘贴到 `links.txt` 里。如果你在某篇文章里做过高亮，Matter 的高亮 Markdown 导出里通常会附上原文链接，可以省掉一些复制的功夫。
+
+### 从其他应用
+
+在应用设置里找导出选项，通常是 CSV、HTML 或 JSON 文件。把链接那一列复制到 `links.txt`。如果没有导出功能，就像 Matter 那样手动收集链接。
+
+## 第 2 步：在 Slax Reader 里保存链接
+
+**只有几个链接？** 逐个打开，点击 [Slax Reader 浏览器扩展](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd)，一键就能保存网页。
+
+**链接很多？** 用命令行。安装后，用 Slax Reader 设置里的 API key 登录。请妥善保管这个 key，不要外泄。
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+然后，在 Mac 或 Linux 上：
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-readwise"; done < links.txt
+```
+
+在 Windows PowerShell 上：
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-readwise" }
+```
+
+每个链接会逐条保存并打上标签，所以整批内容很容易找到。Matter 的链接可以用 `from-matter`，或者任何你喜欢的标签。如果列表很长，分成几小批来跑，每跑完一批去 Inbox 看一眼。
+
+## 哪些内容会搬过来
+
+| 旧应用里的 | 在 Slax Reader 里 |
+|---|---|
+| 网页链接 | 保存为书签，每个网页都有一份新副本，并打上你的批次标签 |
+| 原始保存日期 | 不保留；日期记为保存当天 |
+| 高亮和笔记 | 留在旧应用里，请保留好它的导出文件 |
+| 不是网页的内容，比如上传的文件 | 本指南不涉及 |
+
+## 在找免费的 Readwise Reader 替代品？
+
+Readwise Reader 是付费订阅。Slax Reader 的基础功能免费，而且代码开源。如果你还在比较，可以[看看 Slax Reader 和 Readwise Reader 的对比](/reader/alternatives/readwise-reader/)，了解各自擅长什么。从 Matter 过来？也有一篇 [Matter 对比](/reader/alternatives/matter/)，以及一份[完整的稍后读应用对比](/blog/read-later-comparison-matrix-2026/)。
+
+## 常见问题
+
+### 搬家免费吗？
+免费。把你的内容搬进 Slax Reader 不收费。
+
+### 我的高亮会丢吗？
+不会搬过来，但也不会消失。它们留在旧应用里，记得导出一份保存好。
+
+### 为什么用命令行，而不是导入按钮？
+设置里目前只有 Pocket 和 Omnivore 的导入按钮。对其他应用来说，直接保存链接是最快的办法。
+
+## 从 Pocket 或 Omnivore 过来？
+
+这两个有一键导入。看看[如何导入 Pocket 书签](/blog/import-pocket-bookmarks/)或[如何导入 Omnivore 书签](/blog/import-omnivore-bookmarks/)。
+
+[打开 Slax Reader](https://r.slax.com)，开始搬你的链接吧。
