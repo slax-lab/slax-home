@@ -2,13 +2,14 @@
 title: "Slax Reader CLI: pustaka baca-nanti untuk AI agent"
 description: "CLI yang mengubah Slax Reader jadi penyimpan bacaan persisten — bisa dibaca dan ditulis AI agent apa pun: Claude Code, Codex, Gemini CLI, Cursor."
 pubDate: 2026-05-19T00:00:00.000Z
+updatedDate: 2026-10-28T00:00:00.000Z
 tags: ['reader', 'cli', 'ai-agents']
 product: reader
 ---
 
 Kami merilis CLI untuk Slax Reader, app baca-nanti kami. Bagian menariknya bukan CLI itu sendiri — tapi pustaka bacaanmu kini jadi alat kelas satu yang bisa dipanggil AI agent. Bookmark, list, dan pipe-into-prompt semuanya bisa di-script.
 
-Repo: [github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli) (MIT). Cara pasang dan pakai di bawah.
+Repo: [github.com/slax-lab/slax-reader/tree/dev/apps/cli](https://github.com/slax-lab/slax-reader/tree/dev/apps/cli) (MIT). Cara pasang dan pakai di bawah.
 
 ---
 
@@ -91,7 +92,7 @@ Sebelum mulai menulis, tanyakan ke Claude Code: *"Di arsip Slax Reader-ku, cari 
 
 Untuk yang skeptis:
 
-- **Sumber terbuka, bisa self-host.** Slax Reader sendiri Apache 2.0 ([github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader)). CLI-nya MIT. Ekspor kapan saja.
+- **Sumber terbuka.** Slax Reader sendiri Apache 2.0 ([github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader)). Kodenya sepenuhnya publik, dan saat ini kamu bisa men-deploy-nya ke akun Cloudflare milikmu sendiri. CLI-nya MIT. Ekspor kapan saja.
 - **Arus kas kami stabil dan kami menjalankan ini jangka panjang.** Pocket dihentikan Mozilla pada 2025 dan meninggalkan banyak orang dengan trauma ditinggal app baca-nanti. Kami tidak akan melakukannya padamu.
 - **Backup permanen gratis.** Bookmark + cache teks penuh, gratis selamanya. Readwise, Instapaper Premium, Matter, dan eks-Pocket semua memungut biaya untuk ini. Kami tidak.
 - **Pencarian teks penuh dan sorotan gratis.** Alasannya sama.
@@ -106,7 +107,7 @@ Untuk yang skeptis:
 # Satu langkah: pasang CLI dan skill AI agent
 npx @slax-lab/reader-cli@latest install
 
-# Autentikasi (tempel API key dari reader.slax.com → Settings → API Keys)
+# Autentikasi (tempel API key dari Settings → Skills + CLI → Generate and copy)
 reader-cli login
 
 # Pakai
@@ -115,15 +116,17 @@ reader-cli list --filter inbox
 reader-cli get <bookmark-id> --markdown
 ```
 
+Butuh Node.js 22 atau 24 LTS. Ambil key-mu di Slax Reader lewat **Settings → Skills + CLI → Generate and copy**; key diawali `sr-`. Perintah lain: `archive`, `star`, `delete`, `restore`, dan `--json` untuk output yang bisa dibaca mesin. Menjalankan instance sendiri? Login dengan `reader-cli login --api-base <url-kamu>`.
+
 Atau arahkan saja agent-mu ke install guide dan biarkan dia melakukan semuanya:
 
-> *"Bantu aku pasang dan setup Slax Reader CLI: https://github.com/slax-lab/slax-reader-cli/blob/main/docs/ai-agent-installation-guide.md"*
+> *"Bantu aku pasang dan setup Slax Reader CLI: https://github.com/slax-lab/slax-reader/blob/dev/docs/cli/ai-agent-installation-guide.md"*
 
 ---
 
 ## Tautan
 
-- Repo & docs: [github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)
+- Repo & docs: [github.com/slax-lab/slax-reader/tree/dev/apps/cli](https://github.com/slax-lab/slax-reader/tree/dev/apps/cli)
 - Daftar: [reader.slax.com](https://reader.slax.com)
 
 > Daftar lewat referral-ku kasih kamu beberapa bulan Pro: [r.slax.com/luca-reader](https://r.slax.com/luca-reader). Tidak ada alur kerja di atas yang membutuhkan Pro — backup permanen, pencarian teks penuh, dan CLI semuanya jalan di paket gratis.
