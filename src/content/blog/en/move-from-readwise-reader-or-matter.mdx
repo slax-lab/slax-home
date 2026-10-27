@@ -1,0 +1,87 @@
+---
+title: "Move From Readwise Reader or Matter: Short Guide"
+description: "Want to move from Readwise Reader or Matter? Get a list of your links and save them into Slax Reader for free. Short steps, one command for big libraries."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+If you want to move from Readwise Reader or Matter, you can bring your reading list into Slax Reader for free. Neither app has a one-click Slax import yet, so the method is short and the same for both: get a list of your links, then save them. It also works for most other read-later apps.
+
+## Before you start
+
+- **A Slax Reader account.** [Sign up or log in](https://r.slax.com).
+- **A rough idea of what to keep.** You don't have to move everything. Many people only bring over what they still plan to read.
+
+## Step 1: Get a list of your links
+
+Pick your app. Whichever you choose, you end up with a plain text file called `links.txt`, one link per line.
+
+### From Readwise Reader
+
+1. Open your **Account profile** page and choose **Export Library as CSV** under "Export account data". You can also open the Command Palette and search for "Generate CSV export". [Readwise's export guide](https://docs.readwise.io/reader/docs/faqs/exporting) has the current steps.
+2. Open the CSV in a spreadsheet, copy the **url** column, and paste it into `links.txt`.
+
+### From Matter
+
+Check Matter's settings for an export option first. If it doesn't give you a file of your links, this one is manual: open each article you want to keep, copy its original web address, and paste it into `links.txt`. If you highlighted an article, Matter's Markdown export of the highlights has included a link to the original, which can save some copying.
+
+### From another app
+
+Look for an export option in the app's settings, usually a CSV, HTML or JSON file. Copy the link column into `links.txt`. If there's no export, collect the links by hand, as with Matter.
+
+## Step 2: Save the links in Slax Reader
+
+**A few links?** Open each one and click the [Slax Reader browser extension](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd). The page is saved in one click.
+
+**Many links?** Use the command line. Install it and log in with an API key from your Slax Reader settings. Keep the key private.
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+Then, on Mac or Linux:
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-readwise"; done < links.txt
+```
+
+On Windows PowerShell:
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-readwise" }
+```
+
+Each link is saved one at a time and tagged, so your whole batch is easy to find. Use `from-matter` for Matter links, or any tag you like. With a very long list, run it in smaller chunks and check your Inbox between them.
+
+## What moves over
+
+| From your old app | In Slax Reader |
+|---|---|
+| Web links | Saved bookmarks with a fresh copy of each page, tagged with your batch name |
+| Original saved date | Not kept; links are dated from the day you save them |
+| Highlights and notes | Stay in the old app, so keep its export |
+| Items that aren't web pages, such as uploaded files | Not covered here |
+
+## Looking for a free Readwise Reader alternative?
+
+Readwise Reader is a paid subscription. Slax Reader's basics are free, and the code is open source. If you're still comparing, [see Slax Reader next to Readwise Reader](/reader/alternatives/readwise-reader/) for what each does well. Coming from Matter instead? There's a [Matter comparison](/reader/alternatives/matter/) too, and a [full read-it-later comparison](/blog/read-later-comparison-matrix-2026/).
+
+## FAQ
+
+### Is moving my library free?
+Yes. You can move your library into Slax Reader for free.
+
+### Will I lose my highlights?
+They aren't moved, but they don't disappear. They stay in your old app, so keep an export of them.
+
+### Why a command line and not an Import button?
+Settings has import buttons for Pocket and Omnivore only. For other apps, saving the links is the quickest route.
+
+## Coming from Pocket or Omnivore instead?
+
+Those two have one-click imports. See [how to import Pocket bookmarks](/blog/import-pocket-bookmarks/) or [how to import Omnivore bookmarks](/blog/import-omnivore-bookmarks/).
+
+[Open Slax Reader](https://r.slax.com) and start moving your links.

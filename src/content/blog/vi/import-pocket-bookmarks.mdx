@@ -1,0 +1,63 @@
+---
+title: "Nhập dấu trang Pocket: Hướng dẫn từng bước"
+description: "Nhập dấu trang Pocket vào Slax Reader: tải file ZIP xuất dữ liệu lên trong Settings, link, tiêu đề và thẻ sẽ được chuyển sang. Miễn phí, chỉ rõ từng cú nhấp."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Pocket đã đóng cửa, nhưng những link bạn đã lưu không cần phải biến mất theo. Nếu bạn còn giữ file xuất dữ liệu của Pocket, bạn có thể nhập dấu trang Pocket vào Slax Reader chỉ với một lần tải lên. Việc nhập là miễn phí, và Slax Reader sẽ lo phần chậm nhất cho bạn ở chế độ nền.
+
+## Trước khi bắt đầu
+
+- **File xuất dữ liệu Pocket của bạn.** Đó là một file ZIP chứa một hoặc nhiều file CSV có tên kiểu `part_000000.csv`. Pocket ngừng lưu từ ngày 8 tháng 7 năm 2025, và [hạn chót xuất dữ liệu cuối cùng là ngày 12 tháng 11 năm 2025](https://www.vice.com/en/article/mozilla-pocket-gets-one-month-reprieve/), nên bạn không thể tạo file mới nữa. Hãy tìm "pocket" trong thư mục Downloads, email và bộ nhớ đám mây.
+- **Một tài khoản Slax Reader.** [Đăng ký hoặc đăng nhập](https://r.slax.com).
+- **Đừng giải nén file ZIP.** Slax Reader sẽ tự mở nó.
+
+## Nhập dữ liệu Pocket trong năm bước
+
+1. **Mở Settings.** Đăng nhập tại [r.slax.com](https://r.slax.com), di chuột lên ảnh đại diện và nhấp **Setting**.
+2. **Vào Data.** Nhấp **Data** trong thanh điều hướng cài đặt. Tìm thẻ có tên **Import third-party data**.
+3. **Nhấp nút Pocket.** Bấm **Import third-party data Pocket**. Cửa sổ chọn file sẽ mở ra.
+4. **Chọn file ZIP.** Bạn sẽ thấy "Unzipping file..." rồi đến "Uploading file...". Khi xong, thông báo **pocket data imported successfully, please wait a moment** sẽ hiện ra, nghĩa là file đã được tải lên. Tiếp theo, các link sẽ được lưu ở chế độ nền.
+5. **Kiểm tra tiến độ.** Nhấp **View import progress**. Cửa sổ **Import progress** hiển thị Status là Pending, rồi Processing kèm phần trăm, cuối cùng là **Complete**. Sau đó mở Inbox của bạn.
+
+Bạn có thể đóng cửa sổ và tiếp tục đọc trong lúc chờ. Vài trăm link sẽ xong nhanh. Hàng nghìn link sẽ lâu hơn, vì Slax Reader tải lại từng trang để lưu một bản sao mới.
+
+## Những gì được chuyển sang
+
+| Trong Pocket | Trong Slax Reader |
+|---|---|
+| Link và tiêu đề | Dấu trang đã lưu |
+| Thẻ | Thẻ |
+| Mục đã lưu trữ | Vẫn được lưu trữ |
+| Ngày lưu gốc | Không giữ lại; link được ghi ngày bạn nhập |
+| Đánh dấu và ghi chú | Không bao gồm, nên hãy giữ file xuất dữ liệu |
+
+File xuất của Pocket chỉ chứa link và thông tin, không có nội dung bài viết. Trang nào đã bị xoá khỏi web thì không thể tải lại được.
+
+## Nếu một số link bị lỗi
+
+Lúc nào cũng có vài link như vậy: trang đã bị xoá, trang web chặn truy cập tự động, link cần đăng nhập.
+
+1. Trong **Import progress**, nhấp vào con số ở cột **Failed**.
+2. Cửa sổ **Import Failures** sẽ liệt kê chúng. Mở trang gốc để xem nó còn tồn tại không.
+3. Nếu còn, lưu lại bằng [tiện ích trình duyệt Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd).
+4. Nhấp **Batch Delete** (sau khi đánh dấu các mục) hoặc **Delete All** để xoá danh sách.
+
+**Chọn file xong mà không có gì xảy ra?** Hãy chắc rằng đó là file ZIP gốc và bên trong có file kiểu `part_000000.csv`. File ZIP đã đổi tên hoặc nén lại sẽ không được nhận.
+
+## Câu hỏi thường gặp
+
+### Nhập dữ liệu có miễn phí không?
+Có. Bạn có thể nhập dấu trang Pocket vào Slax Reader miễn phí.
+
+### Tôi còn xuất dữ liệu từ Pocket được không?
+Không. Thời hạn xuất dữ liệu đã kết thúc vào ngày 12 tháng 11 năm 2025. Bạn cần một file đã lưu từ trước.
+
+## Chuyển từ ứng dụng khác?
+
+Slax Reader cũng nhập được file xuất từ [Omnivore](/blog/import-omnivore-bookmarks/), và có một hướng dẫn ngắn để [chuyển từ Readwise Reader hoặc Matter](/blog/move-from-readwise-reader-or-matter/). Vẫn đang chọn? Xem [Slax Reader so với Pocket](/reader/alternatives/pocket/), hoặc đọc [vì sao các ứng dụng đọc sau cứ lần lượt đóng cửa](/blog/read-it-later-history/).
+
+[Mở Slax Reader](https://r.slax.com) và bắt đầu nhập dữ liệu.

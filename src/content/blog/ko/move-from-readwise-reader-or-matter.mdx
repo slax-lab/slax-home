@@ -1,0 +1,87 @@
+---
+title: "Readwise Reader나 Matter에서 옮겨 오기: 짧은 가이드"
+description: "Readwise Reader나 Matter에서 옮기고 싶나요? 링크 목록을 받아 Slax Reader에 무료로 저장하세요. 단계는 짧고, 라이브러리가 커도 명령어 하나면 됩니다."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Readwise Reader나 Matter에서 옮기고 싶다면, 읽기 목록을 무료로 Slax Reader에 가져올 수 있습니다. 두 앱 모두 아직 Slax로 원클릭 가져오기가 없어서, 방법은 짧고 둘 다 똑같습니다. 링크 목록을 받은 다음 저장하면 됩니다. 다른 나중에 읽기 앱 대부분에서도 통하는 방법입니다.
+
+## 시작하기 전에
+
+- **Slax Reader 계정.** [가입 또는 로그인](https://r.slax.com).
+- **무엇을 남길지 대략적인 생각.** 전부 옮길 필요는 없습니다. 아직 읽을 생각인 것만 가져오는 사람도 많습니다.
+
+## 1단계: 링크 목록 받기
+
+쓰던 앱을 고르세요. 어떤 방법이든 마지막에는 한 줄에 링크 하나씩 담긴 `links.txt`라는 텍스트 파일이 생깁니다.
+
+### Readwise Reader에서
+
+1. **Account profile** 페이지를 열고 "Export account data" 아래의 **Export Library as CSV**를 선택합니다. Command Palette를 열어 "Generate CSV export"를 검색해도 됩니다. 최신 단계는 [Readwise 내보내기 가이드](https://docs.readwise.io/reader/docs/faqs/exporting)에 있습니다.
+2. 스프레드시트에서 CSV를 열고 **url** 열을 복사해 `links.txt`에 붙여 넣습니다.
+
+### Matter에서
+
+먼저 Matter 설정에 내보내기 옵션이 있는지 확인하세요. 링크 파일을 주지 않는다면 수작업이 필요합니다. 남기고 싶은 글을 하나씩 열어 원래 웹 주소를 복사하고 `links.txt`에 붙여 넣으세요. 하이라이트한 글이라면 Matter의 하이라이트 Markdown 내보내기에 원문 링크가 들어 있었기 때문에, 복사하는 수고를 조금 덜 수 있습니다.
+
+### 다른 앱에서
+
+앱 설정에서 내보내기 옵션을 찾아보세요. 보통 CSV, HTML, JSON 파일입니다. 링크 열을 `links.txt`에 복사합니다. 내보내기가 없다면 Matter처럼 직접 링크를 모으세요.
+
+## 2단계: Slax Reader에 링크 저장하기
+
+**링크가 몇 개뿐이라면?** 하나씩 열고 [Slax Reader 브라우저 확장 프로그램](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd)을 클릭하세요. 클릭 한 번에 페이지가 저장됩니다.
+
+**링크가 많다면?** 명령줄을 쓰세요. 설치한 뒤 Slax Reader 설정에서 받은 API key로 로그인합니다. 키는 다른 사람에게 알려 주지 마세요.
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+그다음, Mac이나 Linux에서는:
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-readwise"; done < links.txt
+```
+
+Windows PowerShell에서는:
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-readwise" }
+```
+
+링크가 하나씩 저장되면서 태그가 붙기 때문에, 옮긴 묶음 전체를 쉽게 찾을 수 있습니다. Matter 링크에는 `from-matter`나 원하는 태그를 쓰세요. 목록이 아주 길면 작게 나눠 실행하고, 중간중간 Inbox를 확인하세요.
+
+## 옮겨지는 것
+
+| 이전 앱에서 | Slax Reader에서 |
+|---|---|
+| 웹 링크 | 북마크로 저장. 페이지마다 새 사본이 있고, 묶음 이름 태그가 붙음 |
+| 원래 저장한 날짜 | 유지되지 않음. 저장한 날짜로 기록됨 |
+| 하이라이트와 메모 | 이전 앱에 남으니, 그쪽 내보내기를 보관하세요 |
+| 웹 페이지가 아닌 항목(업로드한 파일 등) | 이 가이드에서는 다루지 않음 |
+
+## 무료 Readwise Reader 대안을 찾고 있나요?
+
+Readwise Reader는 유료 구독입니다. Slax Reader의 기본 기능은 무료이고, 코드는 오픈 소스입니다. 아직 비교 중이라면 [Slax Reader와 Readwise Reader 비교](/reader/alternatives/readwise-reader/)에서 각각 무엇을 잘하는지 확인해 보세요. Matter에서 오셨다면 [Matter 비교](/reader/alternatives/matter/)도 있고, [나중에 읽기 앱 전체 비교](/blog/read-later-comparison-matrix-2026/)도 있습니다.
+
+## 자주 묻는 질문
+
+### 라이브러리를 옮기는 건 무료인가요?
+네. 라이브러리는 무료로 Slax Reader에 옮길 수 있습니다.
+
+### 하이라이트가 사라지나요?
+옮겨지지는 않지만 사라지지도 않습니다. 이전 앱에 남아 있으니 내보내기 파일을 보관해 두세요.
+
+### 왜 가져오기 버튼이 아니라 명령줄인가요?
+설정에는 Pocket과 Omnivore용 가져오기 버튼만 있습니다. 다른 앱에서는 링크를 저장하는 것이 가장 빠른 방법입니다.
+
+## Pocket이나 Omnivore에서 오셨나요?
+
+이 두 앱은 원클릭 가져오기가 있습니다. [Pocket 북마크 가져오는 방법](/blog/import-pocket-bookmarks/)이나 [Omnivore 북마크 가져오는 방법](/blog/import-omnivore-bookmarks/)을 확인하세요.
+
+[Slax Reader를 열고](https://r.slax.com) 링크 옮기기를 시작하세요.

@@ -1,0 +1,65 @@
+---
+title: "Importer ses favoris Omnivore : le guide étape par étape"
+description: "Importez vos favoris Omnivore dans Slax Reader : Omnivore n’existe plus, mais votre export fonctionne toujours. Envoyez-le dans les réglages pour récupérer liens, titres et tags. Gratuit."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Omnivore a fermé le 15 novembre 2024, mais un fichier d’export Omnivore contient encore tout ce qu’il faut pour repartir. Vous pouvez importer vos favoris Omnivore dans Slax Reader en envoyant ce seul fichier. L’import est gratuit.
+
+## Avant de commencer
+
+- **Votre export Omnivore.** C’est un ZIP qui contient des fichiers JSON nommés par exemple `metadata_0_to_50.json`. Omnivore [a fermé après que son équipe a rejoint ElevenLabs](https://5typos.net/2024/10/29/omnivore-is-shutting-down-and-team-joining-elevenlabs) : vous ne pouvez donc plus créer de nouvel export. Cherchez « omnivore » ou « metadata_ » dans vos Téléchargements, vos e-mails et vos sauvegardes cloud.
+- **Un compte Slax Reader.** [Inscrivez-vous ou connectez-vous](https://r.slax.com).
+- **Ne le décompressez pas.** Slax Reader lit directement le ZIP.
+
+## Importer votre export Omnivore en cinq étapes
+
+1. **Ouvrez les réglages.** Connectez-vous, passez la souris sur votre avatar et cliquez sur **Setting**.
+2. **Allez dans Data.** Cliquez sur **Data**, puis repérez la carte **Import third-party data**.
+3. **Cliquez sur le bouton Omnivore.** Appuyez sur **Import third-party data Omnivore** et choisissez votre ZIP.
+4. **Attendez l’envoi.** Une fenêtre affiche « Unzipping file... » puis « Uploading file... », et se termine par **omnivore data imported successfully, please wait a moment**. Vos liens sont ensuite enregistrés en arrière-plan.
+5. **Suivez la progression.** Cliquez sur **View import progress**. Quand le Status indique **Complete**, ouvrez votre Inbox.
+
+Slax Reader récupère chaque page à nouveau au lieu de simplement copier une liste : une grande bibliothèque prend donc un peu de temps. Vous pouvez quitter la fenêtre et revenir plus tard.
+
+## Ce qui est transféré
+
+| Dans Omnivore | Dans Slax Reader |
+|---|---|
+| Lien, titre, description | Favori enregistré |
+| Miniature | Conservée |
+| Labels | Deviennent des tags |
+| Éléments archivés | Arrivent dans votre Inbox, archivez-les donc à nouveau |
+| Date d’enregistrement d’origine | Non conservée ; les liens prennent la date de l’import |
+| Surlignages et notes | Non inclus, gardez donc votre fichier d’export |
+
+## Corriger les liens qui ont échoué
+
+Les pages qui n’existent plus, ou qui bloquent les visites automatisées, ne peuvent pas être enregistrées.
+
+1. Dans **Import progress**, cliquez sur le chiffre sous **Failed**.
+2. Dans la fenêtre **Import Failures**, ouvrez un lien pour vérifier si la page est encore en ligne.
+3. Si oui, enregistrez-la à nouveau avec l’[extension de navigateur Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd).
+4. Cochez les éléments restants et cliquez sur **Batch Delete**, ou utilisez **Delete All**.
+
+**L’envoi ne fait rien ?** Vérifiez que vous avez choisi le ZIP d’origine et qu’il contient des fichiers `metadata_..._to_....json`. Si vous avez choisi un seul fichier JSON, essayez plutôt avec le ZIP.
+
+## FAQ
+
+### L’import est-il gratuit ?
+Oui. Vous pouvez importer vos favoris Omnivore dans Slax Reader gratuitement.
+
+### Puis-je encore exporter depuis Omnivore ?
+Non. Le service hébergé n’existe plus : il vous faut un export enregistré avant sa fermeture.
+
+### Slax Reader est-il open source comme Omnivore ?
+Oui, sous licence Apache 2.0. Le code est sur [GitHub](https://github.com/slax-lab).
+
+## Vous venez d’une autre application ?
+
+Slax Reader importe aussi les exports [Pocket](/blog/import-pocket-bookmarks/), et un court guide explique comment [passer de Readwise Reader ou Matter](/blog/move-from-readwise-reader-or-matter/). Vous comparez les options ? Découvrez [Slax Reader comme alternative à Omnivore](/reader/alternatives/omnivore/) ou lisez [l’histoire des applications de lecture différée](/blog/read-it-later-history/).
+
+[Ouvrez Slax Reader](https://r.slax.com) et lancez votre import.

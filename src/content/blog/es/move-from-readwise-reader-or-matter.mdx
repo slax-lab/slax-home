@@ -1,0 +1,87 @@
+---
+title: "Pasarte desde Readwise Reader o Matter: guía rápida"
+description: "¿Quieres dejar Readwise Reader o Matter? Consigue una lista de tus enlaces y guárdalos en Slax Reader gratis. Pasos cortos, y un solo comando para bibliotecas grandes."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Si quieres dejar Readwise Reader o Matter, puedes llevarte tu lista de lectura a Slax Reader gratis. Ninguna de las dos apps tiene todavía una importación a Slax con un clic, así que el método es corto y el mismo para ambas: consigue una lista de tus enlaces y luego guárdalos. También funciona con la mayoría de las demás apps de leer más tarde.
+
+## Antes de empezar
+
+- **Una cuenta de Slax Reader.** [Regístrate o inicia sesión](https://r.slax.com).
+- **Una idea aproximada de qué conservar.** No tienes que pasarlo todo. Mucha gente solo se lleva lo que todavía piensa leer.
+
+## Paso 1: consigue una lista de tus enlaces
+
+Elige tu app. Uses la que uses, al final tendrás un archivo de texto llamado `links.txt`, con un enlace por línea.
+
+### Desde Readwise Reader
+
+1. Abre tu página **Account profile** y elige **Export Library as CSV** en "Export account data". También puedes abrir la Command Palette y buscar "Generate CSV export". La [guía de exportación de Readwise](https://docs.readwise.io/reader/docs/faqs/exporting) tiene los pasos actualizados.
+2. Abre el CSV en una hoja de cálculo, copia la columna **url** y pégala en `links.txt`.
+
+### Desde Matter
+
+Primero revisa si los ajustes de Matter tienen una opción de exportar. Si no te da un archivo con tus enlaces, toca hacerlo a mano: abre cada artículo que quieras conservar, copia su dirección web original y pégala en `links.txt`. Si subrayaste un artículo, la exportación en Markdown de los subrayados de Matter incluía un enlace al original, lo que puede ahorrarte algo de copiar.
+
+### Desde otra app
+
+Busca una opción de exportar en los ajustes de la app, normalmente un archivo CSV, HTML o JSON. Copia la columna de enlaces en `links.txt`. Si no hay exportación, reúne los enlaces a mano, como con Matter.
+
+## Paso 2: guarda los enlaces en Slax Reader
+
+**¿Solo unos pocos enlaces?** Abre cada uno y haz clic en la [extensión de navegador de Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd). La página se guarda con un clic.
+
+**¿Muchos enlaces?** Usa la línea de comandos. Instálala e inicia sesión con una API key de tus ajustes de Slax Reader. No compartas la clave.
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+Luego, en Mac o Linux:
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-readwise"; done < links.txt
+```
+
+En Windows PowerShell:
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-readwise" }
+```
+
+Cada enlace se guarda uno a uno y se etiqueta, así encuentras todo el lote fácilmente. Usa `from-matter` para los enlaces de Matter, o la etiqueta que quieras. Con una lista muy larga, ejecútalo en tandas más pequeñas y revisa tu Inbox entre una y otra.
+
+## Qué se transfiere
+
+| Desde tu app anterior | En Slax Reader |
+|---|---|
+| Enlaces web | Marcadores guardados con una copia nueva de cada página, etiquetados con el nombre de tu lote |
+| Fecha original de guardado | No se conserva; los enlaces llevan la fecha en que los guardas |
+| Subrayados y notas | Se quedan en la app anterior, así que guarda su exportación |
+| Elementos que no son páginas web, como archivos subidos | No se cubren aquí |
+
+## ¿Buscas una alternativa gratis a Readwise Reader?
+
+Readwise Reader es una suscripción de pago. Las funciones básicas de Slax Reader son gratis y el código es abierto. Si todavía estás comparando, [mira Slax Reader junto a Readwise Reader](/reader/alternatives/readwise-reader/) para ver qué hace bien cada uno. ¿Vienes de Matter? También hay una [comparación con Matter](/reader/alternatives/matter/) y una [comparación completa de apps de leer más tarde](/blog/read-later-comparison-matrix-2026/).
+
+## Preguntas frecuentes
+
+### ¿Pasar mi biblioteca es gratis?
+Sí. Puedes pasar tu biblioteca a Slax Reader gratis.
+
+### ¿Perderé mis subrayados?
+No se transfieren, pero tampoco desaparecen. Se quedan en tu app anterior, así que guarda una exportación de ellos.
+
+### ¿Por qué una línea de comandos y no un botón de importar?
+En Ajustes solo hay botones de importación para Pocket y Omnivore. Para otras apps, guardar los enlaces es el camino más rápido.
+
+## ¿Vienes de Pocket u Omnivore?
+
+Esas dos tienen importación con un clic. Mira [cómo importar marcadores de Pocket](/blog/import-pocket-bookmarks/) o [cómo importar marcadores de Omnivore](/blog/import-omnivore-bookmarks/).
+
+[Abre Slax Reader](https://r.slax.com) y empieza a pasar tus enlaces.
