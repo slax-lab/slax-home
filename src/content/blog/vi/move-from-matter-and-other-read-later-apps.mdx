@@ -1,0 +1,78 @@
+---
+title: "Chuyển từ Matter hoặc ứng dụng đọc sau khác: Hướng dẫn ngắn"
+description: "Ứng dụng của bạn không có nút nhập? Lấy danh sách link từ Matter, Raindrop, Cubox, GoodLinks hay bất kỳ ứng dụng nào và lưu vào Slax Reader miễn phí. Một lệnh cho thư viện lớn."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Slax Reader có tính năng nhập một chạm cho [Pocket và Omnivore](/blog/import-pocket-omnivore-bookmarks/) và cho [Readwise Reader, Instapaper và Pinboard](/blog/import-readwise-instapaper-pinboard/). Với Matter và các ứng dụng không có nút nhập, cách làm tốn công hơn một chút nhưng vẫn ngắn gọn: lấy danh sách link, rồi lưu chúng lại. Miễn phí.
+
+## Trước khi bắt đầu
+
+- **Tài khoản Slax Reader.** [Đăng ký hoặc đăng nhập](https://r.slax.com).
+- **Biết sơ bộ cần giữ lại gì.** Bạn không cần chuyển hết. Nhiều người chỉ mang theo những gì họ vẫn định đọc.
+
+## Bước 1: Lấy danh sách link
+
+Dù rời ứng dụng nào, cuối cùng bạn sẽ có một file văn bản thường tên là `links.txt`, mỗi dòng một link.
+
+### Từ Matter
+
+Trước tiên hãy xem trong cài đặt của Matter có tuỳ chọn xuất không. Nếu nó không cho bạn file chứa link, bạn sẽ phải làm thủ công: mở từng bài muốn giữ, sao chép địa chỉ web gốc và dán vào `links.txt`. Nếu bạn đã highlight một bài, bản xuất Markdown highlight của Matter từng có kèm link tới bài gốc, giúp bạn đỡ phải sao chép.
+
+### Từ Raindrop, Cubox, GoodLinks hoặc ứng dụng khác
+
+Tìm tuỳ chọn xuất trong cài đặt của ứng dụng. Thường là file CSV, HTML hoặc JSON. Mở file, sao chép cột hoặc các dòng chứa link và dán vào `links.txt`. Nếu không có tính năng xuất, hãy gom link thủ công như với Matter.
+
+## Bước 2: Lưu link vào Slax Reader
+
+**Chỉ vài link?** Mở từng link và bấm vào [tiện ích trình duyệt Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd). Trang được lưu chỉ với một cú bấm.
+
+**Nhiều link?** Dùng dòng lệnh. Cần Node.js 22 hoặc 24. Lấy API key trong Slax Reader tại **Settings → Skills + CLI → Generate and copy**, rồi cài CLI và đăng nhập bằng key đó. Hãy giữ key ở chế độ riêng tư.
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+Sau đó, trên Mac hoặc Linux:
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-matter"; done < links.txt
+```
+
+Trên Windows PowerShell:
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-matter" }
+```
+
+Mỗi link được lưu lần lượt và gắn tag, nên bạn dễ tìm lại cả đợt. Đổi `from-matter` thành `from-raindrop` hoặc tag tuỳ thích. Nếu danh sách rất dài, hãy chạy theo từng phần nhỏ và kiểm tra Inbox giữa các lần.
+
+## Những gì được chuyển sang
+
+| Từ ứng dụng cũ | Trong Slax Reader |
+|---|---|
+| Link web | Bookmark đã lưu kèm bản sao mới của từng trang, gắn tag theo tên đợt |
+| Ngày lưu gốc | Không giữ; link lấy ngày bạn lưu |
+| Highlight và ghi chú | Vẫn ở ứng dụng cũ, nên hãy giữ bản xuất |
+| Mục không phải trang web, như file đã tải lên | Không đề cập ở đây |
+
+## Câu hỏi thường gặp
+
+### Chuyển thư viện có miễn phí không?
+Có. Bạn có thể chuyển thư viện vào Slax Reader miễn phí.
+
+### Tôi có mất highlight không?
+Highlight không được chuyển sang, nhưng cũng không biến mất. Chúng vẫn ở ứng dụng cũ, nên hãy giữ một bản xuất.
+
+### Sao lại dùng dòng lệnh mà không phải nút nhập?
+Phần cài đặt có nút nhập cho Pocket, Omnivore, Readwise Reader, Instapaper và Pinboard. Với các ứng dụng khác, lưu link là cách nhanh nhất.
+
+## Vẫn đang so sánh?
+
+Xem Slax Reader so với [Matter](/reader/alternatives/matter/), [Raindrop](/reader/alternatives/raindrop/), [Cubox](/reader/alternatives/cubox/) và [GoodLinks](/reader/alternatives/goodlinks/), hoặc [bảng so sánh đầy đủ các ứng dụng đọc sau](/blog/read-later-comparison-matrix-2026/).
+
+[Mở Slax Reader](https://r.slax.com) và bắt đầu chuyển link.

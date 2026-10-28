@@ -1,0 +1,81 @@
+---
+title: "從 Readwise Reader、Instapaper 或 Pinboard 匯入：逐步指南"
+description: "上傳一次，就能把 Readwise Reader、Instapaper 或 Pinboard 的收藏庫搬到 Slax Reader。連結、標題、標籤、保存日期和封存狀態都會一起搬過來。免費。"
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+準備離開 Readwise Reader、Instapaper 或 Pinboard？Slax Reader 對這三個 App 都支援一鍵匯入。從舊 App 匯出收藏庫，在 Slax Reader 上傳檔案，確認一下數字，你的書籤就會連同標籤和原始保存日期一起抵達。匯入免費。
+
+## 開始之前
+
+- **一個 Slax Reader 帳號。** [註冊或登入](https://r.slax.com)。
+- **每次匯入一個檔案，** 最大 25 MiB、10,000 條書籤。收藏庫更大？把它拆成幾個小檔案，依序匯入。最多可以同時進行五個匯入。
+
+## 第 1 步：匯出你的收藏庫
+
+### 從 Readwise Reader
+
+打開 **Account profile** 頁面，在「Export account data」下選擇 **Export Library as CSV**。也可以打開 Command Palette，搜尋「Generate CSV export」。最新步驟請見 [Readwise 的匯出說明](https://docs.readwise.io/reader/docs/faqs/exporting)。你會拿到一個 `.csv` 檔案。
+
+### 從 Instapaper
+
+登入 instapaper.com，打開 **Settings**，下載 **CSV** 匯出。你會拿到一個 `.csv` 檔案。
+
+### 從 Pinboard
+
+登入 pinboard.in，打開 **Settings → Backup**，下載你的書籤。JSON 最穩妥，HTML 和 XML 備份也可以用。
+
+## 第 2 步：把檔案匯入 Slax Reader
+
+1. **打開設定。** 登入 [r.slax.com](https://r.slax.com)，把滑鼠移到頭像上，點擊 **Setting**。
+2. **進入 Data。** 在設定選單裡點擊 **Data**，找到 **Import third-party data** 卡片。
+3. **點擊對應 App 的按鈕：** **Readwise Reader**、**Instapaper** 或 **Pinboard**。接著選擇你匯出的檔案。
+4. **確認數字。** **Confirm import** 視窗會顯示將匯入多少條書籤，以及合併了多少重複項目、略過了多少無效列。對於 Readwise Reader，RSS 和電子報的 feed 項目預設不匯入，除非你勾選 **Include feed articles**。
+5. **點擊 Start import。** 出現 **File received** 訊息，並顯示書籤數量。之後它們會在背景匯入。
+6. **查看進度。** 點擊 **View import progress**。Status 顯示 **Complete** 後，打開你的 Inbox。
+
+匯入期間你可以關掉視窗繼續閱讀。Slax Reader 會重新抓取每個頁面，保存一份新的副本，所以大的收藏庫需要一些時間。
+
+## 哪些內容會搬過來
+
+| 匯出檔案中的內容 | Readwise Reader | Instapaper | Pinboard |
+|---|---|---|---|
+| 連結和標題 | ✅ | ✅ | ✅ |
+| 標籤 | ✅ | ✅ 其他資料夾也會變成標籤 | ✅ |
+| 原始保存日期 | ✅ | ✅ | ✅ |
+| 已封存的項目 | ✅ 維持封存 | ✅ Archive 資料夾維持封存 | ✅ 未標記「to read」的項目進入封存 |
+| 加星項目（Starred） | ✗ | ✅ Starred 資料夾維持加星 | ✗ |
+| 畫線和筆記 | ✗ 請保留匯出檔案 | ✗ 請保留匯出檔案 | ✗ 請保留匯出檔案 |
+
+如果同一個連結出現兩次，Slax Reader 只保留一條書籤，並合併標籤。如果某個日期無法辨識，那條書籤會使用匯入日期，**Confirm import** 視窗會告訴你有幾條。
+
+## 如果部分連結失敗
+
+總會有一些：頁面已刪除、網站封鎖自動造訪、需要登入才能看的連結。
+
+1. 在 **Import progress** 中，點擊 **Failed** 欄裡的數字。
+2. **Import Failures** 視窗會列出這些連結。打開原始頁面，看看它還在不在。
+3. 如果還在，用 [Slax Reader 瀏覽器擴充功能](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd)重新保存。
+4. 勾選剩下的項目，點擊 **Batch Delete**，或用 **Delete All** 清空清單。
+
+**檔案被拒絕？** 檢查你點的是不是對應 App 的按鈕，以及檔案是不是 App 直接匯出的那個，而不是用試算表打開後另存的。Readwise Reader 和 Instapaper 需要 `.csv` 檔案；Pinboard 支援 `.json`、`.html` 或 `.xml`。
+
+## 常見問題
+
+### 匯入免費嗎？
+免費。你可以免費從 Readwise Reader、Instapaper 和 Pinboard 匯入到 Slax Reader。
+
+### 我的畫線會不見嗎？
+畫線不會搬過來，但也不會消失。它們還留在舊 App 裡，記得保留一份匯出。
+
+### 可以先繼續用舊 App 一段時間嗎？
+可以。很多人會兩個一起用幾週。之後如果再匯入一次，已有的連結會被合併，不會重複。
+
+## 從其他 App 搬家？
+
+從 Pocket 或 Omnivore 過來？看看[如何匯入 Pocket 或 Omnivore 書籤](/blog/import-pocket-omnivore-bookmarks/)。用的是 Matter、Raindrop 或沒有匯入按鈕的 App？看看[如何手動搬移連結](/blog/move-from-matter-and-other-read-later-apps/)。還在比較？看看 Slax Reader 和 [Readwise Reader](/reader/alternatives/readwise-reader/)、[Instapaper](/reader/alternatives/instapaper/) 的比較，或是[稍後閱讀 App 完整比較](/blog/read-later-comparison-matrix-2026/)。
+
+[打開 Slax Reader](https://r.slax.com)，開始匯入。

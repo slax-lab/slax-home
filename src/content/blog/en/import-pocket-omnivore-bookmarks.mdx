@@ -1,0 +1,70 @@
+---
+title: "Import Pocket or Omnivore Bookmarks: Step-by-Step Guide"
+description: "Pocket and Omnivore have closed, but your export files still work. Upload the ZIP in Slax Reader Settings to bring back your links, titles and tags. Free."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Pocket and Omnivore have both closed, but your saved links don't have to go with them. If you kept your export file, you can import your Pocket or Omnivore bookmarks into Slax Reader with one upload. Importing is free, and Slax Reader does the slow part for you in the background.
+
+## Before you start
+
+- **Your export file.** Both apps export a ZIP. Don't unzip it: Slax Reader opens it for you.
+  - **Pocket:** a ZIP with one or more CSV files named like `part_000000.csv`. Pocket stopped saving on July 8, 2025, and [its last export deadline was November 12, 2025](https://www.vice.com/en/article/mozilla-pocket-gets-one-month-reprieve/).
+  - **Omnivore:** a ZIP with JSON files named like `metadata_0_to_50.json`. Omnivore [closed on November 15, 2024, after its team joined ElevenLabs](https://5typos.net/2024/10/29/omnivore-is-shutting-down-and-team-joining-elevenlabs).
+- **No new exports.** Neither app can make a new file now, so look for the one you saved. Search your Downloads folder, email and cloud storage for "pocket", "omnivore" or "metadata_".
+- **A Slax Reader account.** [Sign up or log in](https://r.slax.com).
+- **Size limit.** The ZIP can be up to 25 MiB.
+
+## Import your export in five steps
+
+1. **Open Settings.** Log in at [r.slax.com](https://r.slax.com), move your mouse over your avatar and click **Setting**.
+2. **Go to Data.** Click **Data** in the settings menu and find the **Import third-party data** card.
+3. **Click Pocket or Omnivore.** Pick the button for the app you're leaving. Your file picker opens.
+4. **Choose your ZIP.** You'll see "Unzipping file..." and then "Uploading file...". When it's done, a message says **File received**. Your bookmarks are now importing in the background.
+5. **Check the progress.** Click **View import progress**. The Status goes from Pending to Processing with a percentage, then **Complete**. Then open your Inbox.
+
+You can close the window and keep reading while it runs. A few hundred links finish quickly. Thousands take longer, because Slax Reader fetches every page again to save a fresh copy. Up to five imports can run at the same time.
+
+## What moves over
+
+| From your export | Pocket | Omnivore |
+|---|---|---|
+| Link and title | ✅ | ✅ |
+| Tags | ✅ | ✅ Labels become tags |
+| Description and thumbnail | ✗ | ✅ |
+| Archived items | ✅ Stay archived | ✗ Arrive in your Inbox, so archive them again |
+| Original saved date | ✗ Dated from the day you import | ✗ Dated from the day you import |
+| Highlights and notes | ✗ Keep your export file | ✗ Keep your export file |
+
+The export lists your links, not the article text. Slax Reader fetches each page again, so a page that has since been deleted from the web can't come back.
+
+## If some links fail
+
+Some always will: deleted pages, sites that block automated visits, links behind a login.
+
+1. In **Import progress**, click the number in the **Failed** column.
+2. The **Import Failures** window lists them. Open the original page to see if it still exists.
+3. If it does, save it again with the [Slax Reader browser extension](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd).
+4. Tick the leftovers and click **Batch Delete**, or use **Delete All** to clear the list.
+
+**Nothing happens after I pick the file?** Make sure it's the original ZIP. A Pocket ZIP should contain a file like `part_000000.csv`, and an Omnivore ZIP should contain `metadata_..._to_....json` files. A single unzipped file, or a renamed or rebuilt ZIP, won't match.
+
+## FAQ
+
+### Is importing free?
+Yes. You can import Pocket and Omnivore bookmarks into Slax Reader for free.
+
+### Can I still export from Pocket or Omnivore?
+No. Pocket's export window closed on November 12, 2025, and Omnivore's hosted service is gone. You need a file you saved earlier.
+
+### Is Slax Reader open source like Omnivore?
+Yes, under the Apache 2.0 license. The code is on [GitHub](https://github.com/slax-lab).
+
+## Moving from another app?
+
+Slax Reader also has one-click imports for [Readwise Reader, Instapaper and Pinboard](/blog/import-readwise-instapaper-pinboard/). Coming from Matter, Raindrop or another app? Here's [how to move your links by hand](/blog/move-from-matter-and-other-read-later-apps/). Still choosing? See how Slax Reader compares to [Pocket](/reader/alternatives/pocket/) and [Omnivore](/reader/alternatives/omnivore/), or read [why read-it-later apps keep closing](/blog/read-it-later-history/).
+
+[Open Slax Reader](https://r.slax.com) and start your import.

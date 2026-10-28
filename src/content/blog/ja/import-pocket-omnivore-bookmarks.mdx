@@ -1,0 +1,70 @@
+---
+title: "Pocket・Omnivore のブックマークをインポート：ステップごとのガイド"
+description: "Pocket と Omnivore は終了しましたが、エクスポートファイルはまだ使えます。Slax Reader の設定で ZIP をアップロードすれば、リンク、タイトル、タグが戻ってきます。無料。"
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Pocket も Omnivore も終了しましたが、保存したリンクまで一緒に失う必要はありません。エクスポートファイルを残してあれば、一度アップロードするだけで Pocket や Omnivore のブックマークを Slax Reader にインポートできます。インポートは無料で、時間のかかる部分は Slax Reader がバックグラウンドで進めます。
+
+## 始める前に
+
+- **エクスポートファイル。** どちらのアプリも ZIP でエクスポートします。解凍しないでください。Slax Reader がそのまま開きます。
+  - **Pocket：** `part_000000.csv` のような名前の CSV ファイルが 1 つ以上入った ZIP です。Pocket は 2025 年 7 月 8 日に保存を停止し、[最後のエクスポート期限は 2025 年 11 月 12 日でした](https://www.vice.com/en/article/mozilla-pocket-gets-one-month-reprieve/)。
+  - **Omnivore：** `metadata_0_to_50.json` のような名前の JSON ファイルが入った ZIP です。Omnivore は[チームが ElevenLabs に移ったあと、2024 年 11 月 15 日に終了しました](https://5typos.net/2024/10/29/omnivore-is-shutting-down-and-team-joining-elevenlabs)。
+- **新しいエクスポートは作れません。** どちらのアプリも新しいファイルを作れないので、保存しておいたものを探しましょう。ダウンロードフォルダ、メール、クラウドストレージで「pocket」「omnivore」「metadata_」を検索してみてください。
+- **Slax Reader のアカウント。** [登録またはログイン](https://r.slax.com)。
+- **サイズ上限。** ZIP は 25 MiB までです。
+
+## 5 ステップでエクスポートをインポート
+
+1. **設定を開く。** [r.slax.com](https://r.slax.com) にログインし、アバターにマウスを合わせて **Setting** をクリックします。
+2. **Data に移動。** 設定メニューで **Data** をクリックし、**Import third-party data** カードを探します。
+3. **Pocket または Omnivore をクリック。** 移行元のアプリのボタンを選ぶと、ファイル選択画面が開きます。
+4. **ZIP を選ぶ。** 「Unzipping file...」、続いて「Uploading file...」と表示されます。完了すると **File received** というメッセージが出ます。ブックマークはバックグラウンドでインポートされています。
+5. **進捗を確認。** **View import progress** をクリックします。Status が Pending からパーセント付きの Processing、そして **Complete** に変わったら、Inbox を開きましょう。
+
+処理中はウィンドウを閉じて、読書を続けてもかまいません。数百件のリンクならすぐに終わります。数千件になると時間がかかります。Slax Reader が各ページを取得し直して、新しいコピーを保存するためです。インポートは同時に 5 件まで実行できます。
+
+## 移行される内容
+
+| エクスポートの内容 | Pocket | Omnivore |
+|---|---|---|
+| リンクとタイトル | ✅ | ✅ |
+| タグ | ✅ | ✅ ラベルがタグになります |
+| 説明文とサムネイル | ✗ | ✅ |
+| アーカイブ済みの項目 | ✅ アーカイブのまま | ✗ Inbox に入るので、もう一度アーカイブしてください |
+| 元の保存日 | ✗ インポートした日になります | ✗ インポートした日になります |
+| ハイライトとメモ | ✗ エクスポートファイルを保管してください | ✗ エクスポートファイルを保管してください |
+
+エクスポートに入っているのはリンクで、記事本文ではありません。Slax Reader は各ページを取得し直すので、すでにウェブから削除されたページは戻ってきません。
+
+## 一部のリンクが失敗したら
+
+いくつかは必ず出てきます。削除されたページ、自動アクセスをブロックするサイト、ログインが必要なリンクなどです。
+
+1. **Import progress** で、**Failed** 列の数字をクリックします。
+2. **Import Failures** ウィンドウに一覧が表示されます。元のページを開いて、まだ存在するか確認しましょう。
+3. 存在すれば、[Slax Reader のブラウザ拡張機能](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd)でもう一度保存します。
+4. 残ったものにチェックを入れて **Batch Delete** をクリックするか、**Delete All** で一覧を空にします。
+
+**ファイルを選んでも何も起きない？** 元の ZIP かどうか確認してください。Pocket の ZIP には `part_000000.csv` のようなファイル、Omnivore の ZIP には `metadata_..._to_....json` ファイルが入っているはずです。解凍した単体のファイルや、名前を変えた・作り直した ZIP は認識されません。
+
+## よくある質問
+
+### インポートは無料ですか？
+はい。Pocket と Omnivore のブックマークは無料で Slax Reader にインポートできます。
+
+### Pocket や Omnivore からまだエクスポートできますか？
+いいえ。Pocket のエクスポート期間は 2025 年 11 月 12 日に終わり、Omnivore のホスト型サービスもなくなりました。以前に保存したファイルが必要です。
+
+### Slax Reader は Omnivore のようにオープンソースですか？
+はい、Apache 2.0 ライセンスです。コードは [GitHub](https://github.com/slax-lab) にあります。
+
+## ほかのアプリから移行する場合
+
+Slax Reader には [Readwise Reader、Instapaper、Pinboard](/blog/import-readwise-instapaper-pinboard/) のワンクリックインポートもあります。Matter や Raindrop などから移る場合は、[リンクを手動で移す方法](/blog/move-from-matter-and-other-read-later-apps/)をご覧ください。まだ比較中なら、Slax Reader と [Pocket](/reader/alternatives/pocket/)・[Omnivore](/reader/alternatives/omnivore/) の比較や、[あとで読むアプリが次々と終了する理由](/blog/read-it-later-history/)もどうぞ。
+
+[Slax Reader を開いて](https://r.slax.com)、インポートを始めましょう。

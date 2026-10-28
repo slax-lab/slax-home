@@ -1,0 +1,70 @@
+---
+title: "匯入 Pocket 或 Omnivore 書籤：逐步指南"
+description: "Pocket 和 Omnivore 已經關閉，但你的匯出檔案依然能用。在 Slax Reader 設定裡上傳 ZIP，就能找回連結、標題和標籤。免費。"
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Pocket 和 Omnivore 都已關閉，但你保存的連結不必跟著消失。如果你留著匯出檔案，只需上傳一次，就能把 Pocket 或 Omnivore 書籤匯入 Slax Reader。匯入免費，最慢的那部分 Slax Reader 會在背景幫你完成。
+
+## 開始之前
+
+- **你的匯出檔案。** 兩個 App 匯出的都是 ZIP。不要解壓縮，Slax Reader 會幫你打開。
+  - **Pocket：** 一個 ZIP，裡面有一個或多個 CSV 檔案，名稱類似 `part_000000.csv`。Pocket 在 2025 年 7 月 8 日停止保存，[最後的匯出期限是 2025 年 11 月 12 日](https://www.vice.com/en/article/mozilla-pocket-gets-one-month-reprieve/)。
+  - **Omnivore：** 一個 ZIP，裡面是 JSON 檔案，名稱類似 `metadata_0_to_50.json`。Omnivore [在團隊加入 ElevenLabs 後，於 2024 年 11 月 15 日關閉](https://5typos.net/2024/10/29/omnivore-is-shutting-down-and-team-joining-elevenlabs)。
+- **無法再重新匯出。** 兩個 App 都不能再產生新檔案，所以要找你之前保存的那個。在下載資料夾、電子郵件和雲端硬碟裡搜尋「pocket」、「omnivore」或「metadata_」。
+- **一個 Slax Reader 帳號。** [註冊或登入](https://r.slax.com)。
+- **大小限制。** ZIP 最大 25 MiB。
+
+## 五個步驟匯入你的匯出檔案
+
+1. **打開設定。** 登入 [r.slax.com](https://r.slax.com)，把滑鼠移到頭像上，點擊 **Setting**。
+2. **進入 Data。** 在設定選單裡點擊 **Data**，找到 **Import third-party data** 卡片。
+3. **點擊 Pocket 或 Omnivore。** 選擇你要離開的那個 App 的按鈕，檔案選擇視窗會打開。
+4. **選擇你的 ZIP。** 你會先看到「Unzipping file...」，接著是「Uploading file...」。完成後會出現 **File received** 訊息，書籤已經開始在背景匯入。
+5. **查看進度。** 點擊 **View import progress**。Status 會從 Pending 變成帶百分比的 Processing，最後變成 **Complete**。然後打開你的 Inbox。
+
+匯入期間你可以關掉視窗繼續閱讀。幾百條連結很快就好；幾千條會久一些，因為 Slax Reader 會重新抓取每個頁面，保存一份新的副本。最多可以同時進行五個匯入。
+
+## 哪些內容會搬過來
+
+| 匯出檔案中的內容 | Pocket | Omnivore |
+|---|---|---|
+| 連結和標題 | ✅ | ✅ |
+| 標籤 | ✅ | ✅ Labels 會變成標籤 |
+| 描述和縮圖 | ✗ | ✅ |
+| 已封存的項目 | ✅ 維持封存 | ✗ 會進入 Inbox，需要重新封存 |
+| 原始保存日期 | ✗ 以匯入當天為準 | ✗ 以匯入當天為準 |
+| 畫線和筆記 | ✗ 請保留匯出檔案 | ✗ 請保留匯出檔案 |
+
+匯出檔案裡只有連結，沒有文章內文。Slax Reader 會重新抓取每個頁面，所以已經從網路上刪除的頁面無法找回。
+
+## 如果部分連結失敗
+
+總會有一些：頁面已刪除、網站封鎖自動造訪、需要登入才能看的連結。
+
+1. 在 **Import progress** 中，點擊 **Failed** 欄裡的數字。
+2. **Import Failures** 視窗會列出這些連結。打開原始頁面，看看它還在不在。
+3. 如果還在，用 [Slax Reader 瀏覽器擴充功能](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd)重新保存。
+4. 勾選剩下的項目，點擊 **Batch Delete**，或用 **Delete All** 清空清單。
+
+**選了檔案卻沒反應？** 確認它是原始的 ZIP。Pocket 的 ZIP 裡應該有類似 `part_000000.csv` 的檔案，Omnivore 的 ZIP 裡應該有 `metadata_..._to_....json` 檔案。解壓縮出來的單一檔案，或是改過名、重新壓縮的 ZIP，都無法辨識。
+
+## 常見問題
+
+### 匯入免費嗎？
+免費。你可以免費把 Pocket 和 Omnivore 書籤匯入 Slax Reader。
+
+### 現在還能從 Pocket 或 Omnivore 匯出嗎？
+不能。Pocket 的匯出期限已在 2025 年 11 月 12 日結束，Omnivore 的託管服務也已停止。你需要之前保存好的檔案。
+
+### Slax Reader 和 Omnivore 一樣開源嗎？
+是的，採用 Apache 2.0 授權。程式碼在 [GitHub](https://github.com/slax-lab) 上。
+
+## 從其他 App 搬家？
+
+Slax Reader 也支援一鍵匯入 [Readwise Reader、Instapaper 和 Pinboard](/blog/import-readwise-instapaper-pinboard/)。從 Matter、Raindrop 或其他 App 過來？看看[如何手動搬移連結](/blog/move-from-matter-and-other-read-later-apps/)。還在比較？看看 Slax Reader 和 [Pocket](/reader/alternatives/pocket/)、[Omnivore](/reader/alternatives/omnivore/) 的比較，或讀讀[為什麼稍後閱讀 App 一個接一個關閉](/blog/read-it-later-history/)。
+
+[打開 Slax Reader](https://r.slax.com)，開始匯入。

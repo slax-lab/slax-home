@@ -1,0 +1,70 @@
+---
+title: "Impor Bookmark Pocket atau Omnivore: Panduan Langkah demi Langkah"
+description: "Pocket dan Omnivore sudah tutup, tapi file ekspormu masih bisa dipakai. Unggah ZIP-nya di Settings Slax Reader untuk mengembalikan link, judul, dan tag. Gratis."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Pocket dan Omnivore sudah sama-sama tutup, tapi link yang kamu simpan tidak harus ikut hilang. Kalau kamu masih menyimpan file ekspornya, kamu bisa mengimpor bookmark Pocket atau Omnivore ke Slax Reader dengan sekali unggah. Impor gratis, dan bagian yang lama dikerjakan Slax Reader di latar belakang.
+
+## Sebelum mulai
+
+- **File ekspormu.** Kedua aplikasi mengekspor file ZIP. Jangan diekstrak: Slax Reader yang akan membukanya.
+  - **Pocket:** ZIP berisi satu atau beberapa file CSV dengan nama seperti `part_000000.csv`. Pocket berhenti menyimpan pada 8 Juli 2025, dan [batas akhir ekspornya adalah 12 November 2025](https://www.vice.com/en/article/mozilla-pocket-gets-one-month-reprieve/).
+  - **Omnivore:** ZIP berisi file JSON dengan nama seperti `metadata_0_to_50.json`. Omnivore [tutup pada 15 November 2024, setelah timnya bergabung dengan ElevenLabs](https://5typos.net/2024/10/29/omnivore-is-shutting-down-and-team-joining-elevenlabs).
+- **Tidak ada ekspor baru.** Kedua aplikasi sudah tidak bisa membuat file baru, jadi cari file yang dulu kamu simpan. Cari di folder Downloads, email, dan penyimpanan cloud dengan kata "pocket", "omnivore", atau "metadata_".
+- **Akun Slax Reader.** [Daftar atau masuk](https://r.slax.com).
+- **Batas ukuran.** ZIP-nya maksimal 25 MiB.
+
+## Impor ekspormu dalam lima langkah
+
+1. **Buka Settings.** Masuk di [r.slax.com](https://r.slax.com), arahkan mouse ke avatarmu, lalu klik **Setting**.
+2. **Buka Data.** Klik **Data** di menu pengaturan dan cari kartu **Import third-party data**.
+3. **Klik Pocket atau Omnivore.** Pilih tombol aplikasi yang kamu tinggalkan. Pemilih file akan terbuka.
+4. **Pilih ZIP-mu.** Kamu akan melihat "Unzipping file..." lalu "Uploading file...". Setelah selesai, muncul pesan **File received**. Bookmark-mu sekarang sedang diimpor di latar belakang.
+5. **Cek progresnya.** Klik **View import progress**. Status berubah dari Pending ke Processing dengan persentase, lalu **Complete**. Setelah itu buka Inbox-mu.
+
+Kamu bisa menutup jendelanya dan lanjut membaca selama proses berjalan. Beberapa ratus link selesai dengan cepat. Ribuan link butuh waktu lebih lama, karena Slax Reader mengambil ulang setiap halaman untuk menyimpan salinan baru. Sampai lima impor bisa berjalan bersamaan.
+
+## Apa saja yang ikut pindah
+
+| Dari ekspormu | Pocket | Omnivore |
+|---|---|---|
+| Link dan judul | ✅ | ✅ |
+| Tag | ✅ | ✅ Label menjadi tag |
+| Deskripsi dan thumbnail | ✗ | ✅ |
+| Item yang diarsipkan | ✅ Tetap diarsipkan | ✗ Masuk ke Inbox, jadi arsipkan lagi |
+| Tanggal simpan asli | ✗ Memakai tanggal impor | ✗ Memakai tanggal impor |
+| Highlight dan catatan | ✗ Simpan file ekspormu | ✗ Simpan file ekspormu |
+
+Ekspor berisi link-mu, bukan isi artikelnya. Slax Reader mengambil ulang setiap halaman, jadi halaman yang sudah dihapus dari web tidak bisa kembali.
+
+## Kalau ada link yang gagal
+
+Pasti ada beberapa: halaman yang sudah dihapus, situs yang memblokir kunjungan otomatis, link yang butuh login.
+
+1. Di **Import progress**, klik angka di kolom **Failed**.
+2. Jendela **Import Failures** menampilkan daftarnya. Buka halaman aslinya untuk melihat apakah masih ada.
+3. Kalau masih ada, simpan lagi dengan [ekstensi browser Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd).
+4. Centang sisanya dan klik **Batch Delete**, atau pakai **Delete All** untuk mengosongkan daftar.
+
+**Tidak terjadi apa-apa setelah memilih file?** Pastikan itu ZIP aslinya. ZIP Pocket harus berisi file seperti `part_000000.csv`, dan ZIP Omnivore berisi file `metadata_..._to_....json`. Satu file yang sudah diekstrak, atau ZIP yang diganti nama atau dibuat ulang, tidak akan cocok.
+
+## FAQ
+
+### Apakah impor gratis?
+Ya. Kamu bisa mengimpor bookmark Pocket dan Omnivore ke Slax Reader secara gratis.
+
+### Apakah saya masih bisa ekspor dari Pocket atau Omnivore?
+Tidak. Masa ekspor Pocket berakhir pada 12 November 2025, dan layanan hosted Omnivore sudah tidak ada. Kamu butuh file yang sudah kamu simpan sebelumnya.
+
+### Apakah Slax Reader open source seperti Omnivore?
+Ya, dengan lisensi Apache 2.0. Kodenya ada di [GitHub](https://github.com/slax-lab).
+
+## Pindah dari aplikasi lain?
+
+Slax Reader juga punya impor sekali klik untuk [Readwise Reader, Instapaper, dan Pinboard](/blog/import-readwise-instapaper-pinboard/). Datang dari Matter, Raindrop, atau aplikasi lain? Ini [cara memindahkan link secara manual](/blog/move-from-matter-and-other-read-later-apps/). Masih membandingkan? Lihat perbandingan Slax Reader dengan [Pocket](/reader/alternatives/pocket/) dan [Omnivore](/reader/alternatives/omnivore/), atau baca [kenapa aplikasi read-it-later terus tutup](/blog/read-it-later-history/).
+
+[Buka Slax Reader](https://r.slax.com) dan mulai impor.

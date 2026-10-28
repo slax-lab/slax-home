@@ -1,0 +1,78 @@
+---
+title: "Matter やほかのあとで読むアプリから移行する：簡単ガイド"
+description: "使っているアプリにインポートボタンがない？ Matter、Raindrop、Cubox、GoodLinks などからリンクの一覧を取り出し、無料で Slax Reader に保存しましょう。大きなライブラリもコマンド 1 つで。"
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Slax Reader には [Pocket と Omnivore](/blog/import-pocket-omnivore-bookmarks/)、そして [Readwise Reader、Instapaper、Pinboard](/blog/import-readwise-instapaper-pinboard/) のワンクリックインポートがあります。Matter のようにインポートボタンがないアプリの場合は、少し手間がかかりますが、手順は短いままです。リンクの一覧を取り出して、保存するだけ。無料です。
+
+## 始める前に
+
+- **Slax Reader のアカウント。** [登録またはログイン](https://r.slax.com)。
+- **残したいものの目安。** すべてを移す必要はありません。まだ読むつもりのものだけ持ってくる人も多いです。
+
+## ステップ 1：リンクの一覧を取り出す
+
+どのアプリから移る場合も、最終的には 1 行に 1 リンクずつ書いた `links.txt` というテキストファイルを用意します。
+
+### Matter から
+
+まず Matter の設定にエクスポートの項目があるか確認します。リンクのファイルが得られない場合は手作業になります。残したい記事を開いて元のウェブアドレスをコピーし、`links.txt` に貼り付けてください。ハイライトした記事なら、Matter のハイライトの Markdown エクスポートに元記事へのリンクが含まれていたので、コピーの手間を少し減らせます。
+
+### Raindrop、Cubox、GoodLinks などから
+
+アプリの設定でエクスポートの項目を探します。たいていは CSV、HTML、JSON のファイルです。ファイルを開き、リンクの列や行をコピーして `links.txt` に貼り付けます。エクスポートがなければ、Matter と同じように手作業でリンクを集めましょう。
+
+## ステップ 2：Slax Reader にリンクを保存する
+
+**リンクが少しなら：** 1 つずつ開いて [Slax Reader のブラウザ拡張機能](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd)をクリックします。ワンクリックでページが保存されます。
+
+**リンクがたくさんあるなら：** コマンドラインを使います。Node.js 22 または 24 が必要です。Slax Reader の **Settings → Skills + CLI → Generate and copy** で API キーを取得し、CLI をインストールしてそのキーでログインします。キーは他人に見せないでください。
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+続いて、Mac または Linux では：
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-matter"; done < links.txt
+```
+
+Windows PowerShell では：
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-matter" }
+```
+
+リンクは 1 件ずつ保存され、タグが付くので、まとめて見つけやすくなります。`from-matter` は `from-raindrop` など好きなタグに変えてかまいません。とても長い一覧なら、小分けにして実行し、合間に Inbox を確認しましょう。
+
+## 移行される内容
+
+| 元のアプリ | Slax Reader では |
+|---|---|
+| ウェブのリンク | 各ページの新しいコピーつきで保存され、まとめて付けたタグが付きます |
+| 元の保存日 | 引き継がれません。保存した日の日付になります |
+| ハイライトとメモ | 元のアプリに残るので、エクスポートを保管してください |
+| アップロードしたファイルなど、ウェブページでない項目 | ここでは扱いません |
+
+## よくある質問
+
+### ライブラリの移行は無料ですか？
+はい。ライブラリは無料で Slax Reader に移せます。
+
+### ハイライトは失われますか？
+移行はされませんが、消えるわけでもありません。元のアプリに残るので、エクスポートを保管しておきましょう。
+
+### なぜインポートボタンではなくコマンドラインなのですか？
+設定には Pocket、Omnivore、Readwise Reader、Instapaper、Pinboard 用のインポートボタンがあります。それ以外のアプリでは、リンクを保存するのがいちばん早い方法です。
+
+## まだ比較中なら
+
+Slax Reader と [Matter](/reader/alternatives/matter/)、[Raindrop](/reader/alternatives/raindrop/)、[Cubox](/reader/alternatives/cubox/)、[GoodLinks](/reader/alternatives/goodlinks/) の比較や、[あとで読むアプリの総合比較](/blog/read-later-comparison-matrix-2026/)をご覧ください。
+
+[Slax Reader を開いて](https://r.slax.com)、リンクの移行を始めましょう。

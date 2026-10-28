@@ -1,0 +1,78 @@
+---
+title: "Quitter Matter ou une autre appli de lecture différée : guide rapide"
+description: "Pas de bouton d’import pour votre appli ? Récupérez la liste de vos liens depuis Matter, Raindrop, Cubox, GoodLinks ou une autre appli et enregistrez-les gratuitement dans Slax Reader. Une seule commande pour les grandes bibliothèques."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Slax Reader propose un import en un clic pour [Pocket et Omnivore](/blog/import-pocket-omnivore-bookmarks/) et pour [Readwise Reader, Instapaper et Pinboard](/blog/import-readwise-instapaper-pinboard/). Pour Matter et les autres applis sans bouton d’import, la méthode demande un peu plus de travail mais reste courte : récupérez la liste de vos liens, puis enregistrez-les. C’est gratuit.
+
+## Avant de commencer
+
+- **Un compte Slax Reader.** [Inscrivez-vous ou connectez-vous](https://r.slax.com).
+- **Une idée de ce que vous voulez garder.** Pas besoin de tout transférer. Beaucoup ne prennent que ce qu’ils comptent encore lire.
+
+## Étape 1 : récupérer la liste de vos liens
+
+Quelle que soit l’appli que vous quittez, vous finissez avec un simple fichier texte nommé `links.txt`, un lien par ligne.
+
+### Depuis Matter
+
+Cherchez d’abord une option d’export dans les réglages de Matter. Si elle ne vous donne pas de fichier avec vos liens, il faudra le faire à la main : ouvrez chaque article à garder, copiez son adresse web d’origine et collez-la dans `links.txt`. Si vous avez surligné un article, l’export Markdown des surlignages de Matter incluait un lien vers l’original, ce qui peut vous éviter du copier-coller.
+
+### Depuis Raindrop, Cubox, GoodLinks ou une autre appli
+
+Cherchez une option d’export dans les réglages de l’appli. C’est généralement un fichier CSV, HTML ou JSON. Ouvrez-le, copiez la colonne ou les lignes contenant les liens et collez-les dans `links.txt`. S’il n’y a pas d’export, rassemblez les liens à la main, comme pour Matter.
+
+## Étape 2 : enregistrer les liens dans Slax Reader
+
+**Quelques liens ?** Ouvrez chacun d’eux et cliquez sur l’[extension de navigateur Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd). La page est enregistrée en un clic.
+
+**Beaucoup de liens ?** Utilisez la ligne de commande. Il faut Node.js 22 ou 24. Obtenez une clé d’API dans Slax Reader via **Settings → Skills + CLI → Generate and copy**, puis installez la CLI et connectez-vous avec la clé. Gardez la clé privée.
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+Ensuite, sur Mac ou Linux :
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-matter"; done < links.txt
+```
+
+Sous Windows PowerShell :
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-matter" }
+```
+
+Chaque lien est enregistré un par un et tagué, pour retrouver facilement tout le lot. Remplacez `from-matter` par `from-raindrop` ou le tag de votre choix. Avec une très longue liste, lancez-la par petits morceaux et jetez un œil à votre Inbox entre chaque.
+
+## Ce qui est transféré
+
+| Depuis votre ancienne appli | Dans Slax Reader |
+|---|---|
+| Liens web | Favoris enregistrés avec une copie fraîche de chaque page, tagués avec le nom de votre lot |
+| Date d’enregistrement d’origine | Non conservée ; les liens sont datés du jour où vous les enregistrez |
+| Surlignages et notes | Restent dans l’ancienne appli, gardez donc son export |
+| Éléments qui ne sont pas des pages web, comme des fichiers envoyés | Non couverts ici |
+
+## FAQ
+
+### Transférer ma bibliothèque est-il gratuit ?
+Oui. Vous pouvez transférer votre bibliothèque dans Slax Reader gratuitement.
+
+### Vais-je perdre mes surlignages ?
+Ils ne sont pas transférés, mais ils ne disparaissent pas. Ils restent dans votre ancienne appli, gardez-en donc un export.
+
+### Pourquoi une ligne de commande et pas un bouton d’import ?
+Les réglages ont des boutons d’import pour Pocket, Omnivore, Readwise Reader, Instapaper et Pinboard. Pour les autres applis, enregistrer les liens est le chemin le plus rapide.
+
+## Vous comparez encore ?
+
+Voyez Slax Reader face à [Matter](/reader/alternatives/matter/), [Raindrop](/reader/alternatives/raindrop/), [Cubox](/reader/alternatives/cubox/) et [GoodLinks](/reader/alternatives/goodlinks/), ou le [comparatif complet des applis de lecture différée](/blog/read-later-comparison-matrix-2026/).
+
+[Ouvrez Slax Reader](https://r.slax.com) et commencez à transférer vos liens.

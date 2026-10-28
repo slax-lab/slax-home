@@ -1,0 +1,81 @@
+---
+title: "Importar do Readwise Reader, Instapaper ou Pinboard: guia passo a passo"
+description: "Leve sua biblioteca do Readwise Reader, Instapaper ou Pinboard para o Slax Reader com um único envio. Links, títulos, tags, datas em que foram salvos e status de arquivo vêm junto. Grátis."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Deixando o Readwise Reader, o Instapaper ou o Pinboard? O Slax Reader tem importação com um clique para os três. Exporte sua biblioteca do app antigo, envie o arquivo no Slax Reader, confira os números, e seus favoritos chegam com as tags e as datas originais em que foram salvos. Importar é grátis.
+
+## Antes de começar
+
+- **Uma conta no Slax Reader.** [Cadastre-se ou entre](https://r.slax.com).
+- **Um arquivo por importação,** de até 25 MiB e 10.000 favoritos. Biblioteca maior? Divida em arquivos menores e importe um depois do outro. Até cinco importações podem rodar ao mesmo tempo.
+
+## Passo 1: Exporte sua biblioteca
+
+### Do Readwise Reader
+
+Abra a página **Account profile** e escolha **Export Library as CSV** em "Export account data". Você também pode abrir a Command Palette e buscar "Generate CSV export". [O guia de exportação do Readwise](https://docs.readwise.io/reader/docs/faqs/exporting) tem os passos atuais. Você recebe um arquivo `.csv`.
+
+### Do Instapaper
+
+Entre em instapaper.com, abra **Settings** e baixe a exportação em **CSV**. Você recebe um arquivo `.csv`.
+
+### Do Pinboard
+
+Entre em pinboard.in, abra **Settings → Backup** e baixe seus favoritos. JSON é a opção mais segura, mas os backups em HTML e XML também funcionam.
+
+## Passo 2: Importe o arquivo no Slax Reader
+
+1. **Abra as configurações.** Entre em [r.slax.com](https://r.slax.com), passe o mouse sobre seu avatar e clique em **Setting**.
+2. **Vá até Data.** Clique em **Data** no menu de configurações e encontre o cartão **Import third-party data**.
+3. **Clique no botão do seu app:** **Readwise Reader**, **Instapaper** ou **Pinboard**. Depois escolha o arquivo exportado.
+4. **Confira os números.** Uma janela **Confirm import** mostra quantos favoritos serão importados e quantas duplicatas foram mescladas ou linhas inválidas ignoradas. No Readwise Reader, itens de feeds RSS e newsletters ficam de fora, a menos que você marque **Include feed articles**.
+5. **Clique em Start import.** Uma mensagem **File received** mostra o número de favoritos. Agora eles são importados em segundo plano.
+6. **Acompanhe o progresso.** Clique em **View import progress**. Quando o status mostrar **Complete**, abra sua Inbox.
+
+Você pode fechar a janela e continuar lendo enquanto roda. O Slax Reader busca cada página de novo para salvar uma cópia nova, então uma biblioteca grande leva um tempo.
+
+## O que vem junto
+
+| Da sua exportação | Readwise Reader | Instapaper | Pinboard |
+|---|---|---|---|
+| Link e título | ✅ | ✅ | ✅ |
+| Tags | ✅ | ✅ As outras pastas também viram tags | ✅ |
+| Data original em que foi salvo | ✅ | ✅ | ✅ |
+| Itens arquivados | ✅ Continuam arquivados | ✅ A pasta Archive continua arquivada | ✅ Itens não marcados como "to read" vão para o seu arquivo |
+| Itens com estrela (Starred) | ✗ | ✅ A pasta Starred continua com estrela | ✗ |
+| Destaques e notas | ✗ Guarde sua exportação | ✗ Guarde sua exportação | ✗ Guarde sua exportação |
+
+Se o mesmo link aparecer duas vezes, o Slax Reader mantém um favorito só e junta as tags. Se uma data não puder ser lida, esse favorito usa a data da importação, e a janela **Confirm import** mostra quantos são.
+
+## Se alguns links falharem
+
+Sempre há alguns: páginas apagadas, sites que bloqueiam visitas automáticas, links que exigem login.
+
+1. Em **Import progress**, clique no número da coluna **Failed**.
+2. A janela **Import Failures** lista esses links. Abra a página original para ver se ela ainda existe.
+3. Se existir, salve de novo com a [extensão de navegador do Slax Reader](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd).
+4. Marque os que sobraram e clique em **Batch Delete**, ou use **Delete All** para limpar a lista.
+
+**O arquivo foi recusado?** Confira se você escolheu o botão do app certo e se o arquivo é o que o app exportou, e não um aberto e salvo de novo numa planilha. Readwise Reader e Instapaper precisam do arquivo `.csv`; o Pinboard aceita `.json`, `.html` ou `.xml`.
+
+## Perguntas frequentes
+
+### Importar é grátis?
+Sim. Você pode importar do Readwise Reader, do Instapaper e do Pinboard para o Slax Reader de graça.
+
+### Vou perder meus destaques?
+Eles não vêm junto, mas também não somem. Continuam no seu app antigo, então guarde uma exportação.
+
+### Posso continuar usando meu app antigo por um tempo?
+Sim. Muita gente usa os dois lado a lado por algumas semanas. Se você importar de novo depois, os links que já tem são mesclados em vez de duplicados.
+
+## Vindo de outro app?
+
+Vindo do Pocket ou do Omnivore? Veja [como importar favoritos do Pocket ou do Omnivore](/blog/import-pocket-omnivore-bookmarks/). Usa o Matter, o Raindrop ou um app sem botão de importação? Veja [como mover seus links à mão](/blog/move-from-matter-and-other-read-later-apps/). Ainda comparando? Veja o Slax Reader ao lado do [Readwise Reader](/reader/alternatives/readwise-reader/) e do [Instapaper](/reader/alternatives/instapaper/), ou a [comparação completa de apps de ler depois](/blog/read-later-comparison-matrix-2026/).
+
+[Abra o Slax Reader](https://r.slax.com) e comece sua importação.

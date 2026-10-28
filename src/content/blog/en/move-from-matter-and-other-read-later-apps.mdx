@@ -1,0 +1,78 @@
+---
+title: "Move From Matter or Another Read-Later App: Short Guide"
+description: "No import button for your app? Get a list of your links from Matter, Raindrop, Cubox, GoodLinks or any other app and save them into Slax Reader for free. One command for big libraries."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Slax Reader has one-click imports for [Pocket and Omnivore](/blog/import-pocket-omnivore-bookmarks/) and for [Readwise Reader, Instapaper and Pinboard](/blog/import-readwise-instapaper-pinboard/). For Matter and other apps without an import button, the method takes a little more work but stays short: get a list of your links, then save them. It's free.
+
+## Before you start
+
+- **A Slax Reader account.** [Sign up or log in](https://r.slax.com).
+- **A rough idea of what to keep.** You don't have to move everything. Many people only bring over what they still plan to read.
+
+## Step 1: Get a list of your links
+
+Whichever app you're leaving, you end up with a plain text file called `links.txt`, one link per line.
+
+### From Matter
+
+Check Matter's settings for an export option first. If it doesn't give you a file of your links, this one is manual: open each article you want to keep, copy its original web address, and paste it into `links.txt`. If you highlighted an article, Matter's Markdown export of the highlights has included a link to the original, which can save some copying.
+
+### From Raindrop, Cubox, GoodLinks or another app
+
+Look for an export option in the app's settings. It's usually a CSV, HTML or JSON file. Open it, copy the column or lines that hold the links, and paste them into `links.txt`. If there's no export, collect the links by hand, as with Matter.
+
+## Step 2: Save the links in Slax Reader
+
+**A few links?** Open each one and click the [Slax Reader browser extension](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd). The page is saved in one click.
+
+**Many links?** Use the command line. It needs Node.js 22 or 24. Get an API key in Slax Reader under **Settings → Skills + CLI → Generate and copy**, then install the CLI and log in with the key. Keep the key private.
+
+```bash
+npx @slax-lab/reader-cli@latest install
+reader-cli login
+```
+
+Then, on Mac or Linux:
+
+```bash
+while read -r url; do reader-cli add "$url" --tags "from-matter"; done < links.txt
+```
+
+On Windows PowerShell:
+
+```powershell
+Get-Content links.txt | ForEach-Object { reader-cli add $_ --tags "from-matter" }
+```
+
+Each link is saved one at a time and tagged, so your whole batch is easy to find. Swap `from-matter` for `from-raindrop` or any tag you like. With a very long list, run it in smaller chunks and check your Inbox between them.
+
+## What moves over
+
+| From your old app | In Slax Reader |
+|---|---|
+| Web links | Saved bookmarks with a fresh copy of each page, tagged with your batch name |
+| Original saved date | Not kept; links are dated from the day you save them |
+| Highlights and notes | Stay in the old app, so keep its export |
+| Items that aren't web pages, such as uploaded files | Not covered here |
+
+## FAQ
+
+### Is moving my library free?
+Yes. You can move your library into Slax Reader for free.
+
+### Will I lose my highlights?
+They aren't moved, but they don't disappear. They stay in your old app, so keep an export of them.
+
+### Why a command line and not an import button?
+Settings has import buttons for Pocket, Omnivore, Readwise Reader, Instapaper and Pinboard. For other apps, saving the links is the quickest route.
+
+## Still comparing?
+
+See Slax Reader next to [Matter](/reader/alternatives/matter/), [Raindrop](/reader/alternatives/raindrop/), [Cubox](/reader/alternatives/cubox/) and [GoodLinks](/reader/alternatives/goodlinks/), or the [full read-it-later comparison](/blog/read-later-comparison-matrix-2026/).
+
+[Open Slax Reader](https://r.slax.com) and start moving your links.

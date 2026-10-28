@@ -1,0 +1,81 @@
+---
+title: "Readwise Reader, Instapaper, Pinboard에서 가져오기: 단계별 가이드"
+description: "Readwise Reader, Instapaper, Pinboard 라이브러리를 한 번의 업로드로 Slax Reader에 옮기세요. 링크, 제목, 태그, 저장 날짜, 보관 상태가 함께 옮겨집니다. 무료."
+pubDate: 2026-10-27T00:00:00.000Z
+tags: ['reader', 'how-to']
+product: reader
+author: 'lexie'
+---
+
+Readwise Reader, Instapaper, Pinboard를 떠나시나요? Slax Reader는 세 가지 모두 원클릭으로 가져올 수 있습니다. 기존 앱에서 라이브러리를 내보내고, Slax Reader에 파일을 올리고, 숫자를 확인하면 북마크가 태그와 원래 저장 날짜와 함께 도착합니다. 가져오기는 무료입니다.
+
+## 시작하기 전에
+
+- **Slax Reader 계정.** [가입 또는 로그인](https://r.slax.com).
+- **가져오기 한 번에 파일 하나,** 최대 25 MiB, 북마크 10,000개까지. 라이브러리가 더 크다면 작은 파일로 나눠 차례로 가져오세요. 가져오기는 동시에 최대 다섯 개까지 실행할 수 있습니다.
+
+## 1단계: 라이브러리 내보내기
+
+### Readwise Reader에서
+
+**Account profile** 페이지를 열고 "Export account data" 아래의 **Export Library as CSV**를 선택합니다. Command Palette를 열고 "Generate CSV export"를 검색해도 됩니다. 최신 절차는 [Readwise 내보내기 안내](https://docs.readwise.io/reader/docs/faqs/exporting)에 있습니다. `.csv` 파일을 받게 됩니다.
+
+### Instapaper에서
+
+instapaper.com에 로그인해 **Settings**를 열고 **CSV** 내보내기를 다운로드합니다. `.csv` 파일을 받게 됩니다.
+
+### Pinboard에서
+
+pinboard.in에 로그인해 **Settings → Backup**을 열고 북마크를 다운로드합니다. JSON이 가장 안전하지만 HTML과 XML 백업도 됩니다.
+
+## 2단계: Slax Reader로 파일 가져오기
+
+1. **설정 열기.** [r.slax.com](https://r.slax.com)에 로그인하고 아바타에 마우스를 올린 뒤 **Setting**을 클릭합니다.
+2. **Data로 이동.** 설정 메뉴에서 **Data**를 클릭하고 **Import third-party data** 카드를 찾습니다.
+3. **사용하던 앱의 버튼 클릭:** **Readwise Reader**, **Instapaper**, **Pinboard** 중 하나. 그런 다음 내보낸 파일을 고릅니다.
+4. **숫자 확인.** **Confirm import** 창에 가져올 북마크 수와, 합쳐진 중복이나 건너뛴 잘못된 행의 수가 표시됩니다. Readwise Reader의 경우 RSS와 뉴스레터 피드 항목은 **Include feed articles**를 체크하지 않으면 제외됩니다.
+5. **Start import 클릭.** **File received** 메시지에 북마크 수가 표시됩니다. 이제 백그라운드에서 가져오기가 진행됩니다.
+6. **진행 상황 확인.** **View import progress**를 클릭합니다. Status가 **Complete**가 되면 Inbox를 열어 보세요.
+
+진행되는 동안 창을 닫고 계속 읽어도 됩니다. Slax Reader가 모든 페이지를 다시 가져와 새 사본을 저장하므로, 큰 라이브러리는 시간이 좀 걸립니다.
+
+## 옮겨지는 항목
+
+| 내보내기 파일의 항목 | Readwise Reader | Instapaper | Pinboard |
+|---|---|---|---|
+| 링크와 제목 | ✅ | ✅ | ✅ |
+| 태그 | ✅ | ✅ 다른 폴더도 태그가 됩니다 | ✅ |
+| 원래 저장 날짜 | ✅ | ✅ | ✅ |
+| 보관된 항목 | ✅ 보관 상태 유지 | ✅ Archive 폴더는 보관 상태 유지 | ✅ "to read"가 아닌 항목은 보관함으로 |
+| 별표 항목(Starred) | ✗ | ✅ Starred 폴더는 별표 유지 | ✗ |
+| 하이라이트와 메모 | ✗ 내보내기 파일을 보관하세요 | ✗ 내보내기 파일을 보관하세요 | ✗ 내보내기 파일을 보관하세요 |
+
+같은 링크가 두 번 나오면 Slax Reader는 북마크 하나만 남기고 태그를 합칩니다. 날짜를 읽을 수 없으면 그 북마크는 가져온 날짜를 쓰며, 몇 개인지는 **Confirm import** 창에서 알려 줍니다.
+
+## 일부 링크가 실패하면
+
+몇 개는 꼭 생깁니다. 삭제된 페이지, 자동 방문을 막는 사이트, 로그인이 필요한 링크 등입니다.
+
+1. **Import progress**에서 **Failed** 열의 숫자를 클릭합니다.
+2. **Import Failures** 창에 목록이 나옵니다. 원래 페이지를 열어 아직 있는지 확인하세요.
+3. 있다면 [Slax Reader 브라우저 확장 프로그램](https://chromewebstore.google.com/detail/slax-reader/gdnhaajlomjkhahnmiijphnodkcfikfd)으로 다시 저장합니다.
+4. 남은 항목을 체크하고 **Batch Delete**를 클릭하거나, **Delete All**로 목록을 비웁니다.
+
+**파일이 거부되나요?** 앱에 맞는 버튼을 골랐는지, 그리고 파일이 앱에서 내보낸 그대로인지(스프레드시트에서 열었다가 다시 저장하지 않았는지) 확인하세요. Readwise Reader와 Instapaper는 `.csv` 파일이 필요하고, Pinboard는 `.json`, `.html`, `.xml`을 받습니다.
+
+## 자주 묻는 질문
+
+### 가져오기는 무료인가요?
+네. Readwise Reader, Instapaper, Pinboard에서 Slax Reader로 무료로 가져올 수 있습니다.
+
+### 하이라이트가 사라지나요?
+옮겨지지는 않지만 사라지지도 않습니다. 기존 앱에 남아 있으니 내보내기 파일을 보관해 두세요.
+
+### 한동안 기존 앱을 계속 써도 되나요?
+네. 몇 주 동안 두 앱을 나란히 쓰는 분이 많습니다. 나중에 다시 가져와도 이미 있는 링크는 중복되지 않고 합쳐집니다.
+
+## 다른 앱에서 옮기시나요?
+
+Pocket이나 Omnivore에서 오신다면 [Pocket 또는 Omnivore 북마크 가져오는 방법](/blog/import-pocket-omnivore-bookmarks/)을 보세요. Matter, Raindrop 등 가져오기 버튼이 없는 앱을 쓰신다면 [링크를 직접 옮기는 방법](/blog/move-from-matter-and-other-read-later-apps/)이 있습니다. 아직 비교 중이라면 Slax Reader와 [Readwise Reader](/reader/alternatives/readwise-reader/), [Instapaper](/reader/alternatives/instapaper/) 비교나 [나중에 읽기 앱 전체 비교](/blog/read-later-comparison-matrix-2026/)를 확인하세요.
+
+[Slax Reader를 열고](https://r.slax.com) 가져오기를 시작하세요.
