@@ -2,13 +2,14 @@
 title: "Slax Reader CLI：一个你的 AI Agent 能调用的稍后读库"
 description: "一个 CLI 把 Slax Reader 变成持久阅读库，任何 AI Agent——Claude Code、Codex、Gemini CLI、Cursor——都能读写。"
 pubDate: 2026-05-19T00:00:00.000Z
+updatedDate: 2026-10-28T00:00:00.000Z
 tags: ['阅读器', 'cli', 'ai-agents']
 product: reader
 ---
 
 我们给稍后读应用 Slax Reader 做了一个 CLI。重点不是 CLI 本身，而是你的阅读库从此成为一类一等公民工具——AI Agent 可以调用它。书签、列表、把内容管道送进提示词，全都可脚本化。
 
-仓库：[github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)(MIT)。安装和用法在下面。
+仓库：[github.com/slax-lab/slax-reader/tree/dev/apps/cli](https://github.com/slax-lab/slax-reader/tree/dev/apps/cli)(MIT)。安装和用法在下面。
 
 ---
 
@@ -91,7 +92,7 @@ CLI 填的就是这个空。Slax Reader 成为一个持久的阅读库，任何 
 
 给挑剔的你：
 
-- **开源，可自部署**。Slax Reader 本身 Apache 2.0([github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader))。CLI 是 MIT。随时导出。
+- **开源**。Slax Reader 本身 Apache 2.0([github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader))。代码完全公开，目前可以部署到你自己的 Cloudflare 账号上。CLI 是 MIT。随时导出。
 - **我们现金流稳定，长期运营**。Mozilla 2025 年停了 Pocket，让很多人留下了稍后读应用关停的心理阴影。我们不会让你再经历一次。
 - **永久备份免费**。书签 + 全文缓存，永远免费。Readwise、Instapaper Premium、Matter，以及当年的 Pocket，这一项都要钱。我们不要。
 - **全文搜索和高亮免费**。同理。
@@ -106,7 +107,7 @@ CLI 填的就是这个空。Slax Reader 成为一个持久的阅读库，任何 
 # 一步:安装 CLI 和 AI Agent skill
 npx @slax-lab/reader-cli@latest install
 
-# 登录(去 reader.slax.com → Settings → API Keys 复制 API key)
+# 登录(去 Settings → Skills + CLI → Generate and copy 复制 API key)
 reader-cli login
 
 # 开用
@@ -115,15 +116,17 @@ reader-cli list --filter inbox
 reader-cli get <bookmark-id> --markdown
 ```
 
+需要 Node.js 22 或 24 LTS。API key 在 Slax Reader 的 **Settings → Skills + CLI → Generate and copy** 获取，以 `sr-` 开头。其他命令：`archive`、`star`、`delete`、`restore`，加 `--json` 输出机器可读格式。自己部署了一份？用 `reader-cli login --api-base <your-url>` 登录。
+
 或者直接把安装指南扔给你的 Agent，让它自己搞定：
 
-> *「帮我安装并配置 Slax Reader CLI:https://github.com/slax-lab/slax-reader-cli/blob/main/docs/ai-agent-installation-guide.md」*
+> *「帮我安装并配置 Slax Reader CLI:https://github.com/slax-lab/slax-reader/blob/dev/docs/cli/ai-agent-installation-guide.md」*
 
 ---
 
 ## 链接
 
-- 仓库与文档：[github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)
+- 仓库与文档：[github.com/slax-lab/slax-reader/tree/dev/apps/cli](https://github.com/slax-lab/slax-reader/tree/dev/apps/cli)
 - 注册：[reader.slax.com](https://reader.slax.com)
 
 > 通过我的推荐链接注册，可以多拿几个月 Pro：[r.slax.com/luca-reader](https://r.slax.com/luca-reader)。上面的工作流都不需要 Pro——永久备份、全文搜索、CLI 在免费版都能用。

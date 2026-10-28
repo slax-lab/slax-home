@@ -2,13 +2,14 @@
 title: "Slax Reader CLI：AI エージェントが使えるあとで読むライブラリ"
 description: "Slax Reader を、AI エージェント——Claude Code、Codex、Gemini CLI、Cursor——が読み書きできる永続的な読書ストアに変える CLI です。"
 pubDate: 2026-05-19T00:00:00.000Z
+updatedDate: 2026-10-28T00:00:00.000Z
 tags: ['reader', 'cli', 'ai-agents']
 product: reader
 ---
 
 あとで読むアプリ Slax Reader 向けに CLI を出しました。面白いのは CLI そのものではなく、あなたの読書ライブラリが AI エージェントが呼べる一級のツールになったことです。ブックマーク、リスト、プロンプトへのパイプ——すべてスクリプタブルです。
 
-リポジトリ：[github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)（MIT）。インストールと使い方は下にあります。
+リポジトリ：[github.com/slax-lab/slax-reader/tree/dev/apps/cli](https://github.com/slax-lab/slax-reader/tree/dev/apps/cli)（MIT）。インストールと使い方は下にあります。
 
 ---
 
@@ -91,7 +92,7 @@ Claude Code にこう言います：*「今朝保存した長文を取って、�
 
 懐疑的な方へ：
 
-- **オープンソース、セルフホスト可能。** Slax Reader 本体は Apache 2.0（[github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader)）。CLI は MIT。いつでもエクスポートできます。
+- **オープンソース。** Slax Reader 本体は Apache 2.0（[github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader)）。コードは完全に公開されており、現在はご自身の Cloudflare アカウントにデプロイできます。CLI は MIT。いつでもエクスポートできます。
 - **キャッシュフローは安定していて、長期運用にコミットしています。** Pocket は 2025 年に Mozilla によって終了し、多くの人にあとで読む依存症のトラウマを残しました。私たちは同じことはしません。
 - **永続バックアップは無料。** ブックマーク＋全文キャッシュは永久無料。Readwise、Instapaper Premium、Matter、かつての Pocket はこれに課金していました。私たちはしません。
 - **全文検索とハイライトは無料。** 同じ理由です。
@@ -106,7 +107,7 @@ Claude Code にこう言います：*「今朝保存した長文を取って、�
 # ワンステップで：CLI と AI エージェント用スキルをインストール
 npx @slax-lab/reader-cli@latest install
 
-# 認証（reader.slax.com → Settings → API Keys から API キーを貼り付け）
+# 認証（Settings → Skills + CLI → Generate and copy から API キーを貼り付け）
 reader-cli login
 
 # 使う
@@ -115,15 +116,17 @@ reader-cli list --filter inbox
 reader-cli get <bookmark-id> --markdown
 ```
 
+Node.js 22 または 24 LTS が必要です。キーは Slax Reader の **Settings → Skills + CLI → Generate and copy** で取得できます（`sr-` で始まります）。ほかのコマンド：`archive`、`star`、`delete`、`restore`。機械向けの出力には `--json` を付けます。自分でデプロイした環境なら `reader-cli login --api-base <your-url>` でログインします。
+
 または、エージェントにインストールガイドを示して、全部やらせるだけでも構いません：
 
-> *「Slax Reader CLI のインストールとセットアップを手伝って：https://github.com/slax-lab/slax-reader-cli/blob/main/docs/ai-agent-installation-guide.md」*
+> *「Slax Reader CLI のインストールとセットアップを手伝って：https://github.com/slax-lab/slax-reader/blob/dev/docs/cli/ai-agent-installation-guide.md」*
 
 ---
 
 ## リンク
 
-- リポジトリ＆ドキュメント：[github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)
+- リポジトリ＆ドキュメント：[github.com/slax-lab/slax-reader/tree/dev/apps/cli](https://github.com/slax-lab/slax-reader/tree/dev/apps/cli)
 - 登録：[reader.slax.com](https://reader.slax.com)
 
 > 私のリファラル経由の登録で、Pro が数か月もらえます：[r.slax.com/luca-reader](https://r.slax.com/luca-reader)。上記のワークフローはどれも Pro 不要——永続バックアップ、全文検索、CLI はすべて無料プランで動きます。

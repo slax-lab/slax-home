@@ -2,13 +2,14 @@
 title: "Slax Reader CLI: ler-depois para agentes de IA"
 description: "Um CLI que transforma o Slax Reader num armazenamento de leitura que Claude Code, Codex, Gemini CLI e Cursor podem ler e escrever."
 pubDate: 2026-05-19T00:00:00.000Z
+updatedDate: 2026-10-28T00:00:00.000Z
 tags: ['reader', 'cli', 'ai-agents']
 product: reader
 ---
 
 Lançamos um CLI para o Slax Reader, nosso app de ler-depois. O interessante não é o CLI em si — é que sua biblioteca de leitura agora é uma ferramenta de primeira classe que agentes de IA podem chamar. Marcar, listar e mandar para um prompt — tudo via script.
 
-Repo: [github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli) (MIT). Instalação e uso abaixo.
+Repo: [github.com/slax-lab/slax-reader/tree/dev/apps/cli](https://github.com/slax-lab/slax-reader/tree/dev/apps/cli) (MIT). Instalação e uso abaixo.
 
 ---
 
@@ -91,7 +92,7 @@ Antes de começar um texto, peça ao Claude Code: *"No meu arquivo do Slax Reade
 
 Para os céticos:
 
-- **Open source, self-hostable.** O Slax Reader em si é Apache 2.0 ([github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader)). O CLI é MIT. Exporte quando quiser.
+- **Open source.** O Slax Reader em si é Apache 2.0 ([github.com/slax-lab/slax-reader](https://github.com/slax-lab/slax-reader)). O código é totalmente público, e hoje você pode implantá-lo na sua própria conta da Cloudflare. O CLI é MIT. Exporte quando quiser.
 - **Nosso fluxo de caixa é estável e estamos comprometidos em rodar isso a longo prazo.** O Pocket foi descontinuado pela Mozilla em 2025 e deixou muita gente com trauma de abandono de ler-depois. Não vamos fazer isso com você.
 - **Backup permanente é grátis.** Bookmarks + cache de texto completo, grátis para sempre. Readwise, Instapaper Premium, Matter e o antigo Pocket cobram por isso. Nós não.
 - **Busca em texto completo e destaques são grátis.** Mesma lógica.
@@ -106,7 +107,7 @@ Para os céticos:
 # Um passo: instala o CLI e a skill para agentes de IA
 npx @slax-lab/reader-cli@latest install
 
-# Autentique (cole a API key de reader.slax.com → Settings → API Keys)
+# Autentique (cole a API key de Settings → Skills + CLI → Generate and copy)
 reader-cli login
 
 # Use
@@ -115,15 +116,17 @@ reader-cli list --filter inbox
 reader-cli get <bookmark-id> --markdown
 ```
 
+Requer Node.js 22 ou 24 LTS. Pegue sua chave no Slax Reader em **Settings → Skills + CLI → Generate and copy**; as chaves começam com `sr-`. Outros comandos: `archive`, `star`, `delete`, `restore`, e `--json` para saída legível por máquina. Rodando sua própria instância? Entre com `reader-cli login --api-base <sua-url>`.
+
 Ou simplesmente aponte seu agente para o guia de instalação e deixe ele fazer tudo:
 
-> *"Me ajude a instalar e configurar o Slax Reader CLI: https://github.com/slax-lab/slax-reader-cli/blob/main/docs/ai-agent-installation-guide.md"*
+> *"Me ajude a instalar e configurar o Slax Reader CLI: https://github.com/slax-lab/slax-reader/blob/dev/docs/cli/ai-agent-installation-guide.md"*
 
 ---
 
 ## Links
 
-- Repo e docs: [github.com/slax-lab/slax-reader-cli](https://github.com/slax-lab/slax-reader-cli)
+- Repo e docs: [github.com/slax-lab/slax-reader/tree/dev/apps/cli](https://github.com/slax-lab/slax-reader/tree/dev/apps/cli)
 - Cadastro: [reader.slax.com](https://reader.slax.com)
 
 > Cadastrar pelo meu link de indicação te dá alguns meses de Pro: [r.slax.com/luca-reader](https://r.slax.com/luca-reader). Nenhum dos workflows acima exige Pro — backup permanente, busca em texto completo e o CLI funcionam no plano gratuito.
