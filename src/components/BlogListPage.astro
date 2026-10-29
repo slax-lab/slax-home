@@ -33,6 +33,14 @@ const dateFmt = new Intl.DateTimeFormat(lang, {
 
 const blogPath = withLocale('/blog/', lang);
 
+const descriptionKey = (
+	{
+		'meta.blogTitle': 'meta.blogDescription',
+		'meta.readerBlogTitle': 'meta.readerBlogDescription',
+		'meta.noteBlogTitle': 'meta.noteBlogDescription',
+	} as const
+)[titleKey];
+
 const productLabel = (product: 'reader' | 'note' | 'slax') => {
 	if (product === 'reader') return 'Slax Reader';
 	if (product === 'note') return 'Slax Note';
@@ -49,7 +57,7 @@ const blogSchema = {
 	'@type': 'Blog',
 	name: t(lang, titleKey),
 	url: new URL(blogPath, SITE).toString(),
-	description: t(lang, 'meta.defaultDescription'),
+	description: t(lang, descriptionKey),
 	blogPost: posts.map((post) => ({
 		'@type': 'BlogPosting',
 		headline: post.data.title,
@@ -65,7 +73,7 @@ const activeNav = productScope ?? 'blog';
 ---
 <Base
 	title={`${t(lang, titleKey)} — Slax`}
-	description={t(lang, 'meta.defaultDescription')}
+	description={t(lang, descriptionKey)}
 	ogImage={ogImage}
 	schema={blogSchema}
 	breadcrumbs={breadcrumbs}

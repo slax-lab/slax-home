@@ -25,6 +25,20 @@ export const ui: UIDict = {
 		privacyTitle: 'プライバシーポリシー',
 		termsTitle: '利用規約',
 		notFoundTitle: 'ページが見つかりません',
+		blogDescription:
+			'Slax ブログ。Web 記事の保存と読み方のガイド、あとで読むアプリの歴史と比較、Slax Reader と Slax Note の開発記録。',
+		readerBlogDescription:
+			'Slax Reader ブログ。Web 記事の保存と読み方、Pocket・Readwise Reader・Instapaper・Matter からの移行、あとで読むアプリの比較。',
+		noteBlogDescription:
+			'Slax Note ブログ。AI ボイスノートアプリの開発記録。デザイナーが AI コーディングツールでアプリを作り直した話も。',
+		readerAlternativesDescription:
+			'Slax Reader と Pocket・Readwise Reader・Instapaper・Matter・Omnivore・Raindrop・Cubox・GoodLinks の比較。料金、AI 機能、エクスポート。',
+		noteAlternativesDescription:
+			'Slax Note と Voicenotes・AudioPen・Braintoss・Mem AI の比較。それぞれの機能と料金、Slax Note が合う場面。',
+		privacyDescription:
+			'Slax Lab が Slax Reader、Slax Note、Slax ウェブサイトで個人情報をどう収集・利用・共有するか、お問い合わせ先。',
+		termsDescription:
+			'Slax Reader、Slax Note ほか Slax Lab のアプリの利用規約。アプリの利用、知的財産、オープンソースソフトウェア、責任の制限。',
 	},
 	nav: {
 		reader: 'Reader',

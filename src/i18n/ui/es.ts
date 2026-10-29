@@ -25,6 +25,20 @@ export const ui: UIDict = {
 		privacyTitle: 'Política de privacidad',
 		termsTitle: 'Términos del servicio',
 		notFoundTitle: 'Página no encontrada',
+		blogDescription:
+			'El blog de Slax: guías para guardar y leer artículos web, historia y comparativa de apps de leer después, y cómo construimos Slax Reader y Slax Note.',
+		readerBlogDescription:
+			'Blog de Slax Reader: cómo guardar y leer artículos web, importar desde Pocket, Readwise Reader, Instapaper y Matter, y comparativa de apps de leer después.',
+		noteBlogDescription:
+			'Blog de Slax Note: cómo construimos la app de notas de voz con AI, incluida la reescritura de la app por un diseñador con herramientas de código AI.',
+		readerAlternativesDescription:
+			'Slax Reader frente a Pocket, Readwise Reader, Instapaper, Matter, Omnivore, Raindrop, Cubox y GoodLinks: precio, funciones de AI y exportación.',
+		noteAlternativesDescription:
+			'Slax Note frente a Voicenotes, AudioPen, Braintoss y Mem AI: qué hace cada app de notas de voz, cuánto cuesta y cuándo encaja mejor Slax Note.',
+		privacyDescription:
+			'Cómo Slax Lab recopila, usa y comparte datos personales en Slax Reader, Slax Note y el sitio web de Slax, y cómo contactarnos.',
+		termsDescription:
+			'Los términos del servicio de Slax Reader, Slax Note y otras apps de Slax Lab: uso de las apps, propiedad intelectual, software de código abierto y responsabilidad.',
 	},
 	nav: {
 		reader: 'Reader',

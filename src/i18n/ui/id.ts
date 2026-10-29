@@ -25,6 +25,20 @@ export const ui: UIDict = {
 		privacyTitle: 'Kebijakan Privasi',
 		termsTitle: 'Ketentuan Layanan',
 		notFoundTitle: 'Halaman tidak ditemukan',
+		blogDescription:
+			'Blog Slax: panduan menyimpan dan membaca artikel web, sejarah dan perbandingan aplikasi baca-nanti, serta cerita di balik Slax Reader dan Slax Note.',
+		readerBlogDescription:
+			'Blog Slax Reader: cara menyimpan dan membaca artikel web, impor dari Pocket, Readwise Reader, Instapaper dan Matter, serta perbandingan aplikasi baca-nanti.',
+		noteBlogDescription:
+			'Blog Slax Note: cara kami membangun aplikasi catatan suara AI, termasuk saat seorang desainer menulis ulang aplikasi dengan alat coding AI.',
+		readerAlternativesDescription:
+			'Perbandingan Slax Reader dengan Pocket, Readwise Reader, Instapaper, Matter, Omnivore, Raindrop, Cubox dan GoodLinks: harga, fitur AI, dan ekspor.',
+		noteAlternativesDescription:
+			'Perbandingan Slax Note dengan Voicenotes, AudioPen, Braintoss dan Mem AI: fungsi tiap aplikasi catatan suara, harganya, dan kapan Slax Note lebih cocok.',
+		privacyDescription:
+			'Cara Slax Lab mengumpulkan, menggunakan, dan membagikan data pribadi di Slax Reader, Slax Note, dan situs web Slax, serta cara menghubungi kami.',
+		termsDescription:
+			'Ketentuan Layanan untuk Slax Reader, Slax Note, dan aplikasi Slax Lab lainnya: penggunaan aplikasi, kekayaan intelektual, perangkat lunak sumber terbuka, dan tanggung jawab.',
 	},
 	nav: {
 		reader: 'Reader',

@@ -26,6 +26,10 @@ const altsTitleKey = (
 		? 'meta.readerAlternativesTitle'
 		: 'meta.noteAlternativesTitle'
 ) as 'meta.readerAlternativesTitle' | 'meta.noteAlternativesTitle';
+const altsDescriptionKey =
+	product === 'reader'
+		? 'meta.readerAlternativesDescription'
+		: 'meta.noteAlternativesDescription';
 
 const productIndexPath = withLocale(`/${product}/`, lang);
 const altsIndexPath = withLocale(`/${product}/alternatives/`, lang);
@@ -38,7 +42,7 @@ const breadcrumbs = [
 ---
 <Base
 	title={`${t(lang, altsTitleKey)} — Slax`}
-	description={t(lang, 'meta.defaultDescription')}
+	description={t(lang, altsDescriptionKey)}
 	breadcrumbs={breadcrumbs}
 	lang={lang}
 >

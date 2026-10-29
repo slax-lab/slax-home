@@ -24,10 +24,14 @@ const dateFmt = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : lang, {
 });
 
 const title = `${entry.data.title} — Slax`;
+const descriptionKey =
+	titleKey === 'meta.privacyTitle'
+		? 'meta.privacyDescription'
+		: 'meta.termsDescription';
 ---
 <Base
 	title={title}
-	description={t(lang, 'meta.defaultDescription')}
+	description={t(lang, descriptionKey)}
 	lang={lang}
 	availableLocales={availableLocales}
 >

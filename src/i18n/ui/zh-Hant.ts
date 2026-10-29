@@ -26,6 +26,20 @@ export const ui: UIDict = {
 		privacyTitle: '私隱政策',
 		termsTitle: '服務條款',
 		notFoundTitle: '找不到這個頁面',
+		blogDescription:
+			'Slax 部落格：儲存與閱讀網頁文章的指南、稍後讀工具的歷史與對比，以及我們做 Slax Reader 和 Slax Note 的紀錄。',
+		readerBlogDescription:
+			'Slax Reader 部落格：如何儲存與閱讀網頁文章，如何從 Pocket、Readwise Reader、Instapaper、Matter 匯入，以及稍後讀工具對比。',
+		noteBlogDescription:
+			'Slax Note 部落格：我們如何做這款 AI 語音筆記應用，包括設計師用 AI 程式工具重寫應用的過程。',
+		readerAlternativesDescription:
+			'Slax Reader 與 Pocket、Readwise Reader、Instapaper、Matter、Omnivore、Raindrop、Cubox、GoodLinks 的對比：價格、AI 功能與匯出。',
+		noteAlternativesDescription:
+			'Slax Note 與 Voicenotes、AudioPen、Braintoss、Mem AI 的對比：各自能做什麼、價格多少、什麼時候更適合用 Slax Note。',
+		privacyDescription:
+			'Slax Lab 在 Slax Reader、Slax Note 與 Slax 網站中如何蒐集、使用與分享個人資料，以及如何聯絡我們。',
+		termsDescription:
+			'Slax Reader、Slax Note 與其他 Slax Lab 應用的服務條款：應用的使用、智慧財產權、開源軟體與責任限制。',
 	},
 	nav: {
 		reader: 'Reader',

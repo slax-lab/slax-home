@@ -25,6 +25,20 @@ export const ui: UIDict = {
 		privacyTitle: 'Chính sách quyền riêng tư',
 		termsTitle: 'Điều khoản dịch vụ',
 		notFoundTitle: 'Không tìm thấy trang',
+		blogDescription:
+			'Blog Slax: hướng dẫn lưu và đọc bài viết trên web, lịch sử và so sánh các ứng dụng đọc-sau, cùng câu chuyện làm Slax Reader và Slax Note.',
+		readerBlogDescription:
+			'Blog Slax Reader: cách lưu và đọc bài viết trên web, nhập từ Pocket, Readwise Reader, Instapaper và Matter, và so sánh các ứng dụng đọc-sau.',
+		noteBlogDescription:
+			'Blog Slax Note: cách chúng tôi làm ứng dụng ghi chú giọng nói AI, gồm cả lần một nhà thiết kế viết lại ứng dụng bằng công cụ lập trình AI.',
+		readerAlternativesDescription:
+			'So sánh Slax Reader với Pocket, Readwise Reader, Instapaper, Matter, Omnivore, Raindrop, Cubox và GoodLinks: giá, tính năng AI và xuất dữ liệu.',
+		noteAlternativesDescription:
+			'So sánh Slax Note với Voicenotes, AudioPen, Braintoss và Mem AI: mỗi ứng dụng ghi chú giọng nói làm gì, giá bao nhiêu và khi nào Slax Note phù hợp hơn.',
+		privacyDescription:
+			'Cách Slax Lab thu thập, sử dụng và chia sẻ dữ liệu cá nhân trong Slax Reader, Slax Note và trang web Slax, và cách liên hệ với chúng tôi.',
+		termsDescription:
+			'Điều khoản dịch vụ của Slax Reader, Slax Note và các ứng dụng khác của Slax Lab: sử dụng ứng dụng, sở hữu trí tuệ, phần mềm mã nguồn mở và trách nhiệm.',
 	},
 	nav: {
 		reader: 'Reader',
