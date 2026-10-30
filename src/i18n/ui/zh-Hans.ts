@@ -25,6 +25,20 @@ export const ui: UIDict = {
 		privacyTitle: '隐私政策',
 		termsTitle: '服务条款',
 		notFoundTitle: '没找到这个页面',
+		blogDescription:
+			'Slax 博客：保存和阅读网页文章的指南、稍后读工具的历史与对比，以及我们做 Slax Reader 和 Slax Note 的记录。',
+		readerBlogDescription:
+			'Slax Reader 博客：怎样保存和阅读网页文章，怎样从 Pocket、Readwise Reader、Instapaper、Matter 导入，以及稍后读工具对比。',
+		noteBlogDescription:
+			'Slax Note 博客：我们怎样做这款 AI 语音笔记应用，包括设计师用 AI 编程工具重写应用的过程。',
+		readerAlternativesDescription:
+			'Slax Reader 与 Pocket、Readwise Reader、Instapaper、Matter、Omnivore、Raindrop、Cubox、GoodLinks 的对比：价格、AI 功能和导出。',
+		noteAlternativesDescription:
+			'Slax Note 与 Voicenotes、AudioPen、Braintoss、Mem AI 的对比：各自能做什么、价格多少、什么时候更适合用 Slax Note。',
+		privacyDescription:
+			'Slax Lab 在 Slax Reader、Slax Note 和 Slax 网站中怎样收集、使用和共享个人信息，以及怎样联系我们。',
+		termsDescription:
+			'Slax Reader、Slax Note 和其他 Slax Lab 应用的服务条款：应用的使用、知识产权、开源软件和责任限制。',
 	},
 	nav: {
 		reader: 'Reader',

@@ -25,6 +25,20 @@ export const ui: UIDict = {
 		privacyTitle: '개인정보 처리방침',
 		termsTitle: '이용약관',
 		notFoundTitle: '페이지를 찾을 수 없습니다',
+		blogDescription:
+			'Slax 블로그: 웹 글을 저장하고 읽는 가이드, 나중에 읽기 앱의 역사와 비교, Slax Reader와 Slax Note를 만드는 이야기.',
+		readerBlogDescription:
+			'Slax Reader 블로그: 웹 글 저장과 읽기, Pocket·Readwise Reader·Instapaper·Matter에서 가져오기, 나중에 읽기 앱 비교.',
+		noteBlogDescription:
+			'Slax Note 블로그: AI 음성 메모 앱을 만드는 이야기. 디자이너가 AI 코딩 도구로 앱을 다시 만든 과정도 담았습니다.',
+		readerAlternativesDescription:
+			'Slax Reader와 Pocket, Readwise Reader, Instapaper, Matter, Omnivore, Raindrop, Cubox, GoodLinks 비교: 가격, AI 기능, 내보내기.',
+		noteAlternativesDescription:
+			'Slax Note와 Voicenotes, AudioPen, Braintoss, Mem AI 비교: 각 앱의 기능과 가격, Slax Note가 더 맞는 경우.',
+		privacyDescription:
+			'Slax Lab이 Slax Reader, Slax Note, Slax 웹사이트에서 개인정보를 수집·이용·공유하는 방식과 문의 방법.',
+		termsDescription:
+			'Slax Reader, Slax Note 및 기타 Slax Lab 앱의 이용약관: 앱 이용, 지식재산권, 오픈소스 소프트웨어, 책임 제한.',
 	},
 	nav: {
 		reader: 'Reader',
