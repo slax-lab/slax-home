@@ -64,8 +64,11 @@ for (const file of walk(DIST)) {
 	const canonical = html.match(
 		/<link[^>]*rel="canonical"[^>]*href="([^"]+)"/,
 	)?.[1];
+	// HackerLinks is served only on apex; all other apex URLs remain errors.
 	check(
-		!/\b(?:href|src|content)="https?:\/\/slax\.com(?:[/?#]|"|&)/.test(html),
+		!/\b(?:href|src|content)="https?:\/\/slax\.com(?!\/reader\/hackerlinks\/)(?:[/?#]|"|&)/.test(
+			html,
+		),
 		`${label}: apex URL in HTML attributes`,
 	);
 	const schemas: Node[] = [];

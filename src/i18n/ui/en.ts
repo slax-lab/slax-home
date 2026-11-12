@@ -57,6 +57,7 @@ export const ui = {
 		links: {
 			slaxReader: 'Slax Reader',
 			slaxNote: 'Slax Note',
+			hackerLinks: 'HackerLinks',
 			whatsNew: "What's new",
 			vsAlternatives: 'vs alternatives',
 			blog: 'Blog',

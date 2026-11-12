@@ -17,6 +17,12 @@ export interface Author {
 }
 
 export const AUTHORS: Record<string, Author> = {
+	alex: {
+		slug: 'alex',
+		name: 'Alex Lee',
+		role: 'Slax Lab',
+		sameAs: [],
+	},
 	luca: {
 		slug: 'luca',
 		name: 'Luca Wu',
