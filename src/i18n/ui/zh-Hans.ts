@@ -58,6 +58,7 @@ export const ui: UIDict = {
 		links: {
 			slaxReader: 'Slax Reader',
 			slaxNote: 'Slax Note',
+			hackerLinks: 'HackerLinks',
 			whatsNew: '更新日志',
 			vsAlternatives: '对比',
 			blog: '博客',

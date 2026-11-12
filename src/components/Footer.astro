@@ -12,6 +12,12 @@ interface Props {
 const { version = '0.9.2', lastUpdated = '06/10/26' } = Astro.props;
 const lang = detectLocale(Astro.url.pathname);
 const homeHref = lang === DEFAULT_LOCALE ? '/' : `/${lang}/`;
+
+// HackerLinks is served outside this site at slax.com/reader/hackerlinks/.
+// The www host 404s on that path, so link to it with an absolute URL instead
+// of withLocale(). Only Simplified Chinese has its own edition today.
+const HACKERLINKS_LOCALE: Record<string, string> = { 'zh-Hans': 'zh' };
+const hackerLinksHref = `https://slax.com/reader/hackerlinks/${HACKERLINKS_LOCALE[lang] ?? 'en'}/`;
 ---
 <footer class="footer">
 	<div class="footer-inner">
@@ -27,6 +33,7 @@ const homeHref = lang === DEFAULT_LOCALE ? '/' : `/${lang}/`;
 			<ul>
 				<li><a href={withLocale('/reader/', lang)}>{t(lang, 'footer.links.slaxReader')}</a></li>
 				<li><a href={withLocale('/note/', lang)}>{t(lang, 'footer.links.slaxNote')}</a></li>
+				<li><a href={hackerLinksHref}>{t(lang, 'footer.links.hackerLinks')}</a></li>
 			</ul>
 		</div>
 		<div>
