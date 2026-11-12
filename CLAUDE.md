@@ -66,7 +66,18 @@ slax-home/
 
 ## 开发端口
 
-`pnpm dev` 启动本地开发，单端口：http://localhost:4321
+`pnpm dev` 启动本地开发，单端口：http://localhost:4321（端口定义在 `astro.config.mjs` 的 `server.port`）
+
+### Agent 调试时端口被占用的处理方式
+
+Agent 自己启动调试进程时，如果 Astro 实际监听的端口和 `astro.config.mjs` 里配置的端口不一致（Astro 发现端口被占用会自动跳到下一个可用端口，比如 4322），**不要直接把跳出来的新端口丢给用户**，按以下步骤处理：
+
+1. 检查 `astro.config.mjs` 中配置的端口（当前是 4321）是否被其他进程占用：`lsof -i :4321`
+2. 判断占用该端口的进程是否也是本项目的旧调试进程（残留的 `astro dev` / `pnpm dev` 进程，可用 `lsof -i :4321` 输出的 PID 配合 `ps -p <PID> -o command=` 查看命令行是否指向本项目目录或 `astro dev`）
+3. 如果确认是本项目的旧进程：关闭它（`kill <PID>`），然后在配置端口上重新启动 `pnpm dev`
+4. 如果占用进程不是本项目的调试进程（比如用户自己在跑别的服务）：不要强行关闭，向用户说明端口被其他进程占用，询问如何处理
+
+目标：始终让用户拿到和 `astro.config.mjs` 配置一致的 URL（`http://localhost:4321`），不要因为端口冲突就随意把跳变后的端口交给用户。
 
 ## 内容编辑指引
 
