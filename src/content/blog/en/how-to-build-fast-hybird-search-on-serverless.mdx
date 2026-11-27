@@ -320,7 +320,3 @@ I like to tinker, but until now I had always believed that doing something as co
 But this round of search optimization also brought overall back-end latency down to P50 240 ms / P90 368 ms. The recipe of SQLite D1, BM25, vector search and RRF didn't change. Tuning where Placement should put things, tuning where Jina and Vectorize should run, optimizing the D1 full-text SQL, and tracking down the Jieba memory leak made a huge difference to the whole back end. A project really does need someone to keep looking back and keep polishing it, to stay alive.
 
 (The first version's CTE wasn't wrong, either. When there were few articles, it really did save a lot in scan costs. It's just that as more and more data accumulated, the old trade-off had to be recalculated.)
-
-## Acknowledgments
-
-Special thanks to Alex Lee for giving me enough freedom and room to explore, and for letting me draw on everything I've learned along the way to tie it all together in one big push.
