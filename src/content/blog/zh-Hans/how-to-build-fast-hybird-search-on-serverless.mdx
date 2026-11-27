@@ -14,7 +14,7 @@ import UrlCard from '~/components/UrlCard.astro';
 	description="Slax Reader 是全栈开源的产品，前后端均深度基于 Cloudflare 生态优化"
 />
 
-Slax Reader 的搜索功能出来的很早，2024年底前后，那时 Reader 刚上线没多久，纯粹觉得好玩加上技术调研，周末两天写出了原型：D1 FTS5 做全文检索，Vectorize 做向量检索，再用 RRF 把两路结果合起来。大家收藏的文章还不多，一次搜索四五秒出结果，也能接受，就一直没再动它。
+Slax Reader 的搜索功能出来的很早，2024年底前后，那会 Reader 刚上线没多久，纯粹觉得好玩加上技术调研，周末两天写出了原型。原理也很简单，尽可能基于 Cloudflare Worker 架构，D1 底层是SQLite，支持 FTS5 全文检索，也有提供 Vectorize 做向量检索，再用 RRF 把两路结果合起来。一次搜索四五秒出结果，也能接受，就一直没人再动它了。
 
 真正的故事要从这个月开始，我们的监测到 D1 开始频繁报 `D1 DB is overloaded`，且全站的接口延迟也明显比之前高了很多。秉承着优先处理基础体验的原则，开始了这次漫长的排查、重写。
 
