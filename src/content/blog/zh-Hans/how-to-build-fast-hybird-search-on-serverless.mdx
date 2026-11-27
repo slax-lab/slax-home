@@ -14,11 +14,13 @@ import UrlCard from '~/components/UrlCard.astro';
 	description="Slax Reader 是全栈开源的产品，前后端均深度基于 Cloudflare 生态优化"
 />
 
-Slax Reader 的搜索功能出来的很早，2024年底前后，那会 Reader 刚上线没多久，纯粹觉得好玩加上技术调研，周末两天写出了原型。原理也很简单，尽可能基于 Cloudflare Worker 架构，D1 底层是SQLite，支持 FTS5 全文检索，也有提供 Vectorize 做向量检索，再用 RRF 把两路结果合起来。一次搜索四五秒出结果，也能接受，就一直没人再动它了。
-
-真正的故事要从这个月开始，我们的监测到 D1 开始频繁报 `D1 DB is overloaded`，且全站的接口延迟也明显比之前高了很多。秉承着优先处理基础体验的原则，开始了这次漫长的排查、重写。
+这篇文章讲的是我们如何在钢丝绳上跳舞，把项目重写优化到搜索接口只需要 1.5 ~ 2 秒、后端请求耗时 P99 大幅度下降，同时让脆弱的 D1 彻底焕发新生。整个过程里没有换掉任何一个算法，BM25、向量检索和 RRF 都还在。真正起作用的，是把 Cloudflare 的几个能力用对了位置：Placement 固定执行区域、Service Binding 跨区并行、D1 的查询计划、Durable Object 里的 WASM 生命周期，以及按 Worker 拆分的打包体积。
 
 ## 第一版是怎么做的
+
+Slax Reader 的搜索功能出来的很早，2024年底前后，那会 Reader 刚上线没多久，纯粹觉得好玩加上技术调研，周末两天写出了原型。原理也很简单，尽可能基于 Cloudflare Worker 架构，D1 底层是SQLite，支持 FTS5 全文检索，也有提供 Vectorize 做向量检索，再用 RRF 把两路结果合起来。一次搜索四五秒出结果，也能接受，就一直没人再动它。
+
+真正的故事要从这个月开始，我们的监测到 D1 开始频繁报 `D1 DB is overloaded`，且全站的接口延迟也明显比之前高了很多。秉承着优先处理基础体验的原则，开始了这次漫长的排查、重写。
 
 ```text
 搜索关键词
@@ -322,30 +324,4 @@ Worker B 的 Workers Cache
 
 ## 头回过来
 
-特别感谢 Zhiqiang，给到我足够多的自由度跟探索空间，且能让我凭借不断积累下来的经验，一次性串起来干个大事。
-
-## 参考资料
-
-<UrlCard
-	href="https://blog.cloudflare.com/announcing-workers-smart-placement/"
-	title="Smart Placement speeds up applications by moving code close to your backend"
-	description="Cloudflare 2023 年发布 Smart Placement 的官方博客。"
-/>
-
-<UrlCard
-	href="https://developers.cloudflare.com/workers/configuration/placement/"
-	title="Cloudflare Workers Placement 文档"
-	description="多 Worker 推荐架构、Placement Hint，以及 fetch 与 RPC 的调度差异。"
-/>
-
-<UrlCard
-	href="https://blog.cloudflare.com/workers-cache/"
-	title="Your Worker can now have its own cache in front of it"
-	description="Cloudflare 2026 年 7 月 6 日发布 Workers Cache 的官方博客。"
-/>
-
-<UrlCard
-	href="https://developers.cloudflare.com/workers/cache/"
-	title="Cloudflare Workers Cache 文档"
-	description="分层缓存、Service Binding、缓存键、Smart Placement 交互与限制。"
-/>
+特别感谢 Alex Lee，给到我足够多的自由度跟探索空间，且能让我凭借不断积累下来的经验，一次性串起来干个大事。
