@@ -20,8 +20,6 @@ This post is about how we danced on a tightrope: rewriting and optimizing the pr
 
 Slax Reader got search early, around the end of 2024. Reader had only just launched, and partly for fun and partly as a technical experiment, I built a prototype over a weekend. The idea was simple: stay on the Cloudflare Workers architecture as much as possible. D1 is SQLite underneath and supports FTS5 full-text search, Vectorize handles vector search, and RRF merges the two result lists. A search took four or five seconds, which was acceptable, so nobody touched it again.
 
-The real story starts this month. Our monitoring showed D1 frequently returning `D1 DB is overloaded`, and API latency across the whole site had gone up noticeably. Following the principle of fixing the basic experience first, we started a long round of investigation and rewriting.
-
 ```text
 Search keyword
    │
@@ -29,6 +27,8 @@ Search keyword
    │                                       ├─→ Merge by bookmark_id → RRF (K = 60)
    └─ Jina embedding → 5 Vectorize shards ─┘
 ```
+
+The real story starts this month. Our monitoring showed D1 frequently returning `D1 DB is overloaded`, and API latency across the whole site had gone up noticeably. Following the principle of fixing the basic experience first, we started a long round of investigation and rewriting.
 
 ### Jieba word segmentation
 
