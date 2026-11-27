@@ -1,0 +1,351 @@
+---
+title: "Slax Reader：基于 Cloudflare Worker 构建高效搜索接口"
+description: "深度利用 Cloudflare 机制，Serverless 也有高性能"
+pubDate: 2026-11-26T00:00:00.000Z
+tags: ['Serverless', '搜索', '开发', 'Cloudflare']
+product: reader
+author: 'daguang'
+---
+import UrlCard from '~/components/UrlCard.astro';
+
+<UrlCard
+	href="https://github.com/slax-lab/slax-reader"
+	title="Slax Reader Repo"
+	description="Slax Reader 是全栈开源的产品，前后端均深度基于 Cloudflare 生态优化"
+/>
+
+Slax Reader 的搜索功能出来的很早，2024年底前后，那时 Reader 刚上线没多久，纯粹觉得好玩加上技术调研，周末两天写出了原型：D1 FTS5 做全文检索，Vectorize 做向量检索，再用 RRF 把两路结果合起来。大家收藏的文章还不多，一次搜索四五秒出结果，也能接受，就一直没再动它。
+
+真正的故事要从这个月开始，我们的监测到 D1 开始频繁报 `D1 DB is overloaded`，且全站的接口延迟也明显比之前高了很多。秉承着优先处理基础体验的原则，开始了这次漫长的排查、重写。
+
+## 第一版是怎么做的
+
+```text
+搜索关键词
+   │
+   ├─ Jieba 分词 → D1 FTS5 / BM25 ──────────┐
+   │                                        ├─→ 按 bookmark_id 合并 → RRF（K = 60）
+   └─ Jina Embedding → 5 个 Vectorize 分片 ─┘
+```
+
+### Jieba 分词
+
+> 如下描述仅依靠代码记录、人脑🧠上下文还原，可能跟实际有一定出入
+
+全文搜索的核心就是分词，中文分词普遍用的也是 Jieba。但 Slax Reader 是 Serverless，无法像常驻的进程一样加载到内存就完事了，而且外接分词接口会导致不可控因素更多。
+
+在一番调研后选择了 [Rust 版 Jieba](https://github.com/messense/jieba-rs) 编译成 [WASM](https://github.com/fengkx/jieba-wasm) 让 Worker 用打包到 Bundle 调用，运行在 DO (Durable Object) 里。这一段话现在看来是很轻松，Agent 下场很快就搞定了，但是在那个 AI 智商普遍还不够高的年代，而且 Worker 资料、类似开源项目、外部资源匮乏的年代，这也是个烫手山芋。
+
+首先是 WASM 怎么加载。jieba-wasm 只提供了 wasm-bindgen 生成，默认用 `new URL('jieba.wasm', import.meta.url)` 定位文件，再用 `WebAssembly.instantiateStreaming()` 去 fetch。这两件事在 Worker 里都行不通：Worker 里没有可以 fetch 的 `.wasm` 文件位置，也[不支持 `instantiateStreaming()`](https://developers.cloudflare.com/workers/vite-plugin/reference/non-javascript-modules/)。
+
+最后是在 Wrangler 配置里加了一条 `CompiledWasm` 规则，让 `.wasm` 在部署时就编译成 `WebAssembly.Module`，代码里直接 `import`，再交给 `WebAssembly.instantiate()`：
+
+```toml
+[[rules]]
+type = "CompiledWasm"
+globs = ["**/*.wasm"]
+fallthrough = false
+```
+
+加载方式改了之后，连带着的就是包体变大，`wasm-bindgen` 生成的 JS 胶水代码也用不上，包里的 TypeScript 类型也有问题（[fengkx/jieba-wasm#5](https://github.com/fengkx/jieba-wasm/issues/5)）。只能把胶水代码一行行抄进 `SlaxJieba` 这个 Durable Object 里。
+
+字符串怎么写进 WASM 内存，分词结果怎么从 `externref` 数组里读回来，用完的内存怎么释放，前后写了 300 多行。里面有些导入函数的名字带着 `wasm-bindgen` 生成的哈希，比如 `__wbg_new_1e7c00339420672b`，`wasm-bindgen` 一升级就对不上，只能锁死版本。
+
+好消息是，我们跑通了，坏消息来了：内存。Worker 和 Durable Object 每个 isolate 只有 [128 MB 内存，JS 堆和 WASM 加在一起算](https://developers.cloudflare.com/workers/platform/limits/)。`Jieba` 的完整词典有 34 万多个词条，压缩后嵌在 WASM 里，文件约 3.7 MB，可一加载就要占掉 90 多 MB。Cloudflare 的示例是在全局作用域实例化 WASM，我们反过来，只能放进 Durable Object，等第一次调用时再加载，否则冷启动就会超时。
+
+犹记得，那是我人生第一次写代码要像早年任天堂游戏工程师一样，各种意义上抠抠搜搜省一点内存、空间占用，甚至要 fork `jieba-rs` 里把每个词条的词频从 `usize` 改成了 `u32`，词性标签从 `String` 改成了 `SmallString`。大部分词性只有一两个字符，这样就不用为每个词条单独分配一块堆内存。
+
+最后，内存还是会一直涨。当时没找到原因，只能先兜住：WASM 内存超过 120 MB 就丢掉实例重新加载，加一把锁防止并发时重复初始化，再把请求随机分到 20 个 Durable Object 上，让每个实例涨得慢一点。代码里还留着一行被注释掉的 `idFromName('0')`，那是最开始只用一个实例时的写法。内存为什么会涨，直到这次排查才弄清楚，后面会讲。
+
+### 全文搜索
+
+千辛万苦把`Jieba`处理好了，终于开始全文检索了。`Slax Reader` 为了方便一次性查询就能拿到原文做关键词高亮，原文和分词后的文本都存在 `slax_bookmark_raw` 表里，FTS5 表靠触发器同步。
+
+初版全文搜索有个很大的问题，严重到会导致整个全文搜索的方案都废弃掉，FTS5 执行 `MATCH` 时会在整个索引上计算匹配，而所有用户的文章都在同一张表里，D1 又是按扫描行数收费的。如果直接写成“先 MATCH 再按用户过滤”，每次搜索都要扫描全站数据，用户越多，就越慢、越贵。
+
+当时试了很多种写法，甚至尝试让 Agent 去审查了 SQLite 的代码，配合 `EXPLAIN QUERY PLAN`排查分析，最后选择用 CTE 取出当前用户的几十行记录，再用它和 FTS 表做 JOIN。这个写法的优点是，可以不需要全表扫描也可以完成 MATCH，但是缺陷是 `IN` 里最多只能放 50 个 ID，超过以后执行计划就会退回全表扫描。（在 AI 没那么高度聪明的年代，这个方法已经是智能人工凑出来的最佳方案了）
+
+
+```sql
+WITH filtered_ids AS (
+  SELECT DISTINCT r.id, r.bookmark_id, r.raw_content, r.raw_title
+  FROM slax_bookmark_raw r
+  WHERE id IN (/* 最多 50 个行 ID */)
+)
+SELECT f.bookmark_id, bm25(slax_fts_bookmark) AS score,
+       snippet(slax_fts_bookmark, 0, '[highlight]', '[/highlight]', '...', 32)
+FROM filtered_ids f
+JOIN slax_fts_bookmark ON slax_fts_bookmark.rowid = f.id
+WHERE slax_fts_bookmark MATCH ?
+```
+
+所以用户的文章每 50 篇分一组，一组一条 SQL，文章多就多发几条并发查询。那时大部分用户只有几十到几百篇文章，几条并发查询对 D1 来说不算什么。毕竟扫描行数不是全表，而且也有正确走索引了。
+
+```text
+- CO-ROUTINE filtered_ids
+- SEARCH r USING INTEGER PRIMARY KEY
+- SCAN slax_fts_bookmark VIRTUAL TABLE INDEX 0:M2
+SCAN f
+```
+
+## D1 开始过载
+
+噩梦从日志异常汇总开始，当鲜红的`D1 DB is overloaded` 频繁出现在日志里时，意味着这个问题已经变成了可用性问题。
+
+以测试账号为例，可搜索的书签有 619 篇，一次搜索要拆成 13 批查询。按上面的数字，搜“AI”时 13 批加起来要读将近 3,000 万行。
+
+13 批查询同时发出去，D1 就报错：`D1 DB is overloaded. Too many resources consumed within a 10 second window`。下面是 11 月 23 日晚上生产 AI Worker 的日志：
+
+| 关键词 | AI Worker 耗时 | 全文检索 | 语义检索 |
+| --- | ---: | ---: | ---: |
+| 阅读 | 8,494 ms | 7,209 ms | 1,927 ms |
+| AI | 8,468 ms | 7,515 ms | 1,013 ms |
+| cloudflare worker | 1,535 ms | 476 ms | 493 ms |
+
+时间基本都花在全文检索上。在客户端用 curl 测，同一个关键词每次的结果都不一样：“阅读”四次分别是 2.6、9.1、10.5、14.5 秒；“cloudflare worker”有三次在 2 秒左右，第四次却到了 12 秒。快慢取决于这次请求有没有遇到 D1 过载。
+
+更麻烦的是，被拒的分组会被 `Promise.allSettled` 直接丢弃，没有任何报错。接口照常返回 200，只是全文结果少了很多，谁都察觉不到。
+
+排查时还碰到一个 FTS5 的 bug：`(title:NEAR(...)) OR (content:NEAR(...))` 和 `snippet()` 一起用时，会报 `SQLITE_CORRUPT_VTAB`。只要关键词能分出两个以上的词，生成的就是这种表达式，所以这些分组也一直在失败，只是没人发现。数据本身没有损坏，在一个空的内存库里插两行数据就能复现。
+
+## 开始重写
+
+### 全文搜索优化
+
+旧写法的问题在于，排名和取原文放在同一条 SQL 里。每一组都要带着完整原文去匹配，最后却只用得上几十个字的高亮。而且为了不让执行计划退回全表扫描，候选 ID 只能 50 个一组地拼进 `IN (...)`，用户文章一多，就只能多发几条查询。
+
+新写法的思路是把这两件事拆开：先用一条只带分数的 SQL 排出全部候选的名次，再只给真正要展示的那几十条取原文。
+
+**第一步，只排名。** 用户所有候选行的 ID 拼成一个 JSON 数组，作为一个参数传进去，SQL 里用 `json_each` 展开：
+
+```sql
+SELECT r.id AS row_id, r.bookmark_id, bm25(slax_fts_bookmark) AS score
+FROM slax_bookmark_raw r
+JOIN slax_fts_bookmark ON slax_fts_bookmark.rowid = r.id
+WHERE slax_fts_bookmark MATCH ?
+  AND r.id IN (SELECT value FROM json_each(?))
+ORDER BY score ASC, r.id ASC
+```
+
+不管用户有多少篇文章，候选 ID 都只占一个绑定参数，D1 每条语句最多 100 个参数、长度不超过 100 KB 的限制也就碰不到了。执行计划变成了这样：
+
+```text
+SCAN slax_fts_bookmark VIRTUAL TABLE INDEX 0:M2
+LIST SUBQUERY 1
+  SCAN json_each
+CREATE BLOOM FILTER
+SEARCH r USING INTEGER PRIMARY KEY (rowid=?)
+```
+
+先在 FTS 索引上做一次 MATCH，把 `json_each` 展开的候选 ID 建成一个布隆过滤器，每条命中先过一遍过滤器，再按主键去原文表取这一行。旧写法里的 co-routine 没有了，读的行数大约是“关键词在全库的命中数 + 候选数”，和用户有多少篇文章基本无关。
+
+**第二步，只给前 50 条取文本。** 排完名以后，只给前 50 条取高亮和完整原文，剩下的只取开头一小段。高亮分成标题和正文两条 SQL 各查一次，每次只 MATCH 一列：
+
+```sql
+-- 正文高亮
+SELECT r.id AS row_id,
+       snippet(slax_fts_bookmark, 0, '[highlight]', '[/highlight]', '...', 32) AS snippet
+FROM slax_bookmark_raw r
+JOIN slax_fts_bookmark ON slax_fts_bookmark.rowid = r.id
+WHERE slax_fts_bookmark MATCH ?   -- 只匹配 content 列的表达式
+  AND r.id IN (SELECT value FROM json_each(?))
+```
+
+这样就绕开了上面那个 FTS5 bug：`(title:NEAR(...)) OR (content:NEAR(...))` 这种两列的表达式只在排名时使用，排名只调用 `bm25()`，不调用 `snippet()`，不会触发报错。三条 SQL（正文高亮、标题高亮、原文）并发执行。
+
+下面是 D1 自带的线上统计，同一个库（迁到亚太后的新库）、所有用户的真实请求，旧代码和新代码各自跑出来的平均值。旧 SQL 的数据取自 11 月 23 日切到新库之后、11 月 26 日发版之前：
+
+| SQL | 次数 | 平均读取行数 | 平均 D1 耗时 |
+| --- | ---: | ---: | ---: |
+| 旧：CTE 分批查询（每批） | 241 | 247,467 | 139.7 ms |
+| 新：排名 | 143 | 5,766 | 13.2 ms |
+| 新：正文高亮（前 50 条） | 115 | 6,357 | 17.0 ms |
+| 新：标题高亮（前 50 条） | 136 | 868 | 1.3 ms |
+| 新：前 50 条原文 | 236 | 108 | 5.0 ms |
+| 新：其余结果取开头（超过 50 条时才查） | 52 | 327 | 10.9 ms |
+
+如果只排名、不取高亮，“阅读”命中 552 条，这一步只要 14 ms，返回 37 KB。原来一次要把 16.7 MB 原文读进 Worker，现在只给前 50 条取原文，平均 0.4 MB 左右。
+
+## 请求链路优化
+
+全文查询只是搜索请求的一部分。从近期的日志能看出，就算全文检索不慢，语义检索也要 0.5～1.9 秒；搜索前分词、读出用户书签列表的这一步也要 0.5～1.1 秒，所以请求经过的每个 Worker 都得测一遍。除了全文查询，问题还出在三个地方：Worker 的拆分方式、向量检索的位置，以及 Jieba 分词。
+
+### Worker 拆分
+
+这一项的起因是有用户反馈海外访问很慢，偶尔一个请求要多等一两秒。
+
+当时后端有 Edge、Core、AI 三个 Worker，因为拆 Worker 包伊始没有考虑到 Cloudflare 的冷启动也能造成很高延迟，故三个都打包了全部依赖。注册类的依赖注入容器、所有 Workflow 和 Durable Object，再加上 Jieba 的 WASM，哪怕 Edge 只负责鉴权和转发，上传包也有 16 MB，每次冷启动都要把整个后端加载一遍。
+
+Worker 部署位置也有问题，此前有尝试过给 Core 打开[智能放置](https://blog.cloudflare.com/announcing-workers-smart-placement/)，但是综合下来的效果反而是最差的，所以一直都是遵循全量 Worker 就近执行。
+
+PostgreSQL 在新加坡，Core 却没有指定部署位置，用户从哪里访问，它就在哪里执行。这是生产上 24 小时的统计，可以很明显看到挂钟耗时都花在跨洋访问数据库上。
+
+| 机房 | Core 耗时中位数 | CPU 中位数 |
+| --- | ---: | ---: |
+| 新加坡 SIN | 123 ms | 27 ms |
+| 香港 HKG | 202 ms | 23 ms |
+| 东京 NRT | 304 ms | 23 ms |
+| 洛杉矶 LAX | 620 ms | 25 ms |
+| 法兰克福 FRA | 589 ms | 31 ms |
+| 美东 IAD | 793 ms | 29 ms |
+
+这类问题，Cloudflare 已经给出过推荐做法。2023 年推出 Smart Placement 时，文档建议把全栈应用拆成两个 Worker：前端 Worker 留在用户附近，负责鉴权和路由；后端 Worker 开启 Placement，部署到数据库附近；两者通过 Service Binding 调用。但受限于前面智能放置的负优化，一直没开启。
+
+今年 7 月 6 日发布的 Workers Cache 补上了缓存这一层。官方给出的结构是：
+
+```text
+用户
+  ↓
+Worker A：用户附近，鉴权、限流、路由
+  ↓ Service Binding
+Worker B 的 Workers Cache
+  ├─ 命中：直接返回，B 不执行
+  └─ 未命中：Worker B 在数据附近执行、查库并写入缓存
+```
+
+这次更新，Worker Cache 反而不是最重要的，而是他终于把固定 Worker 运行位置功能 Released 了。在此前之前只能「就近执行」、「智能放置」，但是这次新增了固定数据中心节点位置执行，我终于可以让业务逻辑/数据 Worker 固定在`ap-southeast-1`了。按这个思路，Worker 最终拆成了六个：
+
+| Worker | 负责 | 部署位置 |
+| --- | --- | --- |
+| Edge | CORS、鉴权、限流、路由、图片代理 | 用户附近 |
+| Core | 普通 API、队列、定时任务、Workflow | 新加坡 |
+| AI | 搜索、推荐、AIGC | 新加坡 |
+| Objects | Jieba、WebSocket、截图这几个 Durable Object | 新加坡 |
+| Vector | Jina embedding、向量检索 | 美国 |
+| Browser | 浏览器渲染 | 用户附近 |
+
+之所以没用上 Worker Cache，是因为搜索请求都带 `Authorization` 头，默认会绕过缓存；就算不绕过，每个用户、每个关键词也都是不同的缓存键。所以这次搜索变快，靠的是改查询和调整执行位置，和缓存无关。
+
+拆分上线后，又涉及到一个 Cloudflare 的机制，Placement 只对 `fetch` 生效，RPC 调用时会选择在相同机房执行。所以只能修改 Edge 配合内部 Worker Secret 做请求转发，让他们在我期望的节点上正确运行。
+
+### Worker 瘦身
+
+这部分依赖 AI 扫描代码后，确定了每个 Worker 实际用到的依赖后针对性地瘦身。
+
+- 依赖注入、路由、队列和定时任务的注册代码按 Worker 分别生成，每个 Worker 只包含自己用到的类。
+- AI 的路由拆成单独的小控制器，不再引入 Core 的全部依赖。
+- `defuddle`、邮件 MIME 解析这种重的库，改成用到时再加载。
+- `moment-timezone` 换成 `date-fns`。
+- 只在一处用到的 Zod 换成手写的校验。
+- 删掉了已经没人用的 MCP 服务。
+
+下面是在本地用 `wrangler check startup` 测 7 次取的中位数。数值和线上不完全一样，主要用来看前后对比：
+
+| Worker | 冷启动耗时 | 上传体积 |
+| --- | ---: | ---: |
+| Edge | 262 → 24 ms | 16 MiB → 89 KiB |
+| Core | 233 → 96 ms | 16 MiB → 9.9 MiB |
+| AI | 272 → 68 ms | 16 MiB → 5.9 MiB |
+| Objects | 23 ms | 4.0 MiB |
+| Vector | — | 44.8 KiB |
+
+修改完后，后端的耗时几乎很稳定的维持在P50 247ms，P90 368ms，喜大普奔。
+
+### 向量检索改到美国执行
+
+<UrlCard
+	href="https://blog.cloudflare.com/building-vectorize-a-distributed-vector-database-on-cloudflare-developer-platform/"
+	title="Building Vectorize, a distributed vector database, on Cloudflare's Developer Platform"
+/>
+
+> "Vectorize runs in every Cloudflare data center, on the infrastructure powering Cloudflare Workers."
+
+> "Each query is processed on a server in the data center in which it enters … The Vectorize DB Service … processes the query by reading the data for that index on R2 … through Cloudflare's Cache."
+
+> "When used via a Worker binding, each query is processed close to the server serving the worker request, and thus close to the end user."
+
+在此前，我都是默认无条件相信 Cloudflare 的描述，故Jina生成向量、Vectorize查询都跟随了 Core 部署。但，正如法律上的“事实”和客观发生的“事实”是两回事，Vectorize 的查询跟法律思维也是一样的，他确实就近查询了，但数据源仍旧在美国，依旧需要跨洋。
+
+| 步骤 | 新加坡 | 美国 |
+| --- | ---: | ---: |
+| Jina 生成向量 | 278 ms | 81 ms |
+| Vectorize 查 50 条，带向量 | 978 ms | 213 ms |
+| 合计 | 约 1.26 s | 约 0.29 s |
+
+差了四倍多。于是新增了一个 Vector Worker 固定部署在 `aws:us-east-1`。它只做一件事，收到关键词和用户 ID 后，调用 Jina 生成向量，查询 Vectorize，按平台均值重新打分，返回候选列表。
+
+现在的流程变成了收到搜索请求后，同时语义请求发往美国，不等结果返回，就在新加坡接着做分词和全文检索，两边都完成后再合并。合并后再快速查一次 PostgreSQL，确认文章归属权且未被回收。
+
+### 修 Jieba
+
+当上述的一系列全部都改完、测完后，是时候面对最复杂的 Rust Wasm Jieba 了。
+
+我们此前为了避免 DO 频繁报错重启，拍脑袋给定了个规矩，每个 region 都有20个实例。他确实在很长一段时间内都保持了预期中的平稳运行，只是99%的情况下，每个请求都要为此接受冷启动成本。
+
+300ms，放在人生长河里，不过是白驹过隙，忽然而已。但他发生在请求里，这个HTTP请求的背后，用户会烦躁、等待、不安，这不好，很不好。
+
+那为什么要开 20 个实例？因为 Jieba 的内存一直在涨，而且早年的智能人工跟人工智能都尚未精通 Rust，只能用丑陋的方式来遮盖这个丑陋的错误。好在现在已经到 2026 年了。
+
+我的 AI 只用了三分钟就告诉我，旧的 WASM 用的是 `wee_alloc` 分配器，在负载下释放掉的内存回收不回来，大概每处理 16 KB 文本就涨 0.8 MB。这个结论很好，他甚至还去找到了 `wee_alloc` 的 Issue 来告诉我这个问题至今尚未解决。
+
+既然知道了问题，那解决起来也很简单了，在 fork 的 `jieba-wasm` 里去掉了 `wee_alloc` 换成Rust 标准库在 `wasm32-unknown-unknown` 的默认分配器 `dlmalloc`，重新编译。词典还是原来那份完整的。用《围城》全文对比新旧两版的切词结果，内存稳定在 57 MB 左右，不再上涨。之后的改动就更简单了，每个 isolate 只加载一次 WASM，所有请求都发给同一个 Durable Object，删掉锁和重建逻辑；长文按 32 KB 切块处理。
+
+修改后在测试环境再次统计，43 次调用里只有 2 次冷启动，都是部署后第一次加载。
+
+## 现在的效果
+
+全文、向量和 Jieba 这几项改动发到了生产后。用同一个账号、从新加坡发请求对比了改动前后的数据，客户端收到完整响应的时间：
+
+| 关键词 | 改动前（各次） | 改动后（5 次中位数，最快～最慢） |
+| --- | --- | ---: |
+| 阅读 | 2.6、9.1、10.5、14.5 s | 1.56 s（1.35～2.23 s） |
+| AI | 5.5、8.8、9.1 s | 2.19 s（2.01～2.50 s） |
+| cloudflare worker | 1.8、2.2、2.5、12.0 s | 1.65 s（1.54～1.76 s） |
+
+服务端看 AI Worker 的耗时：改动前 6 次分别是 8,494、8,468、1,535、9,343、5,005、1,301 ms；改动后 15 次的中位数是 959 ms，最快 625 ms，最慢 1,949 ms。改动前每次请求都有 21～25 条 D1 报错，改动后消失了。
+
+把改动后 Edge、AI、Vector 三个 Worker 上的日志逐条对应起来，得到下面的中位数分段耗时：
+
+| 环节 | 耗时 |
+| --- | ---: |
+| 客户端收到完整响应 | 1,908 ms |
+| Edge Worker | 1,242 ms |
+| AI Worker | 959 ms |
+| `hybridSearch` 合计 | 663 ms |
+| 候选准备 | 7 ms |
+| 全文检索（和语义并行） | 284 ms |
+| 语义检索，AI 这边看到的总耗时 | 613 ms |
+| ├ Vector Worker 本身 | 284 ms |
+| │ ├ Jina 生成向量 | 72 ms |
+| │ └ Vectorize 查询 | 200 ms |
+| └ 新加坡↔美国往返 | 242 ms |
+| 补全文章信息和权限校验 | 50 ms |
+
+## 回头看
+
+我是一个爱折腾的人，但在此之前，我一直都觉得 Serverless 要做好混合搜索这种复杂的接口，是几乎不可能兼顾到性能跟稳定性的，外部依赖、算法、流程、延迟等等，任何环节都可能是拦路虎。真要做到既快又稳，除了传统的常驻后端服务，几乎很难做到。
+
+但这次优化搜索接口，还顺便优化后端的耗时，做到P50 240ms / P90 368ms。SQLite D1、BM25、向量检索、RRF 配方不变，调试 Placement 最佳位置、调试 Jina 和 Vectorize 最佳位置、D1 的全文查询 SQL 优化、Jieba 内存泄露排查就让整个后端的提升巨大。果然项目还是要有人不断往回看，不断打磨，才能维持他的活力。
+
+（第一版那个 CTE 本身也没写错。文章少的时候，它确实省下了不少扫描费。只是数据越存越多，当年的取舍就得重新算一遍了。
+
+
+## 头回过来
+
+特别感谢 Zhiqiang，给到我足够多的自由度跟探索空间，且能让我凭借不断积累下来的经验，一次性串起来干个大事。
+
+## 参考资料
+
+<UrlCard
+	href="https://blog.cloudflare.com/announcing-workers-smart-placement/"
+	title="Smart Placement speeds up applications by moving code close to your backend"
+	description="Cloudflare 2023 年发布 Smart Placement 的官方博客。"
+/>
+
+<UrlCard
+	href="https://developers.cloudflare.com/workers/configuration/placement/"
+	title="Cloudflare Workers Placement 文档"
+	description="多 Worker 推荐架构、Placement Hint，以及 fetch 与 RPC 的调度差异。"
+/>
+
+<UrlCard
+	href="https://blog.cloudflare.com/workers-cache/"
+	title="Your Worker can now have its own cache in front of it"
+	description="Cloudflare 2026 年 7 月 6 日发布 Workers Cache 的官方博客。"
+/>
+
+<UrlCard
+	href="https://developers.cloudflare.com/workers/cache/"
+	title="Cloudflare Workers Cache 文档"
+	description="分层缓存、Service Binding、缓存键、Smart Placement 交互与限制。"
+/>

@@ -47,6 +47,12 @@ export const AUTHORS: Record<string, Author> = {
 		role: 'Contributor, Slax Lab',
 		sameAs: [],
 	},
+	daguang: {
+		slug: 'daguang',
+		name: 'daguang',
+		role: 'Fullstack Engineer, Slax Lab',
+		sameAs: [],
+	},
 	lexie: {
 		slug: 'lexie',
 		name: 'Lexie',
